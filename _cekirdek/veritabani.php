@@ -12,16 +12,12 @@ class VeriTabani {
 		$this->hataTopluIslem	= false;
 
 		try { 
-            if( $_SERVER['SERVER_NAME'] == "localhost" ){				
-                $this->vt = new PDO( "mysql:host=localhost; dbname=tds", "root", "" );
-			}
-            else if( $_SERVER['SERVER_NAME'] == "tds.syntaxbilisim.com" ){
-                $this->vt = new PDO( "mysql:host=localhost; dbname=syntaxbi_tds", "syntaxbi_tds_usr", "6vH@+S9C" );
-			}
-            else if( $_SERVER['SERVER_NAME'] == "benimfirmam.syntaxbilisim.com" ){
-                $this->vt = new PDO( "mysql:host=localhost; dbname=syntaxbi_benimfirmam", "syntaxbi_benimfirmam", "Aişs12./+-." );
-			}
+            if( $_SERVER['SERVER_NAME'] == "localhost" )
+				
+                $this->vt = new PDO( "mysql:host=localhost; dbname=eyps", "root", "" ); 
 
+            else
+                $this->vt = new PDO( "mysql:host=localhost; dbname=syntaxbi_eyps", "syntaxbi_eyps", "Bg5dz.S)ohhT" );
         } catch ( PDOException $e ) {
 			echo "Veritabanı bağlantısı sağlanamadı";
 			exit;
@@ -134,13 +130,20 @@ class VeriTabani {
 		if( $this->hataTopluIslem ) $vt->rollBack();
 		else $vt->commit();
 	}
-	public function islemKontrol() {
-		$vt = $this->vt;
-		if( ( count( $_SESSION[ "bosOlanKayitNumalarari" ] ) > 0 ) OR $this->hataTopluIslem ) {
-			$vt->rollBack();
-			unset( $_SESSION[ "bosOlanKayitNumalarari" ] );
-		}else{
-			$vt->commit();
+	/* Tüm kayıtları oku */
+	public function selectExam( $sql, $id,$limit ) {
+		$vt			= $this->vt;
+		$sorguHazir	= $vt->prepare( $sql );
+		$sorguHazir->bindParam(1, $id,PDO::PARAM_INT);
+		$sorguHazir->bindParam(2, $limit,PDO::PARAM_INT);
+		$sorguHazir->execute();
+		$sonuc		= $sorguHazir->fetchAll( PDO::FETCH_ASSOC );
+		$hataDizi	= $sorguHazir->errorInfo();
+		$hataMesaj	= str_replace( "'", "\'", $hataDizi[ 2 ] );
+		if( $hataDizi[ 0 ] != "00000" ) {
+			$this->hataLocal		= true;
+			$this->hataTopluIslem	= true;
 		}
+		return array( $this->hataLocal, '"'. $hataMesaj . '"', $sonuc, count( $sonuc ) );
 	}
 }

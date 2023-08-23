@@ -1,5 +1,7 @@
 <?php
 include "../_cekirdek/fonksiyonlar.php";
+
+
 session_start();
 $_SESSION[ 'firma_turu' ] = $_POST[ 'firma' ];
 
@@ -13,7 +15,7 @@ SELECT
 	 k.*
 	,CASE k.super WHEN 1 THEN "Süper" ELSE r.adi END AS rol_adi
 FROM
-	tb_sistem_kullanici AS k
+	view_giris_kontrol AS k
 JOIN
 	tb_roller AS r ON k.rol_id = r.id
 WHERE
@@ -21,6 +23,61 @@ WHERE
 	k.sifre = ?
 LIMIT 1
 SQL;
+
+$SQL_aktif_yil = <<< SQL
+SELECT
+	*
+FROM
+	tb_ders_yillari
+WHERE
+	universite_id 	   	= ? AND
+	ilk_goruntulenecek 	= 1 AND 
+	aktif 			   	= 1
+LIMIT 1
+SQL;
+
+$SQL_aktif_program = <<< SQL
+SELECT
+	*
+FROM
+	tb_programlar
+WHERE
+	universite_id 	   	= ? AND
+	varsayilan		 	= 1 AND 
+	aktif 			   	= 1
+LIMIT 1
+SQL;
+
+$SQL_ders_yillari = <<< SQL
+SELECT
+	*
+FROM
+	tb_ders_yillari  
+WHERE
+	universite_id 	   	= ? AND
+	aktif 			   	= 1
+SQL;
+
+
+$SQL_programlar = <<< SQL
+SELECT 
+	f.id AS fakulte_id, 
+	f.adi AS fakulte_adi,
+	b.id AS bolum_id,
+	b.adi AS bolum_adi,
+	p.id AS program_id, 
+	p.adi AS program_adi
+FROM 
+	tb_programlar AS p
+LEFT JOIN 
+	tb_bolumler AS b ON p.bolum_id = b.id
+LEFT JOIN 
+	tb_fakulteler AS f On b.fakulte_id = f.id
+WHERE 
+	f.universite_id 	= ? AND 
+	f.aktif 			= 1
+SQL;
+
 
 $sorguSonuc = $vt->selectSingle( $SQL_kontrol, array( $k, md5( $s ) ) );
 if( !$sorguSonuc[ 0 ] ) {
@@ -39,25 +96,21 @@ if( !$sorguSonuc[ 0 ] ) {
 		$_SESSION[ 'giris_var' ]		= 'evet';
 		$_SESSION[ 'yil' ]				= date('Y');
 		$_SESSION[ 'super' ]			= $kullaniciBilgileri[ 'super' ];
-		$_SESSION[ 'firmalar' ]			= explode(",",$kullaniciBilgileri[ "firmalar" ]);
+		$_SESSION[ 'universite_id' ]	= $kullaniciBilgileri[ 'universite_id' ];
+		$_SESSION[ 'kullanici_turu' ]	= $kullaniciBilgileri[ 'kullanici_turu' ];
 
-		// "Beni Hatırla" seçeneği işaretlenmiş mi?
-		if (isset($_POST['benihatirla'])) {
+		$aktif_yil 						= $vt->selectSingle( $SQL_aktif_yil, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];
+		$ders_yillari 					= $vt->select( $SQL_ders_yillari, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];
+		$_SESSION[ 'aktif_yil' ]		= $aktif_yil[ "id" ];
+		$_SESSION[ 'ders_yillari' ]		= $ders_yillari;
 
-			$expire = time() + (180 * 24 * 60 * 60); // 30 günün saniye cinsinden değeri
+		$aktif_program_id				= $vt->selectSingle( $SQL_aktif_program, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];
+		$_SESSION[ 'program_id' ]		= $aktif_program_id[ "id" ];
 
-			// Beni Hatırla çerezi oluştur
-			setcookie('benihatirla', '1', $expire,"/","",false,false);
+		$programlar 					= $vt->select( $SQL_programlar, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];
+		$_SESSION[ 'programlar' ]		= $programlar;
 
-			//Kullanıcı Bilgilerini Saklama
-			setcookie('kullanici_id', 	$kullaniciBilgileri[ 'id' ], $expire,"/","",false,false);
 
-		} else {
-			// Beni Hatırla çerezi işaretlenmemişse, çerezi sil
-			setcookie('benihatirla', '', time() - 3600); // Geçmiş bir tarih vererek çerezi hemen sileriz
-			setcookie('kullanici_id', '', time() - 3600); // Geçmiş bir tarih vererek çerezi hemen sileriz
-		}
-		
 	} else {
 		$_SESSION[ 'giris_var' ] = 'hayir';
 	}

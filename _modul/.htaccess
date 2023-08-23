@@ -1,8 +1,0 @@
-# Klasör listelemeyi kapat
-Options -Indexes
-
-# Dosya erişimine izin ver
-Options +FollowSymLinks
-
-# Görünür bir dosya veya klasör için dosya uzantısı belirtme
-IndexIgnore *

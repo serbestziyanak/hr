@@ -4,7 +4,6 @@ $parametreler = parse_url( $URL );
 parse_str( $parametreler[ 'query' ], $parametre );
 $url_modul = $parametre[ 'modul' ];
 
-
 $SQL_modul = <<<SQL
 SELECT * FROM tb_modul  WHERE menude_goster = 1 AND ust_id = 0  ORDER BY sira
 SQL;
@@ -17,11 +16,12 @@ $moduller = $vt->select( $SQL_modul );
 
 ?>
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
+<aside class="main-sidebar main-sidebar-custom sidebar-light-olive elevation-4">
 	<!-- Brand Logo -->
 	<a href="index.php" class="brand-link">
-	<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-	<span class="brand-text font-weight-light">Tesis Denetim Sistemi</span>
+	<img src="img/yyu_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+	<!--span class="brand-text font-weight-light">EYPS - Van YYÜ</span-->
+	<span class="brand-text">EYPS - Van YYÜ</span>
 	</a>
 	<!--
 	<a href="index.php" class="brand-link" >
@@ -48,16 +48,16 @@ $moduller = $vt->select( $SQL_modul );
 	<!-- SidebarSearch Form -->
 	<div class="form-inline">
 		<div class="input-group" data-widget="sidebar-search">
-		<input class="form-control form-control-sidebar" type="search" placeholder="Menüde Ara" aria-label="Search">
+		<input class="form-control form-control-sm form-control-sidebar" type="search" placeholder="Menüde Ara" aria-label="Search">
 		<div class="input-group-append">
-			<button class="btn btn-sidebar">
+			<button class="btn btn-sm btn-sidebar">
 			<i class="fas fa-search fa-fw"></i>
 			</button>
 		</div>
 		</div>
 	</div>
 	<!-- Sidebar Menu -->
-	<nav class="mt-2" style="padding-bottom: 64px;">
+	<nav class="mt-2">
 		<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-flat" data-widget="treeview" role="menu" data-accordion="false">
 		<!-- Add icons to the links using the .nav-icon class
 			   with font-awesome or any other icon font library -->
@@ -79,7 +79,7 @@ $moduller = $vt->select( $SQL_modul );
 				?>
 							<li class="nav-item <?php if( in_array( $_REQUEST[ 'modul' ], $mdl ) or $modul[ 'kategori_acik' ] == 1 ) echo "menu-open"; ?>">
 								<a href="#" class="nav-link <?php if( in_array( $_REQUEST[ 'modul' ], $mdl ) ) echo "active"; ?>">
-									<i class="nav-icon <?php echo $modul[ 'simge' ]?>"></i>
+									<i class="nav-icon <?php echo $modul[ 'simge' ]?> <?php if( in_array( $_REQUEST[ 'modul' ], $mdl ) ) echo "text-white"; ?>"></i>
 									<p>
 										<?php echo $modul[ 'adi' ]; ?>
 										<i class="right fas fa-angle-left"></i>
@@ -116,7 +116,7 @@ $moduller = $vt->select( $SQL_modul );
 			?>
 				<li modul='<?php echo $modul[ 'modul' ];?>' yetki_islem='goruntule' class = "nav-item">
 					<a href="?modul=<?php echo $modul[ 'modul' ]?>" class="nav-link <?php if( $url_modul == $modul[ 'modul' ] ) echo "active"; ?>">
-						<i class="nav-icon <?php echo $modul[ 'simge' ]?>"></i> 
+						<i class="nav-icon <?php echo $modul[ 'simge' ]?> <?php if( $url_modul == $modul[ 'modul' ] ) echo "text-white"; ?>"></i> 
 						<p>
 							<?php echo $modul[ 'adi' ]?>
 						</p>
@@ -128,7 +128,8 @@ $moduller = $vt->select( $SQL_modul );
 		</ul>
 	</nav>
 	</div>
-	<div class="sidebar-custom" style="margin-top: -64px;background-color: #3e444a; position: relative;">
+	<div class="sidebar-custom" style="margin-top: -64px;">
+	<a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
 	<a href="_modul/cikis.php" class="btn btn-danger hide-on-collapse pos-right">Çıkış</a>
 	</div>
 </aside>

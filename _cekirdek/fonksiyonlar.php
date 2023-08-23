@@ -34,9 +34,9 @@ SQL;
 SELECT
 	super
 FROM
-	tb_sistem_kullanici
+	view_giris_kontrol
 WHERE
-	id = ?
+	id = ? AND kullanici_turu = ?
 SQL;
 
 	const SQL_yetki = <<< SQL
@@ -57,7 +57,7 @@ SELECT
 FROM
 	tb_modul AS m
 LEFT JOIN
-	tb_sistem_kullanici AS ku ON ku.id = ?
+	view_giris_kontrol AS ku ON ku.id = ? AND ku.kullanici_turu = ?
 JOIN
 	tb_roller AS r ON ku.rol_id = r.id
 SQL;
@@ -155,17 +155,6 @@ ORDER BY t1.id DESC
 LIMIT 1
 SQL;
 
-/*Kapatilmış Olan tarifeyi Getirme*/
-const SQL_kapatilmis_tarife_getir = <<< SQL
-SELECT 
-	*
-from
-	tb_kapatilan_tarifeler 
-WHERE 
-	id = ?
-LIMIT 1
-SQL;
-
 //TARİFEYE AİT SAAT LİSTESİ
 	const SQL_tarife_saati = <<< SQL
 SELECT 
@@ -190,31 +179,6 @@ WHERE
 ORDER BY baslangic ASC
 SQL;
 
-//KAPATILAN TARİFEYE AİT SAAT LİSTESİ
-const SQL_kapatilan_tarife_saati = <<< SQL
-SELECT 
-	*
-from
-	tb_kapatilan_tarife_saati 
-WHERE 
-	tarife_id = ? AND 
-	aktif = 1
-ORDER BY baslangic ASC
-SQL;
-
-//KAPATILAN TARİFEYE AİT SAAT LİSTESİ
-	const SQL_kapatilan_mola_saati = <<< SQL
-SELECT 
-	*
-from
-	tb_kapatilan_molalar
-WHERE 
-	tarife_id = ? AND 
-	aktif = 1
-ORDER BY baslangic ASC
-SQL;
-
-
 //Giriş Çıkış id sine göre listeleme 
 	const SQL_puantaj_oku = <<< SQL
 SELECT
@@ -235,12 +199,12 @@ SET
 	tarih				= ?,
 	izin				= ?,
 	calisma				= ?,
+	hafta_tatili		= ?,
 	ucretli_izin		= ?,
 	ucretsiz_izin		= ?,
 	toplam_kesinti		= ?,
 	tatil				= ?,
-	maasa_etki_edilsin	= ?,
-	yarim_gun_tatil		= ?
+	maasa_etki_edilsin	= ?
 WHERE
 	id 					= ?  
 SQL;
@@ -254,623 +218,17 @@ SET
 	tarih				= ?,
 	izin				= ?,
 	calisma				= ?,
+	hafta_tatili		= ?,
 	ucretli_izin		= ?,
 	ucretsiz_izin		= ?,
 	toplam_kesinti		= ?,
 	tatil				= ?,
-	maasa_etki_edilsin	= ?,
-	yarim_gun_tatil		= ?
+	maasa_etki_edilsin	= ?
 SQL;
-
-/*İşlem Yapılan donemin kapatılıp kapatılmadığını kntrol etme*/
-	const SQL_donem_kontrol = <<< SQL
-SELECT 
-	*
-FROM 
-	tb_donem
-WHERE 
-	firma_id 	= ? AND 
-	yil 		= ? AND
-	ay 		= ? AND 
-	aktif 	= 1 
-SQL;
-
-/*Personelin Kapatilmış olan tarihe göre tarifesini öğrenme*/
-const SQL_tarife_ogren = <<< SQL
-SELECT 
-	id,
-	tarife
-FROM 
-	tb_giris_cikis
-WHERE
-	personel_id = ? AND
-	tarih 		= ? AND
-	aktif 		= 1 
-SQL;
-
-/*Personelin Kapatilmış olan tarihe göre tarifesini öğrenme*/
-const SQL_eksik_gun_say = <<< SQL
-SELECT 
-	COUNT(toplam_kesinti) AS toplam
-FROM 
-	tb_puantaj
-WHERE
-	personel_id 	 = ? AND
-	tarih 			>= ? AND
-	tarih 			< ? AND
-	toplam_kesinti 	>= 450;
-SQL;
-
-/*Personelin Kapatilmış olan tarihe göre tarifesini öğrenme*/
-const SQL_genel_ayarlar = <<< SQL
-SELECT 
-	aylik_calisma_saati,
-	haftalik_calisma_saati,
-	giris_cikis_denetimi_grubu,
-	pazar_kesinti_sayisi,
-	puantaj_hesaplama_grubu,
-	beyaz_yakali_personel,
-	giris_cikis_liste_goster,
-	giris_cikis_tutanak_kaydet,
-	tutanak_olustur,
-	normal_carpan_id,
-	tatil_mesai_carpan_id,
-	gunluk_calisma_suresi,
-	yarim_gun_tatil_suresi
-FROM 
-	tb_genel_ayarlar
-WHERE
-	firma_id 	 = ?
-SQL;
-
-/*Personelin Kapatilmış olan tarihe göre tarifesini öğrenme*/
-const SQL_donem_ayarlar = <<< SQL
-SELECT 
-	aylik_calisma_saati,
-	haftalik_calisma_saati,
-	giris_cikis_denetimi_grubu,
-	pazar_kesinti_sayisi,
-	puantaj_hesaplama_grubu,
-	beyaz_yakali_personel,
-	giris_cikis_liste_goster,
-	giris_cikis_tutanak_kaydet,
-	tutanak_olustur,
-	normal_carpan_id,
-	tatil_mesai_carpan_id,
-	gunluk_calisma_suresi,
-	yarim_gun_tatil_suresi
-FROM 
-	tb_donem
-WHERE
-	firma_id 	= ? AND 
-	yil 		= ? AND
-	ay 			= ? AND 
-	aktif 		= 1
-SQL;
-
-/*Geç Gelenler Listesi*/
-const SQL_gecgelenler = <<< SQL
-SELECT 
-	gc.personel_id AS id,
-	gc.baslangic_saat,
-	(
-		SELECT CONCAT(p.adi," ",p.soyadi) FROM tb_personel AS p WHERE p.id = ilk_giris.personel_id
-	) AS adsoyad
-FROM 
-	tb_giris_cikis AS gc
-LEFT JOIN (
-            SELECT
-           	 	personel_id, MIN(baslangic_saat) AS ilk_giris_saat, tarih
-            FROM 
-            	tb_giris_cikis
-            WHERE 
-                tarih = ? AND
-                aktif = 1
-						GROUP BY personel_id
-            ORDER BY id DESC
-        ) AS ilk_giris ON gc.personel_id = ilk_giris.personel_id
-WHERE 
-	ilk_giris_saat > (
-            SELECT
-            (
-                SELECT 
-                	ADDTIME( baslangic, CONCAT("00:",gec_gelme_tolerans,":00")) AS baslangic 
-                FROM 
-                	tb_tarife_saati AS ts 
-                WHERE 
-                    tarife_id = t1.id AND 
-                    ts.carpan = 1  
-                ORDER BY ts.id ASC 
-            ) AS baslangic
-            from
-            	tb_tarifeler AS t1
-            LEFT JOIN tb_mesai_turu AS mt ON  t1.mesai_turu = mt.id
-            LEFT JOIN tb_gruplar AS g ON t1.grup_id LIKE CONCAT('%,', g.id, ',%')
-            WHERE 
-                t1.baslangic_tarih <= ilk_giris.tarih AND 
-                t1.bitis_tarih >= ilk_giris.tarih AND
-                mt.gunler LIKE ? AND 
-                t1.aktif = 1
-            ORDER BY t1.id DESC
-            LIMIT 1
-        ) AND
-	gc.tarih =ilk_giris.tarih AND
-	gc.aktif = 1
-SQL;
-
-/*Geç Gelenler Listesi*/
-const SQL_gecgelenler_listesi = <<< SQL
-SELECT 
-	gc.personel_id AS id,
-	gc.baslangic_saat,
-	(
-		SELECT CONCAT(p.adi," ",p.soyadi) FROM tb_personel AS p WHERE p.id = ilk_giris.personel_id
-	) AS adsoyad
-FROM 
-	tb_giris_cikis AS gc
-LEFT JOIN (
-            SELECT
-           	 	personel_id, MIN(baslangic_saat) AS ilk_giris_saat, tarih
-            FROM 
-            	tb_giris_cikis
-            WHERE 
-                tarih = ? AND
-                aktif = 1
-						GROUP BY personel_id
-            ORDER BY id DESC
-        ) AS ilk_giris ON gc.personel_id = ilk_giris.personel_id
-WHERE 
-	ilk_giris_saat > (
-            SELECT
-            (
-                SELECT 
-                	ADDTIME( baslangic, CONCAT("00:",gec_gelme_tolerans,":00")) AS baslangic 
-                FROM 
-                	tb_tarife_saati AS ts 
-                WHERE 
-                    tarife_id = t1.id AND 
-                    ts.carpan = 1  
-                ORDER BY ts.id ASC 
-            ) AS baslangic
-            from
-            	tb_tarifeler AS t1
-            LEFT JOIN tb_mesai_turu AS mt ON  t1.mesai_turu = mt.id
-            LEFT JOIN tb_gruplar AS g ON t1.grup_id LIKE CONCAT('%,', g.id, ',%')
-            WHERE 
-                t1.baslangic_tarih <= ilk_giris.tarih AND 
-                t1.bitis_tarih >= ilk_giris.tarih AND
-                mt.gunler LIKE ? AND 
-                t1.aktif = 1
-            ORDER BY t1.id DESC
-            LIMIT 1
-        ) AND
-	gc.personel_id NOT IN(
-		SELECT personel_id FROM tb_tutanak WHERE tb_tutanak.tarih = ? AND tip = "gecgelme"
-	) AND
-	gc.tarih =ilk_giris.tarih AND
-	gc.personel_id IN( SELECT p.id FROM tb_personel AS p LEFT JOIN tb_genel_ayarlar AS ga ON ga.firma_id = p.firma_id WHERE p.grup_id != ga.beyaz_yakali_personel ) AND
-	gc.aktif = 1
-SQL;
-
-/*Erken Çıkanlar Listesi*/
-const SQL_erkenCikanlar = <<< SQL
-SELECT 
-	gc.personel_id AS id,
-	gc.bitis_saat,
-	(
-		SELECT CONCAT(p.adi," ",p.soyadi) FROM tb_personel AS p WHERE p.id = son_cikis.personel_id
-	) AS adsoyad
-FROM 
-	tb_giris_cikis AS gc
-LEFT JOIN (
-            SELECT
-           	 	personel_id, MAX(bitis_saat) AS son_bitis_saat, tarih
-            FROM 
-            	tb_giris_cikis
-            WHERE 
-				bitis_saat IS NOT NULL AND
-                tarih 		= ? AND
-                aktif 		= 1
-    		GROUP BY personel_id
-            ORDER BY id DESC
-        ) AS son_cikis ON gc.personel_id = son_cikis.personel_id
-WHERE 
-	son_bitis_saat < (
-		SELECT
-			(
-				SELECT 
-					ADDTIME( bitis, CONCAT("-00:",erken_cikma_tolerans,":00")) AS baslangic 
-				FROM 
-					tb_tarife_saati AS ts 
-				WHERE 
-					tarife_id = t1.id AND 
-					ts.carpan = 1  
-				ORDER BY ts.id ASC 
-			) AS baslangic
-			from
-				tb_tarifeler AS t1
-			LEFT JOIN tb_mesai_turu AS mt ON  t1.mesai_turu = mt.id
-			LEFT JOIN tb_gruplar AS g ON t1.grup_id LIKE CONCAT('%,', g.id, ',%')
-			WHERE 
-				t1.baslangic_tarih <= son_cikis.tarih AND 
-				t1.bitis_tarih >= son_cikis.tarih AND
-				mt.gunler LIKE ? AND 
-				t1.aktif = 1
-			ORDER BY t1.id DESC
-			LIMIT 1
-	) AND
-	gc.tarih = son_cikis.tarih AND
-	gc.aktif = 1
-LIMIT 1
-SQL;
-
-/*Erken Çıkanlar Listesi*/
-const SQL_erkenCikanlar_listesi = <<< SQL
-SELECT 
-	gc.personel_id AS id,
-	gc.bitis_saat,
-	(
-		SELECT CONCAT(p.adi," ",p.soyadi) FROM tb_personel AS p WHERE p.id = son_cikis.personel_id
-	) AS adsoyad
-FROM 
-	tb_giris_cikis AS gc
-LEFT JOIN (
-            SELECT
-           	 	personel_id, MAX(bitis_saat) AS son_bitis_saat, tarih
-            FROM 
-            	tb_giris_cikis
-            WHERE 
-				bitis_saat IS NOT NULL AND
-                tarih 		= ? AND
-                aktif 		= 1
-    		GROUP BY personel_id
-            ORDER BY id DESC
-        ) AS son_cikis ON gc.personel_id = son_cikis.personel_id
-WHERE 
-	son_bitis_saat < (
-		SELECT
-			(
-				SELECT 
-					ADDTIME( bitis, CONCAT("-00:",erken_cikma_tolerans,":00")) AS baslangic 
-				FROM 
-					tb_tarife_saati AS ts 
-				WHERE 
-					tarife_id = t1.id AND 
-					ts.carpan = 1  
-				ORDER BY ts.id ASC 
-			) AS baslangic
-			from
-				tb_tarifeler AS t1
-			LEFT JOIN tb_mesai_turu AS mt ON  t1.mesai_turu = mt.id
-			LEFT JOIN tb_gruplar AS g ON t1.grup_id LIKE CONCAT('%,', g.id, ',%')
-			WHERE 
-				t1.baslangic_tarih <= son_cikis.tarih AND 
-				t1.bitis_tarih >= son_cikis.tarih AND
-				mt.gunler LIKE ? AND 
-				t1.aktif = 1
-			ORDER BY t1.id DESC
-			LIMIT 1
-	) AND
-	gc.personel_id NOT IN(
-		SELECT personel_id FROM tb_tutanak WHERE tb_tutanak.tarih = ? AND tip = "erkencikma"
-	) AND
-	gc.tarih = son_cikis.tarih AND
-	gc.personel_id IN( SELECT p.id FROM tb_personel AS p LEFT JOIN tb_genel_ayarlar AS ga ON ga.firma_id = p.firma_id WHERE p.grup_id != ga.beyaz_yakali_personel ) AND
-	gc.aktif = 1
-LIMIT 1
-SQL;
-
-
-/*Gelmeyenler*/
-const SQL_gelmeyenler = <<< SQL
-SELECT 
-	p.id,
-	CONCAT(p.adi," ",p.soyadi) AS adsoyad
-FROM 
-	tb_personel AS p
-LEFT JOIN tb_genel_ayarlar AS ga ON ga.firma_id = p.firma_id
-WHERE 
-	p.id NOT IN (
-		SELECT gc.personel_id
-		FROM tb_giris_cikis AS gc
-		WHERE 
-			gc.baslangic_saat IS NOT NULL AND
-			gc.tarih 		= ? AND
-			aktif 			= 1
-	)AND 
-	p.grup_id != ga.beyaz_yakali_personel AND
-	p.aktif = 1 AND
-	p.grup_id IN (
-					SELECT 
-						TRIM(BOTH ',' FROM REPLACE(REGEXP_REPLACE(giris_cikis_denetimi_grubu, ',[[:space:]]+', ','), ',,', ',')) AS denetim_gruplari
-					FROM tb_genel_ayarlar AS ga WHERE ga.firma_id = p.firma_id
-				 )
-
-SQL;
-
-/*Gelmeyenler*/
-const SQL_gelmeyenler_listesi = <<< SQL
-SELECT 
-	p.id,
-	CONCAT(p.adi," ",p.soyadi) AS adsoyad
-FROM 
-	tb_personel AS p
-LEFT JOIN tb_genel_ayarlar AS ga ON ga.firma_id = p.firma_id
-WHERE 
-	p.id NOT IN (
-		SELECT gc.personel_id
-		FROM tb_giris_cikis AS gc
-		WHERE 
-			gc.baslangic_saat IS NOT NULL AND
-			gc.tarih 		= ? AND
-			aktif 			= 1
-	)AND
-	p.id NOT IN(
-		SELECT 
-			personel_id
-		FROM tb_tutanak 
-		WHERE 
-			tb_tutanak.tarih 	= ? AND 
-			tip 				= ? 
-	) AND
-	p.grup_id != ga.beyaz_yakali_personel AND
-	p.aktif = 1 AND
-	p.grup_id IN (
-					SELECT 
-						TRIM(BOTH ',' FROM REPLACE(REGEXP_REPLACE(giris_cikis_denetimi_grubu, ',[[:space:]]+', ','), ',,', ',')) AS denetim_gruplari
-					FROM tb_genel_ayarlar AS ga WHERE ga.firma_id = p.firma_id
-				)
-
-SQL;
-
-
-/*Gelenler*/
-const SQL_gelenler = <<< SQL
-SELECT 
-	p.id,
-	CONCAT(p.adi," ",p.soyadi) AS adsoyad
-FROM 
-	tb_personel AS p
-LEFT JOIN tb_genel_ayarlar AS ga ON ga.firma_id = p.firma_id
-WHERE 
-	p.id IN (
-		SELECT gc.personel_id
-		FROM tb_giris_cikis AS gc
-		WHERE 
-			gc.baslangic_saat IS NOT NULL AND
-			gc.tarih 		= ? AND
-			gc.islem_tipi 	= 0 AND 
-			aktif 			= 1
-		GROUP BY personel_id
-		ORDER BY gc.id DESC
-	)AND 
-	p.grup_id != ga.beyaz_yakali_personel AND
-	p.aktif = 1 AND
-	p.grup_id IN (
-					SELECT 
-						TRIM(BOTH ',' FROM REPLACE(REGEXP_REPLACE(giris_cikis_denetimi_grubu, ',[[:space:]]+', ','), ',,', ',')) AS denetim_gruplari
-					FROM tb_genel_ayarlar AS ga WHERE ga.firma_id = p.firma_id
-				)
-SQL;
-
-/*Gelenler*/
-const SQL_mesaiCikmayan = <<< SQL
-SELECT 
-	p.id,
-	CONCAT(p.adi," ",p.soyadi) AS adsoyad
-FROM 
-	tb_personel AS p
-LEFT JOIN tb_genel_ayarlar AS ga ON ga.firma_id = p.firma_id
-WHERE 
-	p.id IN (
-		SELECT
-			gc.personel_id
-		FROM 
-			tb_giris_cikis AS gc
-		WHERE 
-			gc.bitis_saat IS NULL AND
-			gc.tarih 		= ? AND
-			gc.islem_tipi 	= 0 AND
-			gc.aktif 		= 1
-		GROUP BY personel_id
-		ORDER BY gc.id DESC
-	)AND 
-	p.grup_id != ga.beyaz_yakali_personel AND
-	p.aktif = 1 AND
-	p.grup_id IN (
-					SELECT 
-						TRIM(BOTH ',' FROM REPLACE(REGEXP_REPLACE(giris_cikis_denetimi_grubu, ',[[:space:]]+', ','), ',,', ',')) AS denetim_gruplari
-					FROM tb_genel_ayarlar AS ga WHERE ga.firma_id = p.firma_id
-				)
-SQL;
-
-/**/
-const SQL_izinliPersonel = <<< SQL
-SELECT
-	p.id,
-	CONCAT(p.adi," ",p.soyadi) AS adsoyad
-FROM 
-	tb_personel AS p
-INNER JOIN tb_giris_cikis AS gc ON p.id = gc.personel_id
-WHERE 
-	gc.tarih 	= ? 
-GROUP BY p.id
-HAVING COUNT(*) = 1 AND 
-MAX(gc.islem_tipi) > 0
-SQL;
-
-
-//Ay içierisinde Giriş Veya İşten Çıkan PErsonel Listesi
-const SQL_ise_giris = <<< SQL
-SELECT 
-	id,
-	CONCAT(adi," ",soyadi) AS adsoyad
-FROM 
-	tb_personel
-WHERE 
-	DATE_FORMAT(ise_giris_tarihi,'%Y-%m') = ? 
-SQL;
-
-const SQL_is_cikis = <<< SQL
-SELECT 
-	id,
-	CONCAT(adi," ",soyadi)  AS adsoyad
-FROM 
-	tb_personel
-WHERE 
-	DATE_FORMAT(isten_cikis_tarihi,'%Y-%m') 	= ? 
-SQL;
-
-const SQL_beyaz_yakali = <<< SQL
-SELECT
-    p.id,
-	CONCAT(adi," ",soyadi) AS adsoyad
-FROM
-    tb_personel AS p
-LEFT JOIN tb_genel_ayarlar AS ga ON ga.firma_id = p.firma_id
-WHERE
-    p.firma_id  = ? AND 
-    p.grup_id   = ga.beyaz_yakali_personel AND
-    p.aktif     = 1 
-SQL;
-
-const SQL_kategoriGetir = <<< SQL
-WITH RECURSIVE kategori_ustleri AS (
-	SELECT id, adi, kategori AS kategori, CAST(id AS CHAR) AS tam_kategori_id, adi AS tam_kategori_adi
-	FROM tb_firma_dosya_turleri
-	WHERE id = ?
-	UNION ALL
-	SELECT t.id, t.adi, t.kategori, CONCAT(k.tam_kategori_id, '-', t.id), CONCAT(k.tam_kategori_adi, ' > ', t.adi) AS tam_kategori_adi
-	FROM tb_firma_dosya_turleri t
-	JOIN kategori_ustleri k ON t.id = k.kategori
-	)
-	SELECT tam_kategori_id, tam_kategori_adi FROM kategori_ustleri ORDER BY tam_kategori_id DESC LIMIT 1;
-SQL;
-
-const SQL_suresi_dolan_kategoriler = <<< SQL
-SELECT 
-	*
-FROM tb_firma_dosya_turleri 
-WHERE 
-	firma_id 	= ? AND 
-	tarih 		<= DATE_ADD(CURDATE(), INTERVAL 10 DAY) AND
-	tarih 		!= "0000-00-00"
-	
-SQL;
-
-const SQL_suresi_dolan_dosyalar = <<< SQL
-SELECT 
-	d.id,
-	d.dosya_turu_id AS kategori,
-	d.evrakTarihi AS tarih,
-	(
-		SELECT
-			adi
-		FROM tb_firma_dosya_turleri 
-		WHERE 
-			id = d.dosya_turu_id
-	) AS adi
-FROM tb_firma_dosyalari as d
-LEFT JOIN tb_firma_dosya_turleri AS dt ON dt.id = d.dosya_turu_id
-WHERE 
-	dt.firma_id 		= ? AND 
-	d.evrakTarihi 		<= DATE_ADD(CURDATE(), INTERVAL 10 DAY) AND
-	d.evrakTarihi 		!= "0000-00-00"
-SQL;
-
-const SQL_kontrol = <<< SQL
-SELECT
-	 k.*
-	,CASE k.super WHEN 1 THEN "Süper" ELSE r.adi END AS rol_adi
-FROM
-	tb_sistem_kullanici AS k
-JOIN
-	tb_roller AS r ON k.rol_id = r.id
-WHERE
-	k.id = ?
-LIMIT 1
-SQL;
-
 	/* Kurucu metod  */
 	public function __construct() {
 		$this->vt = new VeriTabani();
 	}
-	/*Belirli bir gün için mesaiden erken ayrılan persone listesi*/
-	public function erkenCikanlar( $tarih, $gun){
-		return $this->vt->select( self::SQL_erkenCikanlar, array( $tarih, $gun ) )[2];
-	}
-	
-	public function erkenCikanlarListesi( $tarih, $gun){
-		return $this->vt->select( self::SQL_erkenCikanlar_listesi, array( $tarih, $gun,$tarih ) )[2];
-	}
-	/*Belirli bir gün için Mesaiye geç gelmiş personel listesi */
-	public function gecGelenler( $tarih, $gun){
-		return $this->vt->select( self::SQL_gecgelenler, array( $tarih, $gun ) )[2];
-	}
-
-	public function gecGelenlerListesi( $tarih, $gun){
-		return $this->vt->select( self::SQL_gecgelenler_listesi, array( $tarih, $gun,$tarih) )[2];
-	}
-	/*Belirli bir gün için gelmeyenler listesi izinli olan personel listelenmemektedir*/
-	public function gelmeyenler( $tarih ){
-		return $this->vt->select( self::SQL_gelmeyenler, array( $tarih ) )[2];
-	}
-	
-	public function gelmeyenlerListesi( $tarih ){
-		return $this->vt->select( self::SQL_gelmeyenler_listesi, array( $tarih, $tarih,"gunluk" ) )[2];
-	}
-	/*Belirli gün içinde gelen personel listesi*/
-	public function gelenler( $tarih ){
-		return $this->vt->select( self::SQL_gelenler, array( $tarih ) )[2];
-	}
-	/*Belirli gün için mesai çıkışı yapmayan personel lisetsi*/
-	public function mesaiCikmayan( $tarih ){
-		return $this->vt->select( self::SQL_mesaiCikmayan, array( $tarih ) )[2];
-	}
-	/*Belirli bir gün için izinli olan personel lisetesi*/
-	public function izinliPersonel( $tarih ){
-		return $this->vt->select( self::SQL_izinliPersonel, array( $tarih ) )[2];
-	}
-	/*Ay içinde Giriş Yapmış Personel Listesi*/
-	public function iseGiris( $tarih ){
-		return $this->vt->select( self::SQL_ise_giris, array( $tarih ) )[2];
-	}
-	/*Ay içinde Çıkış yapan personel listesi*/
-	public function istenCikis( $tarih ){
-		return $this->vt->select( self::SQL_is_cikis, array( $tarih ) )[2];
-	}
-	
-	public function beyazYakali(  ){
-		return $this->vt->select( self::SQL_beyaz_yakali, array( $_SESSION[ "firma_id" ] ) )[2];
-	}
-	
-	/*Firma Dosyaları içinde seçilen bir kategorinin ust kategori idlerinin arasına > bırakarak listeler*/
-	public function kategoriHiyerarsiAdi( $id ){
-		$hiyerarsi 	= $this->vt->select( self::SQL_kategoriGetir, array( $id ) )[2][0]["tam_kategori_adi"];
-		$bol 		= explode(">",$hiyerarsi);
-		$bol 		= array_reverse( $bol );
-
-		return implode(' <i class="fas fa-arrow-right"></i> ', $bol );
-	}
-	
-	/*Firma Dosyaları içinde seçilen bir kategorinin ust kategori idlerinin arasına - bırakarak listeler*/
-	public function kategoriHiyerarsiId( $id ){
-		$hiyerarsi 	= $this->vt->select( self::SQL_kategoriGetir, array( $id ) )[2][0]["tam_kategori_id"];
-
-		$hiyerarsi 	= str_replace( "$id-", "", $hiyerarsi);
-
-		return $hiyerarsi;
-	}
-
-	public function suresiDolmusKategori(){
-		return $this->vt->select( self::SQL_suresi_dolan_kategoriler, array( $_SESSION[ "firma_id" ] ) )[2];
-	}
-	
-	public function suresiDolmusDosya(){
-		return $this->vt->select( self::SQL_suresi_dolan_dosyalar, array( $_SESSION[ "firma_id" ] ) )[2];
-	}
-
-
 
 	/* Kullanıcı süper değilse rolünün görebileceği roller dizisi döner. */
 	public function rolVer() {
@@ -908,7 +266,7 @@ SQL;
 	/* Süper kullanıcı olup olmadığını kontrol ediyor. */
 	public function superKullanici( $kul_id = 0 ) {
 		if( !$kul_id ) $kul_id = $_SESSION[ 'kullanici_id' ];
-		$sonuc = $this->vt->selectSingle( self::SQL_super, array( $kul_id ) );
+		$sonuc = $this->vt->selectSingle( self::SQL_super, array( $kul_id, $_SESSION[ 'kullanici_turu' ]) );
 		return  $sonuc[ 2 ][ 'super' ] * 1;
 	}
 
@@ -938,7 +296,7 @@ SQL;
 
 	public function tumYetkileriVer( $id ) {
 		if( !$id ) return array();
-		$sonuc				= $this->vt->select( self::SQL_yetki,  array( $id ) );
+		$sonuc				= $this->vt->select( self::SQL_yetki,  array( $id, $_SESSION[ 'kullanici_turu' ] ) );
 		$yetkiler			= array();
 		$kullaniciAdi 		= '';
 		$ad 				= '';
@@ -992,7 +350,7 @@ SQL;
 	/* İstenilen kullanıcının tüm modülleri varsa yetki işlemleri ile birlikte verir. */
 	public function modulYetkileriVer( $id, $anahtarDegerAyni = false ) {
 		if( !$id ) return array();
-		$sonuc					= $this->vt->select( self::SQL_yetki,  array( $id ) );
+		$sonuc					= $this->vt->select( self::SQL_yetki,  array( $id, $_SESSION[ "kullanici_turu" ] ) );
 
 		$modulDizisiIndexli		= array();
 		$modulDizisiAnahtarli	= array();
@@ -1045,12 +403,12 @@ SQL;
 	
 //////////////////////
 	/* Herhangi bir rol_id nin yetkili olduğu subelerı verir.*/
-	public function yetkilisubeVer( $rol_id, $sadece_idler = false ) {
+	/*public function yetkilisubeVer( $rol_id, $sadece_idler = false ) {
 		$sonuclar = $this->vt->select( self::SQL_yetkili_subeler_yetki_modulu,  array( $rol_id ) );
 		$dizi = array();
 		foreach( $sonuclar[ 2 ] as $sonuc ) $dizi[] = $sadece_idler ? $sonuc[ 'id' ] : $sonuc;
 		return $dizi;
-	}
+	}*/
 
 
 	/* Herhangi bir rol_id nin yetkili olduğu firmaları verir.*/
@@ -1219,18 +577,18 @@ SQL;
 	/* Rakam olarak verilne ayın adını ver*/
 	public function ayAdiVer( $kacinci_ay, $ad_uzunlugu = 0 ) {
 		$aylar = array(
-			 1 =>	array( 'Ocak'		,'Oc.'		,"ocak")
-			,2 =>	array( 'Şubat'		,'Şub.'		,"subat")
-			,3 =>	array( 'Mart'		,'Mar.'		,"mart")
-			,4 =>	array( 'Nisan'		,'Nis.'		,"nisan")
-			,5 =>	array( 'Mayıs'		,'May.'		,"mayis")
-			,6 =>	array( 'Haziran'	,'Haz.'		,"haziran")
-			,7 =>	array( 'Temmuz'		,'Tem.'		,"temmuz")
-			,8 =>	array( 'Ağustos'	,'Ağus.'	,"agustos")
-			,9 =>	array( 'Eylül'		,'Eyl.'		,"eylul")
-			,10 =>	array( 'Ekim'		,'Ek.'		,"ekim")
-			,11 =>	array( 'Kasım'		,'Kas.'		,"kasim")
-			,12 =>	array( 'Aralık'		,'Ara.'		,"aralik")
+			 1 =>	array( 'Ocak'		,'Oc.'		)
+			,2 =>	array( 'Şubat'		,'Şub.'		)
+			,3 =>	array( 'Mart'		,'Mar.'		)
+			,4 =>	array( 'Nisan'		,'Nis.'		)
+			,5 =>	array( 'Mayıs'		,'May.'		)
+			,6 =>	array( 'Haziran'	,'Haz.'		)
+			,7 =>	array( 'Temmuz'		,'Tem.'		)
+			,8 =>	array( 'Ağustos'	,'Ağus.'	)
+			,9 =>	array( 'Eylül'		,'Eyl.'		)
+			,10 =>	array( 'Ekim'		,'Ek.'		)
+			,11 =>	array( 'Kasım'		,'Kas.'		)
+			,12 =>	array( 'Aralık'		,'Ara.'		)
 		);
 		return $aylar[ $kacinci_ay ][ $ad_uzunlugu ];
 	}
@@ -1317,7 +675,7 @@ SQL;
 			//dropdown menu oluşturma
 			$sonuc = '
 			<div class="btn-group">
-	          <button modul="giriscikis" yetki_islem="tutanak_olustur" type="button" class="btn btn-xs btn-default" data-toggle="dropdown" aria-expanded="false">'.$baslik.'</button>
+	          <button type="button" class="btn btn-xs btn-default" data-toggle="dropdown" aria-expanded="false">'.$baslik.'</button>
 	          
 	          </button>
 	          <div class="dropdown-menu" role="menu" style="min-width:180px; padding:10px;">
@@ -1349,13 +707,7 @@ SQL;
 		return $sonuc;
 	}
 
-	public function saatfarkiver( $baslangic, $bitis, $fonksiyon = "asagi" ) {
-		// $baslangic = new DateTimeImmutable('12:12:10');
-		// $bitis = new DateTimeImmutable('12:12:12');
-		// $interval = $baslangic->diff($bitis);
-		// echo intVal($interval->format('%R%s'));
-
-
+	public function saatfarkiver( $baslangic, $bitis ) {
 		//baslangicSaati => o zamana kadar geçen saniyesini buluyoruz.
 		$baslangicSaati = strtotime($baslangic);
 		
@@ -1367,7 +719,6 @@ SQL;
 
 		$dakika = $fark / 60;
 		return $dakika;
-	
 	}
 
 	/* 1000,2546 sekindeki parayı 1,000.25 şeklinde vermektedir sayı virgülden sonra kaç basamak oluşturacağını belirler*/
@@ -1383,28 +734,24 @@ SQL;
 	}
 
 	/*Puantaj Hesaplama İşlemleri tarih formatı => 2022-07, $sayi => gün 01, 05, 30, */
-	public function puantajHesapla($personel_id,$tarih,$sayi, $grup_id,$genelCalismaSuresiToplami = array(),$tatil_mesaisi_carpan_id,$normal_carpan_id,$kapatilmis = 0 ){
+	public function puantajHesapla($personel_id,$tarih,$sayi, $grup_id,$genelCalismaSuresiToplami = array()){
 
-		$KullanilanSaatler 				= array(); 	// Hangi tarilerin uygulanacağını kontrol ediyoruz
-		$kullanilacakMolalar 			= array(); 	//tarifelerer ait molalar
-		$saatSay 						= 0;
-		$asilkullanilanMolalar			= array(); 	//Personelin Kullandığı molalar
-		$calismasiGerekenToplamDakika 	= array(); 	//Calışması gereken toplam dakika
-		$calisilanToplamDakika 			= array(); 	//Personelin çalıştığı toplam dakika
-		$kullanilanToplamMola			= array(); 	//Asil Molaların Toplamı
-		$kullanilmayanMolaToplami		= array(); 
-		$islenenSaatler					= array(); 
-		$izin[ "ucretli" ]				= 0; 
-		$izin[ "ucretsiz" ]				= 0; 
-		$kullanilmasiGerekenToplamMola	= 0; 
-		$tatil_mesaisi	 				= 0; 		//Tatil Mesaisinin toplam kaç dakika olduğunu gönderilecek Genellikle Yarım Gün Çalışılacak Günler İçin Hesaplanacak
-		$gecGelmeTolerans 				= 0;		//Personelin Toplam Geç Gelme Toleransı aktarılacak (Dakika Hesaplaması)
-		$erkenCikmaTolerans				= 0;		//Personelin Toplam Erken Çıkma Tolaransı aktarılacak (Dakika Hesaplaması)
-		
-		/*Personele Ait Giriş Çıkış Saatleri*/
-		$personel_giris_cikis_saatleri 			= $this->vt->select( self::SQL_belirli_tarihli_giris_cikis,array($personel_id,$tarih."-".$sayi))[2];
-		$personel_giris_cikis_sayisi   			= count($personel_giris_cikis_saatleri);
-		$rows = $personel_giris_cikis_sayisi 	== 0 ?  1 : $personel_giris_cikis_sayisi;
+		$KullanilanSaatler 			= array(); // Hangi tarilerin uygulanacağını kontrol ediyoruz
+		$kullanilacakMolalar 		= array(); //tarifelerer ait molalar
+		$saatSay 					= 0;
+		$asilkullanilanMolalar		= array(); //Personelin Kullandığı molalar
+		$calismasiGerekenToplamDakika = array(); //Calışması gereken toplam dakika
+		$calisilanToplamDakika 		= array(); //Personelin çalıştığı toplam dakika
+		$kullanilanToplamMola		= array(); //Asil Molaların Toplamı
+		$kullanilmayanMolaToplami	= array(); 
+		$islenenSaatler				= array(); 
+		$izin[ "ucretli" ]			= 0; 
+		$izin[ "ucretsiz" ]			= 0; 
+		$kullanilmasiGerekenToplamMola= 0; 
+
+		$personel_giris_cikis_saatleri = $this->vt->select( self::SQL_belirli_tarihli_giris_cikis,array($personel_id,$tarih."-".$sayi))[2];
+		$personel_giris_cikis_sayisi   = count($personel_giris_cikis_saatleri);
+		$rows = $personel_giris_cikis_sayisi == 0 ?  1 : $personel_giris_cikis_sayisi;
 
 		/*Perosnel Giriş Yapmış ise tatilden Satılmayacak Ek mesai oalrak hesaplanacaktır. */
 		if($personel_giris_cikis_sayisi > 0) {
@@ -1413,6 +760,8 @@ SQL;
 
 		//Personelin En erken giriş saati ve en geç çıkış saatini alıyoruz ona göre tutanak olusturulacak
 		$son_cikis_index 	= $personel_giris_cikis_sayisi - 1;
+		$ilk_islemtipi 		= $personel_giris_cikis_saatleri[0]['islem_tipi'];
+		$son_islemtipi 		= $personel_giris_cikis_saatleri[$son_cikis_index]['islem_tipi'];
 
 		$ilkGirisSaat 		= $this->saatKarsilastir($personel_giris_cikis_saatleri[0][ 'baslangic_saat' ], $personel_giris_cikis_saatleri[0]["baslangic_saat_guncellenen"]);
 
@@ -1420,63 +769,51 @@ SQL;
 
 		/*Tairhin hangi güne denk oldugunu getirdik*/
 		$gun = $this->gunVer($tarih."-".$sayi);
-		if( $kapatilmis == 0){
-			/*Belirtilen Tarihe uyan tarifeyi getirdik*/
-			$giris_cikis_saat_getir = $this->vt->select( self::SQL_giris_cikis_saat, array( $tarih."-".$sayi, $tarih."-".$sayi, '%,'.$gun.',%', '%,'.$grup_id.',%' ) ) [ 2 ];
-			
-			/*tarifeye ait mesai saatleri */
-			$saatler 			= $this->vt->select( self::SQL_tarife_saati, array( $giris_cikis_saat_getir[ 0 ][ 'id' ] ) )[ 2 ];
-			
-			/*tarifeye ait mola saatleri */
-			$molalar 			= $this->vt->select( self::SQL_mola_saati, array( $giris_cikis_saat_getir[ 0 ][ 'id' ] ) )[ 2 ];	
-		}else{
-			
-			/*Belirtilen Tarihe uyan tarifeyi getirdik*/
-			$tarifeOgren = $this->vt->select( self::SQL_tarife_ogren, array( $personel_id, $tarih."-".$sayi ) ) [ 2 ][ 0 ];
-			
-			/*Belirtilen Tarihe uyan tarifeyi getirdik*/
-			$giris_cikis_saat_getir = $this->vt->select( self::SQL_kapatilmis_tarife_getir, array( $tarifeOgren[ "tarife" ] ) ) [ 2 ];
+		$giris_cikis_saat_getir = $this->vt->select( self::SQL_giris_cikis_saat, array( $tarih."-".$sayi, $tarih."-".$sayi, '%,'.$gun.',%', '%,'.$grup_id.',%' ) ) [ 2 ];
+		//Mesaiye 10 DK gec Gelme olasıılıgını ekledik 10 dk ya kadaar gec gelebilir 
 
-			/*tarifeye ait mesai saatleri */
-			$saatler 			= $this->vt->select( self::SQL_kapatilan_tarife_saati, array( $giris_cikis_saat_getir[ 0 ][ 'id' ] ) )[ 2 ];
-			
-			/*tarifeye ait mola saatleri */
-			$molalar 			= $this->vt->select( self::SQL_kapatilan_mola_saati, array( $giris_cikis_saat_getir[ 0 ][ 'id' ] ) )[ 2 ];	
-		}
+		/*tarifeye ait mesai saatleri */
+		$saatler = $this->vt->select( self::SQL_tarife_saati, array( $giris_cikis_saat_getir[ 0 ][ 'id' ] ) )[ 2 ];
+
+		/*tarifeye ait mola saatleri */
+		$molalar = $this->vt->select( self::SQL_mola_saati, array( $giris_cikis_saat_getir[ 0 ][ 'id' ] ) )[ 2 ];
 		
+
 		$mesai_baslangic 	= date("H:i",  strtotime( $saatler[ 0 ]["baslangic"] )  );
-		$mesai_bitis 		= date("H:i",  strtotime( $saatler[ 0 ]["bitis"] ) );
 
-		if( $saatler[ 0 ][ "carpan" ] == $normal_carpan_id ){
-		
-			//Geç Gelme Toleransını karsılaştıryoruz tolerabstan küçük veya eşşit işe farkı saate ekliyoruz
-			$gecGelmeFark 		= $this->saatfarkiver( $mesai_baslangic, $ilkGirisSaat[ 0 ]);
-			if( $gecGelmeFark 	>  0 AND $gecGelmeFark 	<=  $giris_cikis_saat_getir[ 0 ][ 'gec_gelme_tolerans' ] ){
-				$gecGelmeTolerans += $gecGelmeFark;
-			}
-			//Erken Çıkma Toleransını karsılaştıryoruz tolerabstan küçük veya eşşit işe farkı saate ekliyoruz
-			$erkenCikmaFark 	= $this->saatfarkiver( $SonCikisSaat[ 0 ], $mesai_bitis); 
-			if( $erkenCikmaFark >  0 AND $erkenCikmaFark <= $giris_cikis_saat_getir[ 0 ][ 'erken_cikma_tolerans' ]){
-				$erkenCikmaTolerans += $erkenCikmaFark;
-			}
-		}
-		$toplamTolerans = $erkenCikmaTolerans + $gecGelmeTolerans;
-		
+		//Personel 5 DK  erken çıkabilir
+		$mesai_bitis 		= date("H:i", strtotime( $saatler[ 0 ]["bitis"] )  );
 		//Eger Tatil Olarak İsaretlenmisse Giriş Zorunluluğu bulunmayıp mesaiye gelmisse mesai yazdıracaktır.
-		$tatil 				= $giris_cikis_saat_getir[ 0 ]["tatil"] 			 == 1  	?  'evet' : 'hayir';
-		$maasa_etki_edilsin = $giris_cikis_saat_getir[ 0 ]["maasa_etki_edilsin"] == 1  	?  'evet' : 'hayir';
-		$saySaat = 0;
-		/*Personelin Hangi saat dilimler,nde maasın hesaplanacağını kontrol ediyoruz*/	
+		$tatil 			= $giris_cikis_saat_getir[ 0 ]["tatil"] == 1  ?  'evet' : 'hayir';
+		$maasa_etki_edilsin = $giris_cikis_saat_getir[ 0 ]["maasa_etki_edilsin"] == 1  ?  'evet' : 'hayir';
+		
+		/*Personelin Hangi saat dilimler,nde maasın hesaplanacağını kontrol ediyoruz*/			
 		foreach ( $saatler as $alan => $saat ) {
 			if ( $SonCikisSaat[ 0 ] <= $saat[ "bitis" ] AND  $saat[ "baslangic" ] <= $SonCikisSaat[ 0 ]   ){
 				$saySaat = $alan;
 			}
 		}
 
-		/*Personelin HaNGİ saat dilimine kadar çalışmiş ise o zaman dilimlerini diziye aktarıyoruz*/
+		/*Personelin HaNGİ saat dilimine kadar çalışmiş ise o zaman dilimlerini siziye aktarıyoruz*/
 		while ($saatSay <= $saySaat ) {
 			$KullanilanSaatler[] = $saatler[ $saatSay ];
 			$saatSay++;
+		}
+		/*Personelin il mesai basşalngı ve son çıkış saatini alıyoruz*/
+		if ( $personel_giris_cikis_sayisi > 0){
+			if ($ilkGirisSaat[0] < $mesai_baslangic AND ( $ilk_islemtipi == "" or $ilk_islemtipi == "0" )  ) {
+				
+			}else{
+				$gunluk_baslangic = $ilkGirisSaat[0];
+			}
+			if ($SonCikisSaat[0] > $mesai_bitis AND ( $son_islemtipi == "" or $son_islemtipi == "0" ) ) {
+				
+			}else{
+				$gunluk_bitis	   = $SonCikisSaat[0];
+			}
+		}else{
+			$gunluk_baslangic = $mesai_baslangic;
+			$gunluk_bitis	   = $mesai_bitis;
 		}
 
 		/*Personelin Çalıştığı saat dilimleri arasında kullandığı mola saatlerinizi alıyoruz*/
@@ -1487,11 +824,9 @@ SQL;
 				}
 			}
 		}
+
 		/*Personelin tarifeye ait saat dilimleri arasında kaç saat çalışması gerektigini kotrol ediyoruz*/
 	 	foreach ( $KullanilanSaatler as $saatkey => $saat ) {
-			if( $saat[ "carpan" ] 	== $tatil_mesaisi_carpan_id ){
-				$tatil_mesaisi 		+= $this->saatfarkiver( $saat[ "baslangic" ], $saat[ "bitis" ] );
-			}
 	 		$calismasiGerekenToplamDakika[ $saat[ "carpan" ] ] += $this->saatfarkiver( $saat[ "baslangic" ], $saat[ "bitis" ] );
 	 	}
 
@@ -1560,7 +895,7 @@ SQL;
 		$i 				= 0; //Saatlere ait index
 		$kullanildi 		= 0; // ilk giriş şim hesaplanması yapıldımı kontrol için 
 		/*Tarifenin başlangıc saati yani normal mesai saat aralığı*/
-		$ilkUygulanacakSaat = $normal_carpan_id;
+		$ilkUygulanacakSaat = $KullanilanSaatler[ 0 ][ "carpan" ];
 		/*Personelin Toplam Çalışma Sürelerini Hesaplama*/
 	 	foreach ( $personel_giris_cikis_saatleri as $girisKey => $giris ) {
 	 		$i = 0;	
@@ -1589,6 +924,7 @@ SQL;
 			 					if ( $girisKey != 0 ) {
 			 						$calisilanToplamDakika[ $KullanilanSaatler[$i - 1]["carpan"] ] += $fark;
 			 					}
+			 					
 			 					
 			 				}else{
 			 					$calisilanToplamDakika[ $saat["carpan"] ] += $this->saatfarkiver( date("H:i",strtotime($giris[ "baslangic_saat" ])), date("H:i",strtotime($giris[ "bitis_saat" ] ) ) );
@@ -1624,55 +960,14 @@ SQL;
 
 		/*Tüm Günlerin calışma sürelerini carpani ile birlikte dizide topluyoruz*/
 		foreach ($calisilanToplamDakika as $carpan => $dakika) {
-			if ( $dakika > 0 AND $sayi == 31 AND $ilkUygulanacakSaat == $carpan)
-				echo "";
-			else
-				$genelCalismaSuresiToplami[ $carpan ] += $dakika;	
+			if ( $dakika > 0 )
+				$genelCalismaSuresiToplami[ $carpan ] += $dakika;
 		}
 
 		foreach ($kullanilacakMolalar[ $ilkUygulanacakSaat ] as $molakey => $mola) {
 			$kullanilmasiGerekenToplamMola += $this->saatfarkiver($mola[ "baslangic" ], $mola[ "bitis" ]);
 		}
-		
-		$calisilanToplamDakika[ $ilkUygulanacakSaat ] += $toplamTolerans;
-		$genelCalismaSuresiToplami[ $ilkUygulanacakSaat ] += $toplamTolerans;
 
-		/*
-		Eger Tatil ve Maaşa Etki edilecekse ve pazar gününe eşit ise toplam hafta byunca gelmediği günü hesaplıyoruz
-		Genel Ayarlarda kaç gün gelmediğinde pazar verilmeyeceği bilgisini alıp hesaba göre kesinti yapılacak
-		*/
-		$gun = $this->gunVer("$tarih-$sayi");
-		if( $tatil == "evet" AND $maasa_etki_edilsin == "evet" AND $gun == "Pazar" ){	
-			/*Tarihi AYıl ve ve ay olarak boluyoruz*/
-			$tarihBol 	= explode("-",$tarih);
-			$yil 		= $tarihBol[0];
-			$ay 		= $tarihBol[1];
-
-			/*O Haftaya ait tüm puantaj bilgisini çekiyoruz*/
-			$KacinciGun = intval(date("N", strtotime("$tarih-$sayi")));
-
-			$KacinciGun = intval($KacinciGun -1 );
-
-			$haftaBaslangici 	= date("Y-m-d", strtotime("$tarih-$sayi -$KacinciGun day"));
-			
-			/*
-				Dönem Sonucu 1 Den büyük ise Dönemin kapatılmış oldugunu belirtir. ve genel ayarları tb_donem tablsundan çekeceğiz.
-				0 ise donemin kapatılmadıgını belirtil genel ayarları tb_genel_ayarlar tablsoundan çekeceğiz.
-				Kaç Gün gelmediğinden pazar verilmesin degerini alıp karsılatırma yapıp kesinti uygulayacağız"
-			*/
-			$donem	 		= $this->donemKontrol($yil, $ay); 
-			if( $donem > 0 ){
-				$ayarlar  	= $this->vt->select( self::SQL_donem_ayarlar, array( $_SESSION[ 'firma_id' ], $yil, $ay ) )[ 2 ][0]; 
-			}else{
-				$ayarlar 	= $this->vt->select( self::SQL_genel_ayarlar, array( $_SESSION[ 'firma_id' ] ) )[ 2 ][ 0 ];  
-			}
-			$eksikGunSay 	= $this->vt->select( self::SQL_eksik_gun_say, array( $personel_id, $haftaBaslangici, "$tarih-$sayi"  ) )[ 2 ][ 0 ][ "toplam" ];
-			if( $eksikGunSay >= $ayarlar[ "pazar_kesinti_sayisi" ] ){
-				$pazar_kesintisi = $ayarlar[ "gunluk_calisma_suresi" ];
-			}
-
-		}
-		
 		$sonuc["KullanilanSaatler"] 			= $KullanilanSaatler; 			 // Hangi tarilerin uygulanacağını kontrol ediyoruz
 		$sonuc["kullanilacakMolalar"] 			= $kullanilacakMolalar; 		 //tarifelerer ait molalar
 		$sonuc["saatSay"] 						= $saatSay; 					
@@ -1691,29 +986,15 @@ SQL;
 		$sonuc["tatil"] 						= $tatil;
 		$sonuc["maasa_etki_edilsin"] 			= $maasa_etki_edilsin;
 		$sonuc["ilkUygulanacakSaat"] 			= $ilkUygulanacakSaat;
-		$sonuc["tatil_mesaisi"] 				= $tatil_mesaisi;
-		$sonuc["pazar_kesintisi"] 				= $pazar_kesintisi;
-		
-		return $sonuc;
 
-		
+		return $sonuc;
 	}
 
 	/*Verilen dakikayı Saate Çevirir.  300 DK => 3.00 Saat Şeklinde verir*/
 	public function dakikaSaatCevir($dakika){
 		$saat 	= floor( $dakika / 60 );
 		$dakika 	= $this->ikiHaneliVer(floor( $dakika % 60 ));
-		return $saat.":".$dakika;
-	}
-
-	public function dakikaSaatCevirString($dakika){
-		$ham_dakika = intVal($dakika);
-		$saat 	= floor( $dakika / 60 );
-		$dakika 	= $this->ikiHaneliVer(floor( $dakika % 60 ));
-		if($ham_dakika==0)
-			return "-";
-		else
-			return $saat."sa ".$dakika."dk (".$ham_dakika." dk)";
+		return $saat.".".$dakika;
 	}
 
 	/*Puantajı Kaydetme Guncelleme işlemi */
@@ -1724,22 +1005,15 @@ SQL;
 		$calisilanToplamDakika 		 	= $hesapla["calisilanToplamDakika"];
 		$kullanilmasiGerekenToplamMola 	= $hesapla["kullanilmasiGerekenToplamMola"];
 		$ilkUygulanacakSaat 		 	= $hesapla["ilkUygulanacakSaat"];
-		$tatil 							= $hesapla["tatil"] 		    	== "hayir" ? 0 : 1;
-		$maasa_etki_edilsin 			= $hesapla["maasa_etki_edilsin"] 	== "hayir" ? 0 : 1;
+		$tatil 							= $hesapla["tatil"] 			 == "hayir" ? 0 : 1;
+		$maasa_etki_edilsin 			= $hesapla["maasa_etki_edilsin"] == "hayir" ? 0 : 1;
 		$ucretli_izin 					= $hesapla["ucretli"];
 		$ucretsiz_izin 					= $hesapla["ucretsiz"];
-		$pazarKesintisi 				= $hesapla["pazar_kesintisi"];
-		$tatilMesaisi 					= $hesapla["tatil_mesaisi"];
-		
-		if( $tatilMesaisi > 0 ){
-			$tatilMesaisi = 1;
-		}
-													
 
-		$toplamIzin 					= $ucretli_izin + $ucretsiz_izin;
+		$toplamIzın 					= $ucretli_izin + $ucretsiz_izin;
 		$cikarilacakMola 				= $kullanilmasiGerekenToplamMola;
 
-		$toplam_kesinti 				= $calismasiGerekenToplamDakika[$ilkUygulanacakSaat] - $calisilanToplamDakika[$ilkUygulanacakSaat] - $toplamIzin  - $cikarilacakMola + $pazarKesintisi;
+		$toplam_kesinti 				= $calismasiGerekenToplamDakika[$ilkUygulanacakSaat] - $calisilanToplamDakika[$ilkUygulanacakSaat] - $toplamIzın  - $cikarilacakMola;
 
 		/*Hesaplama işleminin Veri Tabanına Kaydedilme İşlemi*/
 
@@ -1752,12 +1026,12 @@ SQL;
 			$tarih."-".$sayi,
 			$izin,
 			$calisma,
+			$hafta_tatili,
 			$ucretli_izin,
 			$ucretsiz_izin,
 			$toplam_kesinti, 
 			$tatil,
-			$maasa_etki_edilsin,
-			$tatilMesaisi
+			$maasa_etki_edilsin
 		);
 
 		if( count($puantaj_varmi) > 0 ){
@@ -1767,218 +1041,11 @@ SQL;
 			/*Yeni puantaj ekelenecek*/
 			
 			$this->vt->insert( self::SQL_puantaj_kaydet, $veriler );
+
 		}
+
 		return true;
 	}
-	
-	public function donemKontrol( $yil, $ay ){
-		$donem = $this->vt->select( self::SQL_donem_kontrol, array( $_SESSION[ 'firma_id' ], $yil, $ay ) )[ 3 ];
-		return $donem;
-	}
 
-	public function bosSatir($sayi,$gun,$sutunSayisi){
-		$sutunlar 	= "";
-		$sutunlar  	.=  "<td>$sayi</td>";
-		$sutunlar  	.=  "<td>$gun</td>";
-		$sutunlar  	.=  "<td colspan='$sutunSayisi' class='text-center' > - </td>";
-		$i = 1;
-		while ( $i <= $sutunSayisi - 1 ) {
-			$sutunlar .= "<td class='d-none'></td>";
-			$i++;
-		}
-		return $sutunlar;
-	}
-
-	public function agacListeleSelect( $kategoriler, $sayi = 0, $cizgi, $ust_id,  $birlestir = ""){
-		
-		foreach( $kategoriler[ $sayi ] as $kategori ){
-			
-			$ciz 		= $cizgi == 0 ? '' : str_repeat("&#xf054; ",$cizgi);
-
-			$selected  = $ust_id == $kategori["id"] ? 'selected' : ''; 
-
-			$birlestir .= "<option value='$kategori[id]' $selected class='font-awesome'><i class=''>$ciz</i> $kategori[adi]</option>"; 
-			
-			if( array_key_exists( $kategori[ "id" ], $kategoriler ) ){
-
-				$cizgi += 1;			
-				$birlestir = $this->agacListeleSelect( $kategoriler, $kategori[ "id" ], $cizgi, $ust_id, $birlestir );
-				$cizgi -= 1;
-
-			}
-			$cizgi += 0;	
-		}
-
-		return $birlestir;
-	}
-
-	public function agacListeleTablo( $kategoriler, $katid = 0, $cizgi, $birlestir = "",$sayi = 0,$aktifDT,$alt = 0, $altListe, $linkAltListe ){
-		$sayi = $katid == 0 ? $sayi += 1 : ""; 
-
-		$islemGenislik = array(
-			1 => 180,
-			2 => 160,
-			3 => 197,
-		);
-		$renkler = array(
-			1 => "table-secondary",
-			2 => "table-primary",
-			3 => "table-active",
-			4 => "table-primary",
-			5 => "table-secondary",
-			6 => "table-primary",
-			7 => "table-active",
-			8 => "table-danger"
-		);
-
-		foreach( $kategoriler[ $katid ] as $kategori ){
-
-			$ciz 		= $cizgi == 0 ? '' : str_repeat("<i class='fas fa-level-up-alt' style='transform: rotate(90deg);'></i>&nbsp; &nbsp;",$cizgi);
-
-			$suanki_tarih 				= date_create(date('Y-m-d'));
-			$hatirlanacak_tarih 		= date_create($kategori[ 'tarih' ]);
-			if ( $kategori[ 'tarih' ] 	!= '0000-00-00' AND $suanki_tarih < $hatirlanacak_tarih ) {
-				$kalan_gun 				= date_diff($suanki_tarih,$hatirlanacak_tarih);
-				$gunBelirt 				=  $kalan_gun->format("%a Gün Kaldı");
-			}
-			/*Secilmiş olan satırı sarı yapar*/
-			$satirRenk 		= $kategori[ "id" ] == $aktifDT ? "table-warning" : "";
-			/*Alt dosya kategorileri mavi yapar*/
-			$satirRenk2 	= $katid > 0 ? "table-info": "";
-			/*alt kategori varsa tıklanır yapacak satırı ve acılmasını sağlayacak*/
-			$acilir 		= array_key_exists( $kategori[ "id" ], $kategoriler ) ? "data-widget='expandable-table'" : "";
-			$satirRenk3		= "";
-			if (array_key_exists( $kategori[ "id" ], $kategoriler ) AND $katid != 0 )  
-				$satirRenk3 = "table-success" ;
-
-			$altListeBirlestir = implode("-", $altListe);
-
-			$altKategori =explode( "-", $linkAltListe);
-			$expanded 	= in_array( $kategori[ "id" ], $altKategori ) ? "true" : "false";
-			$style 		= in_array( $kategori[ "id" ], $altKategori ) ? "display:table !important;" : "";
-
-
-			if( $alt == 1 ){
-				$birlestir .= "<tr class='mouseSagTik $renkler[$cizgi] $satirRenk3 $satirRenk ' $acilir aria-expanded='$expanded' data-id='$kategori[id]' data-alt-liste='$altListeBirlestir'> 
-									<td>$ciz</td>
-									<td>$kategori[adi]</td>
-									<td>$gunBelirt</td>
-									<td>$kategori[dosyaSayisi]</td>
-									<td>$kategori[altKategoriSayisi]</td>
-									<td>
-										<a class='nav-link btn btn-xs btn-light ' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-											<i class='fas fa-bars'></i>
-										</a>
-										<div class='dropdown-menu p-1 dropdown-menu-right' aria-labelledby='navbarDropdown'>
-											<a data-toggle='modal' data-target='#dosyaTuru' class=' my-1 text-center btn btn-light w-100'><i class='fas fa-plus'></i>&nbsp; Kategori Ekle</a>
-											<a modul = 'firmaDosyalari' yetki_islem='evraklar' class=' my-1 btn btn-dark text-white w-100' href = '?modul=firmaDosyalari&islem=evraklar&ust_id=$kategori[kategori]&kategori_id=$kategori[id]&dosyaTuru_id=$kategori[id]&alt-liste=$altListeBirlestir '>Evraklar</a>
-											<a modul = 'firmaDosyalari' yetki_islem='duzenle' class=' my-1 btn  btn-warning w-100' href = '?modul=firmaDosyalari&islem=guncelle&ust_id=$kategori[kategori]&kategori_id=$kategori[id]&dosyaTuru_id=$kategori[id]&alt-liste=$altListeBirlestir' >Düzenle</a>
-											<button modul= 'firmaDosyalari' yetki_islem='sil' class=' my-1 btn btn-danger w-100' data-href='_modul/firmaDosyalari/firmaDosyalariSEG.php?islem=sil&konu=tur&dosyaTuru_id=$kategori[id]' data-toggle='modal' data-target='#kayit_sil'>Sil</button>
-										</div>
-									</td>
-								</tr>";	
-			}else{
-				$birlestir .= "<tr class='mouseSagTik $renkler[$cizgi] $satirRenk3 $satirRenk  ' $acilir aria-expanded='$expanded' data-id='$kategori[id]' data-alt-liste='$altListeBirlestir'> 
-								<td>$sayi</td>
-								<td>$kategori[adi]</td>
-								<td>$gunBelirt</td>
-								<td>$kategori[dosyaSayisi]</td>
-								<td>$kategori[altKategoriSayisi]</td>
-								<td>
-									<a class='nav-link btn btn-xs btn-light ' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-										<i class='fas fa-bars'></i>
-									</a>
-									<div class='dropdown-menu p-1 dropdown-menu-right' aria-labelledby='navbarDropdown'>
-										<a data-toggle='modal' data-target='#dosyaTuru' class=' my-1 text-center btn btn-light  w-100'><i class='fas fa-plus'></i>&nbsp; Kategori Ekle</a>
-										<a modul = 'firmaDosyalari' yetki_islem='evraklar' class=' my-1 btn btn-dark  text-white w-100' href = '?modul=firmaDosyalari&islem=evraklar&ust_id=$kategori[kategori]&kategori_id=$kategori[id]&dosyaTuru_id=$kategori[id]&alt-liste=$altListeBirlestir '>Evraklar</a>
-										<a modul = 'firmaDosyalari' yetki_islem='duzenle' class=' my-1 btn  btn-warning  w-100' href = '?modul=firmaDosyalari&islem=guncelle&ust_id=$kategori[kategori]&kategori_id=$kategori[id]&dosyaTuru_id=$kategori[id]&alt-liste=$altListeBirlestir' >Düzenle</a>
-										<button modul= 'firmaDosyalari' yetki_islem='sil' class=' my-1 btn  btn-danger w-100' data-href='_modul/firmaDosyalari/firmaDosyalariSEG.php?islem=sil&konu=tur&dosyaTuru_id=$kategori[id]' data-toggle='modal' data-target='#kayit_sil'>Sil</button>
-									</div>
-								</td>
-							</tr>";	
-			}
-			 
-			if( array_key_exists( $kategori[ "id" ], $kategoriler ) ){
-				array_push( $altListe, $kategori[ "id" ]  );
-				
-				$cizgi 		+= 1;
-				$ciz 		= $cizgi == 0 ? '' : str_repeat("<i class='fas fa-level-up-alt' style='transform: rotate(90deg);'></i>&nbsp; &nbsp;",$cizgi);
-				$birlestir 	.= "<tr class='expandable-body'> 
-								<td colspan='8'>
-									<table class=' table-hover w-100' style='$style'>
-										<th>$ciz</th>
-										<th>Adı</th>
-										<th>Kalan G.S.</th>
-										<th>Dosya S.</th>
-										<th>Kategori S.</th>
-										<th style='width:75px;'>İşlemler</th>";	
-				$birlestir 	= $this->agacListeleTablo( $kategoriler, $kategori[ "id" ], $cizgi,$birlestir,$sayi, $aktifDT,1,$altListe, $linkAltListe);
-
-				$birlestir 	.= "</table></td></tr>";
-
-				array_pop($altListe);
-
-				$cizgi -= 1;
-
-			}
-		}
-
-		return $birlestir;
-	}
-
-	public function oturumOlustur( $id ){
-
-		$sorguSonuc = $this->vt->selectSingle( self::SQL_kontrol, array( $id ) );
-		if( !$sorguSonuc[ 0 ] ) {
-			$kullaniciBilgileri	= $sorguSonuc[ 2 ];
-
-			if( $kullaniciBilgileri[ 'id' ] * 1 > 0 ) {
-				$_SESSION[ 'kullanici_id' ]		= $kullaniciBilgileri[ 'id' ];
-				$_SESSION[ 'adi' ]				= $kullaniciBilgileri[ 'adi' ];
-				$_SESSION[ 'soyadi' ]			= $kullaniciBilgileri[ 'soyadi' ];
-				$_SESSION[ 'ad_soyad' ]			= $kullaniciBilgileri[ 'adi' ] . ' ' . $kullaniciBilgileri[ 'soyadi' ];
-				$_SESSION[ 'kullanici_resim' ]	= $kullaniciBilgileri[ 'resim' ];
-				$_SESSION[ 'rol_id' ]			= $kullaniciBilgileri[ 'rol_id' ];
-				$_SESSION[ 'rol_adi' ]			= $kullaniciBilgileri[ 'rol_adi' ];
-				$_SESSION[ 'sube_id' ]			= $kullaniciBilgileri[ 'sube_id' ];
-				$_SESSION[ 'subeler' ]			= $kullaniciBilgileri[ 'subeler' ];
-				$_SESSION[ 'giris' ]			= true;
-				$_SESSION[ 'giris_var' ]		= 'evet';
-				$_SESSION[ 'yil' ]				= date('Y');
-				$_SESSION[ 'super' ]			= $kullaniciBilgileri[ 'super' ];
-				$_SESSION[ 'firmalar' ]			= explode(",",$kullaniciBilgileri[ "firmalar" ]);
-				
-				if( $_COOKIE[ 'firma_id' ] > 0 && $_COOKIE[ 'firma_adi' ] > 0 && array_key_exists($_COOKIE[ 'firma_id' ], $_SESSION[ 'firmalar' ] ) ){
-					$_SESSION[ 'firma_id'] = $_COOKIE[ 'firma_id' ];
-					$_SESSION[ 'firma_adi' ] = $_COOKIE[ 'firma_adi' ];
-				}
-			}
-		}
-
-
-	}
-
-	public function gunSayisi ($istenCikisTarihi, $listelenecekAy, $yil, $ay  ){
-		if( $istenCikisTarihi != "" AND date("Y-m",strtotime($istenCikisTarihi)) == $listelenecekAy  ){
-			/*Personel Çıkış yapmış ve çıkış ayı listelecenek olan aya esit ise çıkış yapmış güne kadar dönder*/
-			$gunSayisi = date("d", strtotime($istenCikisTarihi));	
-		}else if( $istenCikisTarihi != "" AND date( "Y-m", strtotime( $istenCikisTarihi ) ) <= $listelenecekAy ){
-			/*Personel Çıkış Yapmış ve listelecek tarih personelin çıkış tarihinden büyük ise */
-			$gunSayisi =  0;
-		}else if( $istenCikisTarihi != "" AND date( "Y-m",strtotime( $istenCikisTarihi ) ) <= $listelenecekAy ){
-			/*Personel Çıkış Yapmış ve listelecek tarih personelin çıkış tarihinden büyük ise */
-			$gunSayisi = 0;	
-		}else if( $listelenecekAy > date( "Y-m" ) ){
-			/*Suanki tarih listelecen aydan daha */
-			$gunSayisi = 0;	
-		}else if( $listelenecekAy == date( "Y-m" ) ){
-			/*Suanki tarih listelecen aydan daha */
-			$gunSayisi = date( "d" );	
-		}else{
-			$gunSayisi = date("t",mktime(0,0,0,$ay,01,$yil));	
-		}
-
-		return intval($gunSayisi);
-	}
 
 }
