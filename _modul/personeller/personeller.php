@@ -80,17 +80,12 @@ WHERE
 	aktif 		  	= 1
 SQL;
 
-$SQL_ogretim_elemanlari = <<< SQL
+$SQL_uyruklar = <<< SQL
 SELECT
-	 oe.*
-	,concat( u.adi," ",oe.adi," ",oe.soyadi) as adi_soyadi
+	 *
 FROM
-	tb_ogretim_elemanlari AS oe
-LEFT JOIN tb_unvanlar AS u ON u.id = oe.unvan_id
-WHERE
-	oe.aktif 		  	= 1 AND
-	oe.universite_id	= ?
-ORDER BY oe.adi,oe.soyadi
+	tb_uyruklar
+ORDER BY sira
 SQL;
 
 $SQL_birim_agaci_getir = <<< SQL
@@ -111,7 +106,7 @@ if( $_SESSION[ 'kullanici_turu' ] == "personel" ){
 }
 
 $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
-$ogretim_elemanlari			= $vt->select( $SQL_ogretim_elemanlari, array( $_SESSION[ 'universite_id'] ) )[ 2 ];
+$uyruklar					= $vt->select( $SQL_uyruklar, array(  ) )[ 2 ];
 @$tek_personel				= $vt->select( $SQL_tek_personel_oku, array( $personel_id ) )[ 2 ][ 0 ];		
 
 ?>
@@ -235,7 +230,7 @@ $ogretim_elemanlari			= $vt->select( $SQL_ogretim_elemanlari, array( $_SESSION[ 
 							<br><h5 class="float-right text-olive">Kişisel Bilgiler</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group ">
 								<label  class="control-label">Birimler</label>
-								<div class="overflow-auto" style="height:400px;">
+								<div class="overflow-auto" style="height:300px;">
 								<table class="table table-sm table-hover ">
 								<tbody>
 									<?php
@@ -262,9 +257,8 @@ $ogretim_elemanlari			= $vt->select( $SQL_ogretim_elemanlari, array( $_SESSION[ 
 														$html .= "
 																<tr>
 																	<td class=' bg-renk7' >
-																		
 																			<div class='icheck-success d-inline'>
-																				<input type='radio' id='icheck_$kategori[id]' name='birim_id'>
+																				<input type='radio' class='form-control form-control-sm' id='icheck_$kategori[id]' name='birim_id' value='$kategori[id]' required>
 																				<label for='icheck_$kategori[id]'>
 																				$kategori[adi]
 																				</label>
@@ -274,9 +268,13 @@ $ogretim_elemanlari			= $vt->select( $SQL_ogretim_elemanlari, array( $_SESSION[ 
 
 													}
 													if( $kategori['kategori'] == 1 ){
+														if( $kategori['ust_id'] == 0 )
+															$agac_acik = "true";
+														else
+															$agac_acik = "false";
 
 															$html .= "
-																	<tr data-widget='expandable-table' aria-expanded='true' class='border-0'>
+																	<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 																		<td class='bg-renk$renk'>																
 																			$kategori[adi]
 																		<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
@@ -310,34 +308,54 @@ $ogretim_elemanlari			= $vt->select( $SQL_ogretim_elemanlari, array( $_SESSION[ 
 								</div>
 							</div>
 							<div class="form-group">
-								<label  class="control-label">Uzmanlık Dalı</label>
-								<select class="form-control select2" name = "uzmanlik_dali_id" required >
+								<label  class="control-label">Uyruk</label>
+								<select class="form-control form-control-sm select2" name = "uyruk_id" required>
 									<option>Seçiniz...</option>
 									<?php 
-										foreach( $uzmanlik_dallari AS $uzmanlik_dali ){
-											echo '<option value="'.$uzmanlik_dali[ "id" ].'" '.( $tek_personel[ "uzmanlik_dali_id" ] == $uzmanlik_dali[ "id" ] ? "selected" : null) .'>'.$uzmanlik_dali[ "adi" ].'</option>';
+										foreach( $uyruklar AS $uyruk ){
+											echo '<option value="'.$uyruk[ "id" ].'" '.( $tek_personel[ "uyruk_id" ] == $uyruk[ "id" ] ? "selected" : null) .'>'.$uyruk[ "adi" ].' ('.$uyruk[ "kisa_ad" ].')</option>';
 										}
 
 									?>
 								</select>
 							</div>
+
 							<div class="form-group">
-								<label class="control-label">TC Kimlik No</label>
-								<input required type="text" class="form-control form-control-sm" name ="tc_kimlik_no" value = "<?php echo $tek_personel[ "tc_kimlik_no" ]; ?>"  autocomplete="off">
+								<label class="control-label">In Numarası</label>
+								<input required type="text" placeholder="In Numarası" class="form-control form-control-sm" name ="in_no" value = "<?php echo $tek_personel[ "in_no" ]; ?>"  autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label class="control-label">Vatandaşlık No</label>
+								<input required type="text" placeholder="Vatandaşlık No" class="form-control form-control-sm" name ="vatandaslik_no" value = "<?php echo $tek_personel[ "vatandaslik_no" ]; ?>"  autocomplete="off">
 							</div>
 
 							<div class="form-group">
-								<label class="control-label">Personel No</label>
-								<input required type="text" class="form-control form-control-sm" name ="personel_no" value = "<?php echo $tek_personel[ "personel_no" ]; ?>"  autocomplete="off">
+								<label class="control-label">Pasaport No</label>
+								<input required type="text" placeholder="Pasaport No" class="form-control form-control-sm" name ="pasaport_no" value = "<?php echo $tek_personel[ "pasaport_no" ]; ?>"  autocomplete="off">
 							</div>
 
 							<div class="form-group">
 								<label class="control-label">Adı</label>
-								<input required type="text" class="form-control form-control-sm" name ="adi" value = "<?php echo $tek_personel[ "adi" ]; ?>"  autocomplete="off">
+								<input required type="text" placeholder="Adı" class="form-control form-control-sm" name ="adi" value = "<?php echo $tek_personel[ "adi" ]; ?>"  autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label class="control-label">Soyadı</label>
-								<input required type="text" class="form-control form-control-sm" name ="soyadi" value = "<?php echo $tek_personel[ "soyadi" ]; ?>"  autocomplete="off">
+								<input required type="text" placeholder="Soyadı" class="form-control form-control-sm" name ="soyadi" value = "<?php echo $tek_personel[ "soyadi" ]; ?>"  autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label class="control-label">Cinsiyet</label><br>
+								<div class='icheck-danger d-inline'>
+									<input type='radio' class='form-control form-control-sm' id='kadin' name='cinsiyet' value="1" required>
+									<label for='kadin'>
+										Kadın
+									</label>
+								</div>
+								<div class='icheck-primary d-inline'>
+									<input type='radio' class='form-control form-control-sm' id='erkek' name='cinsiyet' value="2" required>
+									<label for='erkek'>
+										Erkek
+									</label>
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label">Doğum Tarihi</label>
@@ -347,6 +365,18 @@ $ogretim_elemanlari			= $vt->select( $SQL_ogretim_elemanlari, array( $_SESSION[ 
 									</div>
 									<input required type="text" data-target="#dogum_tarihi" data-toggle="datetimepicker" name="dogum_tarihi" value="<?php if( $tek_personel[ 'dogum_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'dogum_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#datetimepicker1"/>
 								</div>
+							</div>
+							<div class="form-group">
+								<label  class="control-label">Kan Grubu</label>
+								<select class="form-control form-control-sm select2" name = "kan_grubu_id" required>
+									<option>Seçiniz...</option>
+									<?php 
+										foreach( $uyruklar AS $uyruk ){
+											echo '<option value="'.$uyruk[ "id" ].'" '.( $tek_personel[ "uyruk_id" ] == $uyruk[ "id" ] ? "selected" : null) .'>'.$uyruk[ "adi" ].' ('.$uyruk[ "kisa_ad" ].')</option>';
+										}
+
+									?>
+								</select>
 							</div>
 							<div class="form-group">
 								<label class="control-label">Doğum Yeri</label>
