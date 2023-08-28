@@ -210,6 +210,22 @@ if ( $_SESSION[ "kullanici_turu" ] == 'ogretmen' AND $_SESSION[ "super" ] == 0 )
 									<input type = "hidden" name = "ogretim_elemani_id" value = "<?php echo $ogretim_elemani_id; ?>">
 									<h3 class="profile-username text-center"><b> </b></h3>
 									<div class="form-group">
+										<label  class="control-label">Birim</label>
+<select name="" id="" class="select2 js-example-basic-single">
+    <option value="main">Pepal Inc.</option>
+    <option value="child1">Business Unit 1</option>
+    <option value="child1">Sub Business Unit 1</option>
+    <option value="child-level1">Sub Sub Business Unit 1</option> 
+    <option value="child-level1">Business Unit 2</option>
+    <option value="child-level1">Business Unit 3</option>
+    <option value="child1">Sub Business Unit 3</option>
+    <option value="child-level1">Sub Sub Business Unit 3</option> 
+</select>	
+										<script>
+											$("#sel_2").select2ToTree();
+										</script>							
+									</div>
+									<div class="form-group">
 										<label  class="control-label">Fakülte</label>
 										<select class="form-control select2" name = "fakulte_id" required>
 											<option>Seçiniz...</option>

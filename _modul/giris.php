@@ -18,10 +18,10 @@
       <div class="row">
         <div class="col-md-9 my-auto">
           <h2><b>Eğitim Yönetim Planlama Sistemi</b></h2>
-          <h6>Van Yüzüncü Yıl Üniversitesi</h6>
+          <h6>Ahmet Yesevi Üniversitesi</h6>
         </div>
         <div class="col-md-3 my-auto">
-          <img src="img/yyu_logo.png" class="img-fluid" style="width:200px">
+          <img src="img/ayu_logo.png" class="img-fluid" style="width:300px">
         </div>
       </div>
     </div>

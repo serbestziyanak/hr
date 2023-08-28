@@ -18,8 +18,8 @@ if ( session_status() == PHP_SESSION_NONE ) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YYÜ - EYPS </title>
-<link rel="icon" href="img/yyu_logo.png" type="image/x-icon" />
+<title>AYU HR </title>
+<link rel="icon" href="img/ayu_logo.png" type="image/x-icon" />
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->

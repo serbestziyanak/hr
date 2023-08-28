@@ -19,9 +19,9 @@ $moduller = $vt->select( $SQL_modul );
 <aside class="main-sidebar main-sidebar-custom sidebar-light-olive elevation-4">
 	<!-- Brand Logo -->
 	<a href="index.php" class="brand-link">
-	<img src="img/yyu_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+	<img src="img/ayu_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
 	<!--span class="brand-text font-weight-light">EYPS - Van YYÜ</span-->
-	<span class="brand-text">EYPS - Van YYÜ</span>
+	<span class="brand-text">AYU İnsan Kaynakları</span>
 	</a>
 	<!--
 	<a href="index.php" class="brand-link" >
