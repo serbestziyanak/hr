@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 28/08/2023 15:22:18
+ Date: 28/08/2023 18:01:36
 */
 
 SET NAMES utf8mb4;
@@ -277,7 +277,7 @@ CREATE TABLE `tb_birim_agaci`  (
   `kategori` tinyint NULL DEFAULT NULL,
   `universite_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_birim_agaci
@@ -287,7 +287,6 @@ INSERT INTO `tb_birim_agaci` VALUES (2, 0, 'İdari Birimler', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (3, 1, 'Fakülteler', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (4, 1, 'Enstitüler', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (5, 1, 'Merkezler', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (6, 0, 'Meslek Yüksekokulları', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (7, 1, 'Meslek Yüksekokulları', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (8, 3, 'Hazırlık Okulu', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (9, 3, 'Mühendislik Fakültesi', 1, NULL);
@@ -307,7 +306,6 @@ INSERT INTO `tb_birim_agaci` VALUES (22, 4, 'Arkeoloji Araştırma Enstitüsü',
 INSERT INTO `tb_birim_agaci` VALUES (23, 4, 'Tıbbi Araştırma Enstitüsü', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (24, 4, 'Fen Bilimleri Araştırma Enstitüsü', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (25, 4, 'Yesevi Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (26, 6, 'Ahmet Yesevi Meslek Yüksekokulu', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (27, 8, 'Lisans Programları', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (29, 27, 'Türk Dili Bölümü', 0, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (30, 27, 'Kazak ve Rus Dili Bölümü	', 0, NULL);
@@ -316,6 +314,11 @@ INSERT INTO `tb_birim_agaci` VALUES (32, 9, 'Lisans Programları', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (33, 9, 'Yüksek Lisans Programları', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (34, 9, 'Doktora Programları', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (37, 32, 'Bilgisayar Mühendisliği', 0, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (38, 7, 'Ahmet Yesevi Meslek Yüksekokulu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (39, 2, 'Bilgi İşlem Daire Baişkanlığı', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (40, 2, 'Öğreci İşleri Daire Başkanlığı', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (41, 2, 'Personel İşleri Daire Başkanlığı', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (42, 2, 'Satınalma Müdürlüğü', 1, NULL);
 
 -- ----------------------------
 -- Table structure for tb_bolumler
@@ -950,7 +953,7 @@ CREATE TABLE `tb_modul`  (
   `harici_sayfa` tinyint NULL DEFAULT 0,
   `kategori_acik` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 147 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 148 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_modul
@@ -999,6 +1002,7 @@ INSERT INTO `tb_modul` VALUES (143, 'Anketler', 'anketler', 'anketler', 'fas fa-
 INSERT INTO `tb_modul` VALUES (144, 'Anket Şablonu', 'sablonlar', 'anketler', 'fas fa-copy text-warning', 1, 142, 0, 1, 0, 0);
 INSERT INTO `tb_modul` VALUES (145, 'Anket Cevapla', 'anket', 'anketler', 'fas fa-edit', 0, 142, 0, 1, 0, 0);
 INSERT INTO `tb_modul` VALUES (146, 'Birim Ağacı', 'birimAgaci', 'birimAgaci', 'fas fa-sitemap text-blue', 1, 0, 0, 5, 0, 0);
+INSERT INTO `tb_modul` VALUES (147, 'Personeller', 'personeller', 'personeller', 'fas fa-users text-info', 1, 0, 0, 5, 0, 0);
 
 -- ----------------------------
 -- Table structure for tb_modul_yetki_islemler
@@ -2195,6 +2199,269 @@ INSERT INTO `tb_unvanlar` VALUES (4, 'Öğr. Gör. Dr.', 4);
 INSERT INTO `tb_unvanlar` VALUES (5, 'Arş. Gör. Dr.', 5);
 INSERT INTO `tb_unvanlar` VALUES (6, 'Öğr. Gör.', 6);
 INSERT INTO `tb_unvanlar` VALUES (7, 'Arş. Gör.', 7);
+
+-- ----------------------------
+-- Table structure for tb_uyruklar
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_uyruklar`;
+CREATE TABLE `tb_uyruklar`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kisa_ad` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `adi` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `tel_kodu` int NULL DEFAULT NULL,
+  `sira` int NULL DEFAULT 9999,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 247 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_uyruklar
+-- ----------------------------
+INSERT INTO `tb_uyruklar` VALUES (1, 'AF', 'Afghanistan', 93, 9999);
+INSERT INTO `tb_uyruklar` VALUES (2, 'AL', 'Albania', 355, 9999);
+INSERT INTO `tb_uyruklar` VALUES (3, 'DZ', 'Algeria', 213, 9999);
+INSERT INTO `tb_uyruklar` VALUES (4, 'AS', 'American Samoa', 1684, 9999);
+INSERT INTO `tb_uyruklar` VALUES (5, 'AD', 'Andorra', 376, 9999);
+INSERT INTO `tb_uyruklar` VALUES (6, 'AO', 'Angola', 244, 9999);
+INSERT INTO `tb_uyruklar` VALUES (7, 'AI', 'Anguilla', 1264, 9999);
+INSERT INTO `tb_uyruklar` VALUES (8, 'AQ', 'Antarctica', 0, 9999);
+INSERT INTO `tb_uyruklar` VALUES (9, 'AG', 'Antigua And Barbuda', 1268, 9999);
+INSERT INTO `tb_uyruklar` VALUES (10, 'AR', 'Argentina', 54, 9999);
+INSERT INTO `tb_uyruklar` VALUES (11, 'AM', 'Armenia', 374, 9999);
+INSERT INTO `tb_uyruklar` VALUES (12, 'AW', 'Aruba', 297, 9999);
+INSERT INTO `tb_uyruklar` VALUES (13, 'AU', 'Australia', 61, 9999);
+INSERT INTO `tb_uyruklar` VALUES (14, 'AT', 'Austria', 43, 9999);
+INSERT INTO `tb_uyruklar` VALUES (15, 'AZ', 'Azerbaijan', 994, 9999);
+INSERT INTO `tb_uyruklar` VALUES (16, 'BS', 'Bahamas The', 1242, 9999);
+INSERT INTO `tb_uyruklar` VALUES (17, 'BH', 'Bahrain', 973, 9999);
+INSERT INTO `tb_uyruklar` VALUES (18, 'BD', 'Bangladesh', 880, 9999);
+INSERT INTO `tb_uyruklar` VALUES (19, 'BB', 'Barbados', 1246, 9999);
+INSERT INTO `tb_uyruklar` VALUES (20, 'BY', 'Belarus', 375, 9999);
+INSERT INTO `tb_uyruklar` VALUES (21, 'BE', 'Belgium', 32, 9999);
+INSERT INTO `tb_uyruklar` VALUES (22, 'BZ', 'Belize', 501, 9999);
+INSERT INTO `tb_uyruklar` VALUES (23, 'BJ', 'Benin', 229, 9999);
+INSERT INTO `tb_uyruklar` VALUES (24, 'BM', 'Bermuda', 1441, 9999);
+INSERT INTO `tb_uyruklar` VALUES (25, 'BT', 'Bhutan', 975, 9999);
+INSERT INTO `tb_uyruklar` VALUES (26, 'BO', 'Bolivia', 591, 9999);
+INSERT INTO `tb_uyruklar` VALUES (27, 'BA', 'Bosnia and Herzegovina', 387, 9999);
+INSERT INTO `tb_uyruklar` VALUES (28, 'BW', 'Botswana', 267, 9999);
+INSERT INTO `tb_uyruklar` VALUES (29, 'BV', 'Bouvet Island', 0, 9999);
+INSERT INTO `tb_uyruklar` VALUES (30, 'BR', 'Brazil', 55, 9999);
+INSERT INTO `tb_uyruklar` VALUES (31, 'IO', 'British Indian Ocean Territory', 246, 9999);
+INSERT INTO `tb_uyruklar` VALUES (32, 'BN', 'Brunei', 673, 9999);
+INSERT INTO `tb_uyruklar` VALUES (33, 'BG', 'Bulgaria', 359, 9999);
+INSERT INTO `tb_uyruklar` VALUES (34, 'BF', 'Burkina Faso', 226, 9999);
+INSERT INTO `tb_uyruklar` VALUES (35, 'BI', 'Burundi', 257, 9999);
+INSERT INTO `tb_uyruklar` VALUES (36, 'KH', 'Cambodia', 855, 9999);
+INSERT INTO `tb_uyruklar` VALUES (37, 'CM', 'Cameroon', 237, 9999);
+INSERT INTO `tb_uyruklar` VALUES (38, 'CA', 'Canada', 1, 9999);
+INSERT INTO `tb_uyruklar` VALUES (39, 'CV', 'Cape Verde', 238, 9999);
+INSERT INTO `tb_uyruklar` VALUES (40, 'KY', 'Cayman Islands', 1345, 9999);
+INSERT INTO `tb_uyruklar` VALUES (41, 'CF', 'Central African Republic', 236, 9999);
+INSERT INTO `tb_uyruklar` VALUES (42, 'TD', 'Chad', 235, 9999);
+INSERT INTO `tb_uyruklar` VALUES (43, 'CL', 'Chile', 56, 9999);
+INSERT INTO `tb_uyruklar` VALUES (44, 'CN', 'China', 86, 9999);
+INSERT INTO `tb_uyruklar` VALUES (45, 'CX', 'Christmas Island', 61, 9999);
+INSERT INTO `tb_uyruklar` VALUES (46, 'CC', 'Cocos (Keeling) Islands', 672, 9999);
+INSERT INTO `tb_uyruklar` VALUES (47, 'CO', 'Colombia', 57, 9999);
+INSERT INTO `tb_uyruklar` VALUES (48, 'KM', 'Comoros', 269, 9999);
+INSERT INTO `tb_uyruklar` VALUES (49, 'CG', 'Republic Of The Congo', 242, 9999);
+INSERT INTO `tb_uyruklar` VALUES (50, 'CD', 'Democratic Republic Of The Congo', 242, 9999);
+INSERT INTO `tb_uyruklar` VALUES (51, 'CK', 'Cook Islands', 682, 9999);
+INSERT INTO `tb_uyruklar` VALUES (52, 'CR', 'Costa Rica', 506, 9999);
+INSERT INTO `tb_uyruklar` VALUES (53, 'CI', 'Cote D\'Ivoire (Ivory Coast)', 225, 9999);
+INSERT INTO `tb_uyruklar` VALUES (54, 'HR', 'Croatia (Hrvatska)', 385, 9999);
+INSERT INTO `tb_uyruklar` VALUES (55, 'CU', 'Cuba', 53, 9999);
+INSERT INTO `tb_uyruklar` VALUES (56, 'CY', 'Cyprus', 357, 9999);
+INSERT INTO `tb_uyruklar` VALUES (57, 'CZ', 'Czech Republic', 420, 9999);
+INSERT INTO `tb_uyruklar` VALUES (58, 'DK', 'Denmark', 45, 9999);
+INSERT INTO `tb_uyruklar` VALUES (59, 'DJ', 'Djibouti', 253, 9999);
+INSERT INTO `tb_uyruklar` VALUES (60, 'DM', 'Dominica', 1767, 9999);
+INSERT INTO `tb_uyruklar` VALUES (61, 'DO', 'Dominican Republic', 1809, 9999);
+INSERT INTO `tb_uyruklar` VALUES (62, 'TP', 'East Timor', 670, 9999);
+INSERT INTO `tb_uyruklar` VALUES (63, 'EC', 'Ecuador', 593, 9999);
+INSERT INTO `tb_uyruklar` VALUES (64, 'EG', 'Egypt', 20, 9999);
+INSERT INTO `tb_uyruklar` VALUES (65, 'SV', 'El Salvador', 503, 9999);
+INSERT INTO `tb_uyruklar` VALUES (66, 'GQ', 'Equatorial Guinea', 240, 9999);
+INSERT INTO `tb_uyruklar` VALUES (67, 'ER', 'Eritrea', 291, 9999);
+INSERT INTO `tb_uyruklar` VALUES (68, 'EE', 'Estonia', 372, 9999);
+INSERT INTO `tb_uyruklar` VALUES (69, 'ET', 'Ethiopia', 251, 9999);
+INSERT INTO `tb_uyruklar` VALUES (70, 'XA', 'External Territories of Australia', 61, 9999);
+INSERT INTO `tb_uyruklar` VALUES (71, 'FK', 'Falkland Islands', 500, 9999);
+INSERT INTO `tb_uyruklar` VALUES (72, 'FO', 'Faroe Islands', 298, 9999);
+INSERT INTO `tb_uyruklar` VALUES (73, 'FJ', 'Fiji Islands', 679, 9999);
+INSERT INTO `tb_uyruklar` VALUES (74, 'FI', 'Finland', 358, 9999);
+INSERT INTO `tb_uyruklar` VALUES (75, 'FR', 'France', 33, 9999);
+INSERT INTO `tb_uyruklar` VALUES (76, 'GF', 'French Guiana', 594, 9999);
+INSERT INTO `tb_uyruklar` VALUES (77, 'PF', 'French Polynesia', 689, 9999);
+INSERT INTO `tb_uyruklar` VALUES (78, 'TF', 'French Southern Territories', 0, 9999);
+INSERT INTO `tb_uyruklar` VALUES (79, 'GA', 'Gabon', 241, 9999);
+INSERT INTO `tb_uyruklar` VALUES (80, 'GM', 'Gambia The', 220, 9999);
+INSERT INTO `tb_uyruklar` VALUES (81, 'GE', 'Georgia', 995, 9999);
+INSERT INTO `tb_uyruklar` VALUES (82, 'DE', 'Germany', 49, 9999);
+INSERT INTO `tb_uyruklar` VALUES (83, 'GH', 'Ghana', 233, 9999);
+INSERT INTO `tb_uyruklar` VALUES (84, 'GI', 'Gibraltar', 350, 9999);
+INSERT INTO `tb_uyruklar` VALUES (85, 'GR', 'Greece', 30, 9999);
+INSERT INTO `tb_uyruklar` VALUES (86, 'GL', 'Greenland', 299, 9999);
+INSERT INTO `tb_uyruklar` VALUES (87, 'GD', 'Grenada', 1473, 9999);
+INSERT INTO `tb_uyruklar` VALUES (88, 'GP', 'Guadeloupe', 590, 9999);
+INSERT INTO `tb_uyruklar` VALUES (89, 'GU', 'Guam', 1671, 9999);
+INSERT INTO `tb_uyruklar` VALUES (90, 'GT', 'Guatemala', 502, 9999);
+INSERT INTO `tb_uyruklar` VALUES (91, 'XU', 'Guernsey and Alderney', 44, 9999);
+INSERT INTO `tb_uyruklar` VALUES (92, 'GN', 'Guinea', 224, 9999);
+INSERT INTO `tb_uyruklar` VALUES (93, 'GW', 'Guinea-Bissau', 245, 9999);
+INSERT INTO `tb_uyruklar` VALUES (94, 'GY', 'Guyana', 592, 9999);
+INSERT INTO `tb_uyruklar` VALUES (95, 'HT', 'Haiti', 509, 9999);
+INSERT INTO `tb_uyruklar` VALUES (96, 'HM', 'Heard and McDonald Islands', 0, 9999);
+INSERT INTO `tb_uyruklar` VALUES (97, 'HN', 'Honduras', 504, 9999);
+INSERT INTO `tb_uyruklar` VALUES (98, 'HK', 'Hong Kong S.A.R.', 852, 9999);
+INSERT INTO `tb_uyruklar` VALUES (99, 'HU', 'Hungary', 36, 9999);
+INSERT INTO `tb_uyruklar` VALUES (100, 'IS', 'Iceland', 354, 9999);
+INSERT INTO `tb_uyruklar` VALUES (101, 'IN', 'India', 91, 9999);
+INSERT INTO `tb_uyruklar` VALUES (102, 'ID', 'Indonesia', 62, 9999);
+INSERT INTO `tb_uyruklar` VALUES (103, 'IR', 'Iran', 98, 9999);
+INSERT INTO `tb_uyruklar` VALUES (104, 'IQ', 'Iraq', 964, 9999);
+INSERT INTO `tb_uyruklar` VALUES (105, 'IE', 'Ireland', 353, 9999);
+INSERT INTO `tb_uyruklar` VALUES (106, 'IL', 'Israel', 972, 9999);
+INSERT INTO `tb_uyruklar` VALUES (107, 'IT', 'Italy', 39, 9999);
+INSERT INTO `tb_uyruklar` VALUES (108, 'JM', 'Jamaica', 1876, 9999);
+INSERT INTO `tb_uyruklar` VALUES (109, 'JP', 'Japan', 81, 9999);
+INSERT INTO `tb_uyruklar` VALUES (110, 'XJ', 'Jersey', 44, 9999);
+INSERT INTO `tb_uyruklar` VALUES (111, 'JO', 'Jordan', 962, 9999);
+INSERT INTO `tb_uyruklar` VALUES (112, 'KZ', 'Kazakhstan', 7, 2);
+INSERT INTO `tb_uyruklar` VALUES (113, 'KE', 'Kenya', 254, 9999);
+INSERT INTO `tb_uyruklar` VALUES (114, 'KI', 'Kiribati', 686, 9999);
+INSERT INTO `tb_uyruklar` VALUES (115, 'KP', 'Korea North', 850, 9999);
+INSERT INTO `tb_uyruklar` VALUES (116, 'KR', 'Korea South', 82, 9999);
+INSERT INTO `tb_uyruklar` VALUES (117, 'KW', 'Kuwait', 965, 9999);
+INSERT INTO `tb_uyruklar` VALUES (118, 'KG', 'Kyrgyzstan', 996, 9999);
+INSERT INTO `tb_uyruklar` VALUES (119, 'LA', 'Laos', 856, 9999);
+INSERT INTO `tb_uyruklar` VALUES (120, 'LV', 'Latvia', 371, 9999);
+INSERT INTO `tb_uyruklar` VALUES (121, 'LB', 'Lebanon', 961, 9999);
+INSERT INTO `tb_uyruklar` VALUES (122, 'LS', 'Lesotho', 266, 9999);
+INSERT INTO `tb_uyruklar` VALUES (123, 'LR', 'Liberia', 231, 9999);
+INSERT INTO `tb_uyruklar` VALUES (124, 'LY', 'Libya', 218, 9999);
+INSERT INTO `tb_uyruklar` VALUES (125, 'LI', 'Liechtenstein', 423, 9999);
+INSERT INTO `tb_uyruklar` VALUES (126, 'LT', 'Lithuania', 370, 9999);
+INSERT INTO `tb_uyruklar` VALUES (127, 'LU', 'Luxembourg', 352, 9999);
+INSERT INTO `tb_uyruklar` VALUES (128, 'MO', 'Macau S.A.R.', 853, 9999);
+INSERT INTO `tb_uyruklar` VALUES (129, 'MK', 'Macedonia', 389, 9999);
+INSERT INTO `tb_uyruklar` VALUES (130, 'MG', 'Madagascar', 261, 9999);
+INSERT INTO `tb_uyruklar` VALUES (131, 'MW', 'Malawi', 265, 9999);
+INSERT INTO `tb_uyruklar` VALUES (132, 'MY', 'Malaysia', 60, 9999);
+INSERT INTO `tb_uyruklar` VALUES (133, 'MV', 'Maldives', 960, 9999);
+INSERT INTO `tb_uyruklar` VALUES (134, 'ML', 'Mali', 223, 9999);
+INSERT INTO `tb_uyruklar` VALUES (135, 'MT', 'Malta', 356, 9999);
+INSERT INTO `tb_uyruklar` VALUES (136, 'XM', 'Man (Isle of)', 44, 9999);
+INSERT INTO `tb_uyruklar` VALUES (137, 'MH', 'Marshall Islands', 692, 9999);
+INSERT INTO `tb_uyruklar` VALUES (138, 'MQ', 'Martinique', 596, 9999);
+INSERT INTO `tb_uyruklar` VALUES (139, 'MR', 'Mauritania', 222, 9999);
+INSERT INTO `tb_uyruklar` VALUES (140, 'MU', 'Mauritius', 230, 9999);
+INSERT INTO `tb_uyruklar` VALUES (141, 'YT', 'Mayotte', 269, 9999);
+INSERT INTO `tb_uyruklar` VALUES (142, 'MX', 'Mexico', 52, 9999);
+INSERT INTO `tb_uyruklar` VALUES (143, 'FM', 'Micronesia', 691, 9999);
+INSERT INTO `tb_uyruklar` VALUES (144, 'MD', 'Moldova', 373, 9999);
+INSERT INTO `tb_uyruklar` VALUES (145, 'MC', 'Monaco', 377, 9999);
+INSERT INTO `tb_uyruklar` VALUES (146, 'MN', 'Mongolia', 976, 9999);
+INSERT INTO `tb_uyruklar` VALUES (147, 'MS', 'Montserrat', 1664, 9999);
+INSERT INTO `tb_uyruklar` VALUES (148, 'MA', 'Morocco', 212, 9999);
+INSERT INTO `tb_uyruklar` VALUES (149, 'MZ', 'Mozambique', 258, 9999);
+INSERT INTO `tb_uyruklar` VALUES (150, 'MM', 'Myanmar', 95, 9999);
+INSERT INTO `tb_uyruklar` VALUES (151, 'NA', 'Namibia', 264, 9999);
+INSERT INTO `tb_uyruklar` VALUES (152, 'NR', 'Nauru', 674, 9999);
+INSERT INTO `tb_uyruklar` VALUES (153, 'NP', 'Nepal', 977, 9999);
+INSERT INTO `tb_uyruklar` VALUES (154, 'AN', 'Netherlands Antilles', 599, 9999);
+INSERT INTO `tb_uyruklar` VALUES (155, 'NL', 'Netherlands The', 31, 9999);
+INSERT INTO `tb_uyruklar` VALUES (156, 'NC', 'New Caledonia', 687, 9999);
+INSERT INTO `tb_uyruklar` VALUES (157, 'NZ', 'New Zealand', 64, 9999);
+INSERT INTO `tb_uyruklar` VALUES (158, 'NI', 'Nicaragua', 505, 9999);
+INSERT INTO `tb_uyruklar` VALUES (159, 'NE', 'Niger', 227, 9999);
+INSERT INTO `tb_uyruklar` VALUES (160, 'NG', 'Nigeria', 234, 9999);
+INSERT INTO `tb_uyruklar` VALUES (161, 'NU', 'Niue', 683, 9999);
+INSERT INTO `tb_uyruklar` VALUES (162, 'NF', 'Norfolk Island', 672, 9999);
+INSERT INTO `tb_uyruklar` VALUES (163, 'MP', 'Northern Mariana Islands', 1670, 9999);
+INSERT INTO `tb_uyruklar` VALUES (164, 'NO', 'Norway', 47, 9999);
+INSERT INTO `tb_uyruklar` VALUES (165, 'OM', 'Oman', 968, 9999);
+INSERT INTO `tb_uyruklar` VALUES (166, 'PK', 'Pakistan', 92, 9999);
+INSERT INTO `tb_uyruklar` VALUES (167, 'PW', 'Palau', 680, 9999);
+INSERT INTO `tb_uyruklar` VALUES (168, 'PS', 'Palestinian Territory Occupied', 970, 9999);
+INSERT INTO `tb_uyruklar` VALUES (169, 'PA', 'Panama', 507, 9999);
+INSERT INTO `tb_uyruklar` VALUES (170, 'PG', 'Papua new Guinea', 675, 9999);
+INSERT INTO `tb_uyruklar` VALUES (171, 'PY', 'Paraguay', 595, 9999);
+INSERT INTO `tb_uyruklar` VALUES (172, 'PE', 'Peru', 51, 9999);
+INSERT INTO `tb_uyruklar` VALUES (173, 'PH', 'Philippines', 63, 9999);
+INSERT INTO `tb_uyruklar` VALUES (174, 'PN', 'Pitcairn Island', 0, 9999);
+INSERT INTO `tb_uyruklar` VALUES (175, 'PL', 'Poland', 48, 9999);
+INSERT INTO `tb_uyruklar` VALUES (176, 'PT', 'Portugal', 351, 9999);
+INSERT INTO `tb_uyruklar` VALUES (177, 'PR', 'Puerto Rico', 1787, 9999);
+INSERT INTO `tb_uyruklar` VALUES (178, 'QA', 'Qatar', 974, 9999);
+INSERT INTO `tb_uyruklar` VALUES (179, 'RE', 'Reunion', 262, 9999);
+INSERT INTO `tb_uyruklar` VALUES (180, 'RO', 'Romania', 40, 9999);
+INSERT INTO `tb_uyruklar` VALUES (181, 'RU', 'Russia', 70, 9999);
+INSERT INTO `tb_uyruklar` VALUES (182, 'RW', 'Rwanda', 250, 9999);
+INSERT INTO `tb_uyruklar` VALUES (183, 'SH', 'Saint Helena', 290, 9999);
+INSERT INTO `tb_uyruklar` VALUES (184, 'KN', 'Saint Kitts And Nevis', 1869, 9999);
+INSERT INTO `tb_uyruklar` VALUES (185, 'LC', 'Saint Lucia', 1758, 9999);
+INSERT INTO `tb_uyruklar` VALUES (186, 'PM', 'Saint Pierre and Miquelon', 508, 9999);
+INSERT INTO `tb_uyruklar` VALUES (187, 'VC', 'Saint Vincent And The Grenadines', 1784, 9999);
+INSERT INTO `tb_uyruklar` VALUES (188, 'WS', 'Samoa', 684, 9999);
+INSERT INTO `tb_uyruklar` VALUES (189, 'SM', 'San Marino', 378, 9999);
+INSERT INTO `tb_uyruklar` VALUES (190, 'ST', 'Sao Tome and Principe', 239, 9999);
+INSERT INTO `tb_uyruklar` VALUES (191, 'SA', 'Saudi Arabia', 966, 9999);
+INSERT INTO `tb_uyruklar` VALUES (192, 'SN', 'Senegal', 221, 9999);
+INSERT INTO `tb_uyruklar` VALUES (193, 'RS', 'Serbia', 381, 9999);
+INSERT INTO `tb_uyruklar` VALUES (194, 'SC', 'Seychelles', 248, 9999);
+INSERT INTO `tb_uyruklar` VALUES (195, 'SL', 'Sierra Leone', 232, 9999);
+INSERT INTO `tb_uyruklar` VALUES (196, 'SG', 'Singapore', 65, 9999);
+INSERT INTO `tb_uyruklar` VALUES (197, 'SK', 'Slovakia', 421, 9999);
+INSERT INTO `tb_uyruklar` VALUES (198, 'SI', 'Slovenia', 386, 9999);
+INSERT INTO `tb_uyruklar` VALUES (199, 'XG', 'Smaller Territories of the UK', 44, 9999);
+INSERT INTO `tb_uyruklar` VALUES (200, 'SB', 'Solomon Islands', 677, 9999);
+INSERT INTO `tb_uyruklar` VALUES (201, 'SO', 'Somalia', 252, 9999);
+INSERT INTO `tb_uyruklar` VALUES (202, 'ZA', 'South Africa', 27, 9999);
+INSERT INTO `tb_uyruklar` VALUES (203, 'GS', 'South Georgia', 0, 9999);
+INSERT INTO `tb_uyruklar` VALUES (204, 'SS', 'South Sudan', 211, 9999);
+INSERT INTO `tb_uyruklar` VALUES (205, 'ES', 'Spain', 34, 9999);
+INSERT INTO `tb_uyruklar` VALUES (206, 'LK', 'Sri Lanka', 94, 9999);
+INSERT INTO `tb_uyruklar` VALUES (207, 'SD', 'Sudan', 249, 9999);
+INSERT INTO `tb_uyruklar` VALUES (208, 'SR', 'Suriname', 597, 9999);
+INSERT INTO `tb_uyruklar` VALUES (209, 'SJ', 'Svalbard And Jan Mayen Islands', 47, 9999);
+INSERT INTO `tb_uyruklar` VALUES (210, 'SZ', 'Swaziland', 268, 9999);
+INSERT INTO `tb_uyruklar` VALUES (211, 'SE', 'Sweden', 46, 9999);
+INSERT INTO `tb_uyruklar` VALUES (212, 'CH', 'Switzerland', 41, 9999);
+INSERT INTO `tb_uyruklar` VALUES (213, 'SY', 'Syria', 963, 9999);
+INSERT INTO `tb_uyruklar` VALUES (214, 'TW', 'Taiwan', 886, 9999);
+INSERT INTO `tb_uyruklar` VALUES (215, 'TJ', 'Tajikistan', 992, 9999);
+INSERT INTO `tb_uyruklar` VALUES (216, 'TZ', 'Tanzania', 255, 9999);
+INSERT INTO `tb_uyruklar` VALUES (217, 'TH', 'Thailand', 66, 9999);
+INSERT INTO `tb_uyruklar` VALUES (218, 'TG', 'Togo', 228, 9999);
+INSERT INTO `tb_uyruklar` VALUES (219, 'TK', 'Tokelau', 690, 9999);
+INSERT INTO `tb_uyruklar` VALUES (220, 'TO', 'Tonga', 676, 9999);
+INSERT INTO `tb_uyruklar` VALUES (221, 'TT', 'Trinidad And Tobago', 1868, 9999);
+INSERT INTO `tb_uyruklar` VALUES (222, 'TN', 'Tunisia', 216, 9999);
+INSERT INTO `tb_uyruklar` VALUES (223, 'TR', 'Turkey', 90, 1);
+INSERT INTO `tb_uyruklar` VALUES (224, 'TM', 'Turkmenistan', 7370, 9999);
+INSERT INTO `tb_uyruklar` VALUES (225, 'TC', 'Turks And Caicos Islands', 1649, 9999);
+INSERT INTO `tb_uyruklar` VALUES (226, 'TV', 'Tuvalu', 688, 9999);
+INSERT INTO `tb_uyruklar` VALUES (227, 'UG', 'Uganda', 256, 9999);
+INSERT INTO `tb_uyruklar` VALUES (228, 'UA', 'Ukraine', 380, 9999);
+INSERT INTO `tb_uyruklar` VALUES (229, 'AE', 'United Arab Emirates', 971, 9999);
+INSERT INTO `tb_uyruklar` VALUES (230, 'GB', 'United Kingdom', 44, 9999);
+INSERT INTO `tb_uyruklar` VALUES (231, 'US', 'United States', 1, 9999);
+INSERT INTO `tb_uyruklar` VALUES (232, 'UM', 'United States Minor Outlying Islands', 1, 9999);
+INSERT INTO `tb_uyruklar` VALUES (233, 'UY', 'Uruguay', 598, 9999);
+INSERT INTO `tb_uyruklar` VALUES (234, 'UZ', 'Uzbekistan', 998, 9999);
+INSERT INTO `tb_uyruklar` VALUES (235, 'VU', 'Vanuatu', 678, 9999);
+INSERT INTO `tb_uyruklar` VALUES (236, 'VA', 'Vatican City State (Holy See)', 39, 9999);
+INSERT INTO `tb_uyruklar` VALUES (237, 'VE', 'Venezuela', 58, 9999);
+INSERT INTO `tb_uyruklar` VALUES (238, 'VN', 'Vietnam', 84, 9999);
+INSERT INTO `tb_uyruklar` VALUES (239, 'VG', 'Virgin Islands (British)', 1284, 9999);
+INSERT INTO `tb_uyruklar` VALUES (240, 'VI', 'Virgin Islands (US)', 1340, 9999);
+INSERT INTO `tb_uyruklar` VALUES (241, 'WF', 'Wallis And Futuna Islands', 681, 9999);
+INSERT INTO `tb_uyruklar` VALUES (242, 'EH', 'Western Sahara', 212, 9999);
+INSERT INTO `tb_uyruklar` VALUES (243, 'YE', 'Yemen', 967, 9999);
+INSERT INTO `tb_uyruklar` VALUES (244, 'YU', 'Yugoslavia', 38, 9999);
+INSERT INTO `tb_uyruklar` VALUES (245, 'ZM', 'Zambia', 260, 9999);
+INSERT INTO `tb_uyruklar` VALUES (246, 'ZW', 'Zimbabwe', 263, 9999);
 
 -- ----------------------------
 -- Table structure for tb_yetki
