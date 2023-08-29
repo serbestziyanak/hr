@@ -63,7 +63,7 @@ $roller								= $vt->select( $SQL_roller, array( ) );
 $universiteler				= $vt->select( $SQL_universiteler, array(  ) );
 $sistem_kullanici			= $vt->selectSingle( $SQL_sistem_kullanici, array( $sistem_kullanici_id ) );
 $sistem_kullanicilari	= $vt->select( $SQL_sistem_kullanicilari, array( $_SESSION[ 'super' ] , $_SESSION[ 'kullanici_id' ]) );
-$kullaniciBilgileri		= array( "resim"=>'resimler/resim_yok.jpg', "ad_soyad" => '<h6 align = "center">Resim eklemek için fotoğrafa tıklayınız</h6>' );
+$kullaniciBilgileri		= array( "resim"=>'resimler/resim_yok.png', "ad_soyad" => '<h6 align = "center">Resim eklemek için fotoğrafa tıklayınız</h6>' );
 $islem								= array_key_exists( 'islem', $_REQUEST ) ? $_REQUEST[ 'islem' ] : 'ekle';
 
 if( $islem == 'guncelle' )

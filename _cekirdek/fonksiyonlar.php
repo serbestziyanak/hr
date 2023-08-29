@@ -482,6 +482,35 @@ SQL;
 		}
 	}
 
+	public function personelResimYukle( $file_input_adi, $dosya_adi ) {
+		if( isset( $_FILES[ $file_input_adi ] ) ) {
+			$errors		= array();
+			$file_name	= $_FILES[ $file_input_adi ]['name'];
+			$file_size	= $_FILES[ $file_input_adi ]['size'];
+			$file_tmp	= $_FILES[ $file_input_adi ]['tmp_name'];
+			$file_type	= $_FILES[ $file_input_adi ]['type'];
+			$file_ext	= strtolower( end( explode( '.', $_FILES[ $file_input_adi ][ 'name' ] ) ) );
+			$expensions	= array( "jpeg", "jpg", "png", 'JPEG', 'JPG', 'PNG' );
+			if( in_array( $file_ext, $expensions ) === false ) {
+				$errors[] = "Lütfen sadece jpg veya png uzantılı fotoğtaf yükleyiniz. ";
+			}
+			if( $file_size > 2012345 ) {
+				$errors[] = 'Dosya boyutu en fazla 2MB olabilir';
+			}
+			if( empty( $errors ) == true ) {
+				if( move_uploaded_file( $file_tmp, "../../resimler/personel_resimler" . $dosya_adi . "." . $file_ext ) ) {
+					return array( true, $dosya_adi . "." . $file_ext );
+				} else {
+					return array( false, false );
+				}
+			} else {
+				return array( false, false );
+			}
+		} else {
+			return array( false, false );
+		}
+	}
+
 	/*
 	*
 	*	METİN FONKSİYONLARI

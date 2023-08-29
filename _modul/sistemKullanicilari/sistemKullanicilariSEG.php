@@ -5,6 +5,8 @@ $fn		= new Fonksiyonlar();
 $id		= array_key_exists( 'id' , $_REQUEST ) ? $_REQUEST[ 'id' ] : 0;
 $super	= array_key_exists( 'sistem_kullanici_super' , $_REQUEST ) ? 1 : 0; /* Kapalıysa gelmiyor zaten. açıksa da değeri birdir */
 
+
+
 if( $_REQUEST[ 'sistem_kullanici_dogum_tarihi' ] == '' ) $dogum_tarihi = NULL;
 else $dogum_tarihi = date( 'Y-m-d', strtotime( $_REQUEST[ 'sistem_kullanici_dogum_tarihi' ] ) );
 
