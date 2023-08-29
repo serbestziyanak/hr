@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 28/08/2023 18:01:36
+ Date: 29/08/2023 17:51:36
 */
 
 SET NAMES utf8mb4;
@@ -1592,6 +1592,24 @@ INSERT INTO `tb_ogretim_elemanlari` VALUES (26, 1, 1, 1, NULL, 2, 'Zübeyir', 'H
 INSERT INTO `tb_ogretim_elemanlari` VALUES (27, 1, 1, 1, '', 2, 'Habibe', 'ÜRGÜN', 'habibe.urgun@gmail.com', '5366373532', '4297f44b13955235245b2497399d7a93', NULL, 15, 0, 'ogretmen', 1);
 
 -- ----------------------------
+-- Table structure for tb_personel_nitelikleri
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_personel_nitelikleri`;
+CREATE TABLE `tb_personel_nitelikleri`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  `sira` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_personel_nitelikleri
+-- ----------------------------
+INSERT INTO `tb_personel_nitelikleri` VALUES (1, 'Akademik Personel', NULL);
+INSERT INTO `tb_personel_nitelikleri` VALUES (2, 'İdari Personel', NULL);
+INSERT INTO `tb_personel_nitelikleri` VALUES (3, 'Diğer', NULL);
+
+-- ----------------------------
 -- Table structure for tb_personel_ogrenim_bilgileri
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_personel_ogrenim_bilgileri`;
@@ -1612,6 +1630,24 @@ CREATE TABLE `tb_personel_ogrenim_bilgileri`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for tb_personel_turleri
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_personel_turleri`;
+CREATE TABLE `tb_personel_turleri`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  `sira` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_personel_turleri
+-- ----------------------------
+INSERT INTO `tb_personel_turleri` VALUES (1, 'Sözleşmeli Personel', NULL);
+INSERT INTO `tb_personel_turleri` VALUES (2, 'Kadrolu Personel', NULL);
+INSERT INTO `tb_personel_turleri` VALUES (3, 'Kısmi Zamanlı Personel', NULL);
+
+-- ----------------------------
 -- Table structure for tb_personeller
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_personeller`;
@@ -1630,28 +1666,31 @@ CREATE TABLE `tb_personeller`  (
   `engel_durumu` tinyint NULL DEFAULT NULL,
   `engel_turu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `personel_turu_id` int NULL DEFAULT NULL COMMENT 'Sözleşmeli,kadrolu,kısmi zamanlı vs.',
-  `personel_niteliği` int NULL DEFAULT NULL COMMENT 'Akademik-İdari',
+  `personel_nitelik_id` int NULL DEFAULT NULL COMMENT 'Akademik-İdari',
   `egitim_duzeyi_id` int NULL DEFAULT NULL,
   `unvan_id` int NULL DEFAULT NULL,
   `ise_baslama_tarihi` datetime NULL DEFAULT NULL,
-  `sozlesme_baslangic_tarihi` datetime NULL DEFAULT NULL,
+  `sozlesme_baslama_tarihi` datetime NULL DEFAULT NULL,
   `sozlesme_bitis_tarihi` datetime NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `gsm1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `gsm2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `arac_plaka_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `ev_adresi` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `is_adresi` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `is_telefonu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `arac_plaka` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `medeni_durumu` tinyint NULL DEFAULT NULL,
   `kullanici_turu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'personel',
+  `sifre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_personeller
 -- ----------------------------
+INSERT INTO `tb_personeller` VALUES (3, '45982964018', '456982964018', '456412222', 37, 'Serbest', 'Ziyanak', 223, 2, '2030-11-01 00:00:00', 1, 1, 'yok', NULL, 1, 5, 4, '2030-11-01 00:00:00', '2030-11-01 00:00:00', '2030-11-01 00:00:00', 'serbest.ziyanak@gmail.com', '5444961144', '5444961144', 'Mağjan 4', 'Ayu kampüs', '5444961144', 'personel_3_64eddb6da478c.jpg', '21HB001', 2, 'personel', NULL, 1);
 
 -- ----------------------------
 -- Table structure for tb_programlar
@@ -2184,6 +2223,7 @@ INSERT INTO `tb_universiteler` VALUES (4, 'Yıldız Teknik Üniversitesi', 1);
 DROP TABLE IF EXISTS `tb_unvanlar`;
 CREATE TABLE `tb_unvanlar`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `personel_nitelik_id` int NULL DEFAULT NULL,
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `sira` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -2192,13 +2232,13 @@ CREATE TABLE `tb_unvanlar`  (
 -- ----------------------------
 -- Records of tb_unvanlar
 -- ----------------------------
-INSERT INTO `tb_unvanlar` VALUES (1, 'Prof. Dr.', 1);
-INSERT INTO `tb_unvanlar` VALUES (2, 'Doc. Dr.', 2);
-INSERT INTO `tb_unvanlar` VALUES (3, 'Dr. Öğr. Üyesi', 3);
-INSERT INTO `tb_unvanlar` VALUES (4, 'Öğr. Gör. Dr.', 4);
-INSERT INTO `tb_unvanlar` VALUES (5, 'Arş. Gör. Dr.', 5);
-INSERT INTO `tb_unvanlar` VALUES (6, 'Öğr. Gör.', 6);
-INSERT INTO `tb_unvanlar` VALUES (7, 'Arş. Gör.', 7);
+INSERT INTO `tb_unvanlar` VALUES (1, 1, 'Prof. Dr.', 1);
+INSERT INTO `tb_unvanlar` VALUES (2, 1, 'Doc. Dr.', 2);
+INSERT INTO `tb_unvanlar` VALUES (3, 1, 'Dr. Öğr. Üyesi', 3);
+INSERT INTO `tb_unvanlar` VALUES (4, 1, 'Öğr. Gör. Dr.', 4);
+INSERT INTO `tb_unvanlar` VALUES (5, 1, 'Arş. Gör. Dr.', 5);
+INSERT INTO `tb_unvanlar` VALUES (6, 1, 'Öğr. Gör.', 6);
+INSERT INTO `tb_unvanlar` VALUES (7, 1, 'Arş. Gör.', 7);
 
 -- ----------------------------
 -- Table structure for tb_uyruklar
