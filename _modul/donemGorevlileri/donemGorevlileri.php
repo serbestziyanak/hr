@@ -173,7 +173,7 @@ $donem_gorevlileri  = $vt->select( $SQL_ogretim_elemani_getir, array( $ders_yili
 		<!-- general form elements -->
 		<div class="card card-olive">
 			<div class="card-header">
-				<h3 class="card-title">Dönem Görevlisi Ekle / Güncelle</h3>
+				<h3 class="card-title">Görev Ekle / Güncelle</h3>
 			</div>
 			<!-- /.card-header -->
 			<!-- form start -->
@@ -182,7 +182,7 @@ $donem_gorevlileri  = $vt->select( $SQL_ogretim_elemani_getir, array( $ders_yili
 				<?php if ( $islem == "ekle") { ?>
 					<div class="card-body">
 						<div class="form-group">
-							<label  class="control-label">Dönem</label>
+							<label  class="control-label">Fakülte</label>
 							<select class="form-control select2 " name = "ders_yili_donem_id" required>
 								<option>Seçiniz...</option>
 								<?php 
@@ -194,7 +194,7 @@ $donem_gorevlileri  = $vt->select( $SQL_ogretim_elemani_getir, array( $ders_yili
 							</select>
 						</div>
 						<div class="form-group">
-							<label  class="control-label">Görev Kategorisi</label>
+							<label  class="control-label">Görev</label>
 							<select class="form-control select2 ajaxGetir" name = "gorev_kategori_id" id="" data-url="./_modul/ajax/ajax_data.php" data-islem="gorevliListesi" data-modul="<?php echo $_REQUEST['modul'] ?>" required>
 								<option>Seçiniz...</option>
 								<?php 

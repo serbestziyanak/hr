@@ -142,6 +142,10 @@ if ( session_status() == PHP_SESSION_NONE ) {
 <script src="_js/dropzoneYukle.js"></script>
 <script src="dist/js/pages/dashboard2.js"></script>
 <script src="_js/sinav.js"></script>
+
+<script src="plugins/ckfinder/ckeditor.js"></script>
+<script src="plugins/ckfinder/ckfinder.js"></script>
+
 </head>
 <?php 
 $SQL_modul_klasor = <<< SQL

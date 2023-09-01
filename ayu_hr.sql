@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 29/08/2023 17:51:36
+ Date: 01/09/2023 18:16:47
 */
 
 SET NAMES utf8mb4;
@@ -261,7 +261,7 @@ CREATE TABLE `tb_anketler`  (
 -- ----------------------------
 -- Records of tb_anketler
 -- ----------------------------
-INSERT INTO `tb_anketler` VALUES (1, 1, NULL, 1, 1, 1, 2, 'Tıbba Giriş Komite  Degerlendirmesi', 1);
+INSERT INTO `tb_anketler` VALUES (1, 1, NULL, 1, 1, 1, 2, 'Dönem Personel  Degerlendirmesi', 1);
 INSERT INTO `tb_anketler` VALUES (2, 1, NULL, 1, 1, 1, 2, 'Sınav Sonrası Anket', 1);
 INSERT INTO `tb_anketler` VALUES (3, 1, NULL, 1, 1, 1, 2, 'asdasd', 1);
 INSERT INTO `tb_anketler` VALUES (4, 1, NULL, 1, 1, 3, 2, 'Şablon Adı', 1);
@@ -319,6 +319,81 @@ INSERT INTO `tb_birim_agaci` VALUES (39, 2, 'Bilgi İşlem Daire Baişkanlığı
 INSERT INTO `tb_birim_agaci` VALUES (40, 2, 'Öğreci İşleri Daire Başkanlığı', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (41, 2, 'Personel İşleri Daire Başkanlığı', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (42, 2, 'Satınalma Müdürlüğü', 1, NULL);
+
+-- ----------------------------
+-- Table structure for tb_birim_sayfa_icerikleri
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_birim_sayfa_icerikleri`;
+CREATE TABLE `tb_birim_sayfa_icerikleri`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `birim_id` int NULL DEFAULT NULL,
+  `sayfa_id` int UNSIGNED NULL DEFAULT NULL,
+  `baslik` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `aciklama` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `link_yonlendirme` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `sayfa_turu` tinyint NULL DEFAULT NULL COMMENT '1 normal 2 harici(menüde görünmez) 3 yönlendirme',
+  `url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_birim_sayfa_icerikleri
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_birim_sayfalari
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_birim_sayfalari`;
+CREATE TABLE `tb_birim_sayfalari`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `birim_id` int UNSIGNED NULL DEFAULT NULL,
+  `ust_id` int NULL DEFAULT NULL,
+  `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  `kategori` tinyint NULL DEFAULT NULL,
+  `universite_id` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_birim_sayfalari
+-- ----------------------------
+INSERT INTO `tb_birim_sayfalari` VALUES (1, NULL, 0, 'Akademik Birimler', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (2, NULL, 0, 'İdari Birimler', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (3, NULL, 1, 'Fakülteler', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (4, NULL, 1, 'Enstitüler', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (5, NULL, 1, 'Merkezler', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (7, NULL, 1, 'Meslek Yüksekokulları', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (8, NULL, 3, 'Hazırlık Okulu', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (9, NULL, 3, 'Mühendislik Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (10, NULL, 3, 'Fen Bilimleri Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (11, NULL, 3, 'Filoloji Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (12, NULL, 3, 'İnsan ve Toplum Bilimleri Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (13, NULL, 3, 'İlahiyat Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (14, NULL, 3, 'Spor ve Sanat Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (15, NULL, 3, 'Sosyal Bilimler Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (16, NULL, 3, 'Diş Hekimliği Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (17, NULL, 3, 'Tıp Fakültesi', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (18, NULL, 3, 'Lisansüstü Tıp Eğitimi Fakültesi (Çimkent)', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (19, NULL, 4, 'Türkoloji Araştırma Enstitüsü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (20, NULL, 4, 'Ekoloji Araştırma Enstitüsü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (21, NULL, 4, 'Avrasya Araştırma Enstitüsü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (22, NULL, 4, 'Arkeoloji Araştırma Enstitüsü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (23, NULL, 4, 'Tıbbi Araştırma Enstitüsü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (24, NULL, 4, 'Fen Bilimleri Araştırma Enstitüsü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (25, NULL, 4, 'Yesevi Araştırma Enstitüsü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (27, NULL, 8, 'Lisans Programları', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (29, NULL, 27, 'Türk Dili Bölümü', 0, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (30, NULL, 27, 'Kazak ve Rus Dili Bölümü	', 0, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (31, NULL, 27, 'İngiliz Dili Bölümü', 0, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (32, NULL, 9, 'Lisans Programları', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (33, NULL, 9, 'Yüksek Lisans Programları', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (34, NULL, 9, 'Doktora Programları', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (37, NULL, 32, 'Bilgisayar Mühendisliği', 0, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (38, NULL, 7, 'Ahmet Yesevi Meslek Yüksekokulu', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (39, NULL, 2, 'Bilgi İşlem Daire Baişkanlığı', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (40, NULL, 2, 'Öğreci İşleri Daire Başkanlığı', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (41, NULL, 2, 'Personel İşleri Daire Başkanlığı', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (42, NULL, 2, 'Satınalma Müdürlüğü', 1, NULL);
 
 -- ----------------------------
 -- Table structure for tb_bolumler
@@ -529,16 +604,13 @@ CREATE TABLE `tb_donem_gorevlileri`  (
   `gorev_kategori_id` int NULL DEFAULT NULL,
   `ogretim_elemani_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_donem_gorevlileri
 -- ----------------------------
-INSERT INTO `tb_donem_gorevlileri` VALUES (10, 1, 1, 25);
-INSERT INTO `tb_donem_gorevlileri` VALUES (11, 1, 5, 22);
-INSERT INTO `tb_donem_gorevlileri` VALUES (12, 1, 7, 12);
-INSERT INTO `tb_donem_gorevlileri` VALUES (13, 1, 7, 11);
-INSERT INTO `tb_donem_gorevlileri` VALUES (14, 1, 7, 9);
+INSERT INTO `tb_donem_gorevlileri` VALUES (17, 1, 1, 1);
+INSERT INTO `tb_donem_gorevlileri` VALUES (18, 1, 2, 3);
 
 -- ----------------------------
 -- Table structure for tb_donem_ogrencileri
@@ -719,13 +791,12 @@ CREATE TABLE `tb_donemler`  (
 -- ----------------------------
 -- Records of tb_donemler
 -- ----------------------------
-INSERT INTO `tb_donemler` VALUES (1, 1, 1, 'Dönem I', 1);
-INSERT INTO `tb_donemler` VALUES (2, 1, 1, 'Dönem II', 1);
-INSERT INTO `tb_donemler` VALUES (3, 1, 1, 'Dönem III', 1);
-INSERT INTO `tb_donemler` VALUES (4, 1, 1, 'Dönem IV', 1);
-INSERT INTO `tb_donemler` VALUES (5, 1, 1, 'Dönem V', 1);
-INSERT INTO `tb_donemler` VALUES (6, 1, 1, 'Dönem VI', 1);
-INSERT INTO `tb_donemler` VALUES (11, 1, 1, 'Donem 7', 0);
+INSERT INTO `tb_donemler` VALUES (1, 1, 1, 'Mühendislik Fakültesi', 1);
+INSERT INTO `tb_donemler` VALUES (2, 1, 1, 'Fen Bilimleri Fakültesi', 1);
+INSERT INTO `tb_donemler` VALUES (3, 1, 1, 'Filoloji Fakültesi', 1);
+INSERT INTO `tb_donemler` VALUES (4, 1, 1, 'İlahiyat Fakültesi', 1);
+INSERT INTO `tb_donemler` VALUES (5, 1, 1, 'Diş Hekimliği Fakültesi', 1);
+INSERT INTO `tb_donemler` VALUES (6, 1, 1, 'Tıp Fakültesi', 1);
 
 -- ----------------------------
 -- Table structure for tb_egitim_duzeyleri
@@ -780,13 +851,12 @@ CREATE TABLE `tb_gorev_kategorileri`  (
 -- ----------------------------
 -- Records of tb_gorev_kategorileri
 -- ----------------------------
-INSERT INTO `tb_gorev_kategorileri` VALUES (1, 1, 'Başkoordinatör');
-INSERT INTO `tb_gorev_kategorileri` VALUES (2, 1, 'Başkoordinatör Yrd');
-INSERT INTO `tb_gorev_kategorileri` VALUES (3, 1, 'Dönem Koordinatörü');
-INSERT INTO `tb_gorev_kategorileri` VALUES (4, 1, 'Dönem Koordinatör Yrd.');
-INSERT INTO `tb_gorev_kategorileri` VALUES (5, 1, 'Ders Kurulu Başkanı');
-INSERT INTO `tb_gorev_kategorileri` VALUES (6, 1, 'Ders Kurulu Başkan Yrd.');
-INSERT INTO `tb_gorev_kategorileri` VALUES (7, 1, 'Sınav Gözetmeni');
+INSERT INTO `tb_gorev_kategorileri` VALUES (1, 1, 'Dekan');
+INSERT INTO `tb_gorev_kategorileri` VALUES (2, 1, 'Dekan Yardımcısı');
+INSERT INTO `tb_gorev_kategorileri` VALUES (3, 1, 'Bölüm Başkanı');
+INSERT INTO `tb_gorev_kategorileri` VALUES (4, 1, 'Bölüm Başkanı Yardımcısı');
+INSERT INTO `tb_gorev_kategorileri` VALUES (5, 1, 'Anabilim Dalı Başkanı');
+INSERT INTO `tb_gorev_kategorileri` VALUES (6, 1, 'Ders Kurulu Başkan');
 
 -- ----------------------------
 -- Table structure for tb_kan_gruplari
@@ -953,7 +1023,7 @@ CREATE TABLE `tb_modul`  (
   `harici_sayfa` tinyint NULL DEFAULT 0,
   `kategori_acik` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 148 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 151 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_modul
@@ -971,7 +1041,7 @@ INSERT INTO `tb_modul` VALUES (112, 'Programlar', 'programlar', 'programlar', 'f
 INSERT INTO `tb_modul` VALUES (113, 'Ders Yılları', 'dersYillari', 'dersYillari', 'fas fa-calendar-alt text-blue', 1, 127, 0, 1, 0, 0);
 INSERT INTO `tb_modul` VALUES (114, 'Ders Kategorileri', 'dersKategorileri', 'dersKategorileri', 'far fa-circle text-green', 1, 129, 0, 1, 0, 0);
 INSERT INTO `tb_modul` VALUES (115, 'Dönem Tanımları', 'donemler', 'donemler', 'far fa-circle text-orange', 1, 129, 0, 2, 0, 0);
-INSERT INTO `tb_modul` VALUES (116, 'Dersler', 'dersler', 'dersler', 'fas fa-book text-orange', 1, 0, 0, 20, 0, 0);
+INSERT INTO `tb_modul` VALUES (116, 'Dersler', 'dersler', 'dersler', 'fas fa-book text-orange', 0, 0, 0, 20, 0, 0);
 INSERT INTO `tb_modul` VALUES (117, 'Öğretim Elemanları', 'ogretimElemanlari', 'ogretimElemanlari', 'fas fa-user-md text-blue', 1, 0, 0, 25, 0, 0);
 INSERT INTO `tb_modul` VALUES (118, 'Dönem Dersleri', 'donemDersleri', 'donemDersleri', 'fas fa-book text-orange', 1, 127, 0, 3, 0, 0);
 INSERT INTO `tb_modul` VALUES (119, 'Komiteler', 'komiteler', 'komiteler', 'fas fa-calendar-plus text-blue', 1, 128, 0, 1, 0, 0);
@@ -980,16 +1050,16 @@ INSERT INTO `tb_modul` VALUES (121, 'Görev Kategorileri', 'gorevKategorileri', 
 INSERT INTO `tb_modul` VALUES (122, 'Dönem Görevlileri', 'donemGorevlileri', 'donemGorevlileri', 'fas fa-users text-purple', 1, 127, 0, 4, 0, 0);
 INSERT INTO `tb_modul` VALUES (123, 'Komite Görevlileri', 'komiteGorevlileri', 'komiteGorevlileri', 'fas fa-user text-orange', 1, 128, 0, 4, 0, 0);
 INSERT INTO `tb_modul` VALUES (124, 'Komite Öğretim Üyeleri', 'komiteDersOgretimUyeleri', 'komiteDersOgretimUyeleri', 'fas fa-users text-purple', 1, 128, 0, 3, 0, 0);
-INSERT INTO `tb_modul` VALUES (125, 'Organizasyon Şeması', NULL, NULL, 'fas fa-sitemap text-green', 1, 0, 1, 5, 0, 0);
+INSERT INTO `tb_modul` VALUES (125, 'Organizasyon Şeması', NULL, NULL, 'fas fa-sitemap text-green', 0, 0, 1, 5, 0, 0);
 INSERT INTO `tb_modul` VALUES (126, 'Aktif Dönemler', 'dersYiliDonemler', 'dersYiliDonemler', 'fas fa-list-ol text-green', 1, 127, 0, 2, 0, 0);
-INSERT INTO `tb_modul` VALUES (127, 'Ders Yılı Dönem İşlemleri', NULL, NULL, 'fas fa-calendar-alt text-yellow', 1, 0, 1, 10, 0, 0);
-INSERT INTO `tb_modul` VALUES (128, 'Ders Kurulu İşlemleri', NULL, NULL, 'fas fa-calendar-plus text-purple', 1, 0, 1, 15, 0, 0);
+INSERT INTO `tb_modul` VALUES (127, 'Ders Yılı Dönem İşlemleri', NULL, NULL, 'fas fa-calendar-alt text-yellow', 0, 0, 1, 10, 0, 0);
+INSERT INTO `tb_modul` VALUES (128, 'Ders Kurulu İşlemleri', NULL, NULL, 'fas fa-calendar-plus text-purple', 0, 0, 1, 15, 0, 0);
 INSERT INTO `tb_modul` VALUES (129, 'Sabit Tanımlar', NULL, NULL, 'fas fa-table', 1, 0, 1, 35, 0, 0);
 INSERT INTO `tb_modul` VALUES (130, 'Öğrenci İşlemleri', NULL, NULL, 'fas fa-users text-danger', 1, 0, 1, 16, 0, 0);
 INSERT INTO `tb_modul` VALUES (131, 'Öğrenciler', 'ogrenciler', 'ogrenciler', 'fas fa-users text-info', 1, 130, 0, 1, 0, 0);
 INSERT INTO `tb_modul` VALUES (132, 'Dönem Öğrencileri', 'donemOgrencileri', 'donemOgrencileri', 'fas fa-users text-purple', 1, 130, 0, 2, 0, 0);
-INSERT INTO `tb_modul` VALUES (133, 'Müfredat', 'mufredat', 'mufredat', 'fas fa-list-alt', 1, 0, 0, 40, 0, 0);
-INSERT INTO `tb_modul` VALUES (134, 'Komite Öğrencileri', 'komiteOgrencileri', 'komiteOgrencileri', 'fas fa-users text-pink', 1, 130, 0, 3, 0, 0);
+INSERT INTO `tb_modul` VALUES (133, 'Müfredat', 'mufredat', 'mufredat', 'fas fa-list-alt', 0, 0, 0, 40, 0, 0);
+INSERT INTO `tb_modul` VALUES (134, 'Komite Öğrencileri', 'komiteOgrencileri', 'komiteOgrencileri', 'fas fa-users text-pink', 0, 130, 0, 3, 0, 0);
 INSERT INTO `tb_modul` VALUES (135, 'Soru İşlemleri', NULL, NULL, 'fas fa-question-circle text-purple', 1, 0, 1, 40, 0, 0);
 INSERT INTO `tb_modul` VALUES (136, 'Soru Türleri', 'soru_turleri', 'soru_turleri', 'fas fa-question text-warning', 1, 135, 0, 2, 0, 0);
 INSERT INTO `tb_modul` VALUES (137, 'Soru Bankası', 'soruBankasi', 'soruBankasi', 'fas fa-question text-danger', 1, 135, 0, 1, 0, 0);
@@ -1002,7 +1072,10 @@ INSERT INTO `tb_modul` VALUES (143, 'Anketler', 'anketler', 'anketler', 'fas fa-
 INSERT INTO `tb_modul` VALUES (144, 'Anket Şablonu', 'sablonlar', 'anketler', 'fas fa-copy text-warning', 1, 142, 0, 1, 0, 0);
 INSERT INTO `tb_modul` VALUES (145, 'Anket Cevapla', 'anket', 'anketler', 'fas fa-edit', 0, 142, 0, 1, 0, 0);
 INSERT INTO `tb_modul` VALUES (146, 'Birim Ağacı', 'birimAgaci', 'birimAgaci', 'fas fa-sitemap text-blue', 1, 0, 0, 5, 0, 0);
-INSERT INTO `tb_modul` VALUES (147, 'Personeller', 'personeller', 'personeller', 'fas fa-users text-info', 1, 0, 0, 5, 0, 0);
+INSERT INTO `tb_modul` VALUES (147, 'Personeller', 'personeller', 'personeller', 'fas fa-users text-info', 1, 0, 0, 6, 0, 0);
+INSERT INTO `tb_modul` VALUES (148, 'Öğrenim Bilgileri', 'ogrenimBilgileri', 'ogrenimBilgileri', 'fas fa-book text-orange', 1, 0, 0, 6, 0, 0);
+INSERT INTO `tb_modul` VALUES (149, 'Görevlendirmeler', 'donemGorevlileri', 'donemGorevlileri', 'fas fa-table', 1, 0, 0, 6, 0, 0);
+INSERT INTO `tb_modul` VALUES (150, 'Birim Sayfaları', 'birimSayfalari', 'birimSayfalari', 'fas fa-pager', 1, 0, 0, 5, 0, 0);
 
 -- ----------------------------
 -- Table structure for tb_modul_yetki_islemler
@@ -1013,7 +1086,7 @@ CREATE TABLE `tb_modul_yetki_islemler`  (
   `modul_id` int NULL DEFAULT NULL,
   `yetki_islem_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 879 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 919 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_modul_yetki_islemler
@@ -1318,6 +1391,46 @@ INSERT INTO `tb_modul_yetki_islemler` VALUES (875, 141, 1);
 INSERT INTO `tb_modul_yetki_islemler` VALUES (876, 140, 1);
 INSERT INTO `tb_modul_yetki_islemler` VALUES (877, 145, 1);
 INSERT INTO `tb_modul_yetki_islemler` VALUES (878, 145, 5);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (879, 147, 1);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (880, 147, 2);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (881, 147, 3);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (882, 147, 4);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (883, 147, 5);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (884, 147, 6);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (885, 148, 1);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (886, 148, 2);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (887, 148, 3);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (888, 148, 4);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (889, 148, 5);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (890, 149, 1);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (891, 149, 2);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (892, 149, 3);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (893, 149, 4);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (894, 149, 5);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (895, 146, 1);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (896, 146, 2);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (897, 146, 3);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (898, 146, 4);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (899, 146, 5);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (900, 144, 1);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (901, 144, 2);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (902, 144, 3);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (903, 144, 4);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (904, 144, 5);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (905, 144, 49);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (906, 144, 53);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (907, 144, 54);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (908, 144, 55);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (909, 144, 56);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (910, 143, 1);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (911, 143, 2);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (912, 143, 3);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (913, 143, 4);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (914, 143, 5);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (915, 143, 53);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (916, 143, 54);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (917, 143, 55);
+INSERT INTO `tb_modul_yetki_islemler` VALUES (918, 143, 56);
 
 -- ----------------------------
 -- Table structure for tb_mufredat
@@ -1567,29 +1680,9 @@ CREATE TABLE `tb_ogretim_elemanlari`  (
 -- ----------------------------
 -- Records of tb_ogretim_elemanlari
 -- ----------------------------
-INSERT INTO `tb_ogretim_elemanlari` VALUES (1, 1, 1, 1, NULL, 1, 'Sıddık', 'KESKİN', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (2, 1, 1, 1, NULL, 3, 'Şükran', 'SEVİMLİ', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (3, 1, 1, 1, NULL, 3, 'Sinemis', 'ÇETİN DAĞLI', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (4, 1, 1, 1, NULL, 3, 'Mehmet Emin', 'LAYIK', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (5, 1, 1, 1, NULL, 5, 'Duygu', 'KORKMAZ', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (6, 1, 1, 1, NULL, 5, 'Tuncay', 'ULU', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (7, 1, 1, 1, NULL, 5, 'Ahmet', 'SALTIK', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (8, 1, 1, 1, NULL, 5, 'Zülkaf', 'AKBALIK', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (9, 1, 1, 1, NULL, 5, 'Zeynep', 'ŞAHİN', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (10, 1, 1, 1, NULL, 5, 'Hale Mükerrem', 'KAYA', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (11, 1, 1, 1, NULL, 5, 'Rukiye', 'TOKUŞ', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (12, 1, 1, 1, NULL, 5, 'İslam', 'KÖSE', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (14, 1, 1, 1, NULL, 3, 'Hava', 'BEKTAŞ', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (15, 1, 1, 1, NULL, 4, 'Nuray', 'KAYA', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (16, 1, 1, 1, NULL, 3, 'İzzet', 'ÇELEĞEN', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (18, 1, 1, 1, NULL, 2, 'Özlem Ergül', 'ERKEÇ', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (20, 1, 1, 1, NULL, 3, 'Mustafa', 'BİLİCİ', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (21, 1, 1, 3, NULL, 1, 'Öğretmen ', 'Profili', 'resulevis@yyu.edu.tr', '05366373524', '4297f44b13955235245b2497399d7a93', NULL, 15, 0, 'ogretmen', 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (22, 1, 1, 1, '', 2, 'Tahir', 'ÇAKIR', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (23, 1, 1, 1, NULL, 2, 'Hamit Hakan', 'ALP', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (25, 1, 1, 2, NULL, 1, 'Halil', 'ÖZKOL', 'mail@mail.com', '5555555555', NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (26, 1, 1, 1, NULL, 2, 'Zübeyir', 'HUYUT', 'mail@mail.com', '555 555 5555', NULL, NULL, NULL, 0, NULL, 1);
-INSERT INTO `tb_ogretim_elemanlari` VALUES (27, 1, 1, 1, '', 2, 'Habibe', 'ÜRGÜN', 'habibe.urgun@gmail.com', '5366373532', '4297f44b13955235245b2497399d7a93', NULL, 15, 0, 'ogretmen', 1);
+INSERT INTO `tb_ogretim_elemanlari` VALUES (1, 1, 1, 1, NULL, 1, 'Naci', 'GENÇ', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
+INSERT INTO `tb_ogretim_elemanlari` VALUES (2, 1, 1, 1, NULL, 1, 'H. Eray', 'ÇELİK', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
+INSERT INTO `tb_ogretim_elemanlari` VALUES (3, 1, 1, 1, NULL, 3, 'Serbest', 'ZİYANAK', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1);
 
 -- ----------------------------
 -- Table structure for tb_personel_nitelikleri
@@ -1721,7 +1814,7 @@ CREATE TABLE `tb_rol_yetkiler`  (
   `modul_id` int NULL DEFAULT NULL,
   `islem_turu_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 90 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 91 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_rol_yetkiler
@@ -1769,6 +1862,7 @@ INSERT INTO `tb_rol_yetkiler` VALUES (86, 14, 140, 1);
 INSERT INTO `tb_rol_yetkiler` VALUES (87, 14, 1, 1);
 INSERT INTO `tb_rol_yetkiler` VALUES (88, 14, 145, 1);
 INSERT INTO `tb_rol_yetkiler` VALUES (89, 14, 145, 5);
+INSERT INTO `tb_rol_yetkiler` VALUES (90, 21, 1, 1);
 
 -- ----------------------------
 -- Table structure for tb_rol_yetkili_firmalar
@@ -1817,7 +1911,7 @@ CREATE TABLE `tb_roller`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `varsayilan` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_roller
@@ -1826,6 +1920,9 @@ INSERT INTO `tb_roller` VALUES (1, 'Varsayılan', 1);
 INSERT INTO `tb_roller` VALUES (14, 'Öğrenci', 1);
 INSERT INTO `tb_roller` VALUES (15, 'Öğretmen', 1);
 INSERT INTO `tb_roller` VALUES (20, 'Admin', 0);
+INSERT INTO `tb_roller` VALUES (21, 'Personel', 0);
+INSERT INTO `tb_roller` VALUES (22, 'Öğretim Elemanı', 0);
+INSERT INTO `tb_roller` VALUES (23, 'Rektör', 0);
 
 -- ----------------------------
 -- Table structure for tb_sinav_bitirenler
@@ -2020,9 +2117,7 @@ CREATE TABLE `tb_sistem_kullanici`  (
 -- Records of tb_sistem_kullanici
 -- ----------------------------
 INSERT INTO `tb_sistem_kullanici` VALUES (19, 'Serbest', 'ZİYANAK', 'serbest.ziyanak@gmail.com', '0(544) 496-1144', 'bc000ebca4a5687a014d9c9f94da86e8', 14, 1, '19.jpg', '45982964018', '1989-01-20 00:00:00', '1', 'admin');
-INSERT INTO `tb_sistem_kullanici` VALUES (28, 'Fırat', 'KAPAR', 'frtkpr@gmail.com', '0(542) 220-5037', '4297f44b13955235245b2497399d7a93', 14, 1, '28.png', '11111111111', '1970-01-01 00:00:00', '1', 'admin');
-INSERT INTO `tb_sistem_kullanici` VALUES (31, 'Admin', 'PROFİLİ', 'resulevis60@gmail.com', '0(536) 637-3523', '4297f44b13955235245b2497399d7a93', 20, 1, '31.jpg', '13337993570', '1997-02-02 00:00:00', '1', 'admin');
-INSERT INTO `tb_sistem_kullanici` VALUES (33, 'Duygu', 'KORKMAZ', 'duygukorkmaz@gmail.com', '0(555) 555-5555', '62e7536230c127d8c4b90bf264e3520a', 20, 1, 'resim_yok.jpg', '1111', '1997-02-02 00:00:00', '1', 'admin');
+INSERT INTO `tb_sistem_kullanici` VALUES (31, 'Admin', 'PROFİLİ', 'muh_dekanlik@gmail.com', '0(536) 637-3523', '4297f44b13955235245b2497399d7a93', 20, 1, '31.jpg', '13337993570', '1997-02-02 00:00:00', '1', 'admin');
 INSERT INTO `tb_sistem_kullanici` VALUES (34, 'Dekanlık', 'DEKANLIK', 'dekanlik@gmail.com', '0(555) 555-5555', '62e7536230c127d8c4b90bf264e3520a', 20, 1, 'resim_yok.jpg', '1111', '1990-01-01 00:00:00', '1', 'admin');
 
 -- ----------------------------
@@ -2212,10 +2307,10 @@ CREATE TABLE `tb_universiteler`  (
 -- ----------------------------
 -- Records of tb_universiteler
 -- ----------------------------
-INSERT INTO `tb_universiteler` VALUES (1, 'Van Yüzüncü Yıl Üniversitesi', 1);
+INSERT INTO `tb_universiteler` VALUES (1, 'Ahmet Yesevi Üniversitesi', 1);
 INSERT INTO `tb_universiteler` VALUES (2, 'İstanbul Teknik Üniversitesi', 0);
 INSERT INTO `tb_universiteler` VALUES (3, 'Hacattepe Üniversitesi', 0);
-INSERT INTO `tb_universiteler` VALUES (4, 'Yıldız Teknik Üniversitesi', 1);
+INSERT INTO `tb_universiteler` VALUES (4, 'Yıldız Teknik Üniversitesi', 0);
 
 -- ----------------------------
 -- Table structure for tb_unvanlar
