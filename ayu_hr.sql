@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 01/09/2023 18:16:47
+ Date: 06/09/2023 18:01:20
 */
 
 SET NAMES utf8mb4;
@@ -352,48 +352,15 @@ CREATE TABLE `tb_birim_sayfalari`  (
   `kategori` tinyint NULL DEFAULT NULL,
   `universite_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_birim_sayfalari
 -- ----------------------------
-INSERT INTO `tb_birim_sayfalari` VALUES (1, NULL, 0, 'Akademik Birimler', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (2, NULL, 0, 'İdari Birimler', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (3, NULL, 1, 'Fakülteler', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (4, NULL, 1, 'Enstitüler', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (5, NULL, 1, 'Merkezler', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (7, NULL, 1, 'Meslek Yüksekokulları', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (8, NULL, 3, 'Hazırlık Okulu', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (9, NULL, 3, 'Mühendislik Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (10, NULL, 3, 'Fen Bilimleri Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (11, NULL, 3, 'Filoloji Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (12, NULL, 3, 'İnsan ve Toplum Bilimleri Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (13, NULL, 3, 'İlahiyat Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (14, NULL, 3, 'Spor ve Sanat Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (15, NULL, 3, 'Sosyal Bilimler Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (16, NULL, 3, 'Diş Hekimliği Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (17, NULL, 3, 'Tıp Fakültesi', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (18, NULL, 3, 'Lisansüstü Tıp Eğitimi Fakültesi (Çimkent)', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (19, NULL, 4, 'Türkoloji Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (20, NULL, 4, 'Ekoloji Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (21, NULL, 4, 'Avrasya Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (22, NULL, 4, 'Arkeoloji Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (23, NULL, 4, 'Tıbbi Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (24, NULL, 4, 'Fen Bilimleri Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (25, NULL, 4, 'Yesevi Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (27, NULL, 8, 'Lisans Programları', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (29, NULL, 27, 'Türk Dili Bölümü', 0, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (30, NULL, 27, 'Kazak ve Rus Dili Bölümü	', 0, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (31, NULL, 27, 'İngiliz Dili Bölümü', 0, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (32, NULL, 9, 'Lisans Programları', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (33, NULL, 9, 'Yüksek Lisans Programları', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (34, NULL, 9, 'Doktora Programları', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (37, NULL, 32, 'Bilgisayar Mühendisliği', 0, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (38, NULL, 7, 'Ahmet Yesevi Meslek Yüksekokulu', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (39, NULL, 2, 'Bilgi İşlem Daire Baişkanlığı', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (40, NULL, 2, 'Öğreci İşleri Daire Başkanlığı', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (41, NULL, 2, 'Personel İşleri Daire Başkanlığı', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (42, NULL, 2, 'Satınalma Müdürlüğü', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (7, 9, 0, 'Fakülte', 1, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (8, 9, 7, 'Hakkımızda', 0, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (9, 9, 7, 'Tarihçe', 0, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (10, 9, 0, 'Tanıtım', 0, NULL);
 
 -- ----------------------------
 -- Table structure for tb_bolumler
