@@ -3,249 +3,122 @@ include "../../_cekirdek/fonksiyonlar.php";
 $vt		= new VeriTabani();
 $fn		= new Fonksiyonlar();
 
-echo "<pre>";
-var_dump($_REQUEST);
-echo "</pre>";
-//exit;
-
-$islem				= array_key_exists( 'islem', $_REQUEST )		? $_REQUEST[ 'islem' ]		: 'ekle';
-$personel_id		= array_key_exists( 'personel_id', $_REQUEST )	? $_REQUEST[ 'personel_id' ]	: 0;
-
-if( $_REQUEST[ 'dogum_tarihi' ] == '' ) $dogum_tarihi = NULL;
-else $dogum_tarihi = date( 'Y-m-d', strtotime( $_REQUEST[ 'dogum_tarihi' ] ) );
-
-if( $_REQUEST[ 'ise_baslama_tarihi' ] == '' ) $ise_baslama_tarihi = NULL;
-else $ise_baslama_tarihi = date( 'Y-m-d', strtotime( $_REQUEST[ 'ise_baslama_tarihi' ] ) );
-
-if( $_REQUEST[ 'sozlesme_baslama_tarihi' ] == '' ) $sozlesme_baslama_tarihi = NULL;
-else $sozlesme_baslama_tarihi = date( 'Y-m-d', strtotime( $_REQUEST[ 'sozlesme_baslama_tarihi' ] ) );
-
-if( $_REQUEST[ 'sozlesme_bitis_tarihi' ] == '' ) $sozlesme_bitis_tarihi = NULL;
-else $sozlesme_bitis_tarihi = date( 'Y-m-d', strtotime( $_REQUEST[ 'sozlesme_bitis_tarihi' ] ) );
+$islem				= array_key_exists( 'islem', $_REQUEST )	? $_REQUEST[ 'islem' ]	: 'ekle';
+$id				 	= array_key_exists( 'id', $_REQUEST ) 		? $_REQUEST[ 'id' ] 	: 0;
+$ders_id 			= array_key_exists( 'ders_id', $_REQUEST ) 	? $_REQUEST[ 'ders_id' ] : 0;
 
 
-$SQL_ekle = <<< SQL
-INSERT INTO
-	tb_personeller
+$SQL_birim_agaci_ekle = <<< SQL
+INSERT INTO 
+	tb_birim_sayfalari
 SET
-	 in_no						= ?
-	,vatandaslik_no				= ?
-	,pasaport_no				= ?
-	,birim_id					= ?
-	,adi						= ?
-	,soyadi						= ?
-	,uyruk_id					= ?
-	,cinsiyet					= ?
-	,dogum_tarihi				= ?
-	,kan_grubu_id				= ?
-	,engel_durumu				= ?
-	,engel_turu					= ?
-	,personel_turu_id			= ?
-	,personel_nitelik_id		= ?
-	,egitim_duzeyi_id			= ?
-	,unvan_id					= ?
-	,ise_baslama_tarihi			= ?
-	,sozlesme_baslama_tarihi	= ?
-	,sozlesme_bitis_tarihi		= ?
-	,email						= ?
-	,gsm1						= ?
-	,gsm2						= ?
-	,ev_adresi					= ?
-	,is_adresi					= ?
-	,is_telefonu				= ?
-	,arac_plaka					= ?
-	,medeni_durumu				= ?
+	 birim_id			= ?
+	,ust_id 			= ?
+	,adi 				= ?
+	,kategori 			= ?
 SQL;
 
-$SQL_guncelle = <<< SQL
+$SQL_birim_agaci_duzenle = <<< SQL
 UPDATE
-	tb_personeller
+	tb_birim_sayfalari
 SET
-	 in_no						= ?
-	,vatandaslik_no				= ?
-	,pasaport_no				= ?
-	,birim_id					= ?
-	,adi						= ?
-	,soyadi						= ?
-	,uyruk_id					= ?
-	,cinsiyet					= ?
-	,dogum_tarihi				= ?
-	,kan_grubu_id				= ?
-	,engel_durumu				= ?
-	,engel_turu					= ?
-	,personel_turu_id			= ?
-	,personel_nitelik_id		= ?
-	,egitim_duzeyi_id			= ?
-	,unvan_id					= ?
-	,ise_baslama_tarihi			= ?
-	,sozlesme_baslama_tarihi	= ?
-	,sozlesme_bitis_tarihi		= ?
-	,email						= ?
-	,gsm1						= ?
-	,gsm2						= ?
-	,ev_adresi					= ?
-	,is_adresi					= ?
-	,is_telefonu				= ?
-	,arac_plaka					= ?
-	,medeni_durumu				= ?
-WHERE
-	id = ?
-SQL;
-
-$SQL_resim_guncelle = <<<SQL
-UPDATE
-	tb_personeller
-SET
-	foto = ?
-WHERE
-	id = ?
-SQL;
-
-$SQL_tek_personel_id_oku = <<< SQL
-SELECT 
-	*
-FROM 
-	tb_personeller 
+	adi 	= ?
 WHERE 
-	id  		= ? AND
-	aktif 		= 1 
+	id 		= ? 
 SQL;
-
-$SQL_tek_personel_in_oku = <<< SQL
-SELECT 
-	*
-FROM 
-	tb_personeller 
-WHERE 
-	in_no  = ? AND
-	aktif 		  = 1 
-SQL;
-
 
 $SQL_sil = <<< SQL
-UPDATE
-	tb_personeller
-SET
-	aktif = ?
+DELETE FROM
+	tb_birim_sayfalari
 WHERE
 	id = ?
 SQL;
 
-$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => 0 );
+$SQL_birim_agaci_oku = <<< SQL
+SELECT 
+	*
+FROM 
+	tb_birim_sayfalari
+WHERE 
+	ust_id  		= ?
+SQL;
 
+$degerler = array();
+
+echo '<pre>';
+echo $_REQUEST[ "ogretim_elemani_id" ];
+
+print_r($_REQUEST);
+$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => 0 );
 switch( $islem ) {
 	case 'ekle':
 
-		$personel_varmi = $vt->select( $SQL_tek_personel_in_oku, array( $_REQUEST[ "in_no" ] ) )[2];
-		if ( count( $personel_varmi ) < 1 ){
-			$sorgu_sonuc = $vt->insert( $SQL_ekle, array(
-				 $_REQUEST[	'in_no' ]
-				,$_REQUEST[	'vatandaslik_no' ]
-				,$_REQUEST[	'pasaport_no' ]
-				,$_REQUEST[	'birim_id' ]
-				,$_REQUEST[	'adi' ]
-				,$_REQUEST[	'soyadi' ]
-				,$_REQUEST[	'uyruk_id' ]
-				,$_REQUEST[	'cinsiyet' ]
-				,$_REQUEST[	'dogum_tarihi' ]
-				,$_REQUEST[	'kan_grubu_id' ]
-				,$_REQUEST[	'engel_durumu' ]
-				,$_REQUEST[	'engel_turu' ]
-				,$_REQUEST[	'personel_turu_id' ]
-				,$_REQUEST[	'personel_nitelik_id' ]
-				,$_REQUEST[	'egitim_duzeyi_id' ]
-				,$_REQUEST[	'unvan_id' ]
-				,$_REQUEST[	'ise_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_bitis_tarihi' ]
-				,$_REQUEST[	'email' ]
-				,$_REQUEST[	'gsm1' ]
-				,$_REQUEST[	'gsm2' ]
-				,$_REQUEST[	'ev_adresi' ]
-				,$_REQUEST[	'is_adresi' ]
-				,$_REQUEST[	'is_telefonu' ]
-				,$_REQUEST[	'arac_plaka' ]
-				,$_REQUEST[	'medeni_durumu' ]
-			) );
-			if( $sorgu_sonuc[ 0 ] ){
-				$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
-			}else{
-				$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sorgu_sonuc[ 2 ] ); 
-				$son_eklenen_id	= $sorgu_sonuc[ 2 ]; 
-				$personel_id = $son_eklenen_id;
-				$resim_adi = "personel_".uniqid($personel_id.'_');
-				$resim_sonuc = $fn->personelResimYukle( 'input_personel_resim', $resim_adi );
-				if( $resim_sonuc[ 0 ] ) {
-					$sorgu_sonuc = $vt->update( $SQL_resim_guncelle, array( $resim_sonuc[ 1 ], $son_eklenen_id ) );
-				}
+		if( $_SESSION[ "kullanici_turu" ] == 'ogretmen' AND $_SESSION[ "super" ] == 0 ){
+			if ( $_REQUEST[ "ogretim_elemani_id" ] != $_SESSION[ "kullanici_id" ] ){
+				die("Hata İşlem Yapmaktasınız.");
 			}
-		}else{
-			$___islem_sonuc = array( 'hata' => true, 'mesaj' => 'Öğrenci Önceden Eklenmiş', 'id' => $sonuc[ 2 ] );
 		}
-			
+		$kategori 	= $_REQUEST[ "kategori" ] 	== "on" ? 1 : 0;
+		$ust_id   	= $_REQUEST[ "ust_id" ] 	== "" 	? 0 : $_REQUEST[ "ust_id" ];
+		$birim_id  	= $_REQUEST[ "birim_id" ] 	== "" 	? 0 : $_REQUEST[ "birim_id" ];
+
+		$degerler[] = $birim_id;
+		$degerler[] = $ust_id;
+		$degerler[] = $_REQUEST[ "adi" ];
+		$degerler[] = $kategori;
+
+		$sonuc = $vt->insert( $SQL_birim_agaci_ekle, $degerler );
+		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sonuc[ 1 ] );
+		else $___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sonuc[ 2 ] ); 
+		$son_eklenen_id	= $sonuc[ 2 ]; 
+		$son_id = $son_eklenen_id;
+
 	break;
 	case 'guncelle':
-		$tek_personel_oku = $vt->selectSingle( $SQL_tek_personel_id_oku, array( $personel_id ) ) [ 2 ];
-		if( $_REQUEST['sifre'] == $tek_personel_oku['sifre'] ){
-			$sifre = $_REQUEST['sifre'];
-		}else{
-			$sifre = md5($_REQUEST['sifre']);
-		}		
-		$sorgu_sonuc = $vt->insert( $SQL_guncelle, array(
-				 $_REQUEST[	'in_no' ]
-				,$_REQUEST[	'vatandaslik_no' ]
-				,$_REQUEST[	'pasaport_no' ]
-				,$_REQUEST[	'birim_id' ]
-				,$_REQUEST[	'adi' ]
-				,$_REQUEST[	'soyadi' ]
-				,$_REQUEST[	'uyruk_id' ]
-				,$_REQUEST[	'cinsiyet' ]
-				,$_REQUEST[	'dogum_tarihi' ]
-				,$_REQUEST[	'kan_grubu_id' ]
-				,$_REQUEST[	'engel_durumu' ]
-				,$_REQUEST[	'engel_turu' ]
-				,$_REQUEST[	'personel_turu_id' ]
-				,$_REQUEST[	'personel_nitelik_id' ]
-				,$_REQUEST[	'egitim_duzeyi_id' ]
-				,$_REQUEST[	'unvan_id' ]
-				,$_REQUEST[	'ise_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_bitis_tarihi' ]
-				,$_REQUEST[	'email' ]
-				,$_REQUEST[	'gsm1' ]
-				,$_REQUEST[	'gsm2' ]
-				,$_REQUEST[	'ev_adresi' ]
-				,$_REQUEST[	'is_adresi' ]
-				,$_REQUEST[	'is_telefonu' ]
-				,$_REQUEST[	'arac_plaka' ]
-				,$_REQUEST[	'medeni_durumu' ]
-				,$personel_id
-		) );
+		$degerler[] = $_REQUEST[ "adi" ];
+		$degerler[] = $id;
 
-		if( $sorgu_sonuc[ 0 ] ){
-			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt güncellenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
-		}else{
-			$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sorgu_sonuc[ 2 ] );
-			$resim_adi = "personel_".uniqid($personel_id.'_');
-			$resim_sonuc = $fn->personelResimYukle( 'input_personel_resim', $resim_adi );
-			if( $resim_sonuc[ 0 ] ) {
-				$vt->update( $SQL_resim_guncelle, array( $resim_sonuc[ 1 ], $personel_id ) );
-				if( $tek_personel_oku['resim'] != "resim_yok.png" ){
-					unlink(dirname(__FILE__)."/../../resimler/".$tek_personel_oku['resim']);
-				}
-			}
-		}
+		$sonuc = $vt->update( $SQL_birim_agaci_duzenle, $degerler );
+		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt güncellenirken bir hata oluştu ' . $sonuc[ 1 ] );
+
 	break;
 	case 'sil':
-		//Silinecek olan tarife giriş yapılan firmaya mı ait oldugu kontrol ediliyor Eger firmaya ait ise silinecektir.
-		$tek_personel_oku = $vt->select( $SQL_tek_personel_id_oku, array( $personel_id ) ) [ 2 ];
-		if (count( $tek_personel_oku ) > 0) {
-			$sorgu_sonuc = $vt->delete( $SQL_sil, array( 0, $personel_id ) );
-			if( $sorgu_sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt silinrken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
+
+		echo '<pre>';
+
+
+		function kategorisil($vt, $SQL_birim_agaci_oku, $SQL_sil, $id){
+
+			$kategoriler = $vt->select( $SQL_birim_agaci_oku, array( $id ) )[2];
+
+			if ( count( $kategoriler ) > 0 ) {
+				foreach ($kategoriler as $kategori){
+
+					$altKategoriler = $vt->select( $SQL_birim_agaci_oku, array( $kategori[ "id" ] ) )[2];
+
+					if( count( $altKategoriler ) > 0 ){
+						foreach ($altKategoriler as $altKategori) {
+							kategorisil($vt,$SQL_birim_agaci_oku, $SQL_sil, $altKategori[ "id" ]);
+						}
+					}else{
+						$kategori_sil = $vt->delete( $SQL_sil, array( $kategori[ "id" ] ));
+					}
+					$kategori_sil = $vt->delete( $SQL_sil, array( $kategori[ "id" ] ));
+				}
+				$kategori_sil = $vt->delete( $SQL_sil, array( $id ));
+			}else{
+				$kategori_sil = $vt->delete( $SQL_sil, array( $id ));
+			}
+			
 		}
+
+		echo "gelen id  : $id";
+		kategorisil($vt,$SQL_birim_agaci_oku, $SQL_sil, $id);
 	break;
 }
+
+
 $_SESSION[ 'sonuclar' ] 		= $___islem_sonuc;
-$_SESSION[ 'sonuclar' ][ 'id' ] = $personel_id;
-header( "Location:../../index.php?modul=personeller&islem=guncelle&personel_id=".$personel_id);
+$_SESSION[ 'sonuclar' ][ 'id' ] = $birim_agaci_id;
+header( "Location:../../index.php?modul=birimSayfalari&birim_id=$birim_id");
 ?>

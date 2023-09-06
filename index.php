@@ -143,7 +143,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 <script src="dist/js/pages/dashboard2.js"></script>
 <script src="_js/sinav.js"></script>
 
-<script src="plugins/ckfinder/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/super-build/ckeditor.js"></script>
 <script src="plugins/ckfinder/ckfinder.js"></script>
 
 </head>

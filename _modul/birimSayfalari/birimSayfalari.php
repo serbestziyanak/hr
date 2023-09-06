@@ -14,7 +14,10 @@ if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 
 
 $islem					= array_key_exists( 'islem'		         ,$_REQUEST ) ? $_REQUEST[ 'islem' ]				: 'ekle';
-$personel_id				= array_key_exists( 'personel_id' ,$_REQUEST ) ? $_REQUEST[ 'personel_id' ]	: 0;
+$personel_id			= array_key_exists( 'personel_id' ,$_REQUEST ) ? $_REQUEST[ 'personel_id' ]	: 0;
+$birim_id				= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
+$sayfa_id				= array_key_exists( 'sayfa_id' ,$_REQUEST ) ? $_REQUEST[ 'sayfa_id' ]	: 0;
+$birim_adi				= array_key_exists( 'birim_adi' ,$_REQUEST ) ? $_REQUEST[ 'birim_adi' ]	: 0;
 
 if( $_SESSION[ 'kullanici_turu' ] == "personel"  ){
 	if( $personel_id != $_SESSION[ 'kullanici_id' ] )
@@ -28,97 +31,7 @@ $kaydet_buton_yetki_islem	= $personel_id > 0	? 'guncelle'									: 'kaydet';
 
 
 
-$SQL_tum_personeller = <<< SQL
-SELECT 
-	p.*,
-	CONCAT( p.adi, ' ', p.soyadi ) AS adi_soyadi
-FROM 
-	tb_personeller AS p
-ORDER BY p.adi ASC
-SQL;
 
-$SQL_tum_personeller2 = <<< SQL
-SELECT 
-	o.*,
-	CONCAT( o.adi, ' ', o.soyadi ) AS o_adi,
-	u.adi as uzmanlik_dali_adi
-FROM 
-	tb_personeller AS o
-LEFT JOIN tb_uzmanlik_dallari AS u ON u.id = o.uzmanlik_dali_id
-WHERE
-	o.universite_id 	= ? AND
-	o.uzmanlik_dali_id 		= ? AND
-	o.id 		= ? AND
-	o.aktif 		  	= 1 
-ORDER BY o.adi ASC
-SQL;
-
-
-$SQL_tek_personel_oku = <<< SQL
-SELECT 
-	*
-FROM 
-	tb_personeller
-WHERE 
-	id 				= ? AND
-	aktif 			= 1 
-SQL;
-
-/*Üniversiteye Ait uzmanlik Dalını Listele*/
-$SQL_uzmanlik_dallari = <<< SQL
-SELECT
-	*
-FROM
-	tb_uzmanlik_dallari
-WHERE
-	aktif 		  	= 1
-SQL;
-
-$SQL_uyruklar = <<< SQL
-SELECT
-	 *
-FROM
-	tb_uyruklar
-ORDER BY sira
-SQL;
-
-$SQL_kan_gruplari = <<< SQL
-SELECT
-	 *
-FROM
-	tb_kan_gruplari
-ORDER BY sira
-SQL;
-
-$SQL_egitim_duzeyleri = <<< SQL
-SELECT
-	 *
-FROM
-	tb_egitim_duzeyleri
-ORDER BY sira
-SQL;
-
-$SQL_unvanlar = <<< SQL
-SELECT
-	 *
-FROM
-	tb_unvanlar
-ORDER BY sira
-SQL;
-
-$SQL_personel_nitelikleri = <<< SQL
-SELECT
-	 *
-FROM
-	tb_personel_nitelikleri
-SQL;
-
-$SQL_personel_turleri = <<< SQL
-SELECT
-	 *
-FROM
-	tb_personel_turleri
-SQL;
 
 $SQL_birim_agaci_getir = <<< SQL
 SELECT
@@ -127,24 +40,39 @@ FROM
 	tb_birim_agaci
 SQL;
 
-@$birim_agacilar 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
-$uyruklar				= $vt->select( $SQL_uyruklar, array(  ) )[ 2 ];
-$kan_gruplari			= $vt->select( $SQL_kan_gruplari, array(  ) )[ 2 ];
-$egitim_duzeyleri		= $vt->select( $SQL_egitim_duzeyleri, array(  ) )[ 2 ];
-$unvanlar				= $vt->select( $SQL_unvanlar, array(  ) )[ 2 ];
-$personel_nitelikleri	= $vt->select( $SQL_personel_nitelikleri, array(  ) )[ 2 ];
-$personel_turleri		= $vt->select( $SQL_personel_turleri, array(  ) )[ 2 ];
+$SQL_birim_sayfalari_getir = <<< SQL
+SELECT
+	*
+FROM 
+	tb_birim_sayfalari
+WHERE 
+	birim_id = ?
+SQL;
+
+$SQL_sayfa_bilgileri = <<< SQL
+SELECT 
+	*
+FROM 
+	tb_birim_sayfa_icerikleri
+WHERE 
+	sayfa_id 				= ?
+SQL;
 
 
+@$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
+@$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
 
-if( $_SESSION[ 'kullanici_turu' ] == "personel" ){
-	$personeller					= $vt->select( $SQL_tum_personeller2, array( $_SESSION[ 'universite_id'], $_SESSION[ 'uzmanlik_dali_id'], $_SESSION[ 'kullanici_id'] ) )[ 2 ];
-}else{
-	$personeller					= $vt->select( $SQL_tum_personeller, array(  ) )[ 2 ];
+
+@$sayfa_bilgileri			= $vt->select( $SQL_sayfa_bilgileri, array( $id ) )[ 2 ][ 0 ];	
+if( $sayfa_id > 0 ){
+	if( $sayfa_bilgileri['id'] > 0 )
+		$islem = "icerik_guncelle";
+	else
+		$islem = "icerik_ekle";
 }
+		
 
-$uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
-@$tek_personel				= $vt->select( $SQL_tek_personel_oku, array( $personel_id ) )[ 2 ][ 0 ];		
+
 
 ?>
 
@@ -174,9 +102,90 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 </script>
 
 
+
+	<!--birim_sayfa EKLEME MODALI-->
+	<div class="modal fade" id="kategori_ekle" modul= 'birimSayfalari' yetki_islem='duzenle' >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white">
+					<h3 class="card-title">Yeni Kategori Ekle</h3>
+					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form class="form-horizontal" action = "_modul/birimSayfalari/birimSayfalariSEG.php" method = "POST">
+					<div class="modal-body">
+						<input type="hidden" id="yeni_kategori_ust_id"  name="ust_id">
+						<input type="hidden" id="kategori_birim_id"  name="birim_id">
+						<div class="form-group">
+							<label class="control-label">Ust Kategori</label>
+							<input required type="text" class="form-control" id="kategori_ad"  autocomplete="off" disabled>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Kategori Adı</label>
+							<input required type="text" class="form-control" name ="adi"  autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label  class="control-label">Kategori Mi? </label>
+							<div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-off" >
+								<div class="bootstrap-switch-container" >
+									<input type="checkbox" name="kategori" data-bootstrap-switch="" data-off-color="danger" data-on-text="Kategori" data-off-text="Değil" data-on-color="success">
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer justify-content-between">
+						<button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
+						<button  modul= 'birimSayfalari' yetki_islem='kaydet' type="submit" class="btn btn-danger">Kaydet</button>
+					</div>
+				</form>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<!--birim_sayfa -->
+	<div class="modal fade" id="kategori_duzenle" modul= 'birimSayfalari' yetki_islem='duzenle' >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<h4 class="card-title">Kategori Düzenle</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form class="form-horizontal" action = "_modul/birimSayfalari/birimSayfalariSEG.php" method = "POST">
+					<div class="modal-body">
+						<input type="hidden" id="islem" name="islem">
+						<input type="hidden" id="birim_sayfa_id" name="id">
+						<input type="hidden" id="birim_id_duzenle" name="birim_id">
+
+						<div class="form-group">
+							<label class="control-label">Kategori Adı</label>
+							<input required type="text" class="form-control" name ="adi"  autocomplete="off" id="kategori_ad_duzenle">
+						</div>
+
+					</div>
+					<div class="modal-footer justify-content-between">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">İptal</button>
+						<button  modul= 'birimSayfalari' yetki_islem='duzenle' type="submit" class="btn btn-success">Güncelle</button>
+					</div>
+				</form>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+
+
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
+			<?php if( !isset($_REQUEST['birim_id']) ){ ?>
 			<div class="col-md-4">
 				<div class="card card-secondary">
 					<div class="card-header">
@@ -189,12 +198,12 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							
 					</div>
 					<div class="card-body">
-						<div class="overflow-auto" style="height:300px;">
+						<div class="overflow-auto" style="height:600px;">
 							<table class="table table-sm table-hover ">
 							<tbody>
 								<?php
-								//var_dump($birim_agacilar);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id){
+								//var_dump($birim_sayfalari);
+									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id){
 										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
 											$degerlendirme_ekle_class = "";
 										}else{
@@ -216,12 +225,8 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 													$html .= "
 															<tr>
 																<td class=' bg-renk7' >
-																		<div class='icheck-success d-inline'>
-																			<input type='radio' class='form-control form-control-sm' id='icheck_$kategori[id]' name='birim_id' value='$kategori[id]' required>
-																			<label for='icheck_$kategori[id]'>
-																			$kategori[adi]
-																			</label>
-																		</div>
+																	$kategori[adi]
+																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
 																</td>
 															</tr>";									
 
@@ -236,12 +241,13 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 																	<td class='bg-renk$renk'>																
 																		$kategori[adi]
+																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
 																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 																	</td>
 																</tr>
 															";								
 														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id);
+														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id);
 														
 														$renk--;
 													
@@ -257,8 +263,8 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 												</tr>';
 										return $html;
 									}
-									if( count( $birim_agacilar ) ) 
-										echo kategoriListele3($birim_agacilar,0,0, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id);
+									if( count( $birim_agaclari ) ) 
+										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id);
 									
 
 								?>
@@ -273,25 +279,135 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 
 				</div>
 			</div>
+			<?php }else{ ?>
+			<div class="col-md-4">
+				<div class="card card-secondary">
+					<div class="card-header">
+						<h3 class="card-title">Birim Sayfaları</h3>							
+					</div>
+					<div class="card-body">
+						<div class="overflow-auto" style="height:600px;">
+							<table class="table table-sm table-hover ">
+							<tbody>
+								<tr >
+									<td class="bg-dark">
+										Sayfalar
+										<a  modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='btn btn-success float-right btn-xs KategoriEkle' data-id = "0" data-kategori_ad ='Ana Kategori' data-birim_id ='<?php echo $birim_id; ?>' data-modal='kategori_ekle'>Kategori Ekle</a>
+									</td>
+								</tr>	
+								<?php
+								//var_dump($birim_sayfalari);
+									function kategoriListele4( $kategoriler, $parent = 0, $renk = 0,$vt, $birim_id, $birim_adi){
+										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
+											$degerlendirme_ekle_class = "";
+										}else{
+											$degerlendirme_ekle_class = "degerlendirmeEkle";
+										}
+										$html = "<tr class='expandable-body'>
+														<td>
+															<div class='p-0'>
+																<table class='table table-hover'>
+																	<tbody>";
+
+										foreach ($kategoriler as $kategori){
+											if( $kategori['ust_id'] == $parent ){
+												if( $parent == 0 ) {
+													$renk = 1;
+												} 
+
+												if( $kategori['kategori'] == 0){
+													$html .= "
+															<tr>
+																<td class=' bg-renk7' >
+																	$kategori[adi]
+																	<div class='btn-group float-right'>
+																		<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
+																			İşlem
+																		</button>
+																		<div class='dropdown-menu'>
+																			<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' class='dropdown-item modalAc' data-birim_id = '$birim_id' data-kategori_ad_duzenle='$kategori[adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
+																			<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item float-right' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay'>Sil</button>
+																			<div class='dropdown-divider'></div>
+																			<a class='dropdown-item' href='index.php?modul=birimSayfalari&birim_id=$birim_id&birim_adi=$birim_adi&sayfa_id=$kategori[id]'>İçeriği Düzenle</a>
+																		</div>
+																	</div>											
+																	
+																</td>
+															</tr>";									
+
+												}
+												if( $kategori['kategori'] == 1 ){
+
+														$html .= "
+																<tr data-widget='expandable-table' aria-expanded='true' class='border-0'>
+																	<td class='bg-renk$renk'>
+																		$kategori[adi]
+																		<div class='btn-group float-right'>
+																			<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
+																				İşlem
+																			</button>
+																			<div class='dropdown-menu'>
+																				<a modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='dropdown-item KategoriEkle' data-birim_id = '$birim_id' id='$kategori[id]' data-id='$kategori[id]' data-kategori_ad ='$kategori[adi]' data-ders_id='$kategori[ders_id]' data-modal='kategori_ekle' onclick='event.stopPropagation();' >Sayfa Ekle</a>
+																				<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-birim_id = '$birim_id' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='dropdown-item modalAc' data-kategori_ad_duzenle='$kategori[adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
+																				<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]&birim_id=$birim_id' data-toggle='modal' data-target='#sil_onay' onclick='$(#sil_onay).modal();event.stopPropagation();' >Sayfayı Sil</button>
+																			</div>
+																		</div>											
+																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
+																	</td>
+																</tr>
+															";								
+														$renk++;
+														$html .= kategoriListele4($kategoriler, $kategori['id'],$renk, $vt, $birim_id, $birim_adi);
+														
+														$renk--;
+													
+												}
+											}
+
+										}
+										$html .= '
+																</tbody>
+															</table>
+														</div>
+													</td>
+												</tr>';
+										return $html;
+									}
+									if( count( $birim_sayfalari ) ) 
+										echo kategoriListele4($birim_sayfalari,0,0, $vt, $birim_id,$birim_ad);
+									
+
+								?>
+							</tbody>
+							</table>
+
+						</div>
+
+					</div>
+					<div class="card-footer">
+						<button modul= 'personeller' yetki_islem="<?php echo $kaydet_buton_yetki_islem; ?>" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
+					</div>
+
+				</div>
+			</div>
+			<?php } ?>
 			<div class="col-md-8">
 				<div class="card card-olive" id = "card_personeller">
 					<div class="card-header">
-						<h3 class="card-title">Personeller</h3>
+						<h3 class="card-title">Sayfa İçerikleri</h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
 							<a id = "yeni_ogretim_elemanlari" data-toggle = "tooltip" title = "Yeni Personel Ekle" href = "?modul=personeller&islem=ekle" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
 						</div>
 					</div>
+					<form class="form-horizontal" action = "_modul/birimSayfalari/birimSayfalariSEG.php" method = "POST" enctype="multipart/form-data">
 					<div class="card-body">
-						<form class="form-horizontal" action = "_modul/personeller/personellerSEG.php" method = "POST" enctype="multipart/form-data">
 							<div class="card-body">
 								<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
-								<input type = "hidden" name = "personel_id" value = "<?php echo $personel_id; ?>">
-								<input type = "hidden" name = "universite_id" value = "<?php echo $_SESSION['universite_id']; ?>">
-
+								<input type = "hidden" name = "id" value = "<?php echo $id; ?>">
 								<div class="form-group">
 									<label class="control-label">Başlık</label>
-									<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" value = "<?php echo $tek_personel[ "baslik" ]; ?>"  autocomplete="off">
+									<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" value = "<?php echo $sayfa_bilgileri[ "baslik" ]; ?>"  autocomplete="off">
 								</div>
 								<div class="form-group">
 									<label class="control-label">İçerik</label>
@@ -301,215 +417,98 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 											overflow-y: auto;
 										}
 									</style>
-									<div id="editor" style="display:none">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="control-label">Pasaport No</label>
-									<input required type="text" placeholder="Pasaport No" class="form-control form-control-sm" name ="pasaport_no" value = "<?php echo $tek_personel[ "pasaport_no" ]; ?>"  autocomplete="off">
+									<textarea id="editor" style="display:none" name="icerik">
+									<?php echo $sayfa_bilgileri[ "icerik" ]; ?>
+									</textarea>
 								</div>
 								<div class="form-group">
-									<label  class="control-label">Ünvan</label>
-									<select class="form-control form-control-sm select2" name = "unvan_id" required>
-										<option>Seçiniz...</option>
-										<?php 
-											foreach( $unvanlar AS $unvan ){
-												echo '<option value="'.$unvan[ "id" ].'" '.( $tek_personel[ "unvan_id" ] == $unvan[ "id" ] ? "selected" : null) .'>'.$unvan[ "adi" ].'</option>';
-											}
-
-										?>
-									</select>
-								</div>
-
-								<div class="form-group">
-									<label class="control-label">Adı</label>
-									<input required type="text" placeholder="Adı" class="form-control form-control-sm" name ="adi" value = "<?php echo $tek_personel[ "adi" ]; ?>"  autocomplete="off">
-								</div>
-								<div class="form-group">
-									<label class="control-label">Soyadı</label>
-									<input required type="text" placeholder="Soyadı" class="form-control form-control-sm" name ="soyadi" value = "<?php echo $tek_personel[ "soyadi" ]; ?>"  autocomplete="off">
-								</div>
-								<div class="form-group card card-body">
-									<label class="control-label">Cinsiyet</label>
-									<div class='icheck-danger d-inline '>
-										<input type='radio' class='form-control form-control-sm' id='kadin' name='cinsiyet' value="1" required>
-										<label for='kadin'>
-											Kadın
-										</label>
-									</div>
-									<div class='icheck-primary d-inline'>
-										<input type='radio' class='form-control form-control-sm' id='erkek' name='cinsiyet' value="2" required>
-										<label for='erkek'>
-											Erkek
-										</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Doğum Tarihi</label>
-									<div class="input-group date" id="dogum_tarihi" data-target-input="nearest">
-										<div class="input-group-append" data-target="#dogum_tarihi" data-toggle="datetimepicker">
-											<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-										</div>
-										<input required type="text" data-target="#dogum_tarihi" data-toggle="datetimepicker" name="dogum_tarihi" value="<?php if( $tek_personel[ 'dogum_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'dogum_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#datetimepicker1"/>
-									</div>
-								</div>
-								<div class="form-group card card-body">
-									<label class="control-label">Medeni Durumu</label>
-									<div class='icheck-primary d-inline '>
-										<input type='radio' class='form-control form-control-sm' id='bekar' name='medeni_durumu' value="1" required>
-										<label for='bekar'>
-											Bekar
-										</label>
-									</div>
-									<div class='icheck-primary d-inline'>
-										<input type='radio' class='form-control form-control-sm' id='evli' name='medeni_durumu' value="2" required>
-										<label for='evli'>
-											Evli
-										</label>
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label  class="control-label">Kan Grubu</label>
-									<select class="form-control form-control-sm select2" name = "kan_grubu_id" required>
-										<option>Seçiniz...</option>
-										<?php 
-											foreach( $kan_gruplari AS $kan_grubu ){
-												echo '<option value="'.$kan_grubu[ "id" ].'" '.( $tek_personel[ "kan_grubu_id" ] == $kan_grubu[ "id" ] ? "selected" : null) .'>'.$kan_grubu[ "adi" ].'</option>';
-											}
-
-										?>
-									</select>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Araç Plaka</label>
-									<input required type="text" placeholder="Araç Plaka" class="form-control form-control-sm" name ="arac_plaka" value = "<?php echo $tek_personel[ "arac_plaka" ]; ?>"  autocomplete="off">
-								</div>
-								<br><h5 class="float-right text-olive">Engel Bilgileri</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
-								<div class="form-group card card-body">
-									<label class="control-label">Engel Durumu</label>
-									<div class='icheck-primary d-inline '>
-										<input type='radio' class='form-control form-control-sm' id='engel_yok' name='engel_durumu' value="1" required>
-										<label for='engel_yok'>
-											Yok
-										</label>
-									</div>
-									<div class='icheck-primary d-inline'>
-										<input type='radio' class='form-control form-control-sm' id='engel_var' name='engel_durumu' value="2" required>
-										<label for='engel_var'>
-											Var
-										</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Engel Türü</label>
-									<input required type="text" class="form-control form-control-sm" name ="engel_turu" value = "<?php echo $tek_personel[ "engel_turu" ]; ?>"  autocomplete="off">
-								</div>
-
-								<br><h5 class="float-left text-olive">Eğitim Bilgileri</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
-								<div class="form-group">
-									<label  class="control-label">Eğitim Düzeyi</label>
-									<select class="form-control form-control-sm select2" name = "egitim_duzeyi_id" required>
-										<option>Seçiniz...</option>
-										<?php 
-											foreach( $egitim_duzeyleri AS $egitim_duzeyi ){
-												echo '<option value="'.$egitim_duzeyi[ "id" ].'" '.( $tek_personel[ "egitim_duzeyi_id" ] == $egitim_duzeyi[ "id" ] ? "selected" : null) .'>'.$egitim_duzeyi[ "adi" ].'</option>';
-											}
-
-										?>
-									</select>
-								</div>
-
-								<br><h5 class="float-right text-olive">İletişim Bilgileri</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
-								<div class="form-group">
-									<label class="control-label">GSM 1</label>
-									<input required type="tel" class="form-control form-control-sm" name ="gsm1" value = "<?php echo $tek_personel[ "gsm1" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
-								</div>
-								<div class="form-group">
-									<label class="control-label">GSM 2</label>
-									<input required type="tel" class="form-control form-control-sm" name ="gsm2" value = "<?php echo $tek_personel[ "gsm2" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
-								</div>
-								<div class="form-group">
-									<label class="control-label">İş Telefonu</label>
-									<input required type="tel" class="form-control form-control-sm" name ="is_telefonu" value = "<?php echo $tek_personel[ "is_telefonu" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
-								</div>
-								<div class="form-group">
-									<label class="control-label">E Mail</label>
-									<input required type="email" class="form-control form-control-sm" name ="email" value = "<?php echo $tek_personel[ "email" ]; ?>"  autocomplete="off">
-								</div>
-								<div class="form-group">
-									<label class="control-label">Ev Adresi</label>
-									<textarea name="ev_adresi" class="form-control form-control-sm" ><?php echo $tek_personel[ "ev_adresi" ]; ?></textarea>
-								</div>
-								<div class="form-group">
-									<label class="control-label">İş Adresi</label>
-									<textarea name="is_adresi" class="form-control form-control-sm" ><?php echo $tek_personel[ "is_adresi" ]; ?></textarea>
-								</div>
-								<br><h5 class="float-left text-olive">Sözleşme Bilgileri</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
-								<div class="form-group">
-									<label class="control-label">İşe Başlama Tarihi</label>
-									<div class="input-group date" id="ise_baslama_tarihi" data-target-input="nearest">
-										<div class="input-group-append" data-target="#ise_baslama_tarihi" data-toggle="datetimepicker">
-											<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-										</div>
-										<input required type="text" data-target="#ise_baslama_tarihi" data-toggle="datetimepicker" name="ise_baslama_tarihi" value="<?php if( $tek_personel[ 'ise_baslama_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'ise_baslama_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#ise_baslama_tarihi"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Sözleşme Başlama Tarihi</label>
-									<div class="input-group date" id="sozlesme_baslama_tarihi" data-target-input="nearest">
-										<div class="input-group-append" data-target="#sozlesme_baslama_tarihi" data-toggle="datetimepicker">
-											<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-										</div>
-										<input required type="text" data-target="#sozlesme_baslama_tarihi" data-toggle="datetimepicker" name="sozlesme_baslama_tarihi" value="<?php if( $tek_personel[ 'sozlesme_baslama_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'sozlesme_baslama_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#sozlesme_baslama_tarihi"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Sözleşme Bitiş Tarihi</label>
-									<div class="input-group date" id="sozlesme_bitis_tarihi" data-target-input="nearest">
-										<div class="input-group-append" data-target="#sozlesme_bitis_tarihi" data-toggle="datetimepicker">
-											<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-										</div>
-										<input type="text" data-target="#sozlesme_bitis_tarihi" data-toggle="datetimepicker" name="sozlesme_bitis_tarihi" value="<?php if( $tek_personel[ 'sozlesme_bitis_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'sozlesme_bitis_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#sozlesme_bitis_tarihi"/>
-									</div>
-								</div>
-								<br><h5 class="float-right text-olive">Şifre Değiştir</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
-								<div class="form-group">
-									<label class="control-label">Şifre</label>
-									<input required type="password" minlength="6" class="form-control form-control-sm" name ="sifre" value = "<?php echo $tek_personel[ "sifre" ]; ?>"  autocomplete="off">
+									<label class="control-label">Link Yönlendirme</label>
+									<input type="text" placeholder="Link" class="form-control form-control-sm" name ="link_yonlendirme" value = "<?php echo $sayfa_bilgileri[ "link_yonlendirme" ]; ?>"  autocomplete="off">
+									<span class="text-muted">Bu alana Link eklenirse menü bu linke yönlendirilecektir.</span>
 								</div>
 							</div>
-							<div class="card-footer">
-								<button modul= 'personeller' yetki_islem="<?php echo $kaydet_buton_yetki_islem; ?>" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
-							</div>
-						</form>
-
 					</div>
+
+					<div class="card-footer">
+						<button modul= 'birimSayfalari' yetki_islem="<?php echo $kaydet_buton_yetki_islem; ?>" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
+					</div>
+					</form>
+
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
-<script>
-/* Kullanıcı resmine tıklayınca file nesnesini tetikle*/
-$( function() {
-	$( "#personel_kullanici_resim" ).click( function() {
-		$( "#gizli_input_file" ).trigger( 'click' );
-	});
-});
+	<script>
+        $('.soru').summernote();
 
-/* Seçilen resim önizle */
-function resimOnizle( input ) {
-	if ( input.files && input.files[ 0 ] ) {
-		var reader = new FileReader();
-		reader.onload = function ( e ) {
-			$( '#personel_kullanici_resim' ).attr( 'src', e.target.result );
-		};
-		reader.readAsDataURL( input.files[ 0 ] );
-	}
-}
-</script>
+		$( '#sil_onay' ).on( 'show.bs.modal', function( e ) {
+			event.stopPropagation();
+			$( this ).find( '.btn-evet' ).attr( 'href', $( e.relatedTarget ).data( 'href' ) );
+		} );
+		
+	    $('.KategoriEkle').on("click", function(e) { 
+	        var ust_id      = $(this).data("id");
+	        var birim_id	= $(this).data("birim_id");
+	        var kategori_ad = $(this).data("kategori_ad");
+	        var modal 		= $(this).data("modal");
+
+	        document.getElementById("yeni_kategori_ust_id").value 	 = ust_id;
+	        document.getElementById("kategori_ad").value = kategori_ad;
+	        document.getElementById("kategori_birim_id").value = birim_id;
+	        $('#'+ modal).modal( "show" );
+	    });
+		
+		$('.modalAc').on("click", function(e) { 
+			var modal 		= $(this).data("modal");
+			var kategori_ad = $(this).data("kategori_ad_duzenle");
+			var modal 		= $(this).data("modal");
+			var kategori 	= $(this).data("kategori");
+			var islem 		= $(this).data("islem");
+			var birim_sayfa_id = $(this).data("id");
+			var birim_id = $(this).data("birim_id");
+
+			if ( kategori == 1 ) {
+				$( "[name='kategori_duzenle']" ).bootstrapSwitch( 'state', true, true);
+			}else{
+				$( "[name='kategori_duzenle']" ).bootstrapSwitch( 'state', false, false);
+			}
+
+			document.getElementById("birim_sayfa_id").value 		= birim_sayfa_id;
+			document.getElementById("kategori_ad_duzenle").value 	= kategori_ad;
+			document.getElementById("birim_id_duzenle").value 		= birim_id;
+			document.getElementById("islem").value 					= islem;
+		        
+		    $('#'+ modal).modal( "show" );
+	    });
+
+		$('.gorevli').on("click", function(e) { 
+	        var id 	        = $(this).data("id");
+	        var data_islem  = $(this).data("islem");
+	        var data_url    = $(this).data("url");
+	        var data_modul  = $(this).data("modul");
+	        var div         = $(this).data("div");
+	        $("#"+div).empty();
+	        $.post(data_url, { islem : data_islem, id : id, modul : data_modul }, function (response) {
+	            $("#"+div).append(response);
+	            $('#gorevliEkleModal').modal( "show" )
+	        });
+	    });
+	    function dersSecimi(ders_id){
+			var  url 		= window.location;
+			var origin		= url.origin;
+			var path		= url.pathname;
+			var search		= (new URL(document.location)).searchParams;
+			var modul   	= search.get('modul');
+			var ders_id  	= "&ders_id="+ders_id;
+			
+			window.location.replace(origin + path+'?modul='+modul+''+ders_id);
+		}
+
+
+	</script>
+
+
 <script type="text/javascript">
 	var simdi = new Date(); 
 	//var simdi="11/25/2015 15:58";
