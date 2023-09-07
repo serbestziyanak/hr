@@ -12,16 +12,19 @@ $SQL_birim_agaci_ekle = <<< SQL
 INSERT INTO 
 	tb_birim_agaci
 SET
-	ust_id 				= ?,
-	adi 				= ?,
-	kategori 			= ?
+	 ust_id 			= ?
+	,adi 				= ?
+	,kategori 			= ?
+	,grup	 			= ?
 SQL;
 
 $SQL_birim_agaci_duzenle = <<< SQL
 UPDATE
 	tb_birim_agaci
 SET
-	adi 	= ?
+	 adi 				= ?
+	,kategori 			= ?
+	,grup	 			= ?
 WHERE 
 	id 		= ? 
 SQL;
@@ -58,11 +61,13 @@ switch( $islem ) {
 			}
 		}
 		$kategori 	= $_REQUEST[ "kategori" ] 	== "on" ? 1 : 0;
+		$grup	 	= $_REQUEST[ "grup" ] 	== "on" ? 1 : 0;
 		$ust_id   	= $_REQUEST[ "ust_id" ] 	== "" 	? 0 : $_REQUEST[ "ust_id" ];
 
 		$degerler[] = $ust_id;
 		$degerler[] = $_REQUEST[ "adi" ];
 		$degerler[] = $kategori;
+		$degerler[] = $grup;
 
 		$sonuc = $vt->insert( $SQL_birim_agaci_ekle, $degerler );
 		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sonuc[ 1 ] );
@@ -72,7 +77,12 @@ switch( $islem ) {
 
 	break;
 	case 'guncelle':
+		$kategori 	= $_REQUEST[ "kategori" ] 	== "on" ? 1 : 0;
+		$grup	 	= $_REQUEST[ "grup" ] 	== "on" ? 1 : 0;
+
 		$degerler[] = $_REQUEST[ "adi" ];
+		$degerler[] = $kategori;
+		$degerler[] = $grup;
 		$degerler[] = $_REQUEST[ "birim_agaci_id" ];
 
 		$sonuc = $vt->update( $SQL_birim_agaci_duzenle, $degerler );

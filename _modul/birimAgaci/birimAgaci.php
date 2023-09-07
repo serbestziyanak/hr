@@ -51,11 +51,6 @@ SQL;
 					<?php
 					//var_dump($birim_agacilar);
 						function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id){
-							if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
-								$degerlendirme_ekle_class = "";
-							}else{
-								$degerlendirme_ekle_class = "degerlendirmeEkle";
-							}
 							$html = "<tr class='expandable-body'>
 											<td>
 												<div class='p-0'>
@@ -89,7 +84,7 @@ SQL;
 															$kategori[adi]
 															<span>
 																<button modul= 'birimAgaci' yetki_islem='sil' class='btn btn-xs ml-1 btn-danger float-right' data-href='_modul/birimAgaci/birimAgaciSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay' onclick='$(#sil_onay).modal();event.stopPropagation();' >Sil</button>
-																<a modul= 'birimAgaci' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='btn btn-warning float-right btn-xs ml-1 modalAc' data-kategori_ad_duzenle='$kategori[adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
+																<a modul= 'birimAgaci' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='btn btn-warning float-right btn-xs ml-1 modalAc' data-kategori_ad_duzenle='$kategori[adi]' data-kategori_duzenle='$kategori[kategori]' data-grup_duzenle='$kategori[grup]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
 																<a modul= 'birimAgaci' yetki_islem='kategori-ekle' href='#' class='btn btn-dark float-right btn-xs KategoriEkle' id='$kategori[id]' data-id='$kategori[id]' data-kategori_ad ='$kategori[adi]' data-ders_id='$kategori[ders_id]' data-modal='kategori_ekle' onclick='event.stopPropagation();' >Ekle</a>
 															</span>
 														<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
@@ -207,20 +202,31 @@ SQL;
 					<div class="modal-body">
 						<input type="hidden" id="yeni_kategori_ust_id"  name="ust_id">
 						<div class="form-group">
-							<label class="control-label">Ust Kategori</label>
+							<label class="control-label">Üst Birim</label>
 							<input required type="text" class="form-control" id="kategori_ad"  autocomplete="off" disabled>
 						</div>
 
 						<div class="form-group">
-							<label class="control-label">Kategori Adı</label>
+							<label class="control-label">Birim Adı</label>
 							<input required type="text" class="form-control" name ="adi"  autocomplete="off">
 						</div>
-						<div class="form-group">
-							<label  class="control-label">Kategori Mi? </label>
-							<div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-off" >
-								<div class="bootstrap-switch-container" >
-									<input type="checkbox" name="kategori" checked data-bootstrap-switch="" data-off-color="danger" data-on-text="Kategori" data-off-text="Değil" data-on-color="success">
-								</div>
+						<div class="form-group clearfix">
+							<div class="icheck-success d-inline">
+								<input type="checkbox" id="kategori"  name="kategori" >
+								<label for="kategori">
+									Alt birimleri olacak.
+								</label>
+								<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.</small>
+							</div>
+						</div>
+
+						<div class="form-group clearfix">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="grup" name="grup" >
+								<label for="grup">
+									Sadece gruplama için kullanılacak.
+								</label>
+								<small class="form-text text-muted">Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.</small>
 							</div>
 						</div>
 
@@ -255,6 +261,25 @@ SQL;
 							<label class="control-label">Kategori Adı</label>
 							<input required type="text" class="form-control" name ="adi"  autocomplete="off" id="kategori_ad_duzenle">
 						</div>
+						<div class="form-group clearfix">
+							<div class="icheck-success d-inline">
+								<input type="checkbox" id="kategori_mi_duzenle"  name="kategori" >
+								<label for="kategori_mi_duzenle">
+									Alt birimleri olacak.
+								</label>
+								<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.</small>
+							</div>
+						</div>
+
+						<div class="form-group clearfix">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="grup_duzenle" name="grup" >
+								<label for="grup_duzenle">
+									Sadece gruplama için kullanılacak.
+								</label>
+								<small class="form-text text-muted">Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.</small>
+							</div>
+						</div>
 
 					</div>
 					<div class="modal-footer justify-content-between">
@@ -268,117 +293,6 @@ SQL;
 		<!-- /.modal-dialog -->
 	</div>
 
-	<!--birim_agaci -->
-	<div class="modal fade" id="soru_ekle"  modul= 'birimAgaci' yetki_islem='soru-ekle' >
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
-				<form class="form-horizontal" action = "_modul/soruBankasi/soruBankasiSEG.php" method = "POST" enctype="multipart/form-data">
-					<div class="modal-header">
-						<h4 class="modal-title">Soru Ekleme</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				
-					<div class="modal-body">
-						<input type="hidden" id="soru_birim_agaci_id" name="birim_agaci_id">
-						<input type="hidden" id="soru_ders_id" name="ders_id">
-						<?php 
-						if ( $_SESSION[ "kullanici_turu" ] == 'ogretmen' AND $_SESSION[ "super" ] == 0 ){
-							echo "<input type='hidden' value='$_SESSION[kullanici_id]' name='ogretim_elemani_id'>";
-						}else{
-							$option = '';
-							foreach( $ogretim_elemanlari AS $ogretim_elemani ){
-								$option .= "<option value='$ogretim_elemani[id]'>$ogretim_elemani[adi]</option>";
-							}
-
-							echo "<div class='form-group'>
-									<label class='control-label'>Soru Sahibi Öğretim Elemani</label>
-									<select class='form-control select2' name='ogretim_elemani_id' required data-placeholder='Ogretim Görevlisi Seçiniz' data-allow-clear='true'>
-										$option
-									</select>
-								</div>";
-						}
-						
-						?> 
-						<div class="form-group">
-							<label class="control-label">Seçilen Müfredat</label>
-							<input required type="text" class="form-control"  autocomplete="off" id="birim_agaci_adi" disabled>
-						</div>
-						<div class="form-group">
-							<label class="control-label">Soru</label>
-							<textarea name="soru" class="form-control soru" rows="2"></textarea>
-						</div>
-
-						<div class="form-group">
-							<div class="col-sm-6 float-left">
-								<label class="control-label">Soru Puanı</label>
-								<input type="text" name="puan" class="form-control" required>
-							</div>
-							<div class="col-sm-6 float-left">
-								<label class="control-label">Zorluk Derecesi</label>
-								<select class="form-control" name="zorluk_derecesi" required>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-									
-								</select>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-						<div class="form-group mt-2">
-							<label for="exampleInputFile">Soru Dosyası</label>
-							<div class="input-group">
-								<div class="custom-file">
-									<label class="custom-file-label" for="exampleInputFile">Dosya Seç</label>
-									<input type="file" class="custom-file-input file " name = "file"  >
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label">Soru Türü</label>
-							<select class="form-control select2" name="soru_turu_id" required onchange="secenekOku(this);">
-								<option value="">Soru Türü Seçiniz...</option>
-								<?php foreach( $soruTurleri AS $tur ){ ?>
-									<option value="<?php echo $tur[ "id" ]; ?>" data-coklu_secenek = "<?php echo $tur[ "coklu_secenek" ]; ?>" data-metin = "<?php echo $tur[ "metin" ]; ?>">
-										<?php echo $tur[ "adi" ]; ?>
-									</option>
-								<?php } ?>
-							</select>
-						</div>	
-						<div class="float-right">
-							<label  class="control-label">Editör </label>
-							<div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-off" >
-								<div class="bootstrap-switch-container" >
-									<input type="checkbox" name="editor" data-bootstrap-switch="" data-off-color="danger" data-on-text="Açık" data-off-text="Kapalı" data-on-color="success" >
-								</div>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-						
-						<div id ="secenekler"></div>
-						<div id="secenekEkleBtn">
-							<span class="btn float-right " id="secenekEkle"  ></span>
-						</div>
-						<div class="clearfix"></div>
-						<div class="form-group">
-							<label class="control-label">Etiket</label>
-							<input type="text" class="form-control" name="etiket" placeholder="Soru Etiketlerini , ile ayırabilirsiniz." >
-						</div>
-					</div>
-					<div class="modal-footer justify-content-between">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">İptal</button>
-						<button type="submit" class="btn btn-success">Kaydet</button>
-					</div>
-				</form>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	
 	<script>
         $('.soru').summernote();
 
@@ -399,33 +313,29 @@ SQL;
 		
 		$('.modalAc').on("click", function(e) { 
 			var modal 		= $(this).data("modal");
-	        if ( modal == "soru_ekle" ){
-	        	$("#secenekler").empty();
-	        	var kategori_ad = $(this).data("kategori_ad");
-		        var birim_agaci_id = $(this).data("birim_agaci_id");
-		        var ders_id 	= $(this).data("ders_id");
-		        
-	        	document.getElementById("soru_birim_agaci_id").value 		= birim_agaci_id;
-	        	document.getElementById("soru_ders_id").value 			= ders_id;
-		        document.getElementById("birim_agaci_adi").value 			= kategori_ad;
-		        document.getElementById("islem").value 					= islem;
-	        }else{
-	        	var kategori_ad = $(this).data("kategori_ad_duzenle");
-		        var modal 		= $(this).data("modal");
-		        var kategori 	= $(this).data("kategori");
-		        var islem 		= $(this).data("islem");
-		        var birim_agaci_id = $(this).data("id");
 
-	        	if ( kategori == 1 ) {
-		        	$( "[name='kategori_duzenle']" ).bootstrapSwitch( 'state', true, true);
-		        }else{
-		        	$( "[name='kategori_duzenle']" ).bootstrapSwitch( 'state', false, false);
-		        }
+			var kategori_ad = $(this).data("kategori_ad_duzenle");
+			var modal 		= $(this).data("modal");
+			var kategori 	= $(this).data("kategori");
+			var grup	 	= $(this).data("grup_duzenle");
+			var islem 		= $(this).data("islem");
+			var birim_agaci_id = $(this).data("id");
 
-		        document.getElementById("birim_agaci_id").value 		 	= birim_agaci_id;
-		        document.getElementById("kategori_ad_duzenle").value 	= kategori_ad;
-		        document.getElementById("islem").value 					= islem;
-	        }	
+			if ( kategori == 1 ) {
+				document.getElementById("kategori_mi_duzenle").checked = true;
+			}else{
+				document.getElementById("kategori_mi_duzenle").checked = false;
+			}
+
+			if ( grup == 1 ) {
+				document.getElementById("grup_duzenle").checked = true;
+			}else{
+				document.getElementById("grup_duzenle").checked = false;
+			}
+
+			document.getElementById("birim_agaci_id").value 		 	= birim_agaci_id;
+			document.getElementById("kategori_ad_duzenle").value 	= kategori_ad;
+			document.getElementById("islem").value 					= islem;
 		        
 		    $('#'+ modal).modal( "show" );
 	    });

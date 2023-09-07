@@ -17,7 +17,8 @@ $islem					= array_key_exists( 'islem'		         ,$_REQUEST ) ? $_REQUEST[ 'isle
 $personel_id			= array_key_exists( 'personel_id' ,$_REQUEST ) ? $_REQUEST[ 'personel_id' ]	: 0;
 $birim_id				= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
 $sayfa_id				= array_key_exists( 'sayfa_id' ,$_REQUEST ) ? $_REQUEST[ 'sayfa_id' ]	: 0;
-$birim_adi				= array_key_exists( 'birim_adi' ,$_REQUEST ) ? $_REQUEST[ 'birim_adi' ]	: 0;
+$birim_adi				= array_key_exists( 'birim_adi' ,$_REQUEST ) ? $_REQUEST[ 'birim_adi' ]	: "";
+$sayfa_adi				= array_key_exists( 'sayfa_adi' ,$_REQUEST ) ? $_REQUEST[ 'sayfa_adi' ]	: "";
 
 if( $_SESSION[ 'kullanici_turu' ] == "personel"  ){
 	if( $personel_id != $_SESSION[ 'kullanici_id' ] )
@@ -53,6 +54,15 @@ $SQL_sayfa_bilgileri = <<< SQL
 SELECT 
 	*
 FROM 
+	tb_birim_sayfalari
+WHERE 
+	id = ?
+SQL;
+
+$SQL_sayfa_icerik_bilgileri = <<< SQL
+SELECT 
+	*
+FROM 
 	tb_birim_sayfa_icerikleri
 WHERE 
 	sayfa_id 				= ?
@@ -61,11 +71,12 @@ SQL;
 
 @$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
+@$sayfa_bilgileri 		= $vt->selectSingle($SQL_sayfa_bilgileri, array( $sayfa_id ) )[ 2 ];
 
 
-@$sayfa_bilgileri			= $vt->select( $SQL_sayfa_bilgileri, array( $id ) )[ 2 ][ 0 ];	
+@$sayfa_icerik_bilgileri = $vt->selectSingle( $SQL_sayfa_icerik_bilgileri, array( $sayfa_id ) )[ 2 ];	
 if( $sayfa_id > 0 ){
-	if( $sayfa_bilgileri['id'] > 0 )
+	if( $sayfa_icerik_bilgileri['id'] > 0 )
 		$islem = "icerik_guncelle";
 	else
 		$islem = "icerik_ekle";
@@ -186,20 +197,14 @@ if( $sayfa_id > 0 ){
 	<div class="container-fluid">
 		<div class="row">
 			<?php if( !isset($_REQUEST['birim_id']) ){ ?>
-			<div class="col-md-4">
+			<div class="col-md-3 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
-							<?php if( $personel_id > 0 ) { ?>
-								<h3 class="card-title">Personel Düzenle</h3>
-							<?php } else {
-								echo "<h3 class='card-title'>Personel Ekle</h3>";
-								}
-							?>
-							
+						<h3 class="card-title">Birimler</h3>
 					</div>
-					<div class="card-body">
+					<div class="card-body p-0">
 						<div class="overflow-auto" style="height:600px;">
-							<table class="table table-sm table-hover ">
+							<table class="table table-sm table-hover text-sm">
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
@@ -224,7 +229,7 @@ if( $sayfa_id > 0 ){
 												if( $kategori['kategori'] == 0){
 													$html .= "
 															<tr>
-																<td class=' bg-renk7' >
+																<td class=' bg-renk7 p-1' >
 																	$kategori[adi]
 																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
 																</td>
@@ -237,11 +242,16 @@ if( $sayfa_id > 0 ){
 													else
 														$agac_acik = "false";
 
+													if( $kategori['grup'] == 1 )
+														$birim_sec_butonu = "";
+													else
+														$birim_sec_butonu = "<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
+
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
-																	<td class='bg-renk$renk'>																
+																	<td class='bg-renk$renk p-1'>																
 																		$kategori[adi]
-																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
+																		$birim_sec_butonu
 																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 																	</td>
 																</tr>
@@ -273,24 +283,21 @@ if( $sayfa_id > 0 ){
 						</div>
 
 					</div>
-					<div class="card-footer">
-						<button modul= 'personeller' yetki_islem="<?php echo $kaydet_buton_yetki_islem; ?>" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
-					</div>
 
 				</div>
 			</div>
 			<?php }else{ ?>
-			<div class="col-md-4">
+			<div class="col-md-3 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
 						<h3 class="card-title">Birim Sayfaları</h3>							
 					</div>
-					<div class="card-body">
+					<div class="card-body p-1">
 						<div class="overflow-auto" style="height:600px;">
-							<table class="table table-sm table-hover ">
+							<table class="table table-sm table-hover text-sm">
 							<tbody>
 								<tr >
-									<td class="bg-dark">
+									<td class="bg-dark p-1">
 										Sayfalar
 										<a  modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='btn btn-success float-right btn-xs KategoriEkle' data-id = "0" data-kategori_ad ='Ana Kategori' data-birim_id ='<?php echo $birim_id; ?>' data-modal='kategori_ekle'>Kategori Ekle</a>
 									</td>
@@ -318,7 +325,7 @@ if( $sayfa_id > 0 ){
 												if( $kategori['kategori'] == 0){
 													$html .= "
 															<tr>
-																<td class=' bg-renk7' >
+																<td class=' bg-renk7 p-1' >
 																	$kategori[adi]
 																	<div class='btn-group float-right'>
 																		<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
@@ -328,7 +335,7 @@ if( $sayfa_id > 0 ){
 																			<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' class='dropdown-item modalAc' data-birim_id = '$birim_id' data-kategori_ad_duzenle='$kategori[adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
 																			<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item float-right' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay'>Sil</button>
 																			<div class='dropdown-divider'></div>
-																			<a class='dropdown-item' href='index.php?modul=birimSayfalari&birim_id=$birim_id&birim_adi=$birim_adi&sayfa_id=$kategori[id]'>İçeriği Düzenle</a>
+																			<a class='dropdown-item' href='index.php?modul=birimSayfalari&birim_id=$birim_id&birim_adi=$birim_adi&sayfa_id=$kategori[id]&sayfa_adi=$kategori[adi]'>İçeriği Düzenle</a>
 																		</div>
 																	</div>											
 																	
@@ -340,7 +347,7 @@ if( $sayfa_id > 0 ){
 
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='true' class='border-0'>
-																	<td class='bg-renk$renk'>
+																	<td class='bg-renk$renk p-1'>
 																		$kategori[adi]
 																		<div class='btn-group float-right'>
 																			<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
@@ -374,7 +381,7 @@ if( $sayfa_id > 0 ){
 										return $html;
 									}
 									if( count( $birim_sayfalari ) ) 
-										echo kategoriListele4($birim_sayfalari,0,0, $vt, $birim_id,$birim_ad);
+										echo kategoriListele4($birim_sayfalari,0,0, $vt, $birim_id,$birim_adi);
 									
 
 								?>
@@ -384,17 +391,14 @@ if( $sayfa_id > 0 ){
 						</div>
 
 					</div>
-					<div class="card-footer">
-						<button modul= 'personeller' yetki_islem="<?php echo $kaydet_buton_yetki_islem; ?>" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
-					</div>
 
 				</div>
 			</div>
 			<?php } ?>
-			<div class="col-md-8">
+			<div class="col-md-9">
 				<div class="card card-olive" id = "card_personeller">
 					<div class="card-header">
-						<h3 class="card-title">Sayfa İçerikleri</h3>
+						<h3 class="card-title"><?php echo $birim_adi." / ".$sayfa_adi ?></h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
 							<a id = "yeni_ogretim_elemanlari" data-toggle = "tooltip" title = "Yeni Personel Ekle" href = "?modul=personeller&islem=ekle" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
@@ -402,31 +406,62 @@ if( $sayfa_id > 0 ){
 					</div>
 					<form class="form-horizontal" action = "_modul/birimSayfalari/birimSayfalariSEG.php" method = "POST" enctype="multipart/form-data">
 					<div class="card-body">
-							<div class="card-body">
-								<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
-								<input type = "hidden" name = "id" value = "<?php echo $id; ?>">
-								<div class="form-group">
-									<label class="control-label">Başlık</label>
-									<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" value = "<?php echo $sayfa_bilgileri[ "baslik" ]; ?>"  autocomplete="off">
-								</div>
-								<div class="form-group">
-									<label class="control-label">İçerik</label>
-									<style>
-										.ck-editor__editable_inline:not(.ck-comment__input *) {
-											height: 600px;
-											overflow-y: auto;
-										}
-									</style>
-									<textarea id="editor" style="display:none" name="icerik">
-									<?php echo $sayfa_bilgileri[ "icerik" ]; ?>
-									</textarea>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Link Yönlendirme</label>
-									<input type="text" placeholder="Link" class="form-control form-control-sm" name ="link_yonlendirme" value = "<?php echo $sayfa_bilgileri[ "link_yonlendirme" ]; ?>"  autocomplete="off">
-									<span class="text-muted">Bu alana Link eklenirse menü bu linke yönlendirilecektir.</span>
+						<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
+						<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
+						<input type = "hidden" name = "sayfa_id" value = "<?php echo $sayfa_id; ?>">
+						<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
+						<input type = "hidden" name = "sayfa_adi" value = "<?php echo $sayfa_adi; ?>">
+						<h5 class="float-left text-olive">Sayfa Ayarları</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+						<div class="card card-body">
+							<div class="form-group clearfix">
+								<div class="icheck-success d-inline">
+									<input type="checkbox" id="checkboxPrimary1" name="aktif" <?php if( $sayfa_bilgileri[ "aktif" ] == 1 ) echo "checked"; if( $islem == "icerik_ekle" ) echo "checked";  ?> >
+									<label for="checkboxPrimary1">
+										Aktif
+									</label>
+									<small class="form-text text-muted">İşaretlenmezse Sayfa Yayınlanmaz</small>
 								</div>
 							</div>
+							<div class="form-group clearfix">
+								<div class="icheck-primary d-inline">
+									<input type="checkbox" id="checkboxPrimary2" name="harici" <?php if( $sayfa_bilgileri[ "harici" ] == 1 ) echo "checked"; ?> >
+									<label for="checkboxPrimary2">
+										Harici Sayfa
+									</label>
+									<small class="form-text text-muted">Menüde görünmeyecek sayfalar için işaretlenmelidir.</small>
+								</div>
+							</div>
+							<div class="form-group clearfix">
+								<div class="icheck-secondary d-inline">
+									<input type="checkbox" id="link_check" name="link" onclick="link_aktif(this);" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "checked"; ?> >
+									<label for="link_check">
+										Link
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<input required type="text" id="link_yonlendirme" placeholder="Link" class="form-control form-control-sm" name ="link_url" value = "<?php echo $sayfa_bilgileri[ "link_url" ]; ?>"  autocomplete="off" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "";else echo "disabled"; if( $islem == "icerik_ekle" ) echo "disabled";  ?>>
+								<small class="form-text text-muted">Bu alana Link eklenirse menü bu linke yönlendirilecektir.</small>
+							</div>
+
+						</div>
+						<br><h5 class="float-right text-olive">Sayfa İçeriği</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+						<div class="form-group">
+							<label class="control-label">Başlık</label>
+							<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" value = "<?php echo $sayfa_icerik_bilgileri[ "baslik" ]; ?>"  autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label class="control-label">İçerik</label>
+							<style>
+								.ck-editor__editable_inline:not(.ck-comment__input *) {
+									height: 600px;
+									overflow-y: auto;
+								}
+							</style>
+							<textarea id="editor" style="display:none" name="icerik" >
+							<?php echo $sayfa_icerik_bilgileri[ "icerik" ]; ?>
+							</textarea>
+						</div>
 					</div>
 
 					<div class="card-footer">
@@ -440,6 +475,12 @@ if( $sayfa_id > 0 ){
 	</div>
 </section>
 	<script>
+		function link_aktif(eleman){
+			if(eleman.checked)
+				document.getElementById("link_yonlendirme").disabled = false;
+			else
+				document.getElementById("link_yonlendirme").disabled = true;
+		}
         $('.soru').summernote();
 
 		$( '#sil_onay' ).on( 'show.bs.modal', function( e ) {
