@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 06/09/2023 18:01:20
+ Date: 07/09/2023 18:05:10
 */
 
 SET NAMES utf8mb4;
@@ -275,19 +275,19 @@ CREATE TABLE `tb_birim_agaci`  (
   `ust_id` int NULL DEFAULT NULL,
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `kategori` tinyint NULL DEFAULT NULL,
-  `universite_id` int NULL DEFAULT NULL,
+  `grup` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_birim_agaci
 -- ----------------------------
-INSERT INTO `tb_birim_agaci` VALUES (1, 0, 'Akademik Birimler', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (2, 0, 'İdari Birimler', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (3, 1, 'Fakülteler', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (4, 1, 'Enstitüler', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (5, 1, 'Merkezler', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (7, 1, 'Meslek Yüksekokulları', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (1, 0, 'Akademik Birimler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (2, 0, 'İdari Birimler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (3, 1, 'Fakülteler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (4, 1, 'Enstitüler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (5, 1, 'Merkezler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (7, 1, 'Meslek Yüksekokulları', 1, 1);
 INSERT INTO `tb_birim_agaci` VALUES (8, 3, 'Hazırlık Okulu', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (9, 3, 'Mühendislik Fakültesi', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (10, 3, 'Fen Bilimleri Fakültesi', 1, NULL);
@@ -306,19 +306,20 @@ INSERT INTO `tb_birim_agaci` VALUES (22, 4, 'Arkeoloji Araştırma Enstitüsü',
 INSERT INTO `tb_birim_agaci` VALUES (23, 4, 'Tıbbi Araştırma Enstitüsü', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (24, 4, 'Fen Bilimleri Araştırma Enstitüsü', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (25, 4, 'Yesevi Araştırma Enstitüsü', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (27, 8, 'Lisans Programları', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (29, 27, 'Türk Dili Bölümü', 0, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (27, 8, 'Lisans Programları', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (29, 27, 'Türk Dili Bölümü', 0, 0);
 INSERT INTO `tb_birim_agaci` VALUES (30, 27, 'Kazak ve Rus Dili Bölümü	', 0, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (31, 27, 'İngiliz Dili Bölümü', 0, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (32, 9, 'Lisans Programları', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (33, 9, 'Yüksek Lisans Programları', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (34, 9, 'Doktora Programları', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (32, 9, 'Lisans Programları', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (33, 9, 'Yüksek Lisans Programları', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (34, 9, 'Doktora Programları', 1, 1);
 INSERT INTO `tb_birim_agaci` VALUES (37, 32, 'Bilgisayar Mühendisliği', 0, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (38, 7, 'Ahmet Yesevi Meslek Yüksekokulu', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (39, 2, 'Bilgi İşlem Daire Baişkanlığı', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (40, 2, 'Öğreci İşleri Daire Başkanlığı', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (41, 2, 'Personel İşleri Daire Başkanlığı', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (42, 2, 'Satınalma Müdürlüğü', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (39, 2, 'Bilgi İşlem Daire Baişkanlığı', 0, 0);
+INSERT INTO `tb_birim_agaci` VALUES (40, 2, 'Öğreci İşleri Daire Başkanlığı', 0, 0);
+INSERT INTO `tb_birim_agaci` VALUES (41, 2, 'Personel İşleri Daire Başkanlığı', 0, 0);
+INSERT INTO `tb_birim_agaci` VALUES (42, 2, 'Satınalma Müdürlüğü', 0, 0);
+INSERT INTO `tb_birim_agaci` VALUES (43, 8, 'Yüksek Lisans Programları', 1, 1);
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfa_icerikleri
@@ -329,16 +330,18 @@ CREATE TABLE `tb_birim_sayfa_icerikleri`  (
   `birim_id` int NULL DEFAULT NULL,
   `sayfa_id` int UNSIGNED NULL DEFAULT NULL,
   `baslik` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `aciklama` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `link_yonlendirme` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `sayfa_turu` tinyint NULL DEFAULT NULL COMMENT '1 normal 2 harici(menüde görünmez) 3 yönlendirme',
-  `url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `icerik` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `link` tinyint NULL DEFAULT NULL,
+  `link_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `harici` tinyint NULL DEFAULT NULL,
+  `aktif` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_birim_sayfa_icerikleri
 -- ----------------------------
+INSERT INTO `tb_birim_sayfa_icerikleri` VALUES (1, 9, 8, 'Hakkımızda', '<p>serbest ziyanak</p>', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfalari
@@ -350,17 +353,21 @@ CREATE TABLE `tb_birim_sayfalari`  (
   `ust_id` int NULL DEFAULT NULL,
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `kategori` tinyint NULL DEFAULT NULL,
-  `universite_id` int NULL DEFAULT NULL,
+  `link` tinyint NULL DEFAULT NULL,
+  `link_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `harici` tinyint NULL DEFAULT NULL,
+  `aktif` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_birim_sayfalari
 -- ----------------------------
-INSERT INTO `tb_birim_sayfalari` VALUES (7, 9, 0, 'Fakülte', 1, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (8, 9, 7, 'Hakkımızda', 0, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (9, 9, 7, 'Tarihçe', 0, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (10, 9, 0, 'Tanıtım', 0, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (7, 9, 0, 'Fakülte', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (8, 9, 7, 'Hakkımızda', 0, 0, '', 0, 1);
+INSERT INTO `tb_birim_sayfalari` VALUES (9, 9, 7, 'Tarihçe', 0, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (10, 9, 0, 'Tanıtım', 0, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (12, 9, 7, 'Dekanın Mesajı', 0, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_bolumler
