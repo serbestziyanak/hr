@@ -13,7 +13,7 @@ $id		= array_key_exists( 'id', $_REQUEST )	? $_REQUEST[ 'id' ]	: 0;
 
 if( $_REQUEST[ 'tarih' ] == '' ) $tarih = NULL;
 else $tarih = date( 'Y-m-d', strtotime( $_REQUEST[ 'tarih' ] ) );
-
+ 
 $SQL_ekle = <<< SQL
 INSERT INTO
 	tb_duyurular
