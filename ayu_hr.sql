@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 08/09/2023 16:42:57
+ Date: 11/09/2023 02:30:43
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `tb_anabilim_dallari`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_anabilim_dallari
@@ -88,7 +88,7 @@ CREATE TABLE `tb_anket_cevaplari`  (
   `ogrenci_id` int NULL DEFAULT NULL,
   `cevap` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_anket_cevaplari
@@ -140,7 +140,7 @@ CREATE TABLE `tb_anket_ogrencileri`  (
   `ogrenci_id` int NULL DEFAULT NULL,
   `anket_bitti` tinyint UNSIGNED NULL DEFAULT 0 COMMENT '1 Olması Bitti anlamında 0 Olması Katılmadığı anlamında',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_anket_ogrencileri
@@ -182,7 +182,7 @@ CREATE TABLE `tb_anket_sablon`  (
   `adi` varchar(100) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_anket_sablon
@@ -200,7 +200,7 @@ CREATE TABLE `tb_anket_sablon_sorulari`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_anket_sablon_sorulari
@@ -219,7 +219,7 @@ CREATE TABLE `tb_anket_sorulari`  (
   `anket_id` int NULL DEFAULT NULL,
   `soru_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_anket_sorulari
@@ -256,7 +256,7 @@ CREATE TABLE `tb_anketler`  (
   `adi` varchar(100) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_anketler
@@ -277,7 +277,7 @@ CREATE TABLE `tb_birim_agaci`  (
   `kategori` tinyint NULL DEFAULT NULL,
   `grup` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_agaci
@@ -336,7 +336,7 @@ CREATE TABLE `tb_birim_sayfa_icerikleri`  (
   `harici` tinyint NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_sayfa_icerikleri
@@ -358,7 +358,7 @@ CREATE TABLE `tb_birim_sayfalari`  (
   `harici` tinyint NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_sayfalari
@@ -368,6 +368,9 @@ INSERT INTO `tb_birim_sayfalari` VALUES (8, 9, 7, 'Hakkımızda', 0, 0, '', 0, 1
 INSERT INTO `tb_birim_sayfalari` VALUES (9, 9, 7, 'Tarihçe', 0, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (10, 9, 0, 'Tanıtım', 0, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (12, 9, 7, 'Dekanın Mesajı', 0, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (13, 9, 7, 'Deneme', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (14, 9, 13, 'Deneme 1', 0, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (15, 9, 13, 'Deneme 2', 0, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_bolumler
@@ -380,7 +383,7 @@ CREATE TABLE `tb_bolumler`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT '',
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_bolumler
@@ -399,7 +402,7 @@ CREATE TABLE `tb_ders_kategorileri`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT '',
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_ders_kategorileri
@@ -418,7 +421,7 @@ CREATE TABLE `tb_ders_yili_donemleri`  (
   `ders_yili_id` int NULL DEFAULT NULL,
   `donem_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_ders_yili_donemleri
@@ -445,7 +448,7 @@ CREATE TABLE `tb_ders_yillari`  (
   `ilk_goruntulenecek` tinyint NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_ders_yillari
@@ -466,7 +469,7 @@ CREATE TABLE `tb_dersler`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_dersler
@@ -548,7 +551,7 @@ CREATE TABLE `tb_donem_dersleri`  (
   `teorik_ders_saati` int NULL DEFAULT NULL,
   `uygulama_ders_saati` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_donem_dersleri
@@ -578,7 +581,7 @@ CREATE TABLE `tb_donem_gorevlileri`  (
   `gorev_kategori_id` int NULL DEFAULT NULL,
   `ogretim_elemani_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_donem_gorevlileri
@@ -596,7 +599,7 @@ CREATE TABLE `tb_donem_ogrencileri`  (
   `program_id` int NULL DEFAULT NULL,
   `ogrenci_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_donem_ogrencileri
@@ -743,7 +746,7 @@ CREATE TABLE `tb_donem_subeleri`  (
   `program_id` int NULL DEFAULT NULL,
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_donem_subeleri
@@ -760,7 +763,7 @@ CREATE TABLE `tb_donemler`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT '',
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_donemler
@@ -773,6 +776,29 @@ INSERT INTO `tb_donemler` VALUES (5, 1, 1, 'Diş Hekimliği Fakültesi', 1);
 INSERT INTO `tb_donemler` VALUES (6, 1, 1, 'Tıp Fakültesi', 1);
 
 -- ----------------------------
+-- Table structure for tb_duyurular
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_duyurular`;
+CREATE TABLE `tb_duyurular`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `birim_id` int UNSIGNED NULL DEFAULT NULL,
+  `tarih` datetime NULL DEFAULT NULL,
+  `baslik` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT '',
+  `icerik` longtext CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL,
+  `aktif` tinyint NULL DEFAULT 1,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_duyurular
+-- ----------------------------
+INSERT INTO `tb_duyurular` VALUES (12, 9, '2023-09-04 00:00:00', 'Submission Info Announced', '<div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);float:left;font-family:;\" open=\"\"><hr><h6 style=\"margin-left:0px;text-align:justify;\"><span style=\"background-color:transparent;color:rgb(0,0,0);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-decoration:none;text-indent:0px;text-transform:none;vertical-align:baseline;white-space:pre-wrap;widows:2;word-spacing:0px;\">The ConferenceCES accepts three types of abstracts: </span></span><span style=\"background-color:transparent;color:rgb(230,77,77);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-decoration:none;text-indent:0px;text-transform:none;vertical-align:baseline;white-space:pre-wrap;widows:2;word-spacing:0px;\"><strong style=\"box-sizing:border-box;font-weight:bolder;\">Individual Papers</strong></span></span><span style=\"background-color:transparent;color:rgb(0,0,0);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-decoration:none;text-indent:0px;text-transform:none;vertical-align:baseline;white-space:pre-wrap;widows:2;word-spacing:0px;\">, </span></span><span style=\"background-color:transparent;color:rgb(230,77,77);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-decoration:none;text-indent:0px;text-transform:none;vertical-align:baseline;white-space:pre-wrap;widows:2;word-spacing:0px;\"><strong style=\"box-sizing:border-box;font-weight:bolder;\">Individual Posters</strong></span></span><span style=\"background-color:transparent;color:rgb(0,0,0);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-decoration:none;text-indent:0px;text-transform:none;vertical-align:baseline;white-space:pre-wrap;widows:2;word-spacing:0px;\">, and </span></span><span style=\"background-color:transparent;color:rgb(230,77,77);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-decoration:none;text-indent:0px;text-transform:none;vertical-align:baseline;white-space:pre-wrap;widows:2;word-spacing:0px;\"><strong style=\"box-sizing:border-box;font-weight:bolder;\">Roundtable Conversations</strong></span></span><span style=\"background-color:transparent;color:rgb(0,0,0);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-decoration:none;text-indent:0px;text-transform:none;vertical-align:baseline;white-space:pre-wrap;widows:2;word-spacing:0px;\">. Further guidance on the writing rules for each abstract type is outlined below.</span></span><span style=\"background-color:rgb(255,255,255);color:rgb(68,68,68);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\"> </span><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\" lang=\"EN-US\" dir=\"ltr\">Please ensure all submission requirements are met and use mixed-case letters and appropriate punctuation in the title and integrative statement. Submissions that do not adhere to the guidelines may not be considered for review.</span></span></h6><p style=\"margin-left:0px;text-align:justify;\"><span style=\"background-color:rgb(255,255,255);color:rgb(68,68,68);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\" lang=\"EN-US\" dir=\"ltr\">Find out more: </span></span><a href=\"https://2024.conference-ces.com/index.php?s=18\"><span style=\"background-color:rgb(255,255,255);color:rgb(68,68,68);font-family:Calibri, sans-serif;font-size:16px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\" lang=\"EN-US\" dir=\"ltr\">Submission Info&nbsp;</span></span></a></p><hr><p>&nbsp;</p></div><div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);float:right;font-family:;\" open=\"\"><br>&nbsp;</div>', 1);
+INSERT INTO `tb_duyurular` VALUES (13, 9, '2023-09-04 00:00:00', 'Registration Info Announced', '<div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);float:left;font-family:;\" open=\"\"><hr><p>Participants are required to pay a fee to attend and present their submissions at ConferenceCES. The ConferenceCES fee covers lunch, coffee breaks, certificates and all conference materials. Each participant can participate with a maximum of <strong>two submissions.</strong></p><p>Find out more: <a href=\"https://2024.conference-ces.com/index.php?s=19\">Registration Info</a></p><hr><p>&nbsp;</p></div><div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);float:right;font-family:;\" open=\"\"><br>&nbsp;</div>', 1);
+INSERT INTO `tb_duyurular` VALUES (14, 9, '2023-09-27 00:00:00', 'Important Dates Announced', '<div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);float:left;font-family:;\" open=\"\"><hr><p style=\"margin-bottom:15px;margin-right:0px;margin-top:0px;padding:0px;\">We suggest that potential contributors to ConferenceCES make a note of the significant dates and stay updated with conference announcements and social media accounts.&nbsp;</p><p style=\"margin-bottom:15px;margin-right:0px;margin-top:0px;padding:0px;\">Find out more: <a href=\"https://2024.conference-ces.com/index.php?s=20\">Important Dates</a></p><hr><p>&nbsp;</p></div><div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);float:right;font-family:;\" open=\"\"><br>&nbsp;</div>', 1);
+INSERT INTO `tb_duyurular` VALUES (15, 9, '2022-10-12 00:00:00', 'Keynotes Announced', '<hr><p>The main speakers for the conference have now been announced.</p><p>Find out more: <a href=\"https://2024.conference-ces.com/index.php?s=10\">Keynotes</a></p><hr><p>&nbsp;</p>', 1);
+INSERT INTO `tb_duyurular` VALUES (17, 0, '2023-09-05 00:00:00', 'asasd', '', 1);
+
+-- ----------------------------
 -- Table structure for tb_egitim_duzeyleri
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_egitim_duzeyleri`;
@@ -781,7 +807,7 @@ CREATE TABLE `tb_egitim_duzeyleri`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `sira` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_egitim_duzeyleri
@@ -803,7 +829,7 @@ CREATE TABLE `tb_fakulteler`  (
   `ilk_goruntulenecek` tinyint NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_fakulteler
@@ -820,7 +846,7 @@ CREATE TABLE `tb_gorev_kategorileri`  (
   `universite_id` int NULL DEFAULT NULL,
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_gorev_kategorileri
@@ -841,7 +867,7 @@ CREATE TABLE `tb_kan_gruplari`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `sira` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_kan_gruplari
@@ -867,7 +893,7 @@ CREATE TABLE `tb_komite_dersleri`  (
   `uygulama_ders_saati` smallint NULL DEFAULT NULL,
   `soru_sayisi` smallint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_komite_dersleri
@@ -886,7 +912,7 @@ CREATE TABLE `tb_komite_dersleri_ogretim_uyeleri`  (
   `komite_ders_id` int NULL DEFAULT NULL,
   `ogretim_uyesi_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_komite_dersleri_ogretim_uyeleri
@@ -907,7 +933,7 @@ CREATE TABLE `tb_komite_gorevlileri`  (
   `gorev_kategori_id` int NULL DEFAULT NULL,
   `ogretim_elemani_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_komite_gorevlileri
@@ -927,7 +953,7 @@ CREATE TABLE `tb_komite_ogrencileri`  (
   `komite_id` int NULL DEFAULT NULL,
   `ogrenci_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_komite_ogrencileri
@@ -956,7 +982,7 @@ CREATE TABLE `tb_komiteler`  (
   `bitis_tarihi` date NULL DEFAULT NULL,
   `sinav_tarihi` date NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_komiteler
@@ -997,7 +1023,7 @@ CREATE TABLE `tb_modul`  (
   `harici_sayfa` tinyint NULL DEFAULT 0,
   `kategori_acik` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 151 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 154 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_modul
@@ -1049,7 +1075,10 @@ INSERT INTO `tb_modul` VALUES (146, 'Birim Ağacı', 'birimAgaci', 'birimAgaci',
 INSERT INTO `tb_modul` VALUES (147, 'Personeller', 'personeller', 'personeller', 'fas fa-users text-info', 1, 0, 0, 6, 0, 0);
 INSERT INTO `tb_modul` VALUES (148, 'Öğrenim Bilgileri', 'ogrenimBilgileri', 'ogrenimBilgileri', 'fas fa-book text-orange', 1, 0, 0, 6, 0, 0);
 INSERT INTO `tb_modul` VALUES (149, 'Görevlendirmeler', 'donemGorevlileri', 'donemGorevlileri', 'fas fa-table', 1, 0, 0, 6, 0, 0);
-INSERT INTO `tb_modul` VALUES (150, 'Birim Sayfaları', 'birimSayfalari', 'birimSayfalari', 'fas fa-pager', 1, 0, 0, 5, 0, 0);
+INSERT INTO `tb_modul` VALUES (150, 'Birim Sayfaları', 'birimSayfalari', 'birimSayfalari', 'fas fa-file-alt text-green', 1, 153, 0, 5, 0, 0);
+INSERT INTO `tb_modul` VALUES (151, 'Duyurular', 'duyurular', 'duyurular', 'fas fa-bullhorn text-yellow', 1, 153, 0, 1, 0, 0);
+INSERT INTO `tb_modul` VALUES (152, 'Manşetler', 'slaytlar', 'slaytlar', 'fas fa-pager text-blue', 1, 153, 0, 1, 0, 0);
+INSERT INTO `tb_modul` VALUES (153, 'Birim Sayfaları', NULL, NULL, 'fas fa-file-alt text-red', 1, 0, 1, 5, 0, 0);
 
 -- ----------------------------
 -- Table structure for tb_modul_yetki_islemler
@@ -1060,7 +1089,7 @@ CREATE TABLE `tb_modul_yetki_islemler`  (
   `modul_id` int NULL DEFAULT NULL,
   `yetki_islem_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 919 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 919 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_modul_yetki_islemler
@@ -1421,7 +1450,7 @@ CREATE TABLE `tb_mufredat`  (
   `ogrenim_hedefi_mi` tinyint NULL DEFAULT NULL,
   `kategori` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_mufredat
@@ -1490,7 +1519,7 @@ CREATE TABLE `tb_ogrenciler`  (
   `kullanici_turu` varchar(25) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL DEFAULT 'ogrenci',
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 132 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 132 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_ogrenciler
@@ -1649,7 +1678,7 @@ CREATE TABLE `tb_ogretim_elemanlari`  (
   `kullanici_turu` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT 'ogretmen',
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_ogretim_elemanlari
@@ -1667,7 +1696,7 @@ CREATE TABLE `tb_personel_nitelikleri`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `sira` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_personel_nitelikleri
@@ -1690,7 +1719,7 @@ CREATE TABLE `tb_personel_ogrenim_bilgileri`  (
   `mezuniyet_yili` year NULL DEFAULT NULL,
   `diploma` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_personel_ogrenim_bilgileri
@@ -1705,7 +1734,7 @@ CREATE TABLE `tb_personel_turleri`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `sira` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_personel_turleri
@@ -1752,7 +1781,7 @@ CREATE TABLE `tb_personeller`  (
   `sifre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_personeller
@@ -1771,7 +1800,7 @@ CREATE TABLE `tb_programlar`  (
   `varsayilan` tinyint NULL DEFAULT 0,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_programlar
@@ -1788,7 +1817,7 @@ CREATE TABLE `tb_rol_yetkiler`  (
   `modul_id` int NULL DEFAULT NULL,
   `islem_turu_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 91 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 91 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_rol_yetkiler
@@ -1847,7 +1876,7 @@ CREATE TABLE `tb_rol_yetkili_firmalar`  (
   `rol_id` int NULL DEFAULT NULL,
   `firma_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Fixed;
+) ENGINE = MyISAM AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = FIXED;
 
 -- ----------------------------
 -- Records of tb_rol_yetkili_firmalar
@@ -1868,7 +1897,7 @@ CREATE TABLE `tb_rol_yetkili_subeler`  (
   `rol_id` int NULL DEFAULT NULL,
   `sube_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Fixed;
+) ENGINE = MyISAM AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = FIXED;
 
 -- ----------------------------
 -- Records of tb_rol_yetkili_subeler
@@ -1885,7 +1914,7 @@ CREATE TABLE `tb_roller`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `varsayilan` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_roller
@@ -1908,7 +1937,7 @@ CREATE TABLE `tb_sinav_bitirenler`  (
   `ogrenci_id` int NULL DEFAULT NULL,
   `iptal_eden_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sinav_bitirenler
@@ -1927,7 +1956,7 @@ CREATE TABLE `tb_sinav_cevaplari`  (
   `cevap_metin` text CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL,
   `puan` double(10, 2) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sinav_cevaplari
@@ -1963,7 +1992,7 @@ CREATE TABLE `tb_sinav_ogrencileri`  (
   `son_gorulme` timestamp NULL DEFAULT NULL,
   `ek_sure` int NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sinav_ogrencileri
@@ -1998,7 +2027,7 @@ CREATE TABLE `tb_sinav_sorulari`  (
   `ekleyen` int NULL DEFAULT NULL,
   `puan` int NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sinav_sorulari
@@ -2058,7 +2087,7 @@ CREATE TABLE `tb_sinavlar`  (
   `aktif` tinyint NULL DEFAULT 1,
   `sinav_sonuc_acikla` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sinavlar
@@ -2085,7 +2114,7 @@ CREATE TABLE `tb_sistem_kullanici`  (
   `universiteler` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT '',
   `kullanici_turu` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT 'admin',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sistem_kullanici
@@ -2103,7 +2132,7 @@ CREATE TABLE `tb_sistem_kullanici_yetkili_birimler`  (
   `birim_id` int NULL DEFAULT NULL,
   `kullanici_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sistem_kullanici_yetkili_birimler
@@ -2113,6 +2142,26 @@ INSERT INTO `tb_sistem_kullanici_yetkili_birimler` VALUES (2, 2, 1);
 INSERT INTO `tb_sistem_kullanici_yetkili_birimler` VALUES (3, 1, 2);
 INSERT INTO `tb_sistem_kullanici_yetkili_birimler` VALUES (4, 1, 4);
 INSERT INTO `tb_sistem_kullanici_yetkili_birimler` VALUES (5, 1, 7);
+
+-- ----------------------------
+-- Table structure for tb_slaytlar
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_slaytlar`;
+CREATE TABLE `tb_slaytlar`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `birim_id` int UNSIGNED NULL DEFAULT NULL,
+  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `sira` tinyint NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_slaytlar
+-- ----------------------------
+INSERT INTO `tb_slaytlar` VALUES (4, 9, '64fdfdd731776slide-1.jpg', NULL);
+INSERT INTO `tb_slaytlar` VALUES (5, 9, '64fdfdde3dabaslide-2.jpg', NULL);
+INSERT INTO `tb_slaytlar` VALUES (6, 9, '64fdfded4d896slide-3.jpg', NULL);
+INSERT INTO `tb_slaytlar` VALUES (9, 9, '64fe23351c51cslide-1.jpg', NULL);
 
 -- ----------------------------
 -- Table structure for tb_soru_bankasi
@@ -2133,7 +2182,7 @@ CREATE TABLE `tb_soru_bankasi`  (
   `etiket` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `editor` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_soru_bankasi
@@ -2165,7 +2214,7 @@ CREATE TABLE `tb_soru_secenekleri`  (
   `secenek` text CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL,
   `dogru_secenek` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_soru_secenekleri
@@ -2258,7 +2307,7 @@ CREATE TABLE `tb_soru_turleri`  (
   `coklu_secenek` tinyint NULL DEFAULT 0,
   `metin` tinyint NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_soru_turleri
@@ -2276,7 +2325,7 @@ CREATE TABLE `tb_universiteler`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `aktif` tinyint NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_universiteler
@@ -2296,7 +2345,7 @@ CREATE TABLE `tb_unvanlar`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `sira` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_unvanlar
@@ -2320,7 +2369,7 @@ CREATE TABLE `tb_uyruklar`  (
   `tel_kodu` int NULL DEFAULT NULL,
   `sira` int NULL DEFAULT 9999,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 247 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 247 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_uyruklar
@@ -2582,7 +2631,7 @@ CREATE TABLE `tb_yetki`  (
   `modul_id` int NULL DEFAULT NULL,
   `yetki_islem_turu_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_yetki
@@ -2597,7 +2646,7 @@ CREATE TABLE `tb_yetki_islem_turleri`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `gorunen_adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_yetki_islem_turleri
@@ -2628,6 +2677,6 @@ INSERT INTO `tb_yetki_islem_turleri` VALUES (56, 'sinav-soru-sil', 'Sınav Sorus
 -- View structure for view_giris_kontrol
 -- ----------------------------
 DROP VIEW IF EXISTS `view_giris_kontrol`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_giris_kontrol` AS select `tb_sistem_kullanici`.`id` AS `id`,`tb_sistem_kullanici`.`adi` AS `adi`,`tb_sistem_kullanici`.`soyadi` AS `soyadi`,`tb_sistem_kullanici`.`email` AS `email`,`tb_sistem_kullanici`.`sifre` AS `sifre`,`tb_sistem_kullanici`.`resim` AS `resim`,`tb_sistem_kullanici`.`rol_id` AS `rol_id`,`tb_sistem_kullanici`.`super` AS `super`,`tb_sistem_kullanici`.`universiteler` AS `universite_id`,`tb_sistem_kullanici`.`kullanici_turu` AS `kullanici_turu` from `tb_sistem_kullanici` union select `o`.`id` AS `id`,`o`.`adi` AS `adi`,`o`.`soyadi` AS `soyadi`,`o`.`email` AS `email`,`o`.`sifre` AS `sifre`,`o`.`resim` AS `resim`,`o`.`rol_id` AS `rol_id`,`o`.`super` AS `super`,`o`.`universite_id` AS `universite_id`,`o`.`kullanici_turu` AS `kullanici_turu` from `tb_ogrenciler` `o` union select `tb_ogretim_elemanlari`.`id` AS `id`,`tb_ogretim_elemanlari`.`adi` AS `adi`,`tb_ogretim_elemanlari`.`soyadi` AS `soyadi`,`tb_ogretim_elemanlari`.`email` AS `email`,`tb_ogretim_elemanlari`.`sifre` AS `sifre`,`tb_ogretim_elemanlari`.`resim` AS `resim`,`tb_ogretim_elemanlari`.`rol_id` AS `rol_id`,`tb_ogretim_elemanlari`.`super` AS `super`,`tb_ogretim_elemanlari`.`universite_id` AS `universite_id`,`tb_ogretim_elemanlari`.`kullanici_turu` AS `kullanici_turu` from `tb_ogretim_elemanlari` ;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_giris_kontrol` AS select `tb_sistem_kullanici`.`id` AS `id`,`tb_sistem_kullanici`.`adi` AS `adi`,`tb_sistem_kullanici`.`soyadi` AS `soyadi`,`tb_sistem_kullanici`.`email` AS `email`,`tb_sistem_kullanici`.`sifre` AS `sifre`,`tb_sistem_kullanici`.`resim` AS `resim`,`tb_sistem_kullanici`.`rol_id` AS `rol_id`,`tb_sistem_kullanici`.`super` AS `super`,`tb_sistem_kullanici`.`universiteler` AS `universite_id`,`tb_sistem_kullanici`.`kullanici_turu` AS `kullanici_turu` from `tb_sistem_kullanici` union select `o`.`id` AS `id`,`o`.`adi` AS `adi`,`o`.`soyadi` AS `soyadi`,`o`.`email` AS `email`,`o`.`sifre` AS `sifre`,`o`.`resim` AS `resim`,`o`.`rol_id` AS `rol_id`,`o`.`super` AS `super`,`o`.`universite_id` AS `universite_id`,`o`.`kullanici_turu` AS `kullanici_turu` from `tb_ogrenciler` `o` union select `tb_ogretim_elemanlari`.`id` AS `id`,`tb_ogretim_elemanlari`.`adi` AS `adi`,`tb_ogretim_elemanlari`.`soyadi` AS `soyadi`,`tb_ogretim_elemanlari`.`email` AS `email`,`tb_ogretim_elemanlari`.`sifre` AS `sifre`,`tb_ogretim_elemanlari`.`resim` AS `resim`,`tb_ogretim_elemanlari`.`rol_id` AS `rol_id`,`tb_ogretim_elemanlari`.`super` AS `super`,`tb_ogretim_elemanlari`.`universite_id` AS `universite_id`,`tb_ogretim_elemanlari`.`kullanici_turu` AS `kullanici_turu` from `tb_ogretim_elemanlari` ; ;
 
 SET FOREIGN_KEY_CHECKS = 1;

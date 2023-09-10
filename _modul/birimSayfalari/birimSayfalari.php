@@ -399,12 +399,11 @@ if( $sayfa_id > 0 ){
 				<div class="card card-olive" id = "card_personeller">
 					<div class="card-header">
 						<h3 class="card-title"><?php echo $birim_adi." / ".$sayfa_adi ?></h3>
-						<div class = "card-tools">
-							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
-							<a id = "yeni_ogretim_elemanlari" data-toggle = "tooltip" title = "Yeni Personel Ekle" href = "?modul=personeller&islem=ekle" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
-						</div>
 					</div>
+
 					<form class="form-horizontal" action = "_modul/birimSayfalari/birimSayfalariSEG.php" method = "POST" enctype="multipart/form-data">
+					<?php if( $birim_id > 0 ){ ?>
+
 					<div class="card-body">
 						<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 						<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
@@ -467,6 +466,34 @@ if( $sayfa_id > 0 ){
 					<div class="card-footer">
 						<button modul= 'birimSayfalari' yetki_islem="<?php echo $kaydet_buton_yetki_islem; ?>" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
 					</div>
+                        <?php }else{ ?>
+                            <div class="text-center" style="height:600px;">
+                                <h2> Lütfen Birim Seçiniz</h2>
+                                <br>
+                                <div class="spinner-grow text-primary " role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-secondary" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-success" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-danger" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-warning" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-info" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-dark" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        <?php } ?>
+
 					</form>
 
 				</div>

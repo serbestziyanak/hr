@@ -1,3 +1,52 @@
+<?php
+include "../_cekirdek/fonksiyonlar.php";
+$vt = new VeriTabani();
+$fn = new Fonksiyonlar();
+
+$birim_id				= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
+
+$SQL_birim_sayfalari_getir = <<< SQL
+SELECT
+	*
+FROM 
+	tb_birim_sayfalari
+WHERE 
+	birim_id = ?
+SQL;
+
+$SQL_slaytlar = <<< SQL
+SELECT
+  *
+FROM 
+  tb_slaytlar
+WHERE 
+  birim_id = ?
+SQL;
+
+$SQL_duyurular = <<< SQL
+SELECT
+  *
+FROM 
+  tb_duyurular
+ORDER BY tarih DESC
+SQL;
+
+$SQL_duyuru_icerik = <<< SQL
+SELECT
+  *
+FROM 
+  tb_duyurular
+WHERE
+  id = ? 
+SQL;
+
+
+@$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
+@$duyurular 	    = $vt->select($SQL_duyurular, array( $birim_id ) )[ 2 ];
+@$slaytlar 	    = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
+
+
+?>
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -43,6 +92,9 @@
     <!--==============================
 	    All CSS File
 	============================== -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!-- Fontawesome Icon -->
@@ -165,13 +217,51 @@
             </div>
             <div class="th-mobile-menu">
                 <ul>
+                <?php 
+                    function buildListMobile(array $array, int $ust_id, int $ilk, $birim_id): string
+                    {
+                        if( $ilk )
+                        $menu = "";
+                        else
+                        $menu = "<ul class='sub-menu'>";
+                        foreach($array as $item) {
+                            if( $item['ust_id'] == $ust_id ){
+                                if( $item['kategori'] == 0 )
+                                    $menu .= "<li><a href='index.php?birim_id={$birim_id}&sayfa_id={$item['id']}'>{$item['adi']}</a></li>";
+                                else
+                                        $menu .= "<li class='menu-item-has-children'><a href='#'>{$item['adi']}</a>";
+                                if ( $item['kategori'] == 1 ) {
+                                        $menu .= buildListMobile($array, $item['id'],0, $birim_id);
+                                }
+                                $menu .= "</li>";
+                            }
+                        }
+                        $menu .= "</ul>";
+
+                        return $menu;
+                    }
+                    echo buildListMobile($birim_sayfalari, 0, 1, $birim_id);
+                ?>
+                </ul>
+
+                <!--ul>
                     <li class="menu-item-has-children">
                         <a href="index.html">Home</a>
                         <ul class="sub-menu">
                             <li class="menu-item-has-children">
                                 <a href="#">Multipage</a>
                                 <ul class="sub-menu">
-                                    <li><a href="index.html">Home University</a></li>
+                                    <li  class="menu-item-has-children">
+                                        <a href="index.html">Home University</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="home1-rtl.html">University RTL</a></li>
+                                            <li><a href="home2-rtl.html">Online Education RTL</a></li>
+                                            <li><a href="home3-rtl.html">University Admission RTL</a></li>
+                                            <li><a href="home4-rtl.html">Digital Education RTL</a></li>
+                                        </ul>
+                                    </li>
+
+
                                     <li><a href="home-2.html">Home Online Education</a></li>
                                     <li><a href="home-3.html">Home University Admission</a></li>
                                     <li><a href="home-4.html">Home Digital Education</a></li>
@@ -265,7 +355,7 @@
                     <li>
                         <a href="contact.html">Contact</a>
                     </li>
-                </ul>
+                </ul-->
             </div>
         </div>
     </div>
@@ -314,7 +404,7 @@
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto">
                             <div class="header-logo" style="padding: 0px;">
-                                <a href="index.html"><img src="assets/img/ayu_logo2.png" alt="Edura" style="height:98px;"></a>
+                                <a href="index.html"><img src="assets/img/ayu_logo2.png" alt="Edura" style="height:85px;"></a>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -322,13 +412,50 @@
                                 <div class="col-auto">
                                     <nav class="main-menu d-none d-lg-inline-block">
                                         <ul>
+                                        <?php 
+                                            function buildList(array $array, int $ust_id, int $ilk, $birim_id): string
+                                            {
+                                                if( $ilk )
+                                                $menu = "";
+                                                else
+                                                $menu = "<ul class='sub-menu'>";
+                                                foreach($array as $item) {
+                                                    if( $item['ust_id'] == $ust_id ){
+                                                        if( $item['kategori'] == 0 )
+                                                            $menu .= "<li><a href='index.php?birim_id={$birim_id}&sayfa_id={$item['id']}'>{$item['adi']}</a></li>";
+                                                        else
+                                                             $menu .= "<li class='menu-item-has-children'><a href='#'>{$item['adi']}</a>";
+                                                        if ( $item['kategori'] == 1 ) {
+                                                                $menu .= buildList($array, $item['id'],0, $birim_id);
+                                                        }
+                                                        $menu .= "</li>";
+                                                    }
+                                                }
+                                                $menu .= "</ul>";
+
+                                                return $menu;
+                                            }
+                                            echo buildList($birim_sayfalari, 0, 1, $birim_id);
+                                        ?>
+                                        </ul>
+                                        <!--ul>
                                             <li class="menu-item-has-children">
                                                 <a href="index.html">Home</a>
                                                 <ul class="sub-menu">
                                                     <li class="menu-item-has-children">
                                                         <a href="#">Multipage</a>
                                                         <ul class="sub-menu">
-                                                            <li><a href="index.html">Home University</a></li>
+                                                            <li  class="menu-item-has-children">
+                                                                <a href="index.html">Home University</a>
+                                                                <ul class="sub-menu">
+                                                                    <li><a href="home1-rtl.html">University RTL</a></li>
+                                                                    <li><a href="home2-rtl.html">Online Education RTL</a></li>
+                                                                    <li><a href="home3-rtl.html">University Admission RTL</a></li>
+                                                                    <li><a href="home4-rtl.html">Digital Education RTL</a></li>
+                                                                </ul>
+                                                            </li>
+
+
                                                             <li><a href="home-2.html">Home Online Education</a></li>
                                                             <li><a href="home-3.html">Home University Admission</a></li>
                                                             <li><a href="home-4.html">Home Digital Education</a></li>
@@ -422,7 +549,7 @@
                                             <li>
                                                 <a href="contact.html">Contact</a>
                                             </li>
-                                        </ul>
+                                        </ul-->
                                     </nav>
                                     <button type="button" class="th-menu-toggle d-block d-lg-none"><i class="far fa-bars"></i></button>
                                 </div>
@@ -451,7 +578,7 @@
 Hero Area
 ==============================-->
     <div class="th-hero-wrapper hero-1" id="hero">
-        <div class="hero-slider-1 th-carousel" data-fade="true" data-slide-show="1" data-md-slide-show="1" data-dots="true">
+        <div class="hero-slider-1 th-carousel" data-fade="true" data-slide-show="1" data-md-slide-show="1" data-dots="false">
 
 
             <div class="th-hero-slide">
@@ -460,94 +587,45 @@ Hero Area
                     <div class="row align-items-center justify-content-center">
                         <div class="col-md-6">
                             <div class="hero-style1">
-                                <span class="hero-subtitle" data-ani="slideinleft" data-ani-delay="0.1s"><span>35% OFF</span> LEARN FROM TODAY</span>
                                 <h1 class="hero-title text-white" data-ani="slideinleft" data-ani-delay="0.4s">
-                                    Mühendislik Fakültesi
+                                    Mühendislik Fakültesi 
                                 <p class="hero-text" data-ani="slideinleft" data-ani-delay="0.6s">Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi</p>
-                                <div class="btn-group" data-ani="slideinleft" data-ani-delay="0.8s">
-                                    <a href="contact.html" class="th-btn style3">Get Started<i class="fas fa-arrow-right ms-2"></i></a>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 text-lg-end text-center">
                             <div class="hero-img1">
-                                <img src="assets/img/hero/5.jpg" alt="hero">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-shape shape1">
-                    <img src="assets/img/hero/shape_1_1.png" alt="shape">
-                </div>
-                <div class="hero-shape shape2">
-                    <img src="assets/img/hero/shape_1_2.png" alt="shape">
-                </div>
-                <div class="hero-shape shape3"></div>
-
-                <div class="hero-shape shape4 shape-mockup jump-reverse" data-right="3%" data-bottom="7%">
-                    <img src="assets/img/hero/shape_1_3.png" alt="shape">
-                </div>
-                <div class="hero-shape shape5 shape-mockup jump-reverse" data-left="0" data-bottom="0">
-                    <img src="assets/img/hero/shape_1_4.png" alt="shape">
-                </div>
-            </div>
-
-
-            <div class="th-hero-slide">
-                <div class="th-hero-bg" data-overlay="title" data-opacity="8" data-bg-src="assets/img/hero/2.jpg"></div>
-                <div class="container">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-md-6">
-                            <div class="hero-style1">
-                                <span class="hero-subtitle" data-ani="slideinleft" data-ani-delay="0.1s"><span>35% OFF</span> LEARN FROM TODAY</span>
-                                <h1 class="hero-title text-white" data-ani="slideinleft" data-ani-delay="0.4s">Edura Leads To A Brighter <span class="text-theme">Future.</span></h1>
-                                <p class="hero-text" data-ani="slideinleft" data-ani-delay="0.6s">Education can be thought of as the transmission of a societys values and accumulated knowledge. In this sense, it is equivalent.</p>
-                                <div class="btn-group" data-ani="slideinleft" data-ani-delay="0.8s">
-                                    <a href="contact.html" class="th-btn style3">Get Started<i class="fas fa-arrow-right ms-2"></i></a>
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <?php 
+                                        $sira=0;
+                                        foreach( $slaytlar as $slayt ){
+                                            $slayt_aktif = $sira == 0 ? "active" : "";
+                                            $slayt_aria = $sira == 0 ? "active" : "";
+                                    ?>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $sira; ?>" class="<?php echo $slayt_aktif; ?>" ></button>
+                                    <?php $sira++; } ?>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-lg-end text-center">
-                            <div class="hero-img1">
-                                <img src="assets/img/hero/6.jpg" alt="hero">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-shape shape1">
-                    <img src="assets/img/hero/shape_1_1.png" alt="shape">
-                </div>
-                <div class="hero-shape shape2">
-                    <img src="assets/img/hero/shape_1_2.png" alt="shape">
-                </div>
-                <div class="hero-shape shape3"></div>
-
-                <div class="hero-shape shape4 shape-mockup jump-reverse" data-right="3%" data-bottom="7%">
-                    <img src="assets/img/hero/shape_1_3.png" alt="shape">
-                </div>
-                <div class="hero-shape shape5 shape-mockup jump-reverse" data-left="0" data-bottom="0">
-                    <img src="assets/img/hero/shape_1_4.png" alt="shape">
-                </div>
-            </div>
-
-
-            <div class="th-hero-slide">
-                <div class="th-hero-bg" data-overlay="title" data-opacity="8" data-bg-src="assets/img/hero/3.jpg"></div>
-                <div class="container">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-md-6">
-                            <div class="hero-style1">
-                                <span class="hero-subtitle" data-ani="slideinleft" data-ani-delay="0.1s"><span>35% OFF</span> LEARN FROM TODAY</span>
-                                <h1 class="hero-title text-white" data-ani="slideinleft" data-ani-delay="0.4s">The Worlds Best Online Education <span class="text-theme">Institute.</span></h1>
-                                <p class="hero-text" data-ani="slideinleft" data-ani-delay="0.6s">Education can be thought of as the transmission of the values and accumulated knowledge of a society. In this sense, it is equivalent.</p>
-                                <div class="btn-group" data-ani="slideinleft" data-ani-delay="0.8s">
-                                    <a href="contact.html" class="th-btn style3">Get Started<i class="fas fa-arrow-right ms-2"></i></a>
+                                <div class="carousel-inner">
+                                    <?php 
+                                        $sira=0;
+                                        foreach( $slaytlar as $slayt ){
+                                        $sira++;
+                                        $slayt_aktif = $sira == 1 ? "active" : "";
+                                    ?>
+                                    <div class="carousel-item <?php echo $slayt_aktif; ?>">
+                                    <img src="../resimler/slaytlar/<?php echo $slayt['foto']; ?>"  class="d-block w-100"  alt="First slide">
+                                    </div>
+                                    <?php } ?>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-lg-end text-center">
-                            <div class="hero-img1">
-                                <img src="assets/img/hero/hero_thumb_1_3.jpg" alt="hero">
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                                </div>                                
                             </div>
                         </div>
                     </div>
@@ -573,6 +651,8 @@ Hero Area
     <!--==============================
 Contact Area  
 ==============================-->
+
+
     <div class="space-top">
         <div class="container">
             <div class="category-sec-wrap">
@@ -2144,7 +2224,5 @@ Blog Area
 
     <!-- Main Js File -->
     <script src="assets/js/main.js"></script>
-
-</body>
 
 </html>

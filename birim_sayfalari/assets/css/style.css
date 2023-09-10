@@ -10984,8 +10984,8 @@ ul.comment-list .th-comment-item:first-child > .th-post-comment {
   z-index: 9;
   margin-right: -62px;
   margin-top: -50px;
-  -webkit-filter: drop-shadow(-29.434px 25.586px 10.392px rgba(25, 24, 25, 0.16));
-          filter: drop-shadow(-29.434px 25.586px 10.392px rgba(25, 24, 25, 0.16));
+  -webkit-filter: drop-shadow(29.434px 25.586px 10.392px rgba(25, 24, 25, 0.16));
+          filter: drop-shadow(29.434px 25.586px 10.392px rgba(25, 24, 25, 0.16));
   /* Extra large devices */
 }
 
