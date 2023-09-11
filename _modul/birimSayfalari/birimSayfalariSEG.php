@@ -9,7 +9,7 @@ $sayfa_id		 	= array_key_exists( 'sayfa_id', $_REQUEST ) ? $_REQUEST[ 'sayfa_id'
 $birim_id 			= array_key_exists( 'birim_id', $_REQUEST ) 	? $_REQUEST[ 'birim_id' ] : 0;
 $birim_adi 			= array_key_exists( 'birim_adi', $_REQUEST ) 	? $_REQUEST[ 'birim_adi' ] : "";
 $sayfa_adi 			= array_key_exists( 'sayfa_adi', $_REQUEST ) 	? $_REQUEST[ 'sayfa_adi' ] : "";
-
+$kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
 var_dump($_REQUEST);
 //exit;
 
@@ -21,13 +21,15 @@ SET
 	,ust_id 			= ?
 	,adi 				= ?
 	,kategori 			= ?
+	,kisa_ad			= ?
 SQL;
 
 $SQL_birim_sayfa_duzenle = <<< SQL
 UPDATE
 	tb_birim_sayfalari
 SET
-	adi 	= ?
+	 adi 		= ?
+	,kisa_ad	= ?
 WHERE 
 	id 		= ? 
 SQL;
@@ -36,10 +38,10 @@ $SQL_birim_sayfa_duzenle2 = <<< SQL
 UPDATE
 	tb_birim_sayfalari
 SET
-	 link 	= ?
+	 link 		= ?
 	,link_url 	= ?
-	,harici	= ?
-	,aktif 	= ?
+	,harici		= ?
+	,aktif 		= ?
 WHERE 
 	id 		= ? 
 SQL;
@@ -104,6 +106,7 @@ switch( $islem ) {
 		$degerler[] = $ust_id;
 		$degerler[] = $_REQUEST[ "adi" ];
 		$degerler[] = $kategori;
+		$degerler[] = $kisa_ad;
 
 		$sonuc = $vt->insert( $SQL_birim_sayfa_ekle, $degerler );
 		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sonuc[ 1 ] );
@@ -114,6 +117,7 @@ switch( $islem ) {
 	break;
 	case 'guncelle':
 		$degerler[] = $_REQUEST[ "adi" ];
+		$degerler[] = $kisa_ad;
 		$degerler[] = $id;
 
 		$sonuc = $vt->update( $SQL_birim_sayfa_duzenle, $degerler );

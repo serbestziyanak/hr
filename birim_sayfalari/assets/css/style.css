@@ -5676,7 +5676,6 @@ ol.wp-block-rss {
   font-weight: 500;
   font-size: 16px;
   color: var(--title-color);
-  text-transform: uppercase;
 }
 
 .main-menu a:hover {
@@ -11099,9 +11098,9 @@ ul.comment-list .th-comment-item:first-child > .th-post-comment {
 /* Small devices */
 @media (max-width: 767px) {
   .hero-1 .hero-img1 {
-    display: none;
+   
   }
-  .hero-1 .shape1, .hero-1 .shape2 {
+  .hero-1 .shape4, .hero-1 .shape5 {
     display: none;
   }
 }

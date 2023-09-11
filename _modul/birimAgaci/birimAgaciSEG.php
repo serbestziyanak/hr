@@ -4,9 +4,10 @@ $vt		= new VeriTabani();
 $fn		= new Fonksiyonlar();
 
 $islem				= array_key_exists( 'islem', $_REQUEST )	? $_REQUEST[ 'islem' ]	: 'ekle';
-$birim_agaci_id 		= array_key_exists( 'id', $_REQUEST ) 		? $_REQUEST[ 'id' ] 	: 0;
+$birim_agaci_id 	= array_key_exists( 'id', $_REQUEST ) 		? $_REQUEST[ 'id' ] 	: 0;
 $ders_id 			= array_key_exists( 'ders_id', $_REQUEST ) 	? $_REQUEST[ 'ders_id' ] : 0;
 
+$birim_kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
 
 $SQL_birim_agaci_ekle = <<< SQL
 INSERT INTO 
@@ -16,6 +17,7 @@ SET
 	,adi 				= ?
 	,kategori 			= ?
 	,grup	 			= ?
+	,kisa_ad 			= ?
 SQL;
 
 $SQL_birim_agaci_duzenle = <<< SQL
@@ -25,6 +27,7 @@ SET
 	 adi 				= ?
 	,kategori 			= ?
 	,grup	 			= ?
+	,kisa_ad 			= ?
 WHERE 
 	id 		= ? 
 SQL;
@@ -68,6 +71,7 @@ switch( $islem ) {
 		$degerler[] = $_REQUEST[ "adi" ];
 		$degerler[] = $kategori;
 		$degerler[] = $grup;
+		$degerler[] = $birim_kisa_ad;
 
 		$sonuc = $vt->insert( $SQL_birim_agaci_ekle, $degerler );
 		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sonuc[ 1 ] );
@@ -83,6 +87,7 @@ switch( $islem ) {
 		$degerler[] = $_REQUEST[ "adi" ];
 		$degerler[] = $kategori;
 		$degerler[] = $grup;
+		$degerler[] = $birim_kisa_ad;
 		$degerler[] = $_REQUEST[ "birim_agaci_id" ];
 
 		$sonuc = $vt->update( $SQL_birim_agaci_duzenle, $degerler );

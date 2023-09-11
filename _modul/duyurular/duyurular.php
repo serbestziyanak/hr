@@ -244,7 +244,17 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 									<input type = "hidden" name = "id" value = "<?php echo $id; ?>">
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
 									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
-
+									<div class="form-group">
+										<label class="control-label">Foto</label>
+										<input type="file" name="foto" class="" ><br>
+										<small class="text-muted">Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır. </small>
+									</div>
+									<?php if( $islem == "guncelle" ){ ?>
+									<div class="form-group">
+										<label class="control-label">Var olan görsel</label><br>
+										<img src="resimler/duyurular/<?php echo $tek_duyuru[ 'foto' ]; ?>" width="200">
+									</div>
+									<?php } ?>
 									<div class="form-group">
 										<label class="control-label">Tarih</label>
 										<div class="input-group date" id="tarih" data-target-input="nearest">

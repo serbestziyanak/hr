@@ -622,6 +622,15 @@ SQL;
 		return $aylar[ $kacinci_ay ][ $ad_uzunlugu ];
 	}
 
+	public function kisa_ad_ver($metin) {
+		$bul = array('ş', 'Ş', 'ı', 'İ', 'ğ', 'Ğ', 'ü', 'Ü', 'ö', 'Ö', 'Ç', 'ç', ' ', '’', '(', ')', '[', ']', '{', '}', '<', '>', '&', '%', '$', '#', '@', '!', '?', '+', '*', '|', '=', '"', '‘', '“', '”', ';', ':', '–', '…', 'é', 'á', 'ó', 'ú', 'à');
+		$degistir = array('s', 'S', 'i', 'I', 'g', 'G', 'u', 'U', 'o', 'O', 'C', 'c', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'e', 'a', 'o', 'u', 'a');
+		$metin = str_replace($bul, $degistir, $metin);
+		$metin = strtolower($metin);
+		$metin = preg_replace('/[^a-z0-9]/', '-', $metin);
+		$metin = preg_replace('/-+/', '-', $metin);
+		return $metin;
+	}
 	//2022-04-30 formatındaki tarihe ait günü veriyor
 	public function gunVer($gelenTarih,$locale='tr'){
 	    $gelentarih=explode ("-",$gelenTarih);

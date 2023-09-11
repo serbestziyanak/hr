@@ -23,6 +23,15 @@ WHERE
   birim_id = ?
 SQL;
 
+$SQL_genel_ayarlar = <<< SQL
+SELECT
+  *
+FROM 
+  tb_genel_ayarlar
+WHERE 
+  birim_id = ?
+SQL;
+
 $SQL_duyurular = <<< SQL
 SELECT
   *
@@ -40,20 +49,58 @@ WHERE
   id = ? 
 SQL;
 
+$SQL_birim_bilgileri = <<< SQL
+SELECT
+  *
+FROM 
+  tb_birim_agaci
+WHERE
+  kisa_ad = ? 
+SQL;
+
+$SQL_birim_sayfa_bilgileri = <<< SQL
+SELECT
+  *
+FROM 
+  tb_birim_sayfalari
+WHERE
+  kisa_ad = ? 
+SQL;
+
+$SQL_birim_sayfa_icerikleri = <<< SQL
+SELECT
+  *
+FROM 
+  tb_birim_sayfa_icerikleri
+WHERE
+  sayfa_id = ? 
+SQL;
+
+
+@$birim_bilgileri 	    = $vt->selectSingle($SQL_birim_bilgileri, array( $_REQUEST['kisa_ad'] ) )[ 2 ];
+$birim_id				= @array_key_exists( 'id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'id' ]	: 0;
+@$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'] ) )[ 2 ];
+$sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_bilgileri[ 'id' ]	: 0;
+@$birim_sayfa_icerikleri = $vt->selectSingle($SQL_birim_sayfa_icerikleri, array( $sayfa_id ) )[ 2 ];
 
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
-@$duyurular 	    = $vt->select($SQL_duyurular, array( $birim_id ) )[ 2 ];
-@$slaytlar 	    = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
+@$duyurular 	        = $vt->select($SQL_duyurular, array( $birim_id ) )[ 2 ];
+@$slaytlar 	            = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
+@$genel_ayarlar 	    = $vt->selectSingle($SQL_genel_ayarlar, array( $birim_id ) )[ 2 ];
 
-
+if( $birim_id == 0 ){
+    include "error.html";
+    exit;
+}
 ?>
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
+  <base href="/hr/birim_sayfalari/" />
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Edura - Online Courses & Education HTML Template - Home One</title>
+    <title><?php echo $birim_bilgileri['adi']; ?></title>
     <meta name="author" content="themeholy">
     <meta name="description" content="Edura - Online Courses & Education HTML Template">
     <meta name="keywords" content="Edura - Online Courses & Education HTML Template">
@@ -142,49 +189,16 @@ SQL;
         <div class="sidemenu-content">
             <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
             <div class="widget woocommerce widget_shopping_cart">
-                <h3 class="widget_title">Shopping cart</h3>
+                <h3 class="widget_title">Duyurular</h3>
                 <div class="widget_shopping_cart_content">
                     <ul class="woocommerce-mini-cart cart_list product_list_widget ">
+                        <?php foreach( $duyurular as $duyuru ){ ?>
                         <li class="woocommerce-mini-cart-item mini_cart_item">
-                            <a href="#" class="remove remove_from_cart_button"><i class="far fa-times"></i></a>
-                            <a href="#"><img src="assets/img/product/product_thumb_1_1.jpg" alt="Cart Image">Plastic Book Bags</a>
-                            <span class="quantity">1 ×
-                                <span class="woocommerce-Price-amount amount">
-                                    <span class="woocommerce-Price-currencySymbol">$</span>940.00</span>
-                            </span>
+                            <a href="#"><img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Cart Image"><?php echo $duyuru['baslik']; ?></a>
+                            <small class="text-muted"><i class="fa-solid fa-calendar-days"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></small>
+                           
                         </li>
-                        <li class="woocommerce-mini-cart-item mini_cart_item">
-                            <a href="#" class="remove remove_from_cart_button"><i class="far fa-times"></i></a>
-                            <a href="#"><img src="assets/img/product/product_thumb_1_2.jpg" alt="Cart Image">The Genie Mind</a>
-                            <span class="quantity">1 ×
-                                <span class="woocommerce-Price-amount amount">
-                                    <span class="woocommerce-Price-currencySymbol">$</span>899.00</span>
-                            </span>
-                        </li>
-                        <li class="woocommerce-mini-cart-item mini_cart_item">
-                            <a href="#" class="remove remove_from_cart_button"><i class="far fa-times"></i></a>
-                            <a href="#"><img src="assets/img/product/product_thumb_1_3.jpg" alt="Cart Image">The Energy Book</a>
-                            <span class="quantity">1 ×
-                                <span class="woocommerce-Price-amount amount">
-                                    <span class="woocommerce-Price-currencySymbol">$</span>756.00</span>
-                            </span>
-                        </li>
-                        <li class="woocommerce-mini-cart-item mini_cart_item">
-                            <a href="#" class="remove remove_from_cart_button"><i class="far fa-times"></i></a>
-                            <a href="#"><img src="assets/img/product/product_thumb_1_4.jpg" alt="Cart Image">Pencil Bag</a>
-                            <span class="quantity">1 ×
-                                <span class="woocommerce-Price-amount amount">
-                                    <span class="woocommerce-Price-currencySymbol">$</span>723.00</span>
-                            </span>
-                        </li>
-                        <li class="woocommerce-mini-cart-item mini_cart_item">
-                            <a href="#" class="remove remove_from_cart_button"><i class="far fa-times"></i></a>
-                            <a href="#"><img src="assets/img/product/product_thumb_1_5.jpg" alt="Cart Image">Sharpner</a>
-                            <span class="quantity">1 ×
-                                <span class="woocommerce-Price-amount amount">
-                                    <span class="woocommerce-Price-currencySymbol">$</span>1080.00</span>
-                            </span>
-                        </li>
+                        <?php } ?>
                     </ul>
                     <p class="woocommerce-mini-cart__total total">
                         <strong>Subtotal:</strong>
@@ -213,12 +227,12 @@ SQL;
         <div class="th-menu-area text-center">
             <button class="th-menu-toggle"><i class="fal fa-times"></i></button>
             <div class="mobile-logo">
-                <a href="index.html"><img src="assets/img/ayu_logo2.png" alt="Edura"></a>
+                <a href="index.php"><img src="assets/img/ayu_logo2.png" alt="Edura"></a>
             </div>
             <div class="th-mobile-menu">
                 <ul>
                 <?php 
-                    function buildListMobile(array $array, int $ust_id, int $ilk, $birim_id): string
+                    function buildListMobile(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad): string
                     {
                         if( $ilk )
                         $menu = "";
@@ -227,11 +241,11 @@ SQL;
                         foreach($array as $item) {
                             if( $item['ust_id'] == $ust_id ){
                                 if( $item['kategori'] == 0 )
-                                    $menu .= "<li><a href='index.php?birim_id={$birim_id}&sayfa_id={$item['id']}'>{$item['adi']}</a></li>";
+                                    $menu .= "<li><a href='{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item['adi']}</a></li>";
                                 else
                                         $menu .= "<li class='menu-item-has-children'><a href='#'>{$item['adi']}</a>";
                                 if ( $item['kategori'] == 1 ) {
-                                        $menu .= buildListMobile($array, $item['id'],0, $birim_id);
+                                        $menu .= buildListMobile($array, $item['id'],0, $birim_id, $birim_kisa_ad);
                                 }
                                 $menu .= "</li>";
                             }
@@ -240,19 +254,19 @@ SQL;
 
                         return $menu;
                     }
-                    echo buildListMobile($birim_sayfalari, 0, 1, $birim_id);
+                    echo buildListMobile($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad']);
                 ?>
                 </ul>
 
                 <!--ul>
                     <li class="menu-item-has-children">
-                        <a href="index.html">Home</a>
+                        <a href="index.php">Home</a>
                         <ul class="sub-menu">
                             <li class="menu-item-has-children">
                                 <a href="#">Multipage</a>
                                 <ul class="sub-menu">
                                     <li  class="menu-item-has-children">
-                                        <a href="index.html">Home University</a>
+                                        <a href="index.php">Home University</a>
                                         <ul class="sub-menu">
                                             <li><a href="home1-rtl.html">University RTL</a></li>
                                             <li><a href="home2-rtl.html">Online Education RTL</a></li>
@@ -369,9 +383,9 @@ SQL;
                     <div class="col-auto d-none d-lg-block">
                         <div class="header-links">
                             <ul>
-                                <li><i class="far fa-phone"></i><a href="tel:+11156456825">+111 (564) 568 25</a></li>
-                                <li class="d-none d-xl-inline-block"><i class="far fa-envelope"></i><a href="mailto:info@Edura.com">info@edura.com</a></li>
-                                <li><i class="far fa-clock"></i>Mon - Sat: 8:00 - 15:00</li>
+                                <li><i class="far fa-phone"></i><a href="tel:<?php echo $genel_ayarlar['tel']; ?>"><?php echo $genel_ayarlar['tel']; ?></a></li>
+                                <li class="d-none d-xl-inline-block"><i class="far fa-envelope"></i><a href="mailto:<?php echo $genel_ayarlar['email']; ?>"><?php echo $genel_ayarlar['email']; ?></a></li>
+                                <li><i class="far fa-clock"></i>Mon - Fri: 9:00 - 18:00</li>
                             </ul>
                         </div>
                     </div>
@@ -381,11 +395,11 @@ SQL;
                                 <li>
                                     <div class="header-social">
                                         <span class="social-title">Follow Us:</span>
-                                        <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a>
-                                        <a href="https://www.linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                        <a href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
-                                        <a href="https://www.instagram.com/"><i class="fab fa-skype"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['youtube']; ?>"><i class="fab fa-youtube"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['instagram']; ?>"><i class="fa-brands fa-instagram"></i></a>
                                     </div>
                                 </li>
                                 <li class="d-none d-lg-inline-block">
@@ -404,7 +418,7 @@ SQL;
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto">
                             <div class="header-logo" style="padding: 0px;">
-                                <a href="index.html"><img src="assets/img/ayu_logo2.png" alt="Edura" style="height:85px;"></a>
+                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Edura" style="height:75px;"></a>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -413,7 +427,7 @@ SQL;
                                     <nav class="main-menu d-none d-lg-inline-block">
                                         <ul>
                                         <?php 
-                                            function buildList(array $array, int $ust_id, int $ilk, $birim_id): string
+                                            function buildList(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad): string
                                             {
                                                 if( $ilk )
                                                 $menu = "";
@@ -422,11 +436,11 @@ SQL;
                                                 foreach($array as $item) {
                                                     if( $item['ust_id'] == $ust_id ){
                                                         if( $item['kategori'] == 0 )
-                                                            $menu .= "<li><a href='index.php?birim_id={$birim_id}&sayfa_id={$item['id']}'>{$item['adi']}</a></li>";
+                                                            $menu .= "<li><a href='{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item['adi']}</a></li>";
                                                         else
-                                                             $menu .= "<li class='menu-item-has-children'><a href='#'>{$item['adi']}</a>";
+                                                             $menu .= "<li class='menu-item-has-children'><a href='#' >{$item['adi']}</a>";
                                                         if ( $item['kategori'] == 1 ) {
-                                                                $menu .= buildList($array, $item['id'],0, $birim_id);
+                                                                $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad);
                                                         }
                                                         $menu .= "</li>";
                                                     }
@@ -435,18 +449,18 @@ SQL;
 
                                                 return $menu;
                                             }
-                                            echo buildList($birim_sayfalari, 0, 1, $birim_id);
+                                            echo buildList($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad']);
                                         ?>
                                         </ul>
                                         <!--ul>
                                             <li class="menu-item-has-children">
-                                                <a href="index.html">Home</a>
+                                                <a href="index.php">Home</a>
                                                 <ul class="sub-menu">
                                                     <li class="menu-item-has-children">
                                                         <a href="#">Multipage</a>
                                                         <ul class="sub-menu">
                                                             <li  class="menu-item-has-children">
-                                                                <a href="index.html">Home University</a>
+                                                                <a href="index.php">Home University</a>
                                                                 <ul class="sub-menu">
                                                                     <li><a href="home1-rtl.html">University RTL</a></li>
                                                                     <li><a href="home2-rtl.html">Online Education RTL</a></li>
@@ -556,15 +570,15 @@ SQL;
                                 <div class="col-auto d-none d-xl-block">
                                     <div class="header-button">
                                         <button type="button" class="icon-btn searchBoxToggler"><i class="far fa-search"></i></button>
-                                        <a href="wishlist.html" class="icon-btn">
+                                        <!--a href="wishlist.html" class="icon-btn">
                                             <i class="far fa-heart"></i>
                                             <span class="badge">3</span>
-                                        </a>
+                                        </a-->
                                         <button type="button" class="icon-btn sideMenuToggler">
-                                            <i class="far fa-shopping-cart"></i>
+                                            <i class="fa-solid fa-bullhorn"></i>
                                             <span class="badge">5</span>
                                         </button>
-                                        <a href="contact.html" class="th-btn ml-25">Contact Us <i class="fas fa-arrow-right ms-1"></i></a>
+                                        <a href="https://portal.ayu.edu.kz/" target="_blank" class="th-btn ml-25">AYU Portal <i class="fas fa-arrow-right ms-1"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -574,6 +588,9 @@ SQL;
             </div>
         </div>
     </header>
+<?php if( $sayfa_id > 0 ){
+    include "icerik.php";
+}else{ ?>
     <!--==============================
 Hero Area
 ==============================-->
@@ -588,8 +605,8 @@ Hero Area
                         <div class="col-md-6">
                             <div class="hero-style1">
                                 <h1 class="hero-title text-white" data-ani="slideinleft" data-ani-delay="0.4s">
-                                    Mühendislik Fakültesi 
-                                <p class="hero-text" data-ani="slideinleft" data-ani-delay="0.6s">Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi</p>
+                                    <?php echo $birim_bilgileri['adi']; ?> 
+                                <p class="hero-text" data-ani="slideinleft" data-ani-delay="0.6s"><?php echo $genel_ayarlar['slogan']; ?></p>
                             </div>
                         </div>
                         <div class="col-md-6 text-lg-end text-center">
@@ -653,7 +670,7 @@ Contact Area
 ==============================-->
 
 
-    <div class="space-top">
+    <!--div class="space-top">
         <div class="container">
             <div class="category-sec-wrap">
                 <div class="shape-mockup category-shape-arrow d-xl-block d-none">
@@ -779,7 +796,7 @@ Contact Area
 
             </div>
         </div>
-    </div>
+    </div-->
     <!--==============================
 About Area  
 ==============================-->
@@ -789,14 +806,14 @@ About Area
                 <div class="col-xl-6">
                     <div class="img-box1 mb-40 mb-xl-0">
                         <div class="img1">
-                            <img class="tilt-active" src="assets/img/normal/about_1_1.png" alt="About">
+                            <img class="tilt-active" src="assets/img/bg/1.jpg" alt="About" style="width: 444px;height: 399px;object-fit: cover;">
                         </div>
-                        <div class="about-grid" data-bg-src="assets/img/normal/about_1_3.png">
+                        <div class="about-grid" data-bg-src="assets/img/bg/3.jpg" style="width: 154px;height: 197px;object-fit: cover;">
                             <h3 class="about-grid_year"><span class="counter-number">10</span>k<span class="text-theme">+</span></h3>
                             <p class="about-grid_text">Students Active Our Courses</p>
                         </div>
                         <div class="img2">
-                            <img class="tilt-active" src="assets/img/normal/about_1_2.png" alt="About">
+                            <img class="tilt-active" src="assets/img/bg/7.jpg" alt="About" style="width: 340px;height: 265px;object-fit: cover;">
                         </div>
                         <div class="shape-mockup about-shape1 jump" data-left="-67px" data-bottom="0">
                             <img src="assets/img/normal/about_1_shape1.png" alt="img">
@@ -805,29 +822,14 @@ About Area
                 </div>
                 <div class="col-xl-6">
                     <div class="title-area mb-30">
-                        <span class="sub-title"><i class="fal fa-book me-2"></i> About Our University</span>
-                        <h2 class="sec-title">Welcome to Edura University.</h2>
+                        <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo $genel_ayarlar['anasayfa_baslik']; ?></span>
+                        <h2 class="sec-title"><?php echo $genel_ayarlar['anasayfa_baslik']; ?></h2>
                     </div>
-                    <p class="mt-n2 mb-25">Collaboratively simplify user friendly networks after principle centered coordinate effective methods of empowerment distributed niche markets pursue market positioning web-readiness after resource sucking applications. </p>
-                    <p class="mb-30">Online education, also known as e-learning, is a method of learning that takes place over the internet. It offers individuals the opportunity to acquire knowledge, skills.</p>
-                    <div class="row align-items-center">
-                        <div class="col-md-auto">
-                            <div class="about-grid_img mb-30 mb-md-0">
-                                <img src="assets/img/normal/about_1_4.png" alt="img">
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="checklist">
-                                <ul>
-                                    <li>Get access to 4,000+ of our top courses</li>
-                                    <li>Popular topics to learn now</li>
-                                    <li>Find the right instructor for you</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="mt-n2 mb-25">
+                        <?php echo $genel_ayarlar['anasayfa_icerik']; ?>
+                    </p>
                     <div class="btn-group mt-40">
-                        <a href="about.html" class="th-btn">About More<i class="fa-regular fa-arrow-right ms-2"></i></a>
+                        <a href="#" class="th-btn">Daha Fazla<i class="fa-regular fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -842,365 +844,53 @@ Servce Area
                 <div class="row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="title-area mb-md-0">
-                            <span class="sub-title"><i class="fal fa-book me-2"></i> Popular Courses</span>
-                            <h2 class="sec-title">Our Popular Courses</h2>
+                            <span class="sub-title"><i class="fal fa-book me-2"></i> Son Duyurular</span>
+                            <h2 class="sec-title">Duyurular</h2>
                         </div>
                     </div>
                     <div class="col-md-auto">
-                        <a href="course.html" class="th-btn">View All Courses<i class="fa-solid fa-arrow-right ms-2"></i></a>
+                        <a href="#" class="th-btn">Tüm Duyurular<i class="fa-solid fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
             <div class="row slider-shadow th-carousel course-slider-1" data-slide-show="4" data-ml-slide-show="3" data-lg-slide-show="3" data-md-slide-show="2" data-sm-slide-show="1" data-arrows="true">
+                <?php foreach( $duyurular as $duyuru ){ ?>
                 <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_1.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 03 WEEKS</span>
+                    <div class="course-box" style="height: 500px;">
+                        <div class="course-img" style="height: 200px;">
+                            <img src="../resimler/duyurular/<?php echo $duyuru['foto'] ?>" alt="img" style="height: 200px;object-fit: cover;">
+                            <span class="tag"><i class="fas fa-clock"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></span>
                         </div>
                         <div class="course-content">
                             <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
+                                <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
+                                    <span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5</span>
+                                </div>
                             </div>
-                            <h3 class="course-title"><a href="course-details.html">Education Software and PHP
-                                    and JS System Script</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 8</span>
+                            <h3 class="course-title" style="font-size: 16px; height:100px;">
+                                <a href="course-details.html">
+                                <?php echo $duyuru['baslik'] ?>
+                                </a>
+                            </h3>
+                            <div class="course-meta ">
+                                <span><i class="fa-solid fa-calendar-days"></i></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></span>
                                 <span><i class="fal fa-user"></i>Students 60+</span>
                                 <span><i class="fal fa-chart-simple"></i>Beginner</span>
                             </div>
-                            <div class="course-author">
+                            <div class="course-author ">
                                 <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Max Alexix</a>
+                                    <img src="assets/img/ayu_logo.png" alt="author">
+                                    <a href="course.html" class="author-name"><?php echo $birim_bilgileri['adi']; ?></a>
                                 </div>
-                                <div class="offer-tag">Free</div>
+                                <div class="offer-tag">Yeni</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_2.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 02 WEEKS</span>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
-                            </div>
-                            <h3 class="course-title"><a href="course-details.html">Learn Figma – UI/UX Design
-                                    Essential Training</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 9</span>
-                                <span><i class="fal fa-user"></i>Students 50+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
-                            </div>
-                            <div class="course-author">
-                                <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Kevin Perry</a>
-                                </div>
-                                <div class="offer-tag">Free</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_3.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 04 WEEKS</span>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
-                            </div>
-                            <h3 class="course-title"><a href="course-details.html">Advanced Android 12 & Kotlin
-                                    Development Course</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 7</span>
-                                <span><i class="fal fa-user"></i>Students 30+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
-                            </div>
-                            <div class="course-author">
-                                <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Max Alexix</a>
-                                </div>
-                                <div class="offer-tag">Free</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_4.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 02 WEEKS</span>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
-                            </div>
-                            <h3 class="course-title"><a href="course-details.html">IT Statistics Data Science and
-                                    Business Analysis</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 10</span>
-                                <span><i class="fal fa-user"></i>Students 20+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
-                            </div>
-                            <div class="course-author">
-                                <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Kevin Perry</a>
-                                </div>
-                                <div class="offer-tag">Free</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_1.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 03 WEEKS</span>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
-                            </div>
-                            <h3 class="course-title"><a href="course-details.html">Education Software and PHP
-                                    and JS System Script</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 8</span>
-                                <span><i class="fal fa-user"></i>Students 60+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
-                            </div>
-                            <div class="course-author">
-                                <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Max Alexix</a>
-                                </div>
-                                <div class="offer-tag">Free</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_2.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 02 WEEKS</span>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
-                            </div>
-                            <h3 class="course-title"><a href="course-details.html">Learn Figma – UI/UX Design
-                                    Essential Training</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 9</span>
-                                <span><i class="fal fa-user"></i>Students 50+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
-                            </div>
-                            <div class="course-author">
-                                <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Kevin Perry</a>
-                                </div>
-                                <div class="offer-tag">Free</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_3.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 04 WEEKS</span>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
-                            </div>
-                            <h3 class="course-title"><a href="course-details.html">Advanced Android 12 & Kotlin
-                                    Development Course</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 7</span>
-                                <span><i class="fal fa-user"></i>Students 30+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
-                            </div>
-                            <div class="course-author">
-                                <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Max Alexix</a>
-                                </div>
-                                <div class="offer-tag">Free</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="course-box">
-                        <div class="course-img">
-                            <img src="assets/img/course/course_1_4.png" alt="img">
-                            <span class="tag"><i class="fas fa-clock"></i> 02 WEEKS</span>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-rating">
-                                <div class="star-rating" role="img" aria-label="Rated 4.00 out of 5">
-                                    <span style="width:79%">Rated <strong class="rating">4.00</strong> out of 5</span>
-                                </div>(4.7)
-                            </div>
-                            <h3 class="course-title"><a href="course-details.html">IT Statistics Data Science and
-                                    Business Analysis</a></h3>
-                            <div class="course-meta">
-                                <span><i class="fal fa-file"></i>Lesson 10</span>
-                                <span><i class="fal fa-user"></i>Students 20+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
-                            </div>
-                            <div class="course-author">
-                                <div class="author-info">
-                                    <img src="assets/img/course/author.png" alt="author">
-                                    <a href="course.html" class="author-name">Kevin Perry</a>
-                                </div>
-                                <div class="offer-tag">Free</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </section>
-    <!--==============================
-Cta Area  
-==============================-->
-    <div class="cta-area-1" data-bg-src="assets/img/bg/cta-bg1.png">
-        <div class="container">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-8">
-                    <div class="cta-wrap title-area mb-0">
-                        <div class="cta-icon">
-                            <img src="assets/img/normal/cta-icon1.png" alt="icon">
-                        </div>
-                        <div class="cta-content">
-                            <h2 class="cta-title sec-title">Get Online Courses</h2>
-                            <p class="cta-text">Met consectetur adipiscing sed eiustempore dolore</p>
-                        </div>
-                        <a href="about.html" class="th-btn style8">Join With Us<i class="fas fa-arrow-right ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="cta-img-1" data-overlay="title" data-opacity="8">
-            <img src="assets/img/normal/cta_1_1.png" alt="Image">
-            <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" class="play-btn style2 popup-video"><i class="fa-sharp fa-solid fa-play"></i></a>
-        </div>
-    </div>
-    <!--==============================
-Why choose us Area  
-==============================-->
-    <div class="why-area-1 space overflow-hidden">
-
-        <div class="shape-mockup why-shape-1 jump" data-top="10%" data-left="7%">
-            <img src="assets/img/normal/about_1_shape1.png" alt="img">
-        </div>
-
-        <div class="shape-mockup why-shape-2" data-bg-src="assets/img/normal/wcu_1_shape1.png"></div>
-
-        <div class="shape-mockup why-shape-3 jump-reverse" data-bottom="25%" data-right="-3%">
-            <img src="assets/img/normal/wcu_1_shape2.png" alt="img">
-        </div>
-
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-6">
-                    <div class="wcu-img-1">
-                        <div class="img1">
-                            <img src="assets/img/normal/wcu_1_1.png" alt="img">
-                        </div>
-                        <div class="student-count jump-reverse">
-                            <h5 class="title"><span class="text-theme"><span class="counter-number">10</span>k+</span> Active Students</h5>
-                            <img src="assets/img/normal/student-group_1_1.png" alt="img">
-                        </div>
-                        <div class="text-end">
-                            <a class="th-btn mt-30" href="contact.html">Get Started <i class="far fa-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="wcu-wrap1">
-                        <div class="title-area mb-25">
-                            <span class="sub-title"><i class="fal fa-book me-2"></i> WHY CHOOSE US</span>
-                            <h2 class="sec-title">Thousands Of Experts Around The World Ready To Help.</h2>
-                            <p class="sec-text mt-20">Synergistically visualize alternative content before cross functional core Rapidiously administra standardized value via focused benefits. Rapidiously redefine highly efficient niche markets with plug-and-play materials professionally seize client centric solutions</p>
-                        </div>
-                        <div class="row gy-4">
-                            <div class="col-md-6">
-                                <div class="wcu-box">
-                                    <div class="wcu-box_icon">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="wcu-box_details">
-                                        <h3 class="box-title">World Class Trainers</h3>
-                                        <p class="wcu-box_text">Seamlessly envisioneer tactical data through services.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="wcu-box">
-                                    <div class="wcu-box_icon">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="wcu-box_details">
-                                        <h3 class="box-title">Easy Learning</h3>
-                                        <p class="wcu-box_text">Seamlessly envisioneer tactical data through services.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="wcu-box">
-                                    <div class="wcu-box_icon">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="wcu-box_details">
-                                        <h3 class="box-title">Flexible</h3>
-                                        <p class="wcu-box_text">Seamlessly envisioneer tactical data through services.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="wcu-box">
-                                    <div class="wcu-box_icon">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="wcu-box_details">
-                                        <h3 class="box-title">Affordable Price</h3>
-                                        <p class="wcu-box_text">Seamlessly envisioneer tactical data through services.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!--==============================
 Counter Area  
 ==============================-->
@@ -1270,163 +960,6 @@ Cta Area
             </div>
         </div>
     </section>
-    <!--==============================
-Team Area  
-==============================-->
-    <div class="team-area overflow-hidden space" id="team-sec">
-        <div class="shape-mockup team-bg-shape1 jump-reverse d-xxl-block d-none" data-left="-2%" data-top="0">
-            <img src="assets/img/team/team-shape_1_1.png" alt="img">
-        </div>
-
-        <div class="shape-mockup team-bg-shape2 jump d-xxl-block d-none" data-left="40%" data-top="20%">
-            <img src="assets/img/team/team-shape_1_2.png" alt="img">
-        </div>
-
-        <div class="shape-mockup team-bg-shape3 jump" data-left="5%" data-bottom="9%">
-            <img src="assets/img/team/team-shape_1_3.png" alt="img">
-        </div>
-
-        <div class="shape-mockup team-bg-shape4 spin" data-left="40%" data-bottom="20%">
-            <img src="assets/img/team/team-shape_1_4.png" alt="img">
-        </div>
-
-        <div class="shape-mockup team-bg-shape5 jump d-lg-block d-none" data-right="-7%" data-top="10%">
-            <img src="assets/img/team/team-shape_1_5.png" alt="img">
-        </div>
-
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-6 mb-40 mb-xl-0">
-                    <div class="title-area mb-30">
-                        <span class="sub-title"><i class="fal fa-book me-2"></i> Our Instructor</span>
-                        <h2 class="sec-title">Meet Our Expert Instructor</h2>
-                        <p class="sec-text mt-20">Graduates of XYZ University have achieved remarkable success in their chosen fields, with many going on to pursue advanced degrees, secure fulfilling careers, and make valuable contributions to their communities.</p>
-                        <p class="sec-text">The university takes pride in its alumni network, which serves as a testament to the quality of education and the opportunities provided by the institution.</p>
-                    </div>
-                    <div class="btn-group mt-30">
-                        <a href="course.html" class="th-btn">Explore Courses<i class="fas fa-arrow-right ms-2"></i></a>
-                        <a href="contact.html" class="th-btn style7">Contact Us<i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="team-card team-card-1-1 team-card-1-1-active mt-0">
-                        <div class="team-img-wrap">
-                            <div class="team-img">
-                                <img src="assets/img/team/team_1_1.jpg" alt="Team">
-                            </div>
-                        </div>
-                        <div class="team-hover-wrap">
-                            <div class="team-social">
-                                <a href="#" class="icon-btn">
-                                    <i class="far fa-plus"></i>
-                                </a>
-                                <div class="th-social">
-                                    <a target="_blank" href="https://vimeo.com/"><i class="fab fa-vimeo-v"></i></a>
-                                    <a target="_blank" href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                    <a target="_blank" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                    <a target="_blank" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h3 class="team-title"><a href="team-details.html">Hirmar Ubunti</a></h3>
-                                <span class="team-desig">Instructor</span>
-                            </div>
-                            <div class="team-info">
-                                <span><i class="fal fa-file-check"></i>2 Courses</span>
-                                <span><i class="fa-light fa-users"></i>Students 60+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-card team-card-1-1">
-                        <div class="team-img-wrap">
-                            <div class="team-img">
-                                <img src="assets/img/team/team_1_2.jpg" alt="Team">
-                            </div>
-                        </div>
-                        <div class="team-hover-wrap">
-                            <div class="team-social">
-                                <a href="#" class="icon-btn">
-                                    <i class="far fa-plus"></i>
-                                </a>
-                                <div class="th-social">
-                                    <a target="_blank" href="https://vimeo.com/"><i class="fab fa-vimeo-v"></i></a>
-                                    <a target="_blank" href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                    <a target="_blank" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                    <a target="_blank" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h3 class="team-title"><a href="team-details.html">Marvin McKinney</a></h3>
-                                <span class="team-desig">Founder & CEO</span>
-                            </div>
-                            <div class="team-info">
-                                <span><i class="fal fa-file-check"></i>3 Courses</span>
-                                <span><i class="fa-light fa-users"></i>Students 50+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="team-card team-card-1-2 mt-md-0">
-                        <div class="team-img-wrap">
-                            <div class="team-img">
-                                <img src="assets/img/team/team_1_3.jpg" alt="Team">
-                            </div>
-                        </div>
-                        <div class="team-hover-wrap">
-                            <div class="team-social">
-                                <a href="#" class="icon-btn">
-                                    <i class="far fa-plus"></i>
-                                </a>
-                                <div class="th-social">
-                                    <a target="_blank" href="https://vimeo.com/"><i class="fab fa-vimeo-v"></i></a>
-                                    <a target="_blank" href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                    <a target="_blank" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                    <a target="_blank" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h3 class="team-title"><a href="team-details.html">Courtney Henry</a></h3>
-                                <span class="team-desig">Junior Instructor</span>
-                            </div>
-                            <div class="team-info">
-                                <span><i class="fal fa-file-check"></i>4 Courses</span>
-                                <span><i class="fa-light fa-users"></i>Students 30+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-card team-card-1-2 team-card-1-2-active">
-                        <div class="team-img-wrap">
-                            <div class="team-img">
-                                <img src="assets/img/team/team_1_4.jpg" alt="Team">
-                            </div>
-                        </div>
-                        <div class="team-hover-wrap">
-                            <div class="team-social">
-                                <a href="#" class="icon-btn">
-                                    <i class="far fa-plus"></i>
-                                </a>
-                                <div class="th-social">
-                                    <a target="_blank" href="https://vimeo.com/"><i class="fab fa-vimeo-v"></i></a>
-                                    <a target="_blank" href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                    <a target="_blank" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                    <a target="_blank" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h3 class="team-title"><a href="team-details.html">Brooklyn Simmons</a></h3>
-                                <span class="team-desig">Senior Instructor</span>
-                            </div>
-                            <div class="team-info">
-                                <span><i class="fal fa-file-check"></i>4 Courses</span>
-                                <span><i class="fa-light fa-users"></i>Students 70+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!--==============================
 Event Area  
 ==============================-->
@@ -1704,354 +1237,10 @@ Event Area
             </div>
         </div>
     </section>
-    <!--==============================
-Contact Area  
-==============================-->
-    <div class="space-top">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="title-area mb-lg-0 text-lg-start text-center">
-                        <span class="sub-title"><i class="fal fa-book me-2"></i> Our Trusted Partners</span>
-                        <h2 class="sec-title mb-0">We Have More Than <span class="text-theme"><span class="counter-number">4263</span>+</span> Global Partners</h2>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="client-wrap text-lg-end text-center">
-                        <div class="row gy-40">
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_1.png" alt="img">
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_2.png" alt="img">
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_3.png" alt="img">
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_4.png" alt="img">
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_5.png" alt="img">
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_6.png" alt="img">
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_7.png" alt="img">
-                                </a>
-                            </div>
-                            <div class="col-3">
-                                <a href="blog.html" class="client-thumb">
-                                    <img src="assets/img/client/cilent_1_8.png" alt="img">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <section class="cta-area-3 space-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mb-30 mb-lg-0">
-                    <div class="cta-card" data-bg-src="assets/img/bg/cta-bg_3_1.png">
-                        <div class="title-area mb-40">
-                            <span class="sub-title text-white"><i class="fal fa-book me-2"></i>Popular Courses</span>
-                            <h4 class="sec-title text-white">Get The Best Courses & <br> Upgrade Your Skills </h4>
-                        </div>
-                        <a href="contact.html" class="th-btn style8">Join With Us<i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="cta-card" data-bg-src="assets/img/bg/cta-bg_3_2.png">
-                        <div class="title-area mb-40">
-                            <span class="sub-title text-white"><i class="fal fa-book me-2"></i>Popular Courses</span>
-                            <h4 class="sec-title text-white">Engaging Courses for <br> Intellectual Exploration</h4>
-                        </div>
-                        <a href="contact.html" class="th-btn style8">Join With Us<i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--==============================
-Testimonial Area  
-==============================-->
-    <section class="testi-area-1 overflow-hidden space-bottom" data-bg-src="assets/img/bg/testi_bg_1.png">
-        <div class="shape-mockup testi-bg-shape1 jump" data-right="0" data-top="50%">
-            <img src="assets/img/testimonial/testi-bg-shape_1_1.png" alt="img">
-        </div>
-        <div class="shape-mockup testi-bg-shape2 spin" data-left="0" data-top="15%">
-            <img src="assets/img/testimonial/testi-bg-shape_1_2.png" alt="img">
-        </div>
-        <div class="container">
-            <div class="title-area text-center mb-50">
-                <span class="sub-title"><i class="fal fa-book me-2"></i> Our Students Testimonials</span>
-                <h2 class="sec-title">Students Say’s About Our University</h2>
-            </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="th-carousel testi-slider1 dot-style2 row" id="testimonial-slider1" data-slide-show="2" data-ml-slide-show="2" data-lg-slide-show="1" data-md-slide-show="1" data-dots="true" data-arrows="false">
-                        <div class="col-lg-6">
-                            <div class="testi-box">
-                                <div class="testi-box-bg-shape">
-                                    <svg width="150" height="137" viewBox="0 0 150 137" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 9.99951C0 4.47666 4.47715 -0.000488281 10 -0.000488281H140C145.523 -0.000488281 150 4.47666 150 9.99951V10.5803C150 13.3951 148.814 16.0796 146.732 17.9747L18.8619 134.394C17.0205 136.07 14.6199 137 12.1297 137H10C4.47715 137 0 132.522 0 127V9.99951Z" fill="#0D5EF4" />
-                                    </svg>
-                                </div>
-                                <div class="testi-box_content">
-                                    <div class="testi-box_img">
-                                        <img src="assets/img/testimonial/testi_1_1.jpg" alt="Avater">
-                                    </div>
-                                    <p class="testi-box_text">“Quickly maximize visionary solutions after mission critical action items productivate premium portals for impactful -services stinctively negotiate enabled niche markets via growth strategies”</p>
-                                </div>
-                                <div class="testi-box_bottom">
-                                    <div>
-                                        <h3 class="testi-box_name">David H. Smith</h3>
-                                        <span class="testi-box_desig">IT Student</span>
-                                    </div>
-                                    <div class="testi-box_review">
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        (4.7)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="testi-box">
-                                <div class="testi-box-bg-shape">
-                                    <svg width="150" height="137" viewBox="0 0 150 137" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 9.99951C0 4.47666 4.47715 -0.000488281 10 -0.000488281H140C145.523 -0.000488281 150 4.47666 150 9.99951V10.5803C150 13.3951 148.814 16.0796 146.732 17.9747L18.8619 134.394C17.0205 136.07 14.6199 137 12.1297 137H10C4.47715 137 0 132.522 0 127V9.99951Z" fill="#0D5EF4" />
-                                    </svg>
-                                </div>
-                                <div class="testi-box_content">
-                                    <div class="testi-box_img">
-                                        <img src="assets/img/testimonial/testi_1_2.jpg" alt="Avater">
-                                    </div>
-                                    <p class="testi-box_text">“Quickly maximize visionary solutions after mission critical action items productivate premium portals for impactful -services stinctively negotiate enabled niche markets via growth strategies”</p>
-                                </div>
-                                <div class="testi-box_bottom">
-                                    <div>
-                                        <h3 class="testi-box_name">Zara Head Milan</h3>
-                                        <span class="testi-box_desig">Regular Student</span>
-                                    </div>
-                                    <div class="testi-box_review">
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        (4.7)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="testi-box">
-                                <div class="testi-box-bg-shape">
-                                    <svg width="150" height="137" viewBox="0 0 150 137" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 9.99951C0 4.47666 4.47715 -0.000488281 10 -0.000488281H140C145.523 -0.000488281 150 4.47666 150 9.99951V10.5803C150 13.3951 148.814 16.0796 146.732 17.9747L18.8619 134.394C17.0205 136.07 14.6199 137 12.1297 137H10C4.47715 137 0 132.522 0 127V9.99951Z" fill="#0D5EF4" />
-                                    </svg>
-                                </div>
-                                <div class="testi-box_content">
-                                    <div class="testi-box_img">
-                                        <img src="assets/img/testimonial/testi_1_1.jpg" alt="Avater">
-                                    </div>
-                                    <p class="testi-box_text">“Quickly maximize visionary solutions after mission critical action items productivate premium portals for impactful -services stinctively negotiate enabled niche markets via growth strategies”</p>
-                                </div>
-                                <div class="testi-box_bottom">
-                                    <div>
-                                        <h3 class="testi-box_name">David H. Smith</h3>
-                                        <span class="testi-box_desig">IT Student</span>
-                                    </div>
-                                    <div class="testi-box_review">
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        (4.7)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="testi-box">
-                                <div class="testi-box-bg-shape">
-                                    <svg width="150" height="137" viewBox="0 0 150 137" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 9.99951C0 4.47666 4.47715 -0.000488281 10 -0.000488281H140C145.523 -0.000488281 150 4.47666 150 9.99951V10.5803C150 13.3951 148.814 16.0796 146.732 17.9747L18.8619 134.394C17.0205 136.07 14.6199 137 12.1297 137H10C4.47715 137 0 132.522 0 127V9.99951Z" fill="#0D5EF4" />
-                                    </svg>
-                                </div>
-                                <div class="testi-box_content">
-                                    <div class="testi-box_img">
-                                        <img src="assets/img/testimonial/testi_1_2.jpg" alt="Avater">
-                                    </div>
-                                    <p class="testi-box_text">“Quickly maximize visionary solutions after mission critical action items productivate premium portals for impactful -services stinctively negotiate enabled niche markets via growth strategies”</p>
-                                </div>
-                                <div class="testi-box_bottom">
-                                    <div>
-                                        <h3 class="testi-box_name">Zara Head Milan</h3>
-                                        <span class="testi-box_desig">Regular Student</span>
-                                    </div>
-                                    <div class="testi-box_review">
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        <i class="fa-solid fa-star-sharp"></i>
-                                        (4.7)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--==============================
-Blog Area  
-==============================-->
-    <section class="overflow-hidden space" id="blog-sec">
-        <div class="container">
-            <div class="mb-35 text-center text-md-start">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-md-8">
-                        <div class="title-area mb-md-0">
-                            <span class="sub-title"><i class="fal fa-book me-2"></i> Our News & Blogs</span>
-                            <h2 class="sec-title">Latests News & Blogs</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-auto">
-                        <a href="blog.html" class="th-btn">View All Posts<i class="fa-solid fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="row slider-shadow th-carousel blog-slider-1" data-slide-show="3" data-lg-slide-show="2" data-md-slide-show="2" data-sm-slide-show="1" data-arrows="true">
-                <div class="col-md-6 col-xl-4">
-                    <div class="th-blog blog-single style2">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-1-1.jpg" alt="Blog Image"></a>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="fa-light fa-user"></i>by David Smith</a>
-                                <a href="blog.html"><i class="fa-light fa-clock"></i>05 Jun, 2023</a>
-                            </div>
-                            <h4 class="box-title"><a href="blog-details.html">Educate, Empower, Excel: Discover the Power of Learning!</a>
-                            </h4>
-                            <a href="blog-details.html" class="link-btn">Read More Details<i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-6 col-xl-4">
-                    <div class="th-blog blog-single style2">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-1-2.jpg" alt="Blog Image"></a>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="fa-light fa-user"></i>by David Smith</a>
-                                <a href="blog.html"><i class="fa-light fa-clock"></i>03 Jun, 2023</a>
-                            </div>
-                            <h4 class="box-title"><a href="blog-details.html">Enrich Your Mind, Envision Your Future: Education for Success</a>
-                            </h4>
-                            <a href="blog-details.html" class="link-btn">Read More Details<i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-6 col-xl-4">
-                    <div class="th-blog blog-single style2">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-1-3.jpg" alt="Blog Image"></a>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="fa-light fa-user"></i>by David Smith</a>
-                                <a href="blog.html"><i class="fa-light fa-clock"></i>10 Jul, 2023</a>
-                            </div>
-                            <h4 class="box-title"><a href="blog-details.html">University class starting soon while the lovely valley team work</a>
-                            </h4>
-                            <a href="blog-details.html" class="link-btn">Read More Details<i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
+<?php } ?>
 
-                <div class="col-md-6 col-xl-4">
-                    <div class="th-blog blog-single style2">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-1-1.jpg" alt="Blog Image"></a>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="fa-light fa-user"></i>by David Smith</a>
-                                <a href="blog.html"><i class="fa-light fa-clock"></i>02 Apr, 2023</a>
-                            </div>
-                            <h4 class="box-title"><a href="blog-details.html">Educate, Empower, Excel: Discover the Power of Learning!</a>
-                            </h4>
-                            <a href="blog-details.html" class="link-btn">Read More Details<i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-xl-4">
-                    <div class="th-blog blog-single style2">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-1-2.jpg" alt="Blog Image"></a>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="fa-light fa-user"></i>by David Smith</a>
-                                <a href="blog.html"><i class="fa-light fa-clock"></i>03 Jun, 2023</a>
-                            </div>
-                            <h4 class="box-title"><a href="blog-details.html">Enrich Your Mind, Envision Your Future: Education for Success</a>
-                            </h4>
-                            <a href="blog-details.html" class="link-btn">Read More Details<i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-xl-4">
-                    <div class="th-blog blog-single style2">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-1-3.jpg" alt="Blog Image"></a>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="fa-light fa-user"></i>by David Smith</a>
-                                <a href="blog.html"><i class="fa-light fa-clock"></i>10 Jul, 2023</a>
-                            </div>
-                            <h4 class="box-title"><a href="blog-details.html">University class starting soon while the lovely valley team work</a>
-                            </h4>
-                            <a href="blog-details.html" class="link-btn">Read More Details<i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
     <!--==============================
 	Footer Area
 ==============================-->
@@ -2071,7 +1260,7 @@ Blog Area
                         </div>
                         <div class="media-body">
                             <p class="footer-contact_text">Call us any time:</p>
-                            <a href="tel+11234567890" class="footer-contact_link">+256 214 203 215</a>
+                            <a href="tel:<?php echo $genel_ayarlar['tel']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['tel']; ?></a>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -2081,7 +1270,7 @@ Blog Area
                         </div>
                         <div class="media-body">
                             <p class="footer-contact_text">Email us 24/7 hours:</p>
-                            <a href="mailto:info@edura.com" class="footer-contact_link">info@edura.com</a>
+                            <a href="mailto:<?php echo $genel_ayarlar['email']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['email']; ?>v</a>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -2091,7 +1280,7 @@ Blog Area
                         </div>
                         <div class="media-body">
                             <p class="footer-contact_text">Our university location:</p>
-                            <a href="https://www.google.com/maps" class="footer-contact_link">147/I, Green Road, Dhaka</a>
+                            <a href="https://goo.gl/maps/FfX1sG6LPF4vTT1g7" class="footer-contact_link"><?php echo $genel_ayarlar['adres']; ?></a>
                         </div>
                     </div>
                 </div>
@@ -2105,16 +1294,16 @@ Blog Area
                             <div class="widget footer-widget">
                                 <div class="th-widget-about">
                                     <div class="about-logo">
-                                        <a href="index.html"><img src="assets/img/logo-white.svg" alt="Edura"></a>
+                                        <a href="index.php"><img src="assets/img/ayu_logo_beyaz.png" alt="Ahmet Yesevi Üniversitesi" style="height: 200px;"></a>
                                     </div>
                                     <p class="about-text">Continually optimize backward manufactured products whereas communities negotiate life compelling alignments</p>
                                     <div class="th-social">
                                         <h6 class="title text-white">FOLLOW US ON:</h6>
-                                        <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a>
-                                        <a href="https://www.linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                        <a href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
-                                        <a href="https://www.skype.com/"><i class="fab fa-skype"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['youtube']; ?>"><i class="fab fa-youtube"></i></a>
+                                        <a href="<?php echo $genel_ayarlar['instagram']; ?>"><i class="fa-brands fa-instagram"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -2168,7 +1357,7 @@ Blog Area
                 <div class="copyright-wrap">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-md-6">
-                            <p class="copyright-text">Copyright © 2023 <a href="index.html">Edura</a> All Rights Reserved.</p>
+                            <p class="copyright-text">Copyright © 2023 <a href="index.php">Ahmet Yesevi Üniversitesi</a> All Rights Reserved.</p>
                         </div>
                         <div class="col-md-6 text-end d-none d-md-block">
                             <div class="footer-links">
