@@ -40,11 +40,28 @@ FROM
 ORDER BY tarih DESC
 SQL;
 
+$SQL_etkinlikler = <<< SQL
+SELECT
+  *
+FROM 
+  tb_etkinlikler
+ORDER BY tarih DESC
+SQL;
+
 $SQL_duyuru_icerik = <<< SQL
 SELECT
   *
 FROM 
   tb_duyurular
+WHERE
+  id = ? 
+SQL;
+
+$SQL_etkinlik_icerik = <<< SQL
+SELECT
+  *
+FROM 
+  tb_etkinlikler
 WHERE
   id = ? 
 SQL;
@@ -85,6 +102,7 @@ $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_
 
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
 @$duyurular 	        = $vt->select($SQL_duyurular, array( $birim_id ) )[ 2 ];
+@$etkinlikler 	        = $vt->select($SQL_etkinlikler, array( $birim_id ) )[ 2 ];
 @$slaytlar 	            = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
 @$genel_ayarlar 	    = $vt->selectSingle($SQL_genel_ayarlar, array( $birim_id ) )[ 2 ];
 
@@ -969,19 +987,20 @@ Event Area
         </div>
         <div class="container">
             <div class="title-area text-center">
-                <span class="sub-title"><i class="fal fa-book me-2"></i> Fetaured Events</span>
-                <h2 class="sec-title">Our Upcoming Events</h2>
+                <span class="sub-title"><i class="fal fa-book me-2"></i> Güncel Etkinlikler</span>
+                <h2 class="sec-title">Etkinlikler</h2>
             </div>
             <div class="row slider-shadow event-slider-1 th-carousel gx-70" data-slide-show="3" data-lg-slide-show="3" data-md-slide-show="1" data-sm-slide-show="1" data-xs-slide-show="1" data-arrows="true">
+                <?php foreach( $etkinlikler as $etkinlik ){ ?>
                 <div class="col-lg-6 col-xl-4">
                     <div class="event-card">
                         <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-1.png" alt="event">
+                            <img src="../resimler/etkinlikler/<?php echo $etkinlik['foto'] ?>" alt="event" style="width: 200px;height: 200px;object-fit: cover;">
                         </div>
                         <div class="event-card_content">
                             <div class="event-author">
                                 <div class="avater">
-                                    <img src="assets/img/event/event-author1.png" alt="avater">
+                                    <img src="assets/img/ayu_logo.png" alt="avater">
                                 </div>
                                 <div class="details">
                                     <span class="author-name">David Smith</span>
@@ -992,7 +1011,11 @@ Event Area
                                 <p><i class="fal fa-location-dot"></i>259, NewYork,</p>
                                 <p><i class="fal fa-clock"></i>08:00 am - 10:00 am</p>
                             </div>
-                            <h3 class="event-card_title"><a href="event-details.html">What Soul Can Tech Us About Web Design</a></h3>
+                            <h3 class="event-card_title" style="font-size: 16px;;">
+                                <a href="event-details.html">
+                                <?php echo $etkinlik['baslik']; ?>
+                                </a>
+                            </h3>
                             <div class="event-card_bottom">
                                 <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
                             </div>
@@ -1002,238 +1025,7 @@ Event Area
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-2.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author2.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">Adam Jhon</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>Hilton, NewYork,</p>
-                                <p><i class="fal fa-clock"></i>10:00 am - 11:00 am</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">Embrace the world of online education</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-3.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author3.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">Michael Rich</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>147, Green Road</p>
-                                <p><i class="fal fa-clock"></i>11:00 am - 12:00 pm</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">Gain insights into how parents can support</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-4.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author4.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">Anadi Juila</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>Kipling, London,</p>
-                                <p><i class="fal fa-clock"></i>08:00 am - 10:00 am</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">Exploring New Frontiers in Education</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-5.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author1.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">David Smith</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>Paris, France,</p>
-                                <p><i class="fal fa-clock"></i>10:00 am - 11:00 am</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">A Journey of Educational Excellence</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-6.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author2.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">Adam Jhon</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>Broly, NewYork,</p>
-                                <p><i class="fal fa-clock"></i>11:00 am - 12:00 pm</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">Unleashing the Potential of Education</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-7.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author3.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">Michael Rich</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>Easton, USA,</p>
-                                <p><i class="fal fa-clock"></i>08:00 am - 10:00 am</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">Preparing Students for Tomorrow,s Challenges</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-8.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author4.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">Anadi Juila</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>Sharjah, UAE,</p>
-                                <p><i class="fal fa-clock"></i>10:00 am - 11:00 am</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">Embracing Technology in Education</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="event-card">
-                        <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="assets/img/event/event_img-9.png" alt="event">
-                        </div>
-                        <div class="event-card_content">
-                            <div class="event-author">
-                                <div class="avater">
-                                    <img src="assets/img/event/event-author1.png" alt="avater">
-                                </div>
-                                <div class="details">
-                                    <span class="author-name">David Smith</span>
-                                    <p class="author-desig">Chief - Executive</p>
-                                </div>
-                            </div>
-                            <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>Al Road, Dubai,</p>
-                                <p><i class="fal fa-clock"></i>11:00 am - 12:00 pm</p>
-                            </div>
-                            <h3 class="event-card_title"><a href="event-details.html">Redefining Learning for the 21st Century</a></h3>
-                            <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
-                            </div>
-                            <div class="event-card-shape jump">
-                                <img src="assets/img/event/event-box-shape1.png" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </section>
