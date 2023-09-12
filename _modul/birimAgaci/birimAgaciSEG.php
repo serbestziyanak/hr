@@ -9,12 +9,16 @@ $ders_id 			= array_key_exists( 'ders_id', $_REQUEST ) 	? $_REQUEST[ 'ders_id' ]
 
 $birim_kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
 
+var_dump($_REQUEST);
+echo $birim_kisa_ad;
+//exit;
+
 $SQL_birim_agaci_ekle = <<< SQL
 INSERT INTO 
 	tb_birim_agaci
 SET
 	 ust_id 			= ?
-	,adi 				= ?
+	,adi$_REQUEST[dil]	= ?
 	,kategori 			= ?
 	,grup	 			= ?
 	,kisa_ad 			= ?
@@ -24,7 +28,7 @@ $SQL_birim_agaci_duzenle = <<< SQL
 UPDATE
 	tb_birim_agaci
 SET
-	 adi 				= ?
+	 adi$_REQUEST[dil] 	= ?
 	,kategori 			= ?
 	,grup	 			= ?
 	,kisa_ad 			= ?
@@ -83,12 +87,12 @@ switch( $islem ) {
 	case 'guncelle':
 		$kategori 	= $_REQUEST[ "kategori" ] 	== "on" ? 1 : 0;
 		$grup	 	= $_REQUEST[ "grup" ] 	== "on" ? 1 : 0;
-
+		$birim_agaci_id = $_REQUEST[ "birim_agaci_id" ];
 		$degerler[] = $_REQUEST[ "adi" ];
 		$degerler[] = $kategori;
 		$degerler[] = $grup;
 		$degerler[] = $birim_kisa_ad;
-		$degerler[] = $_REQUEST[ "birim_agaci_id" ];
+		$degerler[] = $birim_agaci_id;
 
 		$sonuc = $vt->update( $SQL_birim_agaci_duzenle, $degerler );
 		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt güncellenirken bir hata oluştu ' . $sonuc[ 1 ] );
@@ -132,5 +136,5 @@ switch( $islem ) {
 
 $_SESSION[ 'sonuclar' ] 		= $___islem_sonuc;
 $_SESSION[ 'sonuclar' ][ 'id' ] = $birim_agaci_id;
-header( "Location:../../index.php?modul=birimAgaci&ders_id=$ders_id");
+header( "Location:../../index.php?modul=birimAgaci&islem=guncelle&id=$birim_agaci_id");
 ?>

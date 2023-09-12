@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 12/09/2023 18:11:18
+ Date: 13/09/2023 00:38:11
 */
 
 SET NAMES utf8mb4;
@@ -221,7 +221,7 @@ CREATE TABLE `tb_birim_agaci`  (
   `adi_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `adi_ru` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_agaci
@@ -233,7 +233,7 @@ INSERT INTO `tb_birim_agaci` VALUES (4, 1, 'Enstitüler', NULL, 1, 1, NULL, NULL
 INSERT INTO `tb_birim_agaci` VALUES (5, 1, 'Merkezler', NULL, 1, 1, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (7, 1, 'Meslek Yüksekokulları', NULL, 1, 1, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (8, 3, 'Hazırlık Okulu', NULL, 1, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (9, 3, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 0, NULL, NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (9, 3, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 0, 'deneme', 'Faculty of Engineering', NULL);
 INSERT INTO `tb_birim_agaci` VALUES (10, 3, 'Fen Bilimleri Fakültesi', NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (11, 3, 'Filoloji Fakültesi', NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (12, 3, 'İnsan ve Toplum Bilimleri Fakültesi', NULL, 1, NULL, NULL, NULL, NULL);
@@ -264,6 +264,9 @@ INSERT INTO `tb_birim_agaci` VALUES (40, 2, 'Öğreci İşleri Daire Başkanlı�
 INSERT INTO `tb_birim_agaci` VALUES (41, 2, 'Personel İşleri Daire Başkanlığı', NULL, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (42, 2, 'Satınalma Müdürlüğü', NULL, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (43, 8, 'Yüksek Lisans Programları', NULL, 1, 1, NULL, NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (44, 0, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 1, NULL, NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (45, 0, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 1, NULL, NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (46, 0, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 0, 0, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfa_icerikleri
