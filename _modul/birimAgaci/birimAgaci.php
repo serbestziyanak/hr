@@ -50,7 +50,7 @@ SQL;
                   <tbody>
 					<?php
 					//var_dump($birim_agacilar);
-						function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id){
+						function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $dil){
 							$html = "<tr class='expandable-body'>
 											<td>
 												<div class='p-0'>
@@ -92,7 +92,7 @@ SQL;
 													</tr>
 												";								
 											$renk++;
-											$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id);
+											$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $dil);
 											
 											$renk--;
 										
@@ -109,7 +109,7 @@ SQL;
 							return $html;
 						}
 						if( count( $birim_agacilar ) ) 
-							echo kategoriListele3($birim_agacilar,0,0, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id);
+							echo kategoriListele3($birim_agacilar,0,0, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $dil);
 						
 
 					?>

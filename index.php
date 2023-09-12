@@ -11,6 +11,12 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	if( isset( $_REQUEST['sistem_yil'] ) ){
 		$_SESSION['yil'] = $_REQUEST['sistem_yil'];
 	}
+	if( $_SESSION['dil'] == "tr" ){
+		$dil = "";
+	}else{
+		$dil = "_".$_SESSION['dil'];
+	}
+
 
 ?>
 <!DOCTYPE html>

@@ -404,7 +404,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 
 							<div class="form-group">
 								<label class="control-label">Adı</label>
-								<input required type="text" placeholder="Adı" class="form-control form-control-sm" name ="adi" value = "<?php echo $tek_personel[ "adi" ]; ?>"  autocomplete="off">
+								<input required type="text" placeholder="Adı" class="form-control form-control-sm" name ="adi" value = "<?php echo $tek_personel[ "adi".$dil ]; ?>"  autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label class="control-label">Soyadı</label>

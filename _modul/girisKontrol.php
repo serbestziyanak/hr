@@ -109,7 +109,13 @@ if( !$sorguSonuc[ 0 ] ) {
 
 		$programlar 					= $vt->select( $SQL_programlar, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];
 		$_SESSION[ 'programlar' ]		= $programlar;
-
+		$_SESSION[ 'dil' ]				= $_POST[ 'dil' ];
+		
+		if( $_SESSION['dil'] == "tr" ){
+			$dil = "";
+		}else{
+			$dil = "_".$_SESSION['dil'];
+		}
 
 	} else {
 		$_SESSION[ 'giris_var' ] = 'hayir';
@@ -117,5 +123,5 @@ if( !$sorguSonuc[ 0 ] ) {
 } else {
 	$_SESSION[ 'giris_var' ] = 'hayir';
 }
-header( "Location: ../index.php" );
+header( "Location: ../index.php?modul=anasayfa" );
 ?>

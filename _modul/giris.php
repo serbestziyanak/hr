@@ -45,12 +45,25 @@
             </div>
           </div>
         </div>
+        <div class="input-group mb-3">
+          <select class="form-control select2" name = "dil" required>
+            <option value="tr">Türkçe</option>
+            <option value="kz">қазақ</option>
+            <option value="en">English</option>
+            <option value="ru">Россия</option>
+          </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-globe"></span>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
               <input type="checkbox" id="remember">
               <label for="remember">
-				Beni Hatırla
+				        Beni Hatırla
               </label>
             </div>
           </div>
