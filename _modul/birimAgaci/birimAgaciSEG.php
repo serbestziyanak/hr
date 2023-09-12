@@ -10,8 +10,7 @@ $ders_id 			= array_key_exists( 'ders_id', $_REQUEST ) 	? $_REQUEST[ 'ders_id' ]
 $birim_kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
 
 var_dump($_REQUEST);
-echo $birim_kisa_ad;
-//exit;
+exit;
 
 $SQL_birim_agaci_ekle = <<< SQL
 INSERT INTO 

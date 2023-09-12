@@ -143,8 +143,19 @@ SQL;
 			</div>
 			<form class="form-horizontal" action = "_modul/birimAgaci/birimAgaciSEG.php" method = "POST" enctype="multipart/form-data">
 			<div class="card-body">
-				<input type="hidden"  name="islem" value="<?php echo $islem;  ?>">
+				<?php foreach( $birim_bilgileri as $anahtar=>$deger ){ ?>
+				<input type="hidden"  name="<?php echo $anahtar;  ?>" value="<?php echo $deger;  ?>">
+				<?php } ?>
 				<input type="hidden"  name="dil" value="<?php echo $dil;  ?>">
+				<div class="form-group">
+					<label class="control-label">Dil</label>
+					<select class="form-control select2" name = "dil" required onchange="dil_degistir(this);">
+						<option value="tr">Türkçe</option>
+						<option value="kz">қазақ</option>
+						<option value="en">English</option>
+						<option value="ru">Россия</option>
+					</select>
+				</div>
 				<?php if( $islem == 'ekle' ){ ?>
 				<input type="hidden"  name="ust_id" value="<?php if( $islem == 'ekle' ) echo $birim_bilgileri['id'];  ?>">
 				<div class="form-group">
@@ -156,8 +167,14 @@ SQL;
 				<?php } ?>
 				<div class="form-group">
 					<label class="control-label">Birim Adı</label>
-					<input required type="text" class="form-control" name ="adi"  value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['adi'.$dil];  ?>"  autocomplete="off">
+					<input required type="text" class="form-control" id ="adi" name ="adi"  value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['adi'.$dil];  ?>"  autocomplete="off">
 				</div>
+				<script>
+					function dil_degistir(eleman){
+						//alert(eleman.value);
+						document.getElementById("adi").value = document.getElementsByName("adi"+"_"+eleman.value)[0].value;
+					}
+				</script>
 				<div class="form-group clearfix">
 					<div class="icheck-success d-inline">
 						<input type="checkbox" id="kategori"  name="kategori" <?php if( $islem == 'guncelle' and $birim_bilgileri['kategori'] == 1 ) echo "checked";  ?> >
