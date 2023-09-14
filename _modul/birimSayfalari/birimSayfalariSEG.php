@@ -9,7 +9,14 @@ $sayfa_id		 	= array_key_exists( 'sayfa_id', $_REQUEST ) ? $_REQUEST[ 'sayfa_id'
 $birim_id 			= array_key_exists( 'birim_id', $_REQUEST ) 	? $_REQUEST[ 'birim_id' ] : 0;
 $birim_adi 			= array_key_exists( 'birim_adi', $_REQUEST ) 	? $_REQUEST[ 'birim_adi' ] : "";
 $sayfa_adi 			= array_key_exists( 'sayfa_adi', $_REQUEST ) 	? $_REQUEST[ 'sayfa_adi' ] : "";
-$kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
+$dil	 			= array_key_exists( 'dil', $_REQUEST ) 	? $_REQUEST[ 'dil' ] : "";
+$dil	 			= $dil == "_tr" ? "" : $dil;
+
+if( $dil == "" )
+	$kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
+else
+	$kisa_ad = $_REQUEST[ 'kisa_ad' ];
+
 var_dump($_REQUEST);
 //exit;
 
@@ -72,18 +79,18 @@ $SQL_icerik_ekle = <<< SQL
 INSERT INTO
 	tb_birim_sayfa_icerikleri
 SET
-	 baslik		= ?
-	,birim_id	= ?
-	,sayfa_id	= ?
-	,icerik		= ?
+	 baslik$dil		= ?
+	,birim_id		= ?
+	,sayfa_id		= ?
+	,icerik$dil		= ?
 SQL;
 
 $SQL_icerik_guncelle = <<< SQL
 UPDATE
 	tb_birim_sayfa_icerikleri
 SET
-	 baslik		= ?
-	,icerik		= ?
+	 baslik$dil		= ?
+	,icerik$dil		= ?
 WHERE
 	sayfa_id = ?
 SQL;
