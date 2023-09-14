@@ -40,6 +40,17 @@ SET
 	,youtube				= ?
 	,anasayfa_baslik		= ?
 	,anasayfa_icerik		= ?
+	,ogrenci_sayisi			= ?
+	,bolum_sayisi			= ?
+	,egitmen_sayisi			= ?
+	,yayin_sayisi			= ?
+	,slogan2				= ?
+	,slogan3				= ?
+	,buton_deger1 			= ?
+	,buton_url1 			= ?
+	,buton_deger2 			= ?
+	,buton_url2 			= ?
+
 SQL;
 
 $SQL_guncelle = <<< SQL
@@ -62,6 +73,16 @@ SET
 	,youtube				= ?
 	,anasayfa_baslik		= ?
 	,anasayfa_icerik		= ?
+	,ogrenci_sayisi			= ?
+	,bolum_sayisi			= ?
+	,egitmen_sayisi			= ?
+	,yayin_sayisi			= ?
+	,slogan2				= ?
+	,slogan3				= ?
+	,buton_deger1 			= ?
+	,buton_url1 			= ?
+	,buton_deger2 			= ?
+	,buton_url2 			= ?
 WHERE
 	birim_id = ?
 SQL;
@@ -111,6 +132,15 @@ switch( $islem ) {
 			,$_REQUEST[	'youtube' ]
 			,$_REQUEST[	'anasayfa_baslik' ]
 			,$_REQUEST[	'anasayfa_icerik' ]
+			,$_REQUEST[ 'ogrenci_sayisi' ]
+			,$_REQUEST[ 'bolum_sayisi' ]
+			,$_REQUEST[ 'egitmen_sayisi' ]
+			,$_REQUEST[ 'yayin_sayisi' ]
+			,$_REQUEST[ 'slogan3' ]
+			,$_REQUEST[ 'buton_deger1' ]
+			,$_REQUEST[ 'buton_url1' ]
+			,$_REQUEST[ 'buton_deger2' ]
+			,$_REQUEST[ 'buton_url2' ]
 		) );
 
 		if( $sorgu_sonuc[ 0 ] ){
@@ -158,6 +188,16 @@ switch( $islem ) {
 			,$_REQUEST[	'youtube' ]
 			,$_REQUEST[	'anasayfa_baslik' ]
 			,$_REQUEST[	'anasayfa_icerik' ]
+			,$_REQUEST[ 'ogrenci_sayisi' ]
+			,$_REQUEST[ 'bolum_sayisi' ]
+			,$_REQUEST[ 'egitmen_sayisi' ]
+			,$_REQUEST[ 'yayin_sayisi' ]
+			,$_REQUEST[ 'slogan2' ]
+			,$_REQUEST[ 'slogan3' ]
+			,$_REQUEST[ 'buton_deger1' ]
+			,$_REQUEST[ 'buton_url1' ]
+			,$_REQUEST[ 'buton_deger2' ]
+			,$_REQUEST[ 'buton_url2' ]
 			,$birim_id
 		) );
 

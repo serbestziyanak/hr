@@ -20,6 +20,9 @@ SET
 	 birim_id			= ?
 	,ust_id 			= ?
 	,adi 				= ?
+	,adi_kz				= ?
+	,adi_en				= ?
+	,adi_ru				= ?
 	,kategori 			= ?
 	,kisa_ad			= ?
 SQL;
@@ -28,7 +31,10 @@ $SQL_birim_sayfa_duzenle = <<< SQL
 UPDATE
 	tb_birim_sayfalari
 SET
-	 adi 		= ?
+	 adi 				= ?
+	,adi_kz				= ?
+	,adi_en				= ?
+	,adi_ru				= ?
 	,kisa_ad	= ?
 WHERE 
 	id 		= ? 
@@ -105,6 +111,9 @@ switch( $islem ) {
 		$degerler[] = $birim_id;
 		$degerler[] = $ust_id;
 		$degerler[] = $_REQUEST[ "adi" ];
+		$degerler[] = $_REQUEST[ "adi_kz" ];
+		$degerler[] = $_REQUEST[ "adi_en" ];
+		$degerler[] = $_REQUEST[ "adi_ru" ];
 		$degerler[] = $kategori;
 		$degerler[] = $kisa_ad;
 
@@ -117,6 +126,9 @@ switch( $islem ) {
 	break;
 	case 'guncelle':
 		$degerler[] = $_REQUEST[ "adi" ];
+		$degerler[] = $_REQUEST[ "adi_kz" ];
+		$degerler[] = $_REQUEST[ "adi_en" ];
+		$degerler[] = $_REQUEST[ "adi_ru" ];
 		$degerler[] = $kisa_ad;
 		$degerler[] = $id;
 

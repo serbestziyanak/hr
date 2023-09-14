@@ -109,13 +109,8 @@ if( !$sorguSonuc[ 0 ] ) {
 
 		$programlar 					= $vt->select( $SQL_programlar, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];
 		$_SESSION[ 'programlar' ]		= $programlar;
-		$_SESSION[ 'dil' ]				= $_POST[ 'dil' ];
-		
-		if( $_SESSION['dil'] == "tr" ){
-			$dil = "";
-		}else{
-			$dil = "_".$_SESSION['dil'];
-		}
+		$_SESSION['sistem_dil']				= $_POST[ 'sistem_dil' ];
+		$sistem_dil = $_SESSION['sistem_dil'];
 
 	} else {
 		$_SESSION[ 'giris_var' ] = 'hayir';

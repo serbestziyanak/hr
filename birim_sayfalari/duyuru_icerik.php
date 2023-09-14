@@ -12,10 +12,10 @@
         </div>
         <div class="container">
             <div class="breadcumb-content text-center">
-                <h1 class="breadcumb-title"><?php echo $birim_sayfa_bilgileri['adi'.$dil]; ?></h1>
+                <h1 class="breadcumb-title">DUYURULAR</h1>
                 <ul class="breadcumb-menu">
-                    <li><a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>">Anasayfa</a></li>
-                    <li><?php echo @$birim_sayfa_bilgileri['adi'.$dil]; ?></li>
+                    <li><a href="<?php echo $_REQUEST['kisa_ad']; ?>">Anasayfa</a></li>
+                    <li>Duyurular</li>
                 </ul>
             </div>
         </div>
@@ -28,24 +28,23 @@
             <div class="row gx-30">
                 <div class="col-xxl-8 col-lg-7">
                     <div class="th-blog blog-single" >
-                        <!--div class="blog-img">
-                            <img src="assets/img/blog/blog-s-1-5.jpg" alt="Blog Image">
-                        </div-->
+                        <div class="blog-img">
+                            <img src="../resimler/duyurular/<?php echo $duyuru_icerik['foto']; ?>" alt="Blog Image">
+                        </div>
                         <div class="blog-content" style="min-height: 600px;">
-                            <!--div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="far fa-user"></i>by David Smith</a>
-                                <a href="blog.html"><i class="fa-light fa-calendar-days"></i>05 June, 2023</a>
-                                <a href="blog-details.html"><i class="fa-light fa-book"></i>Business Analysis</a>
-                            </div-->
-                            <h2 class="blog-title" style="font-size: 24px;"><?php echo @$birim_sayfa_icerikleri['baslik'.$dil]; ?></h2>
+                            <div class="blog-meta">
+                                <a class="author" href="blog.html"><i class="far fa-user"></i><?php echo @$birim_bilgileri['adi'.$dil]; ?></a>
+                                <a href="blog.html"><i class="fa-light fa-calendar-days"></i><?php echo $fn->tarihVer($duyuru_icerik['tarih']); ?></a>
+                                <!--a href="blog-details.html"><i class="fa-light fa-book"></i>Business Analysis</a-->
+                            </div>
+                            <h2 class="blog-title" style="font-size: 24px;"><?php echo @$duyuru_icerik['baslik'.$dil]; ?></h2>
                             <p>
-                                <?php echo @$birim_sayfa_icerikleri['icerik'.$dil]; ?>
+                                <?php echo @$duyuru_icerik['icerik'.$dil]; ?>
                             </p>
                         </div>
                         <div class="share-links clearfix ">
                             <div class="row justify-content-between">
                                 <div class="col-md-auto">
-                                    <span class="share-links-title"></span>
                                     <div class="tagcloud">
                                         <a href="<?php echo $birim_bilgileri['kisa_ad']; ?>"><?php echo @$birim_bilgileri['adi'.$dil]; ?></a>
                                     </div>
@@ -71,12 +70,12 @@
                                 <?php foreach( $duyurular as $duyuru ){ ?>
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="blog-details.html"><img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
+                                        <a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
                                     </div>
                                     <div class="media-body">
                                         <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>
                                         <div class="recent-post-meta">
-                                            <small class="text-muted"><a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><i class="fal fa-calendar"></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></a></small>
+                                            <small class="text-muted"><a href="blog.html"><i class="fal fa-calendar"></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></a></small>
                                         </div>
                                     </div>
                                 </div>

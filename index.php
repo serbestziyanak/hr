@@ -12,15 +12,10 @@ if ( session_status() == PHP_SESSION_NONE ) {
 		$_SESSION['yil'] = $_REQUEST['sistem_yil'];
 	}
 
-	if( isset( $_REQUEST['dil'] ) ){
-		$_SESSION['dil'] = $_REQUEST['dil'];
+	if( isset( $_REQUEST['sistem_dil'] ) ){
+		$_SESSION['sistem_dil'] = $_REQUEST['sistem_dil'];
 	}
-
-	if( $_SESSION['dil'] == "tr" ){
-		$dil = "";
-	}else{
-		$dil = "_".$_SESSION['dil'];
-	}
+	$sistem_dil = $_SESSION['sistem_dil'];
 
 
 ?>

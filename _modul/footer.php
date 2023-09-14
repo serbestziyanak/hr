@@ -1,5 +1,5 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; <?php echo date("Y") ?> <a href="https://syntaxyazilim.com/" target="_blank">SYNTAX YAZILIM</a>.</strong>
+    <strong>Copyright &copy; <?php echo date("Y") ?> <a href="https://ayu.edu.kz/" target="_blank">Ahmet Yesevi Üniversitesi</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 3.1.0-rc

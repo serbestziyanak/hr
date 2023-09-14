@@ -6,18 +6,24 @@ $fn		= new Fonksiyonlar();
 $islem				= array_key_exists( 'islem', $_REQUEST )	? $_REQUEST[ 'islem' ]	: 'ekle';
 $birim_agaci_id 	= array_key_exists( 'id', $_REQUEST ) 		? $_REQUEST[ 'id' ] 	: 0;
 $ders_id 			= array_key_exists( 'ders_id', $_REQUEST ) 	? $_REQUEST[ 'ders_id' ] : 0;
+$dil	 			= array_key_exists( 'dil', $_REQUEST ) 	? $_REQUEST[ 'dil' ] : "";
+$dil	 			= $dil == "_tr" ? "" : $dil;
 
-$birim_kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
+if( $dil == "" )
+	$kisa_ad =  $fn->kisa_ad_ver( $_REQUEST[ 'adi' ] );
+else
+	$kisa_ad = $_REQUEST[ 'kisa_ad' ];
+
 
 var_dump($_REQUEST);
-exit;
+//exit;
 
 $SQL_birim_agaci_ekle = <<< SQL
 INSERT INTO 
 	tb_birim_agaci
 SET
 	 ust_id 			= ?
-	,adi$_REQUEST[dil]	= ?
+	,adi$dil			= ?
 	,kategori 			= ?
 	,grup	 			= ?
 	,kisa_ad 			= ?
@@ -27,7 +33,7 @@ $SQL_birim_agaci_duzenle = <<< SQL
 UPDATE
 	tb_birim_agaci
 SET
-	 adi$_REQUEST[dil] 	= ?
+	 adi$dil 			= ?
 	,kategori 			= ?
 	,grup	 			= ?
 	,kisa_ad 			= ?
@@ -74,7 +80,7 @@ switch( $islem ) {
 		$degerler[] = $_REQUEST[ "adi" ];
 		$degerler[] = $kategori;
 		$degerler[] = $grup;
-		$degerler[] = $birim_kisa_ad;
+		$degerler[] = $kisa_ad;
 
 		$sonuc = $vt->insert( $SQL_birim_agaci_ekle, $degerler );
 		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sonuc[ 1 ] );
@@ -90,7 +96,7 @@ switch( $islem ) {
 		$degerler[] = $_REQUEST[ "adi" ];
 		$degerler[] = $kategori;
 		$degerler[] = $grup;
-		$degerler[] = $birim_kisa_ad;
+		$degerler[] = $kisa_ad;
 		$degerler[] = $birim_agaci_id;
 
 		$sonuc = $vt->update( $SQL_birim_agaci_duzenle, $degerler );
@@ -135,5 +141,8 @@ switch( $islem ) {
 
 $_SESSION[ 'sonuclar' ] 		= $___islem_sonuc;
 $_SESSION[ 'sonuclar' ][ 'id' ] = $birim_agaci_id;
-header( "Location:../../index.php?modul=birimAgaci&islem=guncelle&id=$birim_agaci_id");
+if( $islem == "sil")
+header( "Location:../../index.php?modul=birimAgaci&dil=$_REQUEST[dil]");
+else
+header( "Location:../../index.php?modul=birimAgaci&islem=guncelle&id=$birim_agaci_id&dil=$_REQUEST[dil]");
 ?>

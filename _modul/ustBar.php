@@ -14,23 +14,23 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" >
-        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&dil=tr" role="button">
-          <img src="img/tr.svg" style="height:20px; <?php if($_SESSION['dil'] == 'tr') echo ' border: 2px solid #0000ff;' ?>">
+        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&sistem_dil=_tr" role="button">
+          <img src="img/tr.svg" style="height:20px; <?php if($_SESSION['sistem_dil'] == '_tr') echo ' border: 2px solid #0000ff;' ?>">
         </a>
       </li>
       <li class="nav-item" >
-        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&dil=kz" role="button">
-          <img src="img/kz.svg" style="height:20px; <?php if($_SESSION['dil'] == 'kz') echo ' border: 2px solid #0000ff;' ?>">
+        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&sistem_dil=_kz" role="button">
+          <img src="img/kz.svg" style="height:20px; <?php if($_SESSION['sistem_dil'] == '_kz') echo ' border: 2px solid #0000ff;' ?>">
         </a>
       </li>
       <li class="nav-item" >
-        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&dil=en" role="button">
-          <img src="img/en.svg" style="height:20px; <?php if($_SESSION['dil'] == 'en') echo ' border: 2px solid #0000ff;' ?>">
+        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&sistem_dil=_en" role="button">
+          <img src="img/en.svg" style="height:20px; <?php if($_SESSION['sistem_dil'] == '_en') echo ' border: 2px solid #0000ff;' ?>">
         </a>
       </li>
       <li class="nav-item" >
-        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&dil=ru" role="button">
-          <img src="img/ru.svg" style="height:20px; <?php if($_SESSION['dil'] == 'ru') echo ' border: 2px solid #0000ff;' ?>">
+        <a class="nav-link" href="<?php echo $_SERVER['REQUEST_URI']; ?>&sistem_dil=_ru" role="button">
+          <img src="img/ru.svg" style="height:20px; <?php if($_SESSION['sistem_dil'] == '_ru') echo ' border: 2px solid #0000ff;' ?>">
         </a>
       </li>
       <li class="nav-item">

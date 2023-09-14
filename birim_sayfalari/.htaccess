@@ -6,7 +6,10 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Öncelikle /muhendislik-fakultesi/about-us gibi URL'leri ele alalım
-RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ hr/birim_sayfalari/index.php?kisa_ad=$1&sayfa_kisa_ad=$2 [L,QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ hr/birim_sayfalari/index.php?dil=$1&kisa_ad=$2&sayfa_turu=$3&id=$4 [L,QSA]
+
+# Öncelikle /muhendislik-fakultesi/about-us gibi URL'leri ele alalım
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ hr/birim_sayfalari/index.php?dil=$1&kisa_ad=$2&sayfa_kisa_ad=$3 [L,QSA]
 
 # Ardından sadece /muhendislik-fakultesi gibi URL'leri ele alalım
-RewriteRule ^([a-zA-Z0-9_-]+)/?$ hr/birim_sayfalari/index.php?kisa_ad=$1 [L,QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ hr/birim_sayfalari/index.php?dil=$1&kisa_ad=$2 [L,QSA]

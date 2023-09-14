@@ -274,9 +274,51 @@ if( $tek_genel_ayar['id'] > 0 )
 											overflow-y: auto;
 										}
 										</style>
-										<textarea id="editor2" style="display:none" name="anasayfa_icerik">
+										<textarea id="editor" style="display:none" name="anasayfa_icerik">
 										<?php echo @$tek_genel_ayar[ "anasayfa_icerik" ]; ?>
 										</textarea>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Öğrenci Sayısı</label>
+										<input  type="text" class="form-control" name ="ogrenci_sayisi" value = "<?php echo $tek_genel_ayar[ "ogrenci_sayisi" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Bölüm Sayısı</label>
+										<input  type="text" class="form-control" name ="bolum_sayisi" value = "<?php echo $tek_genel_ayar[ "bolum_sayisi" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Eğitmen Sayısı</label>
+										<input  type="text" class="form-control" name ="egitmen_sayisi" value = "<?php echo $tek_genel_ayar[ "egitmen_sayisi" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Yayın Sayısı</label>
+										<input  type="text" class="form-control" name ="yayin_sayisi" value = "<?php echo $tek_genel_ayar[ "yayin_sayisi" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Slogan2</label>
+										<input  type="text" class="form-control" name ="slogan2" value = "<?php echo $tek_genel_ayar[ "slogan2" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Slogan3</label>
+										<input  type="text" class="form-control" name ="slogan3" value = "<?php echo $tek_genel_ayar[ "slogan3" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Buton 1</label>
+										<input  type="text" class="form-control" name ="buton_deger1" value = "<?php echo $tek_genel_ayar[ "buton_deger1" ]; ?>"  autocomplete="off">
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Buton 1 Url</label>
+										<input  type="text" class="form-control" name ="buton_url1" value = "<?php echo $tek_genel_ayar[ "buton_url1" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Buton 2</label>
+										<input  type="text" class="form-control" name ="buton_deger2" value = "<?php echo $tek_genel_ayar[ "buton_deger2" ]; ?>"  autocomplete="off">
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Buton 2 Url</label>
+										<input  type="text" class="form-control" name ="buton_url2" value = "<?php echo $tek_genel_ayar[ "buton_url2" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="card-footer">
@@ -360,7 +402,7 @@ $('#card_genel_ayarlar').on('minimized.lte.cardwidget', function() {
         <script>
             // This sample still does not showcase all CKEditor&nbsp;5 features (!)
             // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
-            CKEDITOR.ClassicEditor.create(document.getElementById("editor2"), {
+            CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
                 // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
 				ckfinder: {
 					uploadUrl: '/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
@@ -510,5 +552,8 @@ $('#card_genel_ayarlar').on('minimized.lte.cardwidget', function() {
                     'TableOfContents',
                     'PasteFromOfficeEnhanced'
                 ]
-            });
+            })
+			.then( editor => {
+				window.editor = editor;
+			});
         </script>

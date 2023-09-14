@@ -46,11 +46,11 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <select class="form-control select2" name = "dil" required>
-            <option value="tr">Türkçe</option>
-            <option value="kz">қазақ</option>
-            <option value="en">English</option>
-            <option value="ru">Россия</option>
+          <select class="form-control select2" name = "sistem_dil" required>
+            <option value="_tr">Türkçe</option>
+            <option value="_kz">қазақ</option>
+            <option value="_en">English</option>
+            <option value="_ru">Россия</option>
           </select>
           <div class="input-group-append">
             <div class="input-group-text">

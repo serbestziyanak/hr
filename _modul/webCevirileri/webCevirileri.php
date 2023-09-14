@@ -7,51 +7,35 @@ $vt = new VeriTabani();
 if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 	$mesaj								= $_SESSION[ 'sonuclar' ][ 'mesaj' ];
 	$mesaj_turu							= $_SESSION[ 'sonuclar' ][ 'hata' ] ? 'kirmizi' : 'yesil';
-	$_REQUEST[ 'id' ]				= $_SESSION[ 'sonuclar' ][ 'id' ];
+	$_REQUEST[ 'genel_ayar_id' ]		= $_SESSION[ 'sonuclar' ][ 'id' ];
 	unset( $_SESSION[ 'sonuclar' ] );
 	echo "<script>mesajVer('$mesaj', '$mesaj_turu')</script>";
 }
 
 
 $islem			= array_key_exists( 'islem'		,$_REQUEST )  ? $_REQUEST[ 'islem' ]	 : 'ekle';
-$id    			= array_key_exists( 'id'	,$_REQUEST )  ? $_REQUEST[ 'id' ]	 : 0;
 $birim_id		= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
 $birim_adi		= array_key_exists( 'birim_adi' ,$_REQUEST ) ? $_REQUEST[ 'birim_adi' ]	: "";
 
 
-$satir_renk				= $id > 0	? 'table-warning'						: '';
-$kaydet_buton_yazi		= $id > 0	? 'Güncelle'							: 'Kaydet';
-$kaydet_buton_cls		= $id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
+$satir_renk				= $genel_ayar_id > 0	? 'table-warning'						: '';
+$kaydet_buton_yazi		= $genel_ayar_id > 0	? 'Güncelle'							: 'Kaydet';
+$kaydet_buton_cls		= $genel_ayar_id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 
 
-$SQL_tum_etkinlikler = <<< SQL
-SELECT 
-	*
-FROM 
-	tb_etkinlikler
-WHERE 
-	birim_id = ?
-SQL;
 
-$SQL_tek_etkinlik_oku = <<< SQL
-SELECT 
-	*
-FROM 
-	tb_etkinlikler
-WHERE 
-	id = ? 
-SQL;
-
-$SQL_birim_agaci_getir = <<< SQL
+$SQL_ceviriler_getir = <<< SQL
 SELECT
 	*
 FROM 
-	tb_birim_agaci
+	tb_ceviriler
+WHERE
+	turu = 1
 SQL;
 
-@$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
-$etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
-@$tek_etkinlik 		= $vt->select( $SQL_tek_etkinlik_oku, array( $id ) )[ 2 ][ 0 ];
+@$ceviriler 		= $vt->select($SQL_ceviriler_getir, array(  ) )[ 2 ];
+
+//var_dump($ceviriler);
 
 ?>
 
@@ -80,246 +64,99 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 	} );
 </script>
 
+	<div class="modal fade" id="ceviri_ekle" modul= 'birimSayfalari' yetki_islem='duzenle' >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white">
+					<h3 class="card-title">Yeni Ekle</h3>
+					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form class="form-horizontal" action = "_modul/webCevirileri/webCevirileriSEG.php" method = "POST">
+					<div class="modal-body">
+						<input type="hidden" name="turu" value = "1">
+						<input type="hidden" name="islem" value = "ekle">
+						<div class="form-group">
+							<label class="control-label">Türkçe</label>
+							<input required type="text" class="form-control" name ="adi"  autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label class="control-label">Kazakça</label>
+							<input  type="text" class="form-control" name ="adi_kz"  autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label class="control-label">İngilizce</label>
+							<input  type="text" class="form-control" name ="adi_en"  autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label class="control-label">Rusça</label>
+							<input  type="text" class="form-control" name ="adi_ru"  autocomplete="off">
+						</div>
+
+					</div>
+					<div class="modal-footer justify-content-between">
+						<button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
+						<button  modul= 'birimSayfalari' yetki_islem='kaydet' type="submit" class="btn btn-danger">Kaydet</button>
+					</div>
+				</form>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
-			<?php if( !isset($_REQUEST['birim_id']) ){ ?>
-			<div class="col-md-4 p-0">
+			<div class="col-md-12">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Birimler</h3>
-					</div>
-					<div class="card-body p-0">
-						<div class="overflow-auto" style="height:600px;">
-							<table class="table table-sm table-hover text-sm">
-							<tbody>
-								<?php
-								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id){
-										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
-											$degerlendirme_ekle_class = "";
-										}else{
-											$degerlendirme_ekle_class = "degerlendirmeEkle";
-										}
-										$html = "<tr class='expandable-body'>
-														<td>
-															<div class='p-0'>
-																<table class='table table-hover'>
-																	<tbody>";
-
-										foreach ($kategoriler as $kategori){
-											if( $kategori['ust_id'] == $parent ){
-												if( $parent == 0 ) {
-													$renk = 1;
-												} 
-
-												if( $kategori['kategori'] == 0){
-													$html .= "
-															<tr>
-																<td class=' bg-renk7 p-1' >
-																	$kategori[adi]
-																	<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
-																</td>
-															</tr>";									
-
-												}
-												if( $kategori['kategori'] == 1 ){
-													if( $kategori['ust_id'] == 0 )
-														$agac_acik = "true";
-													else
-														$agac_acik = "false";
-
-													if( $kategori['grup'] == 1 )
-														$birim_sec_butonu = "";
-													else
-														$birim_sec_butonu = "<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
-
-														$html .= "
-																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
-																	<td class='bg-renk$renk p-1'>																
-																		$kategori[adi]
-																		$birim_sec_butonu
-																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
-																	</td>
-																</tr>
-															";								
-														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id);
-														
-														$renk--;
-													
-												}
-											}
-
-										}
-										$html .= '
-																</tbody>
-															</table>
-														</div>
-													</td>
-												</tr>';
-										return $html;
-									}
-									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id);
-									
-
-								?>
-							</tbody>
-							</table>
-						</div>
-
-					</div>
-
-				</div>
-			</div>
-			<?php }else{ ?>
-
-			<div class="col-md-4">
-				<div class="card card-secondary" id = "card_etkinlikler">
-					<div class="card-header">
-						<h3 class="card-title">etkinlikler</h3>
+						<h3 class="card-title">Panel Çevirileri</h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
-							<a id = "yeni_etkinlik" data-toggle = "tooltip" title = "Yeni etkinlik Ekle" href = "?modul=etkinlikler&islem=ekle&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
+							<a data-toggle="modal" data-target="#ceviri_ekle" title = "Çeviri" href = "?modul=webCevirileri&islem=ekle" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
 						</div>
 					</div>
 					<div class="card-body">
-						<table id="tbl_etkinlikler" class="table table-bordered table-hover table-sm" width = "100%" >
-							<thead>
-								<tr>
-									<th style="width: 15px">#</th>
-									<th>Başlık</th>
-									<th data-priority="1" style="width: 20px">Düzenle</th>
-									<th data-priority="1" style="width: 20px">Sil</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php $sayi = 1; foreach( $etkinlikler AS $etkinlik ) { ?>
-								<tr oncontextmenu="fun();" class ="etkinlik-Tr <?php if( $etkinlik[ 'id' ] == $id ) echo $satir_renk; ?>" data-id="<?php echo $etkinlik[ 'id' ]; ?>">
-									<td><?php echo $sayi++; ?></td>
-									<td><?php echo $etkinlik[ 'baslik' ]; ?></td>
-									<td align = "center">
-										<a modul = 'etkinlikler' yetki_islem="duzenle" class = "btn btn-sm btn-warning btn-xs" href = "?modul=etkinlikler&islem=guncelle&id=<?php echo $etkinlik[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" >
-											Düzenle
-										</a>
-									</td>
-									<td align = "center">
-										<button modul= 'etkinlikler' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/etkinlikler/etkinliklerSEG.php?islem=sil&id=<?php echo $etkinlik[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" data-toggle="modal" data-target="#sil_onay">Sil</button>
-									</td>
-								</tr>
-								<?php } ?>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<?php } ?>
-			<div class="col-md-8">
-				<div class="card <?php if( $id == 0 ) echo 'card-secondary' ?>">
-					<div class="card-header p-2">
-						<ul class="nav nav-pills tab-container">
-							<?php if( $id > 0 ) { ?>
-								<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; etkinlik Düzenle</h6>
-							<?php } else {
-								echo "<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; etkinlik Ekle</h6>";
-								}
-							?>
-							
-						</ul>
-					</div>
-					<div class="card-body">
-						<?php if( $birim_id > 0 ){ ?>
 						<div class="tab-content">
 							<!-- GENEL BİLGİLER -->
 							<div class="tab-pane active" id="_genel">
-								<?php if( $birim_id > 0 ){ ?>
-								<div class="alert alert-success" role="alert">
-								Şu anda <b><?php echo $birim_adi ?></b> için işlem yapmaktasınız. Birimi değiştirmek için <a href="?modul=etkinlikler" class="alert-link">tıklayınız.</a>
-								</div>		
-								<?php } ?>						
-								<form class="form-horizontal" action = "_modul/etkinlikler/etkinliklerSEG.php" method = "POST" enctype="multipart/form-data">
-									<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
-									<input type = "hidden" name = "id" value = "<?php echo $id; ?>">
-									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
-									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
-									<div class="form-group">
-										<label class="control-label">Foto</label>
-										<input type="file" name="foto" class="" ><br>
-										<small class="text-muted">Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır. </small>
-									</div>
-									<?php if( $islem == "guncelle" ){ ?>
-									<div class="form-group">
-										<label class="control-label">Var olan görsel</label><br>
-										<img src="resimler/etkinlikler/<?php echo $tek_etkinlik[ 'foto' ]; ?>" width="200">
-									</div>
-									<?php } ?>
-									<div class="form-group">
-										<label class="control-label">Tarih</label>
-										<div class="input-group date" id="tarih" data-target-input="nearest">
-											<div class="input-group-append" data-target="#tarih" data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-											</div>
-											<input required type="text" data-target="#tarih" data-toggle="datetimepicker" name="tarih" value="<?php if( $tek_etkinlik[ 'tarih' ] !='' ){echo date('d.m.Y',strtotime($tek_etkinlik[ 'tarih' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#datetimepicker1"/>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Başlık</label>
-										<input required type="text" class="form-control" name ="baslik" value = "<?php echo $tek_etkinlik[ "baslik" ]; ?>"  autocomplete="off">
-									</div>
-									<div class="form-group">
-										<label class="control-label">İçerik</label>
-										<style>
-										.ck-editor__editable_inline:not(.ck-comment__input *) {
-											height: 600px;
-											overflow-y: auto;
-										}
-										</style>
-										<textarea id="editor" style="display:none" name="icerik">
-										<?php echo @$tek_etkinlik[ "icerik" ]; ?>
-										</textarea>
+								<form class="form-horizontal" action = "_modul/webCevirileri/webCevirileriSEG.php" method = "POST" enctype="multipart/form-data">
+									<input type="hidden" name="islem" value="guncelle">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label text-center "><h5><span class="badge badge-danger w-100">Türkçe</span></h5></label>
+										<label class="col-sm-3 col-form-label text-center "><h5><span class="badge badge-info w-100">қазақ</span></h5></label>
+										<label class="col-sm-3 col-form-label text-center "><h5><span class="badge badge-success w-100">English</span></h5></label>
+										<label class="col-sm-3 col-form-label text-center "><h5><span class="badge badge-primary w-100">Россия</span></h5></label>
 									</div>
 
+									<?php foreach( $ceviriler as $ceviri ){ ?>
+									<div class="form-group row">
+										<input type="hidden" name="id[]" value="<?php echo $ceviri['id'] ?>">
+										<label class="col-sm-3 text-right "><?php echo $ceviri['adi'] ?> : </label>
+										<div class="col-sm-3">
+											<input type="text" name="adi_kz[]" class="form-control form-control-sm"  value="<?php echo $ceviri['adi_kz']; ?>" placeholder="қазақ">
+										</div>
+										<div class="col-sm-3">
+											<input type="text" name="adi_en[]" class="form-control form-control-sm"  value="<?php echo $ceviri['adi_en']; ?>" placeholder="English">
+										</div>
+										<div class="col-sm-3">
+											<input type="text" name="adi_ru[]" class="form-control form-control-sm"  value="<?php echo $ceviri['adi_ru']; ?>" placeholder="Россия">
+										</div>
+									</div>
+									<?php } ?>
 									<div class="card-footer">
-										<?php if( $birim_id >0 ){ ?>
-										<button modul= 'etkinlikler' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
-										<?php } ?>
+										<button modul= 'webCevirileri' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
 									</div>
 								</form>
 							</div>
 						</div>
-                        <?php }else{ ?>
-                            <div class="text-center" style="height:600px;">
-                                <h2> Lütfen Birim Seçiniz</h2>
-                                <br>
-                                <div class="spinner-grow text-primary " role="status">
-                                <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-secondary" role="status">
-                                <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-success" role="status">
-                                <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-danger" role="status">
-                                <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-warning" role="status">
-                                <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-info" role="status">
-                                <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-dark" role="status">
-                                <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        <?php } ?>
-
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </section>
@@ -338,7 +175,7 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 		});
 	});
 
-var tbl_etkinlikler = $( "#tbl_etkinlikler" ).DataTable( {
+var tbl_genel_ayarlar = $( "#tbl_genel_ayarlar" ).DataTable( {
 	"responsive": true, "lengthChange": true, "autoWidth": true,
 	"stateSave": true,
 	"pageLength" : 25,
@@ -364,23 +201,23 @@ var tbl_etkinlikler = $( "#tbl_etkinlikler" ).DataTable( {
 			"previous"	: "Önceki"
 		}
 	}
-} ).buttons().container().appendTo('#tbl_etkinlikler_wrapper .col-md-6:eq(0)');
+} ).buttons().container().appendTo('#tbl_genel_ayarlar_wrapper .col-md-6:eq(0)');
 
 
 
-$('#card_etkinlikler').on('maximized.lte.cardwidget', function() {
-	var tbl_etkinlikler = $( "#tbl_etkinlikler" ).DataTable();
-	var column = tbl_etkinlikler.column(  tbl_etkinlikler.column.length - 1 );
+$('#card_genel_ayarlar').on('maximized.lte.cardwidget', function() {
+	var tbl_genel_ayarlar = $( "#tbl_genel_ayarlar" ).DataTable();
+	var column = tbl_genel_ayarlar.column(  tbl_genel_ayarlar.column.length - 1 );
 	column.visible( ! column.visible() );
-	var column = tbl_etkinlikler.column(  tbl_etkinlikler.column.length - 2 );
+	var column = tbl_genel_ayarlar.column(  tbl_genel_ayarlar.column.length - 2 );
 	column.visible( ! column.visible() );
 });
 
-$('#card_etkinlikler').on('minimized.lte.cardwidget', function() {
-	var tbl_etkinlikler = $( "#tbl_etkinlikler" ).DataTable();
-	var column = tbl_etkinlikler.column(  tbl_etkinlikler.column.length - 1 );
+$('#card_genel_ayarlar').on('minimized.lte.cardwidget', function() {
+	var tbl_genel_ayarlar = $( "#tbl_genel_ayarlar" ).DataTable();
+	var column = tbl_genel_ayarlar.column(  tbl_genel_ayarlar.column.length - 1 );
 	column.visible( ! column.visible() );
-	var column = tbl_etkinlikler.column(  tbl_etkinlikler.column.length - 2 );
+	var column = tbl_genel_ayarlar.column(  tbl_genel_ayarlar.column.length - 2 );
 	column.visible( ! column.visible() );
 } );
 
@@ -390,7 +227,7 @@ $('#card_etkinlikler').on('minimized.lte.cardwidget', function() {
         <script>
             // This sample still does not showcase all CKEditor&nbsp;5 features (!)
             // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
-            CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
+            CKEDITOR.ClassicEditor.create(document.getElementById("editor2"), {
                 // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
 				ckfinder: {
 					uploadUrl: '/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
@@ -540,8 +377,5 @@ $('#card_etkinlikler').on('minimized.lte.cardwidget', function() {
                     'TableOfContents',
                     'PasteFromOfficeEnhanced'
                 ]
-            })
-			.then( editor => {
-				window.editor = editor;
-			});
+            });
         </script>

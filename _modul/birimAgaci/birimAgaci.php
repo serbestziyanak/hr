@@ -36,6 +36,7 @@ SQL;
 @$birim_agacilar 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 @$birim_bilgileri 		= $vt->selectSingle($SQL_birim_bilgileri, array( $id ) )[ 2 ];
 
+
 ?>	
 
 <div class="row">
@@ -61,8 +62,9 @@ SQL;
                   <tbody>
 					<?php
 					//var_dump($birim_agacilar);
-						function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $dil){
-							$adi = "adi".$dil;
+						function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $sistem_dil){
+							$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+							$adi = "adi".$sistem_dil2;
 							$html = "<tr class='expandable-body'>
 											<td>
 												<div class='p-0'>
@@ -83,7 +85,7 @@ SQL;
 														$kategori[$adi]
 														<span class='m-0 p-0'>
 															<button modul= 'birimAgaci' yetki_islem='sil' class='btn btn-xs ml-1 btn-danger float-right' data-href='_modul/birimAgaci/birimAgaciSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay'>Sil</button>
-															<a modul= 'birimAgaci' yetki_islem='duzenle' href='index.php?modul=birimAgaci&id=$kategori[id]&islem=guncelle' id='$kategori[id]' data-id='$kategori[id]' class='btn btn-warning float-right btn-xs ' data-kategori_ad_duzenle='$kategori[adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
+															<a modul= 'birimAgaci' yetki_islem='duzenle' href='index.php?modul=birimAgaci&id=$kategori[id]&islem=guncelle' id='$kategori[id]' data-id='$kategori[id]' class='btn btn-warning float-right btn-xs ' data-kategori_ad_duzenle='$kategori[$adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
 														</span>
 													</td>
 												</tr>";									
@@ -97,15 +99,15 @@ SQL;
 															$kategori[$adi]
 															<span>
 																<button modul= 'birimAgaci' yetki_islem='sil' class='btn btn-xs ml-1 btn-danger float-right' data-href='_modul/birimAgaci/birimAgaciSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay' onclick='$(#sil_onay).modal();event.stopPropagation();' >Sil</button>
-																<a modul= 'birimAgaci' yetki_islem='duzenle' href='index.php?modul=birimAgaci&id=$kategori[id]&islem=guncelle' id='$kategori[id]' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='btn btn-warning float-right btn-xs ml-1 ' data-kategori_ad_duzenle='$kategori[adi]' data-kategori_duzenle='$kategori[kategori]' data-grup_duzenle='$kategori[grup]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
-																<a modul= 'birimAgaci' yetki_islem='kategori-ekle' href='index.php?modul=birimAgaci&id=$kategori[id]&islem=ekle' class='btn btn-dark float-right btn-xs' id='$kategori[id]' data-id='$kategori[id]' data-kategori_ad ='$kategori[adi]' data-ders_id='$kategori[ders_id]' data-modal='kategori_ekle' onclick='event.stopPropagation();' >Ekle</a>
+																<a modul= 'birimAgaci' yetki_islem='duzenle' href='index.php?modul=birimAgaci&id=$kategori[id]&islem=guncelle' id='$kategori[id]' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='btn btn-warning float-right btn-xs ml-1 ' data-kategori_ad_duzenle='$kategori[$adi]' data-kategori_duzenle='$kategori[kategori]' data-grup_duzenle='$kategori[grup]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
+																<a modul= 'birimAgaci' yetki_islem='kategori-ekle' href='index.php?modul=birimAgaci&id=$kategori[id]&islem=ekle' class='btn btn-dark float-right btn-xs' id='$kategori[id]' data-id='$kategori[id]' data-kategori_ad ='$kategori[$adi]' data-ders_id='$kategori[ders_id]' data-modal='kategori_ekle' onclick='event.stopPropagation();' >Ekle</a>
 															</span>
 														<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 														</td>
 													</tr>
 												";								
 											$renk++;
-											$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $dil);
+											$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $sistem_dil);
 											
 											$renk--;
 										
@@ -122,7 +124,7 @@ SQL;
 							return $html;
 						}
 						if( count( $birim_agacilar ) ) 
-							echo kategoriListele3($birim_agacilar,0,0, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $dil);
+							echo kategoriListele3($birim_agacilar,0,0, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id, $sistem_dil);
 						
 
 					?>
@@ -143,38 +145,32 @@ SQL;
 			</div>
 			<form class="form-horizontal" action = "_modul/birimAgaci/birimAgaciSEG.php" method = "POST" enctype="multipart/form-data">
 			<div class="card-body">
-				<?php foreach( $birim_bilgileri as $anahtar=>$deger ){ ?>
-				<input type="hidden"  name="<?php echo $anahtar;  ?>" value="<?php echo $deger;  ?>">
+				<?php foreach( array_keys($birim_bilgileri) as $anahtar ){ ?>
+				<input type="hidden"  name="<?php echo $anahtar;  ?>" value="<?php echo $birim_bilgileri[$anahtar];  ?>">
 				<?php } ?>
-				<input type="hidden"  name="dil" value="<?php echo $dil;  ?>">
 				<div class="form-group">
 					<label class="control-label">Dil</label>
-					<select class="form-control select2" name = "dil" required onchange="dil_degistir(this);">
-						<option value="tr">Türkçe</option>
-						<option value="kz">қазақ</option>
-						<option value="en">English</option>
-						<option value="ru">Россия</option>
+					<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
+						<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
+						<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
+						<option value="_en" <?php if( $_REQUEST['dil'] == "_en" ) echo "selected"; ?> >English</option>
+						<option value="_ru" <?php if( $_REQUEST['dil'] == "_ru" ) echo "selected"; ?> >Россия</option>
 					</select>
 				</div>
+				<input type="hidden"  name="islem" value="<?php echo $islem; ?>">
 				<?php if( $islem == 'ekle' ){ ?>
 				<input type="hidden"  name="ust_id" value="<?php if( $islem == 'ekle' ) echo $birim_bilgileri['id'];  ?>">
 				<div class="form-group">
 					<label class="control-label">Üst Birim</label>
-					<input required type="text" class="form-control"  value="<?php if( $islem == 'ekle' ) echo $birim_bilgileri['adi'.$dil];  ?>"  autocomplete="off" disabled>
+					<input required type="text" class="form-control"  value="<?php if( $islem == 'ekle' ) echo $birim_bilgileri['adi'];  ?>"  autocomplete="off" disabled>
 				</div>
 				<?php }else{ ?>
 				<input type="hidden"  name="birim_agaci_id" value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['id'];  ?>">
 				<?php } ?>
 				<div class="form-group">
 					<label class="control-label">Birim Adı</label>
-					<input required type="text" class="form-control" id ="adi" name ="adi"  value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['adi'.$dil];  ?>"  autocomplete="off">
+					<input required type="text" class="form-control" id ="adi" name ="adi"  value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['adi'];  ?>"  autocomplete="off">
 				</div>
-				<script>
-					function dil_degistir(eleman){
-						//alert(eleman.value);
-						document.getElementById("adi").value = document.getElementsByName("adi"+"_"+eleman.value)[0].value;
-					}
-				</script>
 				<div class="form-group clearfix">
 					<div class="icheck-success d-inline">
 						<input type="checkbox" id="kategori"  name="kategori" <?php if( $islem == 'guncelle' and $birim_bilgileri['kategori'] == 1 ) echo "checked";  ?> >
@@ -196,7 +192,9 @@ SQL;
 				</div>
 			</div>
 			<div class="card-footer">
+				<?php if( $id > 0 ){ ?>
 				<button modul= 'birimAgaci' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
+				<?php } ?>
 			</div>
 			</form>
 		</div>
@@ -370,6 +368,28 @@ SQL;
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+
+	<script>
+		var select = document.getElementById('dil');
+		<?php if( isset($_REQUEST['dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['dil'];  ?>";
+		<?php }else{ ?>
+			select.value = "<?php echo $sistem_dil;  ?>";
+		<?php } ?>
+
+		<?php if( isset($_REQUEST['sistem_dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['sistem_dil'];  ?>";
+		<?php } ?>
+
+		select.dispatchEvent(new Event('change'));
+
+		function dil_degistir(eleman){
+			if( eleman.value == "_tr" ) dil = ""; else dil = eleman.value;
+			<?php if( $islem == "guncelle" ){ ?>
+				document.getElementById("adi").value = document.getElementsByName("adi"+dil)[0].value;
+			<?php } ?>
+		}
+	</script>
 
 	<script>
         $('.soru').summernote();

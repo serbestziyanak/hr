@@ -276,7 +276,7 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 											overflow-y: auto;
 										}
 										</style>
-										<textarea id="editor2" style="display:none" name="icerik">
+										<textarea id="editor" style="display:none" name="icerik">
 										<?php echo @$tek_duyuru[ "icerik" ]; ?>
 										</textarea>
 									</div>
@@ -390,7 +390,7 @@ $('#card_duyurular').on('minimized.lte.cardwidget', function() {
         <script>
             // This sample still does not showcase all CKEditor&nbsp;5 features (!)
             // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
-            CKEDITOR.ClassicEditor.create(document.getElementById("editor2"), {
+            CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
                 // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
 				ckfinder: {
 					uploadUrl: '/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
@@ -540,5 +540,8 @@ $('#card_duyurular').on('minimized.lte.cardwidget', function() {
                     'TableOfContents',
                     'PasteFromOfficeEnhanced'
                 ]
-            });
+            })
+			.then( editor => {
+				window.editor = editor;
+			});
         </script>

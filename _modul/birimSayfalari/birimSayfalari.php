@@ -134,8 +134,20 @@ if( $sayfa_id > 0 ){
 						</div>
 
 						<div class="form-group">
-							<label class="control-label">Kategori Adı</label>
-							<input required type="text" class="form-control" name ="adi"  autocomplete="off">
+							<label class="control-label">Adı (TR)</label>
+							<input required type="text" class="form-control" name ="adi"  autocomplete="off" >
+						</div>
+						<div class="form-group">
+							<label class="control-label">Adı (KZ)</label>
+							<input required type="text" class="form-control" name ="adi_kz"  autocomplete="off" >
+						</div>
+						<div class="form-group">
+							<label class="control-label">Adı (EN)</label>
+							<input required type="text" class="form-control" name ="adi_en"  autocomplete="off"">
+						</div>
+						<div class="form-group">
+							<label class="control-label">Adı (RU)</label>
+							<input required type="text" class="form-control" name ="adi_ru"  autocomplete="off" ">
 						</div>
 						<div class="form-group">
 							<label  class="control-label">Kategori Mi? </label>
@@ -175,8 +187,20 @@ if( $sayfa_id > 0 ){
 						<input type="hidden" id="birim_id_duzenle" name="birim_id">
 
 						<div class="form-group">
-							<label class="control-label">Kategori Adı</label>
+							<label class="control-label">Adı (TR)</label>
 							<input required type="text" class="form-control" name ="adi"  autocomplete="off" id="kategori_ad_duzenle">
+						</div>
+						<div class="form-group">
+							<label class="control-label">Adı (KZ)</label>
+							<input required type="text" class="form-control" name ="adi_kz"  autocomplete="off" id="kategori_ad_duzenle_kz">
+						</div>
+						<div class="form-group">
+							<label class="control-label">Adı (EN)</label>
+							<input required type="text" class="form-control" name ="adi_en"  autocomplete="off" id="kategori_ad_duzenle_en">
+						</div>
+						<div class="form-group">
+							<label class="control-label">Adı (RU)</label>
+							<input required type="text" class="form-control" name ="adi_ru"  autocomplete="off" id="kategori_ad_duzenle_ru">
 						</div>
 
 					</div>
@@ -208,12 +232,10 @@ if( $sayfa_id > 0 ){
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id){
-										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
-											$degerlendirme_ekle_class = "";
-										}else{
-											$degerlendirme_ekle_class = "degerlendirmeEkle";
-										}
+									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
+										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+										$adi = "adi".$sistem_dil2;
+
 										$html = "<tr class='expandable-body'>
 														<td>
 															<div class='p-0'>
@@ -230,8 +252,8 @@ if( $sayfa_id > 0 ){
 													$html .= "
 															<tr>
 																<td class=' bg-renk7 p-1' >
-																	$kategori[adi]
-																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
+																	$kategori[$adi]
+																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
 																</td>
 															</tr>";									
 
@@ -245,19 +267,19 @@ if( $sayfa_id > 0 ){
 													if( $kategori['grup'] == 1 )
 														$birim_sec_butonu = "";
 													else
-														$birim_sec_butonu = "<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
+														$birim_sec_butonu = "<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
 
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 																	<td class='bg-renk$renk p-1'>																
-																		$kategori[adi]
+																		$kategori[$adi]
 																		$birim_sec_butonu
 																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 																	</td>
 																</tr>
 															";								
 														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id);
+														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
 														
 														$renk--;
 													
@@ -274,7 +296,7 @@ if( $sayfa_id > 0 ){
 										return $html;
 									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id);
+										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
 									
 
 								?>
@@ -304,7 +326,10 @@ if( $sayfa_id > 0 ){
 								</tr>	
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele4( $kategoriler, $parent = 0, $renk = 0,$vt, $birim_id, $birim_adi){
+									function kategoriListele4( $kategoriler, $parent = 0, $renk = 0,$vt, $birim_id, $birim_adi, $sistem_dil){
+										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+										$adi = "adi".$sistem_dil2;
+
 										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
 											$degerlendirme_ekle_class = "";
 										}else{
@@ -317,6 +342,11 @@ if( $sayfa_id > 0 ){
 																	<tbody>";
 
 										foreach ($kategoriler as $kategori){
+											if( $kategori[$adi] == "" )
+												$turkce_ad_ekle = "<i>".$kategori['adi']."</i>";
+											else
+												$turkce_ad_ekle = "";
+
 											if( $kategori['ust_id'] == $parent ){
 												if( $parent == 0 ) {
 													$renk = 1;
@@ -326,16 +356,16 @@ if( $sayfa_id > 0 ){
 													$html .= "
 															<tr>
 																<td class=' bg-renk7 p-1' >
-																	$kategori[adi]
+																	$kategori[$adi]$turkce_ad_ekle
 																	<div class='btn-group float-right'>
 																		<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
 																			İşlem
 																		</button>
 																		<div class='dropdown-menu'>
-																			<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' class='dropdown-item modalAc' data-birim_id = '$birim_id' data-kategori_ad_duzenle='$kategori[adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
+																			<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' class='dropdown-item modalAc' data-birim_id = '$birim_id' data-kategori_ad_duzenle='$kategori[adi]' data-kategori_ad_duzenle_kz='$kategori[adi_kz]' data-kategori_ad_duzenle_en='$kategori[adi_en]' data-kategori_ad_duzenle_ru='$kategori[adi_ru]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
 																			<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item float-right' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay'>Sil</button>
 																			<div class='dropdown-divider'></div>
-																			<a class='dropdown-item' href='index.php?modul=birimSayfalari&birim_id=$birim_id&birim_adi=$birim_adi&sayfa_id=$kategori[id]&sayfa_adi=$kategori[adi]'>İçeriği Düzenle</a>
+																			<a modul= 'birimSayfalari' yetki_islem='icerik_duzenle' class='dropdown-item' href='index.php?modul=birimSayfalari&birim_id=$birim_id&birim_adi=$birim_adi&sayfa_id=$kategori[id]&sayfa_adi=$kategori[$adi]'>İçeriği Düzenle</a>
 																		</div>
 																	</div>											
 																	
@@ -348,14 +378,14 @@ if( $sayfa_id > 0 ){
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='true' class='border-0'>
 																	<td class='bg-renk$renk p-1'>
-																		$kategori[adi]
+																		$kategori[$adi]$turkce_ad_ekle
 																		<div class='btn-group float-right'>
 																			<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
 																				İşlem
 																			</button>
 																			<div class='dropdown-menu'>
-																				<a modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='dropdown-item KategoriEkle' data-birim_id = '$birim_id' id='$kategori[id]' data-id='$kategori[id]' data-kategori_ad ='$kategori[adi]' data-ders_id='$kategori[ders_id]' data-modal='kategori_ekle' onclick='event.stopPropagation();' >Sayfa Ekle</a>
-																				<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-birim_id = '$birim_id' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='dropdown-item modalAc' data-kategori_ad_duzenle='$kategori[adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
+																				<a modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='dropdown-item KategoriEkle' data-birim_id = '$birim_id' id='$kategori[id]' data-id='$kategori[id]' data-kategori_ad ='$kategori[$adi]' data-ders_id='$kategori[ders_id]' data-modal='kategori_ekle' onclick='event.stopPropagation();' >Sayfa Ekle</a>
+																				<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-birim_id = '$birim_id' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='dropdown-item modalAc' data-kategori_ad_duzenle='$kategori[adi]' data-kategori_ad_duzenle_kz='$kategori[adi_kz]' data-kategori_ad_duzenle_en='$kategori[adi_en]' data-kategori_ad_duzenle_ru='$kategori[adi_ru]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
 																				<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]&birim_id=$birim_id' data-toggle='modal' data-target='#sil_onay' onclick='$(#sil_onay).modal();event.stopPropagation();' >Sayfayı Sil</button>
 																			</div>
 																		</div>											
@@ -364,7 +394,7 @@ if( $sayfa_id > 0 ){
 																</tr>
 															";								
 														$renk++;
-														$html .= kategoriListele4($kategoriler, $kategori['id'],$renk, $vt, $birim_id, $birim_adi);
+														$html .= kategoriListele4($kategoriler, $kategori['id'],$renk, $vt, $birim_id, $birim_adi, $sistem_dil);
 														
 														$renk--;
 													
@@ -381,7 +411,7 @@ if( $sayfa_id > 0 ){
 										return $html;
 									}
 									if( count( $birim_sayfalari ) ) 
-										echo kategoriListele4($birim_sayfalari,0,0, $vt, $birim_id,$birim_adi);
+										echo kategoriListele4($birim_sayfalari,0,0, $vt, $birim_id,$birim_adi, $sistem_dil);
 									
 
 								?>
@@ -405,6 +435,19 @@ if( $sayfa_id > 0 ){
 					<?php if( $birim_id > 0 ){ ?>
 
 					<div class="card-body">
+						<?php foreach( array_keys($sayfa_icerik_bilgileri) as $anahtar ){ ?>
+						<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $sayfa_icerik_bilgileri[$anahtar];  ?>'>
+						<?php } ?>
+						<div class="form-group">
+							<label class="control-label">Dil</label>
+							<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
+								<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
+								<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
+								<option value="_en" <?php if( $_REQUEST['dil'] == "_en" ) echo "selected"; ?> >English</option>
+								<option value="_ru" <?php if( $_REQUEST['dil'] == "_ru" ) echo "selected"; ?> >Россия</option>
+							</select>
+						</div>
+
 						<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 						<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
 						<input type = "hidden" name = "sayfa_id" value = "<?php echo $sayfa_id; ?>">
@@ -447,7 +490,7 @@ if( $sayfa_id > 0 ){
 						<br><h5 class="float-right text-olive">Sayfa İçeriği</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 						<div class="form-group">
 							<label class="control-label">Başlık</label>
-							<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" value = "<?php echo $sayfa_icerik_bilgileri[ "baslik" ]; ?>"  autocomplete="off">
+							<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" id ="baslik" value = "<?php echo $sayfa_icerik_bilgileri[ "baslik" ]; ?>"  autocomplete="off">
 						</div>
 						<div class="form-group">
 							<label class="control-label">İçerik</label>
@@ -457,7 +500,7 @@ if( $sayfa_id > 0 ){
 									overflow-y: auto;
 								}
 							</style>
-							<textarea id="editor" style="display:none" name="icerik" >
+							<textarea id="editor" style="display:none" name="icerik"  >
 							<?php echo $sayfa_icerik_bilgileri[ "icerik" ]; ?>
 							</textarea>
 						</div>
@@ -501,6 +544,7 @@ if( $sayfa_id > 0 ){
 		</div>
 	</div>
 </section>
+
 	<script>
 		function link_aktif(eleman){
 			if(eleman.checked)
@@ -530,6 +574,9 @@ if( $sayfa_id > 0 ){
 		$('.modalAc').on("click", function(e) { 
 			var modal 		= $(this).data("modal");
 			var kategori_ad = $(this).data("kategori_ad_duzenle");
+			var kategori_ad_kz = $(this).data("kategori_ad_duzenle_kz");
+			var kategori_ad_en = $(this).data("kategori_ad_duzenle_en");
+			var kategori_ad_ru = $(this).data("kategori_ad_duzenle_ru");
 			var modal 		= $(this).data("modal");
 			var kategori 	= $(this).data("kategori");
 			var islem 		= $(this).data("islem");
@@ -544,6 +591,9 @@ if( $sayfa_id > 0 ){
 
 			document.getElementById("birim_sayfa_id").value 		= birim_sayfa_id;
 			document.getElementById("kategori_ad_duzenle").value 	= kategori_ad;
+			document.getElementById("kategori_ad_duzenle_kz").value 	= kategori_ad_kz;
+			document.getElementById("kategori_ad_duzenle_en").value 	= kategori_ad_en;
+			document.getElementById("kategori_ad_duzenle_ru").value 	= kategori_ad_ru;
 			document.getElementById("birim_id_duzenle").value 		= birim_id;
 			document.getElementById("islem").value 					= islem;
 		        
@@ -738,7 +788,7 @@ $('#card_personeller').on('minimized.lte.cardwidget', function() {
             CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
                 // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
 				ckfinder: {
-					uploadUrl: '/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+					uploadUrl: '../../plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
 				},
                 toolbar: {
                     items: [
@@ -885,5 +935,32 @@ $('#card_personeller').on('minimized.lte.cardwidget', function() {
                     'TableOfContents',
                     'PasteFromOfficeEnhanced'
                 ]
-            });
+            })
+			.then( editor => {
+				window.editor = editor;
+			});
         </script>
+	<script>
+		var select = document.getElementById('dil');
+		<?php if( isset($_REQUEST['dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['dil'];  ?>";
+		<?php }else{ ?>
+			select.value = "<?php echo $sistem_dil;  ?>";
+		<?php } ?>
+
+		<?php if( isset($_REQUEST['sistem_dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['sistem_dil'];  ?>";
+		<?php } ?>
+
+		select.dispatchEvent(new Event('change'));
+
+		function dil_degistir(eleman){
+			//alert("<?php echo $islem; ?>");
+			if( eleman.value == "_tr" ) dil = ""; else dil = eleman.value;
+			<?php if( $islem == "icerik_guncelle" ){ ?>
+				document.getElementById("baslik").value = document.getElementsByName("baslik"+dil)[0].value;
+				//document.getElementById("editor").value = document.getElementsByName("icerik"+dil)[0].value;
+				window.editor.data.set(document.getElementsByName("icerik"+dil)[0].value);
+			<?php } ?>
+		}
+	</script>

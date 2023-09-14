@@ -3,7 +3,12 @@ include "../_cekirdek/fonksiyonlar.php";
 $vt = new VeriTabani();
 $fn = new Fonksiyonlar();
 
+//var_dump($_REQUEST);
+//exit;
+
 $birim_id				= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
+$dil				    = array_key_exists( 'dil' ,$_REQUEST ) ? $_REQUEST[ 'dil' ]	: 0;
+$dil = $dil == "tr" ? "" : "_".$dil;
 
 $SQL_birim_sayfalari_getir = <<< SQL
 SELECT
@@ -93,18 +98,39 @@ WHERE
   sayfa_id = ? 
 SQL;
 
+$SQL_ceviriler = <<< SQL
+SELECT
+  *
+FROM 
+  tb_ceviriler
+WHERE
+  turu = 1 
+SQL;
+
 
 @$birim_bilgileri 	    = $vt->selectSingle($SQL_birim_bilgileri, array( $_REQUEST['kisa_ad'] ) )[ 2 ];
 $birim_id				= @array_key_exists( 'id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'id' ]	: 0;
 @$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'] ) )[ 2 ];
 $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_bilgileri[ 'id' ]	: 0;
 @$birim_sayfa_icerikleri = $vt->selectSingle($SQL_birim_sayfa_icerikleri, array( $sayfa_id ) )[ 2 ];
+@$duyuru_icerik          = $vt->selectSingle($SQL_duyuru_icerik, array( $_REQUEST['id'] ) )[ 2 ];
+@$etkinlik_icerik        = $vt->selectSingle($SQL_etkinlik_icerik, array( $_REQUEST['id'] ) )[ 2 ];
 
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
 @$duyurular 	        = $vt->select($SQL_duyurular, array( $birim_id ) )[ 2 ];
 @$etkinlikler 	        = $vt->select($SQL_etkinlikler, array( $birim_id ) )[ 2 ];
 @$slaytlar 	            = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
+@$ceviriler	            = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
 @$genel_ayarlar 	    = $vt->selectSingle($SQL_genel_ayarlar, array( $birim_id ) )[ 2 ];
+
+foreach( $ceviriler as $ceviri ){
+    $dizi[$ceviri['adi']]['tr'] = $ceviri['adi']; 
+    $dizi[$ceviri['adi']]['kz'] = $ceviri['adi_kz']; 
+    $dizi[$ceviri['adi']]['en'] = $ceviri['adi_en']; 
+    $dizi[$ceviri['adi']]['ru'] = $ceviri['adi_ru']; 
+}
+
+var_dump($dizi);
 
 if( $birim_id == 0 ){
     include "error.html";
@@ -118,7 +144,7 @@ if( $birim_id == 0 ){
   <base href="/hr/birim_sayfalari/" />
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title><?php echo $birim_bilgileri['adi']; ?></title>
+    <title><?php echo $birim_bilgileri['adi'.$dil]; ?></title>
     <meta name="author" content="themeholy">
     <meta name="description" content="Edura - Online Courses & Education HTML Template">
     <meta name="keywords" content="Edura - Online Courses & Education HTML Template">
@@ -207,26 +233,19 @@ if( $birim_id == 0 ){
         <div class="sidemenu-content">
             <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
             <div class="widget woocommerce widget_shopping_cart">
-                <h3 class="widget_title">Duyurular</h3>
+                <h3 class="widget_title"><?php echo $dizi["Duyurular"][$_REQUEST["dil"]]; ?></h3>
                 <div class="widget_shopping_cart_content">
-                    <ul class="woocommerce-mini-cart cart_list product_list_widget ">
+                    <ul class="woocommerce-mini-cart cart_list product_list_widget">
                         <?php foreach( $duyurular as $duyuru ){ ?>
-                        <li class="woocommerce-mini-cart-item mini_cart_item">
-                            <a href="#"><img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Cart Image"><?php echo $duyuru['baslik']; ?></a>
+                        <li class="woocommerce-mini-cart-item mini_cart_item d-flex align-items-center justify-content-center">
+                            <a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>" style="font-size:12px; " class="align-middle">
+                            <img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Cart Image" style="object-fit: cover;"><?php echo $duyuru['baslik'.$dil]; ?>
+                            </a>
                             <small class="text-muted"><i class="fa-solid fa-calendar-days"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></small>
                            
                         </li>
                         <?php } ?>
                     </ul>
-                    <p class="woocommerce-mini-cart__total total">
-                        <strong>Subtotal:</strong>
-                        <span class="woocommerce-Price-amount amount">
-                            <span class="woocommerce-Price-currencySymbol">$</span>4398.00</span>
-                    </p>
-                    <p class="woocommerce-mini-cart__buttons buttons">
-                        <a href="cart.html" class="th-btn wc-forward">View cart</a>
-                        <a href="checkout.html" class="th-btn checkout wc-forward">Checkout</a>
-                    </p>
                 </div>
             </div>
         </div>
@@ -245,13 +264,16 @@ if( $birim_id == 0 ){
         <div class="th-menu-area text-center">
             <button class="th-menu-toggle"><i class="fal fa-times"></i></button>
             <div class="mobile-logo">
-                <a href="index.php"><img src="assets/img/ayu_logo2.png" alt="Edura"></a>
+                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Edura"></a>
             </div>
             <div class="th-mobile-menu">
                 <ul>
                 <?php 
-                    function buildListMobile(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad): string
+                    function buildListMobile(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil): string
                     {
+                        $dil2 = $dil == "tr" ? "" : "_".$dil ;
+                        $adi = "adi".$dil2;
+
                         if( $ilk )
                         $menu = "";
                         else
@@ -259,11 +281,11 @@ if( $birim_id == 0 ){
                         foreach($array as $item) {
                             if( $item['ust_id'] == $ust_id ){
                                 if( $item['kategori'] == 0 )
-                                    $menu .= "<li><a href='{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item['adi']}</a></li>";
+                                    $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
                                 else
-                                        $menu .= "<li class='menu-item-has-children'><a href='#'>{$item['adi']}</a>";
+                                        $menu .= "<li class='menu-item-has-children'><a href='#'>{$item[$adi]}</a>";
                                 if ( $item['kategori'] == 1 ) {
-                                        $menu .= buildListMobile($array, $item['id'],0, $birim_id, $birim_kisa_ad);
+                                        $menu .= buildListMobile($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil);
                                 }
                                 $menu .= "</li>";
                             }
@@ -272,122 +294,9 @@ if( $birim_id == 0 ){
 
                         return $menu;
                     }
-                    echo buildListMobile($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad']);
+                    echo buildListMobile($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil']);
                 ?>
                 </ul>
-
-                <!--ul>
-                    <li class="menu-item-has-children">
-                        <a href="index.php">Home</a>
-                        <ul class="sub-menu">
-                            <li class="menu-item-has-children">
-                                <a href="#">Multipage</a>
-                                <ul class="sub-menu">
-                                    <li  class="menu-item-has-children">
-                                        <a href="index.php">Home University</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="home1-rtl.html">University RTL</a></li>
-                                            <li><a href="home2-rtl.html">Online Education RTL</a></li>
-                                            <li><a href="home3-rtl.html">University Admission RTL</a></li>
-                                            <li><a href="home4-rtl.html">Digital Education RTL</a></li>
-                                        </ul>
-                                    </li>
-
-
-                                    <li><a href="home-2.html">Home Online Education</a></li>
-                                    <li><a href="home-3.html">Home University Admission</a></li>
-                                    <li><a href="home-4.html">Home Digital Education</a></li>
-                                    <li><a href="home-5.html">Home Academy <span class="new-label">New</span></a></li>
-                                    <li><a href="home-6.html">Home Online Training <span class="new-label">New</span></a></li>
-                                    <li><a href="home-7.html">Home Online Mentors <span class="new-label">New</span></a></li>
-                                    <li><a href="home-8.html">Home Online Courses <span class="new-label">New</span></a></li>
-                                    <li><a href="home-9.html">Home Kindergarten <span class="new-label">New</span></a></li>
-                                    <li><a href="home-10.html">Home University <span class="new-label">New</span></a></li>
-                                    <li><a href="home-11.html">Online Education <span class="new-label">New</span></a></li>
-                                    <li><a href="home-12.html">Online Instructor <span class="new-label">New</span></a></li>
-                                    <li><a href="home-13.html">Skill Development <span class="new-label">New</span></a></li>
-                                    <li><a href="home-14.html">Home Trainer <span class="new-label">New</span></a></li>
-                                    <li><a href="home-15.html">Home Admission <span class="new-label">New</span></a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Onepage</a>
-                                <ul class="sub-menu">
-                                    <li><a href="home1-onepage.html">University Onepage</a></li>
-                                    <li><a href="home2-onepage.html">Online Education Onepage</a></li>
-                                    <li><a href="home3-onepage.html">University Admission Onepage</a></li>
-                                    <li><a href="home4-onepage.html">Digital Education Onepage</a></li>
-                                    <li><a href="home5-onepage.html">Academy Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home6-onepage.html">Online Training Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home7-onepage.html">Online Mentors Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home8-onepage.html">Online Courses Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home9-onepage.html">Kindergarten Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home10-onepage.html">University Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home11-onepage.html">Online Education Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home12-onepage.html">Online Instructor Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home13-onepage.html">Skill Development Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home14-onepage.html">Trainer Onepage <span class="new-label">New</span></a></li>
-                                    <li><a href="home15-onepage.html">Admission Onepage <span class="new-label">New</span></a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">RTL</a>
-                                <ul class="sub-menu">
-                                    <li><a href="home1-rtl.html">University RTL</a></li>
-                                    <li><a href="home2-rtl.html">Online Education RTL</a></li>
-                                    <li><a href="home3-rtl.html">University Admission RTL</a></li>
-                                    <li><a href="home4-rtl.html">Digital Education RTL</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children">
-                        <a href="#">Courses</a>
-                        <ul class="sub-menu">
-                            <li><a href="course.html">Courses With Sidebar</a></li>
-                            <li><a href="course-2.html">Courses Without Sidebar</a></li>
-                            <li><a href="course-3.html">Courses Videos</a></li>
-                            <li><a href="course-details.html">Course Details</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children">
-                        <a href="#">Teachers</a>
-                        <ul class="sub-menu">
-                            <li><a href="team.html">Instructors</a></li>
-                            <li><a href="team-details.html">Instructors Details</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children">
-                        <a href="#">Pages</a>
-                        <ul class="sub-menu">
-                            <li><a href="about.html">About Us</a></li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Shop</a>
-                                <ul class="sub-menu">
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="shop-details.html">Shop Details</a></li>
-                                    <li><a href="cart.html">Cart Page</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="event.html">Events</a></li>
-                            <li><a href="event-details.html">Event Details</a></li>
-                            <li><a href="gallery.html">Gallery</a></li>
-                            <li><a href="error.html">Error Page</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children">
-                        <a href="#">Blog</a>
-                        <ul class="sub-menu">
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="blog-details.html">Blog Details</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact</a>
-                    </li>
-                </ul-->
             </div>
         </div>
     </div>
@@ -412,7 +321,7 @@ if( $birim_id == 0 ){
                             <ul>
                                 <li>
                                     <div class="header-social">
-                                        <span class="social-title">Follow Us:</span>
+                                        <span class="social-title"><?php echo $dizi["Bizi takip et"][$_REQUEST["dil"]]; ?>:</span>
                                         <a href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
                                         <a href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
                                         <a href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
@@ -421,7 +330,18 @@ if( $birim_id == 0 ){
                                     </div>
                                 </li>
                                 <li class="d-none d-lg-inline-block">
-                                    <i class="far fa-user"></i><a href="contact.html">Login / Register</a>
+                                    <a href="tr/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/tr.svg" style="height: 20px;">
+                                    </a>
+                                    <a href="kz/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/kz.svg" style="height: 20px;">
+                                    </a>
+                                    <a href="en/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/en.svg" style="height: 20px;">
+                                    </a>
+                                    <a href="ru/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/ru.svg" style="height: 20px;">
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -436,7 +356,7 @@ if( $birim_id == 0 ){
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto">
                             <div class="header-logo" style="padding: 0px;">
-                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Edura" style="height:75px;"></a>
+                                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Edura" style="height:75px;"></a>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -445,8 +365,10 @@ if( $birim_id == 0 ){
                                     <nav class="main-menu d-none d-lg-inline-block">
                                         <ul>
                                         <?php 
-                                            function buildList(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad): string
+                                            function buildList(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil): string
                                             {
+                                                $dil2 = $dil == "tr" ? "" : "_".$dil ;
+                                                $adi = "adi".$dil2;
                                                 if( $ilk )
                                                 $menu = "";
                                                 else
@@ -454,11 +376,11 @@ if( $birim_id == 0 ){
                                                 foreach($array as $item) {
                                                     if( $item['ust_id'] == $ust_id ){
                                                         if( $item['kategori'] == 0 )
-                                                            $menu .= "<li><a href='{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item['adi']}</a></li>";
+                                                            $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
                                                         else
-                                                             $menu .= "<li class='menu-item-has-children'><a href='#' >{$item['adi']}</a>";
+                                                             $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
                                                         if ( $item['kategori'] == 1 ) {
-                                                                $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad);
+                                                                $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil);
                                                         }
                                                         $menu .= "</li>";
                                                     }
@@ -467,121 +389,9 @@ if( $birim_id == 0 ){
 
                                                 return $menu;
                                             }
-                                            echo buildList($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad']);
+                                            echo buildList($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil']);
                                         ?>
                                         </ul>
-                                        <!--ul>
-                                            <li class="menu-item-has-children">
-                                                <a href="index.php">Home</a>
-                                                <ul class="sub-menu">
-                                                    <li class="menu-item-has-children">
-                                                        <a href="#">Multipage</a>
-                                                        <ul class="sub-menu">
-                                                            <li  class="menu-item-has-children">
-                                                                <a href="index.php">Home University</a>
-                                                                <ul class="sub-menu">
-                                                                    <li><a href="home1-rtl.html">University RTL</a></li>
-                                                                    <li><a href="home2-rtl.html">Online Education RTL</a></li>
-                                                                    <li><a href="home3-rtl.html">University Admission RTL</a></li>
-                                                                    <li><a href="home4-rtl.html">Digital Education RTL</a></li>
-                                                                </ul>
-                                                            </li>
-
-
-                                                            <li><a href="home-2.html">Home Online Education</a></li>
-                                                            <li><a href="home-3.html">Home University Admission</a></li>
-                                                            <li><a href="home-4.html">Home Digital Education</a></li>
-                                                            <li><a href="home-5.html">Home Academy <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-6.html">Home Online Training <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-7.html">Home Online Mentors <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-8.html">Home Online Courses <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-9.html">Home Kindergarten <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-10.html">Home University <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-11.html">Online Education <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-12.html">Online Instructor <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-13.html">Skill Development <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-14.html">Home Trainer <span class="new-label">New</span></a></li>
-                                                            <li><a href="home-15.html">Home Admission <span class="new-label">New</span></a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="menu-item-has-children">
-                                                        <a href="#">Onepage</a>
-                                                        <ul class="sub-menu">
-                                                            <li><a href="home1-onepage.html">University Onepage</a></li>
-                                                            <li><a href="home2-onepage.html">Online Education Onepage</a></li>
-                                                            <li><a href="home3-onepage.html">University Admission Onepage</a></li>
-                                                            <li><a href="home4-onepage.html">Digital Education Onepage</a></li>
-                                                            <li><a href="home5-onepage.html">Academy Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home6-onepage.html">Online Training Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home7-onepage.html">Online Mentors Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home8-onepage.html">Online Courses Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home9-onepage.html">Kindergarten Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home10-onepage.html">University Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home11-onepage.html">Online Education Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home12-onepage.html">Online Instructor Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home13-onepage.html">Skill Development Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home14-onepage.html">Trainer Onepage <span class="new-label">New</span></a></li>
-                                                            <li><a href="home15-onepage.html">Admission Onepage <span class="new-label">New</span></a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="menu-item-has-children">
-                                                        <a href="#">RTL</a>
-                                                        <ul class="sub-menu">
-                                                            <li><a href="home1-rtl.html">University RTL</a></li>
-                                                            <li><a href="home2-rtl.html">Online Education RTL</a></li>
-                                                            <li><a href="home3-rtl.html">University Admission RTL</a></li>
-                                                            <li><a href="home4-rtl.html">Digital Education RTL</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children">
-                                                <a href="#">Courses</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="course.html">Courses With Sidebar</a></li>
-                                                    <li><a href="course-2.html">Courses Without Sidebar</a></li>
-                                                    <li><a href="course-3.html">Courses Videos</a></li>
-                                                    <li><a href="course-details.html">Course Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children">
-                                                <a href="#">Teachers</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="team.html">Instructors</a></li>
-                                                    <li><a href="team-details.html">Instructors Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children">
-                                                <a href="#">Pages</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="about.html">About Us</a></li>
-                                                    <li class="menu-item-has-children">
-                                                        <a href="#">Shop</a>
-                                                        <ul class="sub-menu">
-                                                            <li><a href="shop.html">Shop</a></li>
-                                                            <li><a href="shop-details.html">Shop Details</a></li>
-                                                            <li><a href="cart.html">Cart Page</a></li>
-                                                            <li><a href="checkout.html">Checkout</a></li>
-                                                            <li><a href="wishlist.html">Wishlist</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="event.html">Events</a></li>
-                                                    <li><a href="event-details.html">Event Details</a></li>
-                                                    <li><a href="gallery.html">Gallery</a></li>
-                                                    <li><a href="error.html">Error Page</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children">
-                                                <a href="#">Blog</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="blog-details.html">Blog Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="contact.html">Contact</a>
-                                            </li>
-                                        </ul-->
                                     </nav>
                                     <button type="button" class="th-menu-toggle d-block d-lg-none"><i class="far fa-bars"></i></button>
                                 </div>
@@ -608,7 +418,13 @@ if( $birim_id == 0 ){
     </header>
 <?php if( $sayfa_id > 0 ){
     include "icerik.php";
-}else{ ?>
+}elseif( @$_REQUEST['sayfa_turu'] == 'duyurular' ){ 
+    include "duyuru_icerik.php";
+}elseif( @$_REQUEST['sayfa_turu'] == 'etkinlikler' ){ 
+    include "etkinlik_icerik.php";
+}else{ 
+
+?>
     <!--==============================
 Hero Area
 ==============================-->
@@ -623,8 +439,8 @@ Hero Area
                         <div class="col-md-6">
                             <div class="hero-style1">
                                 <h1 class="hero-title text-white" data-ani="slideinleft" data-ani-delay="0.4s">
-                                    <?php echo $birim_bilgileri['adi']; ?> 
-                                <p class="hero-text" data-ani="slideinleft" data-ani-delay="0.6s"><?php echo $genel_ayarlar['slogan']; ?></p>
+                                    <?php echo $birim_bilgileri['adi'.$dil]; ?> 
+                                <p class="hero-text" data-ani="slideinleft" data-ani-delay="0.6s"><?php echo $genel_ayarlar['slogan'.$dil]; ?></p>
                             </div>
                         </div>
                         <div class="col-md-6 text-lg-end text-center">
@@ -684,138 +500,6 @@ Hero Area
     </div>
     <!--======== / Hero Section ========-->
     <!--==============================
-Contact Area  
-==============================-->
-
-
-    <!--div class="space-top">
-        <div class="container">
-            <div class="category-sec-wrap">
-                <div class="shape-mockup category-shape-arrow d-xl-block d-none">
-                    <img src="assets/img/normal/category-arrow.svg" alt="img">
-                </div>
-                <div class="row">
-                    <div class="col-xl-4">
-                        <div class="title-area mb-25 mb-lg-0 text-xl-start text-center">
-                            <span class="sub-title"><i class="fal fa-book me-2"></i> Courses Categories</span>
-                            <h2 class="sec-title">Explore Top Categories</h2>
-                            <a href="course.html" class="th-btn">View All Category<i class="fa-regular fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-xl-8">
-                        <div class="row slider-shadow th-carousel category-slider" data-slide-show="4" data-ml-slide-show="3" data-md-slide-show="3" data-sm-slide-show="2" data-arrows="true" data-xl-arrows="true">
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_1.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">Web Development</a></h3>
-                                        <p class="category-card_text">56+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_2.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">Digital Marketing</a></h3>
-                                        <p class="category-card_text">50+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_3.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">UI/UX Design</a></h3>
-                                        <p class="category-card_text">36+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_4.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">Graphic Design</a></h3>
-                                        <p class="category-card_text">24+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_1.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">Web Development</a></h3>
-                                        <p class="category-card_text">56+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_2.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">Digital Marketing</a></h3>
-                                        <p class="category-card_text">50+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_3.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">UI/UX Design</a></h3>
-                                        <p class="category-card_text">36+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-xl-4">
-                                <div class="category-card">
-                                    <div class="category-card_icon">
-                                        <img src="assets/img/icon/cat-1_4.svg" alt="image">
-                                    </div>
-                                    <div class="category-card_content">
-                                        <h3 class="category-card_title"><a href="course.html">Graphic Design</a></h3>
-                                        <p class="category-card_text">24+ Courses </p>
-                                        <a href="course-details.html" class="th-btn">Learn More <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div-->
-    <!--==============================
 About Area  
 ==============================-->
     <div class="space overflow-hidden" id="about-sec">
@@ -828,7 +512,7 @@ About Area
                         </div>
                         <div class="about-grid" data-bg-src="assets/img/bg/3.jpg" style="width: 154px;height: 197px;object-fit: cover;">
                             <h3 class="about-grid_year"><span class="counter-number">10</span>k<span class="text-theme">+</span></h3>
-                            <p class="about-grid_text">Students Active Our Courses</p>
+                            <p class="about-grid_text"><?php echo $dizi["Öğrenci"][$_REQUEST["dil"]]; ?></p>
                         </div>
                         <div class="img2">
                             <img class="tilt-active" src="assets/img/bg/7.jpg" alt="About" style="width: 340px;height: 265px;object-fit: cover;">
@@ -840,14 +524,14 @@ About Area
                 </div>
                 <div class="col-xl-6">
                     <div class="title-area mb-30">
-                        <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo $genel_ayarlar['anasayfa_baslik']; ?></span>
-                        <h2 class="sec-title"><?php echo $genel_ayarlar['anasayfa_baslik']; ?></h2>
+                        <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo $genel_ayarlar['anasayfa_baslik'.$dil]; ?></span>
+                        <h2 class="sec-title"><?php echo $genel_ayarlar['anasayfa_baslik'.$dil]; ?></h2>
                     </div>
                     <p class="mt-n2 mb-25">
-                        <?php echo $genel_ayarlar['anasayfa_icerik']; ?>
+                        <?php echo $genel_ayarlar['anasayfa_icerik'.$dil]; ?>
                     </p>
                     <div class="btn-group mt-40">
-                        <a href="#" class="th-btn">Daha Fazla<i class="fa-regular fa-arrow-right ms-2"></i></a>
+                        <a href="#" class="th-btn"><?php echo $dizi["Daha Fazla"][$_REQUEST["dil"]]; ?><i class="fa-regular fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -862,12 +546,12 @@ Servce Area
                 <div class="row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="title-area mb-md-0">
-                            <span class="sub-title"><i class="fal fa-book me-2"></i> Son Duyurular</span>
-                            <h2 class="sec-title">Duyurular</h2>
+                            <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo $dizi["Son Duyurular"][$_REQUEST["dil"]]; ?></span>
+                            <h2 class="sec-title"><?php echo $dizi["Duyurular"][$_REQUEST["dil"]]; ?></h2>
                         </div>
                     </div>
                     <div class="col-md-auto">
-                        <a href="#" class="th-btn">Tüm Duyurular<i class="fa-solid fa-arrow-right ms-2"></i></a>
+                        <a href="#" class="th-btn"><?php echo $dizi["Tüm Duyurular"][$_REQUEST["dil"]]; ?><i class="fa-solid fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -886,21 +570,19 @@ Servce Area
                                 </div>
                             </div>
                             <h3 class="course-title" style="font-size: 16px; height:100px;">
-                                <a href="course-details.html">
-                                <?php echo $duyuru['baslik'] ?>
+                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>">
+                                <?php echo $duyuru['baslik'.$dil] ?>
                                 </a>
                             </h3>
                             <div class="course-meta ">
                                 <span><i class="fa-solid fa-calendar-days"></i></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></span>
-                                <span><i class="fal fa-user"></i>Students 60+</span>
-                                <span><i class="fal fa-chart-simple"></i>Beginner</span>
                             </div>
                             <div class="course-author ">
                                 <div class="author-info">
                                     <img src="assets/img/ayu_logo.png" alt="author">
-                                    <a href="course.html" class="author-name"><?php echo $birim_bilgileri['adi']; ?></a>
+                                    <a href="<?php echo $_REQUEST['kisa_ad']; ?>" class="author-name"><?php echo $birim_bilgileri['adi'.$dil]; ?></a>
                                 </div>
-                                <div class="offer-tag">Yeni</div>
+                                
                             </div>
                         </div>
                     </div>
@@ -917,26 +599,26 @@ Counter Area
             <div class="row justify-content-between">
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number">3.9</span>k<span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong>Successfully</strong> Trained</p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['ogrenci_sayisi']; ?></span><span class="fw-normal">+</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi["Öğrenci"][$_REQUEST["dil"]]; ?></strong> </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number">15.8</span>k<span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong>Classes</strong> Completed</p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['bolum_sayisi']; ?></span><span class="fw-normal">+</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi["Bölüm"][$_REQUEST["dil"]]; ?></strong> </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number">97.5</span>k<span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong>Satisfaction</strong> Rate</p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['egitmen_sayisi']; ?></span><span class="fw-normal">+</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi["Eğitmen"][$_REQUEST["dil"]]; ?></strong></p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number">100.2</span>k<span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong>Students</strong> Community</p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['yayin_sayisi']; ?></span><span class="fw-normal">+</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi["Akademik Yayın"][$_REQUEST["dil"]]; ?></strong> </p>
                     </div>
                 </div>
             </div>
@@ -966,14 +648,16 @@ Cta Area
         <div class="container text-center">
             <div class="cta-wrap2">
                 <div class="title-area text-center mb-35">
-                    <span class="sub-title"><i class="fal fa-book me-2"></i>Are You Ready For This Offer</span>
-                    <h2 class="sec-title text-white">40% Offer First <span class="text-theme2">100 Student’s</span> For Featured <br> <span class="fw-normal">Topics by Education Category</span></h2>
-                    <p class="cta-text">Get unlimited access to 6,000+ of Udemy’s top courses for your team. Learn and improve skills across
-                        business, tec, design, and more.</p>
+                    <h2 class="sec-title text-white">
+                        <?php echo $genel_ayarlar['slogan2'.$dil]; ?>
+                    </h2>
+                    <p class="cta-text">
+                        <?php echo $genel_ayarlar['slogan3'.$dil]; ?>
+                    </p>
                 </div>
                 <div class="btn-group justify-content-center">
-                    <a href="about.html" class="th-btn style3">Join With Us<i class="fas fa-arrow-right ms-2"></i></a>
-                    <a href="contact.html" class="th-btn style2">Become A Teacher<i class="fas fa-arrow-right ms-2"></i></a>
+                    <a href="<?php echo $genel_ayarlar['buton_url1']; ?>" class="th-btn style3"><?php echo $genel_ayarlar['buton_deger1'.$dil]; ?><i class="fas fa-arrow-right ms-2"></i></a>
+                    <a href="<?php echo $genel_ayarlar['buton_url2']; ?>" class="th-btn style2"><?php echo $genel_ayarlar['buton_deger2'.$dil]; ?><i class="fas fa-arrow-right ms-2"></i></a>
                 </div>
             </div>
         </div>
@@ -987,8 +671,8 @@ Event Area
         </div>
         <div class="container">
             <div class="title-area text-center">
-                <span class="sub-title"><i class="fal fa-book me-2"></i> Güncel Etkinlikler</span>
-                <h2 class="sec-title">Etkinlikler</h2>
+                <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo $dizi["Güncel Etkinlikler"][$_REQUEST["dil"]]; ?></span>
+                <h2 class="sec-title"><?php echo $dizi["Etkinlikler"][$_REQUEST["dil"]]; ?></h2>
             </div>
             <div class="row slider-shadow event-slider-1 th-carousel gx-70" data-slide-show="3" data-lg-slide-show="3" data-md-slide-show="1" data-sm-slide-show="1" data-xs-slide-show="1" data-arrows="true">
                 <?php foreach( $etkinlikler as $etkinlik ){ ?>
@@ -1003,21 +687,20 @@ Event Area
                                     <img src="assets/img/ayu_logo.png" alt="avater">
                                 </div>
                                 <div class="details">
-                                    <span class="author-name">David Smith</span>
-                                    <p class="author-desig">Chief - Executive</p>
+                                    <span class="author-name"><?php echo $birim_bilgileri['adi'.$dil]; ?></span>
                                 </div>
                             </div>
                             <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i>259, NewYork,</p>
+                                <p><i class="fal fa-location-dot"></i><?php echo $dizi["Yer"][$_REQUEST["dil"]]; ?></p>
                                 <p><i class="fal fa-clock"></i>08:00 am - 10:00 am</p>
                             </div>
                             <h3 class="event-card_title" style="font-size: 16px;;">
-                                <a href="event-details.html">
-                                <?php echo $etkinlik['baslik']; ?>
+                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>">
+                                <?php echo $etkinlik['baslik'.$dil]; ?>
                                 </a>
                             </h3>
                             <div class="event-card_bottom">
-                                <a href="event-details.html" class="th-btn">View Event <i class="far fa-arrow-right ms-1"></i></a>
+                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>" class="th-btn"><?php echo $dizi["Etkinliği Gör"][$_REQUEST["dil"]]; ?> <i class="far fa-arrow-right ms-1"></i></a>
                             </div>
                             <div class="event-card-shape jump">
                                 <img src="assets/img/event/event-box-shape1.png" alt="img">
@@ -1051,7 +734,7 @@ Event Area
                             <i class="fal fa-phone"></i>
                         </div>
                         <div class="media-body">
-                            <p class="footer-contact_text">Call us any time:</p>
+                            <p class="footer-contact_text"><?php echo $dizi["Bizi ara"][$_REQUEST["dil"]]; ?>:</p>
                             <a href="tel:<?php echo $genel_ayarlar['tel']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['tel']; ?></a>
                         </div>
                     </div>
@@ -1061,7 +744,7 @@ Event Area
                             <i class="fal fa-envelope"></i>
                         </div>
                         <div class="media-body">
-                            <p class="footer-contact_text">Email us 24/7 hours:</p>
+                            <p class="footer-contact_text"><?php echo $dizi["Email"][$_REQUEST["dil"]]; ?>:</p>
                             <a href="mailto:<?php echo $genel_ayarlar['email']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['email']; ?>v</a>
                         </div>
                     </div>
@@ -1071,8 +754,8 @@ Event Area
                             <i class="fal fa-location-dot"></i>
                         </div>
                         <div class="media-body">
-                            <p class="footer-contact_text">Our university location:</p>
-                            <a href="https://goo.gl/maps/FfX1sG6LPF4vTT1g7" class="footer-contact_link"><?php echo $genel_ayarlar['adres']; ?></a>
+                            <p class="footer-contact_text"><?php echo $dizi["Adres"][$_REQUEST["dil"]]; ?>:</p>
+                            <a href="https://goo.gl/maps/FfX1sG6LPF4vTT1g7" class="footer-contact_link"><?php echo $genel_ayarlar['adres'.$dil]; ?></a>
                         </div>
                     </div>
                 </div>
@@ -1086,11 +769,11 @@ Event Area
                             <div class="widget footer-widget">
                                 <div class="th-widget-about">
                                     <div class="about-logo">
-                                        <a href="index.php"><img src="assets/img/ayu_logo_beyaz.png" alt="Ahmet Yesevi Üniversitesi" style="height: 200px;"></a>
+                                        <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo_beyaz.png" alt="Ahmet Yesevi Üniversitesi" style="height: 200px;"></a>
                                     </div>
-                                    <p class="about-text">Continually optimize backward manufactured products whereas communities negotiate life compelling alignments</p>
+                                    <p class="about-text"><?php echo $dizi["Türk dünyasının parlayan yıldızı."][$_REQUEST["dil"]]; ?></p>
                                     <div class="th-social">
-                                        <h6 class="title text-white">FOLLOW US ON:</h6>
+                                        <h6 class="title text-white"><?php echo $dizi["Bizi takip et"][$_REQUEST["dil"]]; ?>:</h6>
                                         <a href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
                                         <a href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
                                         <a href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
@@ -1102,7 +785,7 @@ Event Area
                         </div>
                         <div class="col-md-6 col-xl-auto">
                             <div class="widget widget_nav_menu footer-widget">
-                                <h3 class="widget_title">Quick Links</h3>
+                                <h3 class="widget_title"><?php echo $dizi["Hızlı Bağlantılar"][$_REQUEST["dil"]]; ?></h3>
                                 <div class="menu-all-pages-container">
                                     <ul class="menu">
                                         <li><a href="course.html">Life Coach</a></li>
@@ -1115,31 +798,12 @@ Event Area
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-xl-auto">
+                        <div class="col-md-6 col-xl-6">
                             <div class="widget widget_nav_menu footer-widget">
-                                <h3 class="widget_title">Resources</h3>
+                                <h3 class="widget_title"><?php echo $dizi["Lokasyon"][$_REQUEST["dil"]]; ?></h3>
                                 <div class="menu-all-pages-container">
-                                    <ul class="menu">
-                                        <li><a href="contact.html">Community</a></li>
-                                        <li><a href="contact.html">Support</a></li>
-                                        <li><a href="contact.html">Video Guides</a></li>
-                                        <li><a href="contact.html">Documentation</a></li>
-                                        <li><a href="contact.html">Security</a></li>
-                                        <li><a href="contact.html">Template</a></li>
-                                    </ul>
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23147.715132621033!2d68.4852074567093!3d43.51350782394916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4200d538dc3232cf%3A0x73b67e6d72ac6450!2sKentau!5e0!3m2!1str!2skz!4v1694599217045!5m2!1str!2skz" width="500" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xxl-3 col-xl-3">
-                            <div class="widget newsletter-widget footer-widget">
-                                <h3 class="widget_title">Get in touch!</h3>
-                                <p class="footer-text">Subscribe our newsletter to get our latest
-                                    Update & news</p>
-                                <form class="newsletter-form form-group">
-                                    <input class="form-control" type="email" placeholder="Email Email" required="">
-                                    <i class="far fa-envelope"></i>
-                                    <button type="submit" class="th-btn style3">Subscribe Now <i class="far fa-arrow-right ms-1"></i></button>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -1149,13 +813,12 @@ Event Area
                 <div class="copyright-wrap">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-md-6">
-                            <p class="copyright-text">Copyright © 2023 <a href="index.php">Ahmet Yesevi Üniversitesi</a> All Rights Reserved.</p>
+                            <p class="copyright-text">Copyright © 2023 <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>">Ahmet Yesevi Üniversitesi</a> All Rights Reserved.</p>
                         </div>
                         <div class="col-md-6 text-end d-none d-md-block">
                             <div class="footer-links">
                                 <ul>
-                                    <li><a href="about.html">Privacy Policy</a></li>
-                                    <li><a href="about.html">Terms & Condition</a></li>
+                                    <li><a href="about.html"><?php echo $dizi["Gizlilik Politikası"][$_REQUEST["dil"]]; ?></a></li>
                                 </ul>
                             </div>
                         </div>
