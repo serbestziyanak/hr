@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 13/09/2023 00:38:11
+ Date: 14/09/2023 17:24:36
 */
 
 SET NAMES utf8mb4;
@@ -221,7 +221,7 @@ CREATE TABLE `tb_birim_agaci`  (
   `adi_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `adi_ru` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_agaci
@@ -233,7 +233,7 @@ INSERT INTO `tb_birim_agaci` VALUES (4, 1, 'Enstitüler', NULL, 1, 1, NULL, NULL
 INSERT INTO `tb_birim_agaci` VALUES (5, 1, 'Merkezler', NULL, 1, 1, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (7, 1, 'Meslek Yüksekokulları', NULL, 1, 1, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (8, 3, 'Hazırlık Okulu', NULL, 1, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (9, 3, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 0, 'deneme', 'Faculty of Engineering', NULL);
+INSERT INTO `tb_birim_agaci` VALUES (9, 3, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 0, 'deneme', 'Faculty of Engineering', 'Rusça Mühendislikkk');
 INSERT INTO `tb_birim_agaci` VALUES (10, 3, 'Fen Bilimleri Fakültesi', NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (11, 3, 'Filoloji Fakültesi', NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (12, 3, 'İnsan ve Toplum Bilimleri Fakültesi', NULL, 1, NULL, NULL, NULL, NULL);
@@ -264,9 +264,6 @@ INSERT INTO `tb_birim_agaci` VALUES (40, 2, 'Öğreci İşleri Daire Başkanlı�
 INSERT INTO `tb_birim_agaci` VALUES (41, 2, 'Personel İşleri Daire Başkanlığı', NULL, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (42, 2, 'Satınalma Müdürlüğü', NULL, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (43, 8, 'Yüksek Lisans Programları', NULL, 1, 1, NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (44, 0, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 1, NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (45, 0, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, 1, NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (46, 0, 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 0, 0, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfa_icerikleri
@@ -291,7 +288,7 @@ CREATE TABLE `tb_birim_sayfa_icerikleri`  (
 -- ----------------------------
 -- Records of tb_birim_sayfa_icerikleri
 -- ----------------------------
-INSERT INTO `tb_birim_sayfa_icerikleri` VALUES (1, 9, 8, 'Hakkımızda', '<p><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfa_icerikleri` VALUES (1, 9, 8, 'Hakkımızda', '<p><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', 'sdfsdf', 'sdfsdf', 'sdfsdf', 'fewrwerdfgdfg', 'werwersdgfsgsdfg', 'werwertert4356456', NULL);
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfalari
@@ -318,7 +315,7 @@ CREATE TABLE `tb_birim_sayfalari`  (
 -- Records of tb_birim_sayfalari
 -- ----------------------------
 INSERT INTO `tb_birim_sayfalari` VALUES (7, 9, 0, 'Fakülte', 'fakulte', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (8, 9, 7, 'Hakkımızda', 'hakkimizda', 0, 0, '', 0, 1, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (8, 9, 7, 'Hakkımızda', 'hakkimizda', 0, 0, '', 0, 1, 'a', 'b', 'c');
 INSERT INTO `tb_birim_sayfalari` VALUES (9, 9, 7, 'Tarihçe', 'tarihce', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (12, 9, 7, 'Dekanın Mesajı', 'dekaninmesaji', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (16, 9, 7, 'Misyon ve Vizyon', 'misyon-ve-vizyon', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -361,6 +358,51 @@ CREATE TABLE `tb_bolumler`  (
 INSERT INTO `tb_bolumler` VALUES (1, 1, 1, 'Cerrahi Tıp Bilimleri Bölümü', 1);
 INSERT INTO `tb_bolumler` VALUES (2, 1, 1, 'Dahili Tıp Bilimleri Bölümü', 1);
 INSERT INTO `tb_bolumler` VALUES (9, 1, 1, 'Temel T?p', 0);
+
+-- ----------------------------
+-- Table structure for tb_ceviriler
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_ceviriler`;
+CREATE TABLE `tb_ceviriler`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `turu` tinyint NULL DEFAULT NULL,
+  `adi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `adi_kz` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `adi_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `adi_ru` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_ceviriler
+-- ----------------------------
+INSERT INTO `tb_ceviriler` VALUES (1, 1, 'Bizi takip et', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (2, 1, 'Öğrenci', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (3, 1, 'Daha Fazla', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (4, 1, 'Duyurular', 'Хабарландырулар', 'Announcements', '');
+INSERT INTO `tb_ceviriler` VALUES (5, 1, 'Son Duyurular', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (6, 1, 'Tüm Duyurular', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (7, 1, 'Bölüm', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (8, 1, 'Eğitmen', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (9, 1, 'Akademik Yayın', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (10, 1, 'Güncel Etkinlikler', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (11, 1, 'Etkinlikler', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (12, 1, 'Etkinliği Gör', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (13, 1, 'Bizi ara', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (14, 1, 'Email', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (15, 1, 'Adres', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (16, 1, 'Türk dünyasının parlayan yıldızı.', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (17, 1, 'Hızlı Bağlantılar', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (18, 1, 'Lokasyon', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (19, 1, 'Gizlilik Politikası', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (20, 1, 'Paylaş', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (21, 1, 'Anasayfa', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (22, 1, 'Etkinlikler', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (23, 1, 'Yer', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (27, 2, 'Anasayfa', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (28, 2, 'Menüde Ara', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (29, 2, 'MENÜ', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (30, 2, 'AYU İnsan Kaynakları', '', '', '');
 
 -- ----------------------------
 -- Table structure for tb_ders_kategorileri
@@ -927,7 +969,7 @@ CREATE TABLE `tb_genel_ayarlar`  (
 -- ----------------------------
 -- Records of tb_genel_ayarlar
 -- ----------------------------
-INSERT INTO `tb_genel_ayarlar` VALUES (2, 9, 'logo_64feb065177d2ayu_logo2.png', 'Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi', 'footer_logo_64feb065179dcayu_logo_beyaz.png', '', 'cbdgfd', '', 'Түркістанқаласы,Бекзат Саттарханов даңғылы, 29', '+7(725) 336-36-36', 'info@ayu.edu.kz', 'https://www.facebook.com/yassawi.university/', '', '', '', '', 'Hakkımızda', '<p><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_genel_ayarlar` VALUES (2, 9, 'logo_64feb065177d2ayu_logo2.png', 'Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi', 'footer_logo_64feb065179dcayu_logo_beyaz.png', '', 'cbdgfd', '', 'Түркістанқаласы,Бекзат Саттарханов даңғылы, 29', '+7(725) 336-36-36', 'info@ayu.edu.kz', 'https://www.facebook.com/yassawi.university/', '', '', '', '', 'Hakkımızda', '<p><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', '1023', '11', '95', '125', 'Slogan 2', 'Slogan 3', 'Buton 1', 'https://ayu.edu.kz', 'Buton 1', 'https://ayu.edu.kz', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_gorev_kategorileri
@@ -1118,7 +1160,7 @@ CREATE TABLE `tb_modul`  (
   `adi_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `adi_ru` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 156 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 158 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_modul
@@ -1175,6 +1217,8 @@ INSERT INTO `tb_modul` VALUES (152, 'Manşetler', 'slaytlar', 'slaytlar', 'fas f
 INSERT INTO `tb_modul` VALUES (153, 'Birim Sayfaları', NULL, NULL, 'fas fa-file-alt text-red', 1, 0, 1, 5, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_modul` VALUES (154, 'Genel Ayarlar', 'genelAyarlar', 'genelAyarlar', 'fas fa-cog', 1, 153, 0, 2, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_modul` VALUES (155, 'Etkinlikler', 'etkinlikler', 'etkinlikler', 'fas fa-calendar-alt text-blue', 1, 153, 0, 1, 0, 0, NULL, NULL, NULL);
+INSERT INTO `tb_modul` VALUES (156, 'Panel Çevirileri', 'panelCevirileri', 'panelCevirileri', 'fas fa-language text-green', 1, 0, 0, 1, 0, 0, NULL, NULL, NULL);
+INSERT INTO `tb_modul` VALUES (157, 'Web Çevirileri', 'webCevirileri', 'webCevirileri', 'fas fa-language text-orange', 1, 0, 0, 1, 0, 0, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_modul_yetki_islemler
