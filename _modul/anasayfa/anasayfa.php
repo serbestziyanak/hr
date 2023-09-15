@@ -13,7 +13,9 @@
     }else if($_SESSION[ "kullanici_turu" ] == "ogretmen"){
         include "_modul/anasayfa/ogretmenAnasayfa.php";
     }else if($_SESSION[ "kullanici_turu" ] == "admin"){
-        include "_modul/anasayfa/adminAnasayfa.php";
+        //include "_modul/anasayfa/adminAnasayfa.php";
+        echo "<h1 class='text-center'><img src='img/ayu_logo.png' style='height:300px;align:center;'></h1>";
+        echo "<h1 class='text-center'>Akademik Bilgi Sistemine Hoşgeldiniz</h1>";
     }
 
 ?>

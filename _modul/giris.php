@@ -17,7 +17,7 @@
     <div class="card-header text-center">
       <div class="row">
         <div class="col-md-9 my-auto">
-          <h2><b>Eğitim Yönetim Planlama Sistemi</b></h2>
+          <h2><b>Akademik Bilgi Sistemi</b></h2>
           <h6>Ahmet Yesevi Üniversitesi</h6>
         </div>
         <div class="col-md-3 my-auto">

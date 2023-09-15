@@ -139,15 +139,15 @@ if( $sayfa_id > 0 ){
 						</div>
 						<div class="form-group">
 							<label class="control-label">Adı (KZ)</label>
-							<input required type="text" class="form-control" name ="adi_kz"  autocomplete="off" >
+							<input  type="text" class="form-control" name ="adi_kz"  autocomplete="off" >
 						</div>
 						<div class="form-group">
 							<label class="control-label">Adı (EN)</label>
-							<input required type="text" class="form-control" name ="adi_en"  autocomplete="off"">
+							<input  type="text" class="form-control" name ="adi_en"  autocomplete="off"">
 						</div>
 						<div class="form-group">
 							<label class="control-label">Adı (RU)</label>
-							<input required type="text" class="form-control" name ="adi_ru"  autocomplete="off" ">
+							<input  type="text" class="form-control" name ="adi_ru"  autocomplete="off" ">
 						</div>
 						<div class="form-group">
 							<label  class="control-label">Kategori Mi? </label>
@@ -192,15 +192,15 @@ if( $sayfa_id > 0 ){
 						</div>
 						<div class="form-group">
 							<label class="control-label">Adı (KZ)</label>
-							<input required type="text" class="form-control" name ="adi_kz"  autocomplete="off" id="kategori_ad_duzenle_kz">
+							<input  type="text" class="form-control" name ="adi_kz"  autocomplete="off" id="kategori_ad_duzenle_kz">
 						</div>
 						<div class="form-group">
 							<label class="control-label">Adı (EN)</label>
-							<input required type="text" class="form-control" name ="adi_en"  autocomplete="off" id="kategori_ad_duzenle_en">
+							<input  type="text" class="form-control" name ="adi_en"  autocomplete="off" id="kategori_ad_duzenle_en">
 						</div>
 						<div class="form-group">
 							<label class="control-label">Adı (RU)</label>
-							<input required type="text" class="form-control" name ="adi_ru"  autocomplete="off" id="kategori_ad_duzenle_ru">
+							<input  type="text" class="form-control" name ="adi_ru"  autocomplete="off" id="kategori_ad_duzenle_ru">
 						</div>
 
 					</div>
@@ -363,7 +363,7 @@ if( $sayfa_id > 0 ){
 																		</button>
 																		<div class='dropdown-menu'>
 																			<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' class='dropdown-item modalAc' data-birim_id = '$birim_id' data-kategori_ad_duzenle='$kategori[adi]' data-kategori_ad_duzenle_kz='$kategori[adi_kz]' data-kategori_ad_duzenle_en='$kategori[adi_en]' data-kategori_ad_duzenle_ru='$kategori[adi_ru]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
-																			<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item float-right' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay'>Sil</button>
+																			<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item float-right' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]&birim_id=$birim_id' data-toggle='modal' data-target='#sil_onay'>Sil</button>
 																			<div class='dropdown-divider'></div>
 																			<a modul= 'birimSayfalari' yetki_islem='icerik_duzenle' class='dropdown-item' href='index.php?modul=birimSayfalari&birim_id=$birim_id&birim_adi=$birim_adi&sayfa_id=$kategori[id]&sayfa_adi=$kategori[$adi]'>İçeriği Düzenle</a>
 																		</div>
