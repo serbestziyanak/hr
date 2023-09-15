@@ -238,7 +238,7 @@ if( $birim_id == 0 ){
                     <ul class="woocommerce-mini-cart cart_list product_list_widget">
                         <?php foreach( $duyurular as $duyuru ){ ?>
                         <li class="woocommerce-mini-cart-item mini_cart_item d-flex align-items-center justify-content-center">
-                            <a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>" style="font-size:12px; " class="align-middle">
+                            <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>" style="font-size:12px; " class="align-middle">
                             <img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Cart Image" style="object-fit: cover;"><?php echo $duyuru['baslik'.$dil]; ?>
                             </a>
                             <small class="text-muted"><i class="fa-solid fa-calendar-days"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></small>
@@ -570,7 +570,7 @@ Servce Area
                                 </div>
                             </div>
                             <h3 class="course-title" style="font-size: 16px; height:100px;">
-                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>">
+                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>">
                                 <?php echo $duyuru['baslik'.$dil] ?>
                                 </a>
                             </h3>
@@ -695,12 +695,12 @@ Event Area
                                 <p><i class="fal fa-clock"></i>08:00 am - 10:00 am</p>
                             </div>
                             <h3 class="event-card_title" style="font-size: 16px;;">
-                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>">
+                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>">
                                 <?php echo $etkinlik['baslik'.$dil]; ?>
                                 </a>
                             </h3>
                             <div class="event-card_bottom">
-                                <a href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>" class="th-btn"><?php echo $dizi["Etkinliği Gör"][$_REQUEST["dil"]]; ?> <i class="far fa-arrow-right ms-1"></i></a>
+                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>" class="th-btn"><?php echo $dizi["Etkinliği Gör"][$_REQUEST["dil"]]; ?> <i class="far fa-arrow-right ms-1"></i></a>
                             </div>
                             <div class="event-card-shape jump">
                                 <img src="assets/img/event/event-box-shape1.png" alt="img">

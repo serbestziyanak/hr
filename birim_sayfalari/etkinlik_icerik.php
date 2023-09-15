@@ -29,7 +29,7 @@
                 <div class="col-xxl-8 col-lg-7">
                     <div class="th-blog blog-single" >
                         <div class="blog-img">
-                            <img src="../resimler/duyurular/<?php echo $etkinlik_icerik['foto']; ?>" alt="Blog Image">
+                            <img src="../resimler/etkinlikler/<?php echo $etkinlik_icerik['foto']; ?>" alt="Blog Image">
                         </div>
                         <div class="blog-content" style="min-height: 600px;">
                             <div class="blog-meta">
@@ -67,13 +67,13 @@
                         <div class="widget  ">
                             <h3 class="widget_title">Duyurular</h3>
                             <div class="recent-post-wrap">
-                                <?php foreach( $duyurular as $duyuru ){ ?>
+                                <?php foreach( $etkinlikler as $duyuru ){ ?>
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
+                                        <a href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>"><img src="../resimler/etkinlikler/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>
+                                        <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>
                                         <div class="recent-post-meta">
                                             <small class="text-muted"><a href="blog.html"><i class="fal fa-calendar"></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></a></small>
                                         </div>
