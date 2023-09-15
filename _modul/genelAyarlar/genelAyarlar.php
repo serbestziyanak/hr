@@ -90,12 +90,10 @@ if( $tek_genel_ayar['id'] > 0 )
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id){
-										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
-											$degerlendirme_ekle_class = "";
-										}else{
-											$degerlendirme_ekle_class = "degerlendirmeEkle";
-										}
+									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
+										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+										$adi = "adi".$sistem_dil2;
+
 										$html = "<tr class='expandable-body'>
 														<td>
 															<div class='p-0'>
@@ -112,8 +110,8 @@ if( $tek_genel_ayar['id'] > 0 )
 													$html .= "
 															<tr>
 																<td class=' bg-renk7 p-1' >
-																	$kategori[adi]
-																	<a modul= 'genelAyarlar' yetki_islem='birim_sec' href='index.php?modul=genelAyarlar&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
+																	$kategori[$adi]
+																	<a modul= 'genelAyarlar' yetki_islem='birim_sec' href='index.php?modul=genelAyarlar&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
 																</td>
 															</tr>";									
 
@@ -127,19 +125,19 @@ if( $tek_genel_ayar['id'] > 0 )
 													if( $kategori['grup'] == 1 )
 														$birim_sec_butonu = "";
 													else
-														$birim_sec_butonu = "<a modul= 'genelAyarlar' yetki_islem='birim_sec' href='index.php?modul=genelAyarlar&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
+														$birim_sec_butonu = "<a modul= 'genelAyarlar' yetki_islem='birim_sec' href='index.php?modul=genelAyarlar&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
 
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 																	<td class='bg-renk$renk p-1'>																
-																		$kategori[adi]
+																		$kategori[$adi]
 																		$birim_sec_butonu
 																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 																	</td>
 																</tr>
 															";								
 														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id);
+														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
 														
 														$renk--;
 													
@@ -156,7 +154,7 @@ if( $tek_genel_ayar['id'] > 0 )
 										return $html;
 									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id);
+										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
 									
 
 								?>
@@ -182,7 +180,7 @@ if( $tek_genel_ayar['id'] > 0 )
 					<div class="card-body">
 								<?php if( $birim_id > 0 ){ ?>
 								<div class="alert alert-success" role="alert">
-								Şu anda <b><?php echo $birim_adi ?></b> için işlem yapmaktasınız. Birimi değiştirmek için <a href="?modul=duyurular" class="alert-link">tıklayınız.</a>
+								Şu anda <b><?php echo $birim_adi ?></b> için işlem yapmaktasınız. Birimi değiştirmek için <a href="?modul=genelAyarlar" class="alert-link">tıklayınız.</a>
 								</div>		
 								<?php } ?>						
 
@@ -190,6 +188,19 @@ if( $tek_genel_ayar['id'] > 0 )
 							<!-- GENEL BİLGİLER -->
 							<div class="tab-pane active" id="_genel">
 								<form class="form-horizontal" action = "_modul/genelAyarlar/genelAyarlarSEG.php" method = "POST" enctype="multipart/form-data">
+									<?php foreach( array_keys($tek_genel_ayar) as $anahtar ){ ?>
+									<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $tek_genel_ayar[$anahtar];  ?>'>
+									<?php } ?>
+									<div class="form-group">
+										<label class="control-label">Dil</label>
+										<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
+											<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
+											<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
+											<option value="_en" <?php if( $_REQUEST['dil'] == "_en" ) echo "selected"; ?> >English</option>
+											<option value="_ru" <?php if( $_REQUEST['dil'] == "_ru" ) echo "selected"; ?> >Россия</option>
+										</select>
+									</div>
+
 									<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
 									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
@@ -225,7 +236,7 @@ if( $tek_genel_ayar['id'] > 0 )
 									</div>
 									<div class="form-group">
 										<label class="control-label">Adres</label>
-										<textarea  type="text" class="form-control" name ="adres" value = "<?php echo $tek_genel_ayar[ "adres" ]; ?>"  autocomplete="off"><?php echo $tek_genel_ayar[ "adres" ]; ?></textarea>
+										<textarea  type="text" class="form-control" id ="adres" name ="adres" value = "<?php echo $tek_genel_ayar[ "adres" ]; ?>"  autocomplete="off"><?php echo $tek_genel_ayar[ "adres" ]; ?></textarea>
 									</div>
 									<div class="form-group">
 										<label class="control-label">Tel</label>
@@ -260,11 +271,11 @@ if( $tek_genel_ayar['id'] > 0 )
 
 									<div class="form-group">
 										<label class="control-label">Slogan</label>
-										<input  type="text" class="form-control" name ="slogan" value = "<?php echo $tek_genel_ayar[ "slogan" ]; ?>"  autocomplete="off">
+										<input  type="text" class="form-control" id ="slogan" name ="slogan" value = "<?php echo $tek_genel_ayar[ "slogan" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label class="control-label">Anasayfa Başlık</label>
-										<input required type="text" class="form-control" name ="anasayfa_baslik" value = "<?php echo $tek_genel_ayar[ "anasayfa_baslik" ]; ?>"  autocomplete="off">
+										<input required type="text" class="form-control" id ="anasayfa_baslik" name ="anasayfa_baslik" value = "<?php echo $tek_genel_ayar[ "anasayfa_baslik" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label class="control-label">Anasayfa İçerik</label>
@@ -296,15 +307,15 @@ if( $tek_genel_ayar['id'] > 0 )
 									</div>
 									<div class="form-group">
 										<label class="control-label">Slogan2</label>
-										<input  type="text" class="form-control" name ="slogan2" value = "<?php echo $tek_genel_ayar[ "slogan2" ]; ?>"  autocomplete="off">
+										<input  type="text" class="form-control" id ="slogan2" name ="slogan2" value = "<?php echo $tek_genel_ayar[ "slogan2" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label class="control-label">Slogan3</label>
-										<input  type="text" class="form-control" name ="slogan3" value = "<?php echo $tek_genel_ayar[ "slogan3" ]; ?>"  autocomplete="off">
+										<input  type="text" class="form-control" id ="slogan3" name ="slogan3" value = "<?php echo $tek_genel_ayar[ "slogan3" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label class="control-label">Buton 1</label>
-										<input  type="text" class="form-control" name ="buton_deger1" value = "<?php echo $tek_genel_ayar[ "buton_deger1" ]; ?>"  autocomplete="off">
+										<input  type="text" class="form-control" id ="buton_deger1" name ="buton_deger1" value = "<?php echo $tek_genel_ayar[ "buton_deger1" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="form-group">
@@ -313,7 +324,7 @@ if( $tek_genel_ayar['id'] > 0 )
 									</div>
 									<div class="form-group">
 										<label class="control-label">Buton 2</label>
-										<input  type="text" class="form-control" name ="buton_deger2" value = "<?php echo $tek_genel_ayar[ "buton_deger2" ]; ?>"  autocomplete="off">
+										<input  type="text" class="form-control" id ="buton_deger2" name ="buton_deger2" value = "<?php echo $tek_genel_ayar[ "buton_deger2" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="form-group">
@@ -557,3 +568,32 @@ $('#card_genel_ayarlar').on('minimized.lte.cardwidget', function() {
 				window.editor = editor;
 			});
         </script>
+	<script>
+		var select = document.getElementById('dil');
+		<?php if( isset($_REQUEST['dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['dil'];  ?>";
+		<?php }else{ ?>
+			select.value = "<?php echo $sistem_dil;  ?>";
+		<?php } ?>
+
+		<?php if( isset($_REQUEST['sistem_dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['sistem_dil'];  ?>";
+		<?php } ?>
+
+		select.dispatchEvent(new Event('change'));
+
+		function dil_degistir(eleman){
+			//alert("<?php echo $islem; ?>");
+			if( eleman.value == "_tr" ) dil = ""; else dil = eleman.value;
+			<?php if( $islem == "guncelle" ){ ?>
+				document.getElementById("adres").value = document.getElementsByName("adres"+dil)[0].value;
+				document.getElementById("anasayfa_baslik").value = document.getElementsByName("anasayfa_baslik"+dil)[0].value;
+				document.getElementById("slogan2").value = document.getElementsByName("slogan2"+dil)[0].value;
+				document.getElementById("slogan3").value = document.getElementsByName("slogan3"+dil)[0].value;
+				document.getElementById("buton_deger1").value = document.getElementsByName("buton_deger1"+dil)[0].value;
+				document.getElementById("buton_deger2").value = document.getElementsByName("buton_deger2"+dil)[0].value;
+				//document.getElementById("editor").value = document.getElementsByName("icerik"+dil)[0].value;
+				window.editor.data.set(document.getElementsByName("anasayfa_icerik"+dil)[0].value);
+			<?php } ?>
+		}
+	</script>

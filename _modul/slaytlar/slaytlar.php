@@ -99,12 +99,10 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id){
-										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
-											$degerlendirme_ekle_class = "";
-										}else{
-											$degerlendirme_ekle_class = "degerlendirmeEkle";
-										}
+									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
+										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+										$adi = "adi".$sistem_dil2;
+
 										$html = "<tr class='expandable-body'>
 														<td>
 															<div class='p-0'>
@@ -121,8 +119,8 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 													$html .= "
 															<tr>
 																<td class=' bg-renk7 p-1' >
-																	$kategori[adi]
-																	<a modul= 'slaytlar' yetki_islem='birim_sec' href='index.php?modul=slaytlar&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
+																	$kategori[$adi]
+																	<a modul= 'slaytlar' yetki_islem='birim_sec' href='index.php?modul=slaytlar&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
 																</td>
 															</tr>";									
 
@@ -136,19 +134,19 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 													if( $kategori['grup'] == 1 )
 														$birim_sec_butonu = "";
 													else
-														$birim_sec_butonu = "<a modul= 'slaytlar' yetki_islem='birim_sec' href='index.php?modul=slaytlar&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
+														$birim_sec_butonu = "<a modul= 'slaytlar' yetki_islem='birim_sec' href='index.php?modul=slaytlar&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
 
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 																	<td class='bg-renk$renk p-1'>																
-																		$kategori[adi]
+																		$kategori[$adi]
 																		$birim_sec_butonu
 																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 																	</td>
 																</tr>
 															";								
 														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id);
+														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
 														
 														$renk--;
 													
@@ -165,7 +163,7 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 										return $html;
 									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id);
+										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
 									
 
 								?>

@@ -19,6 +19,8 @@ if( isset($_FILES["foto"]) ){
 
 $islem	= array_key_exists( 'islem', $_REQUEST )		? $_REQUEST[ 'islem' ]		: 'ekle';
 $id		= array_key_exists( 'id', $_REQUEST )	? $_REQUEST[ 'id' ]	: 0;
+$dil	 			= array_key_exists( 'dil', $_REQUEST ) 	? $_REQUEST[ 'dil' ] : "";
+$dil	 			= $dil == "_tr" ? "" : $dil;
 
 if( $_REQUEST[ 'tarih' ] == '' ) $tarih = NULL;
 else $tarih = date( 'Y-m-d', strtotime( $_REQUEST[ 'tarih' ] ) );
@@ -27,9 +29,9 @@ $SQL_ekle = <<< SQL
 INSERT INTO
 	tb_etkinlikler
 SET
-	 baslik		= ?
+	 baslik$dil		= ?
 	,tarih		= ?
-	,icerik		= ?
+	,icerik$dil		= ?
 	,birim_id	= ?
 	,foto	= ?
 SQL;
@@ -38,9 +40,9 @@ $SQL_guncelle = <<< SQL
 UPDATE
 	tb_etkinlikler
 SET
-	 baslik		= ?
+	 baslik$dil		= ?
 	,tarih		= ?
-	,icerik		= ?
+	,icerik$dil		= ?
 	,birim_id	= ?
 WHERE
 	id = ?
@@ -96,7 +98,7 @@ switch( $islem ) {
 			,$id
 		) );
 
-		if( isset($_FILES["foto"]) ){
+		if( isset($_FILES["foto"]) and $_FILES["foto"]['size']>0 ){
 			$dosya_adi = uniqid().basename($_FILES["foto"]["name"]);
 			$target_dir = "../../resimler/etkinlikler/";
 			$target_file = $target_dir . $dosya_adi;

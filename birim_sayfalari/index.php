@@ -130,7 +130,7 @@ foreach( $ceviriler as $ceviri ){
     $dizi[$ceviri['adi']]['ru'] = $ceviri['adi_ru']; 
 }
 
-var_dump($dizi);
+//var_dump($dizi);
 
 if( $birim_id == 0 ){
     include "error.html";

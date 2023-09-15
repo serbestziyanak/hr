@@ -96,12 +96,10 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id){
-										if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
-											$degerlendirme_ekle_class = "";
-										}else{
-											$degerlendirme_ekle_class = "degerlendirmeEkle";
-										}
+									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
+										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+										$adi = "adi".$sistem_dil2;
+
 										$html = "<tr class='expandable-body'>
 														<td>
 															<div class='p-0'>
@@ -118,8 +116,8 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 													$html .= "
 															<tr>
 																<td class=' bg-renk7 p-1' >
-																	$kategori[adi]
-																	<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
+																	$kategori[$adi]
+																	<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
 																</td>
 															</tr>";									
 
@@ -133,19 +131,19 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 													if( $kategori['grup'] == 1 )
 														$birim_sec_butonu = "";
 													else
-														$birim_sec_butonu = "<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
+														$birim_sec_butonu = "<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
 
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 																	<td class='bg-renk$renk p-1'>																
-																		$kategori[adi]
+																		$kategori[$adi]
 																		$birim_sec_butonu
 																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 																	</td>
 																</tr>
 															";								
 														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id);
+														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
 														
 														$renk--;
 													
@@ -162,7 +160,7 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 										return $html;
 									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id);
+										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
 									
 
 								?>
@@ -179,7 +177,7 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 			<div class="col-md-4">
 				<div class="card card-secondary" id = "card_etkinlikler">
 					<div class="card-header">
-						<h3 class="card-title">etkinlikler</h3>
+						<h3 class="card-title">Etkinlikler</h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
 							<a id = "yeni_etkinlik" data-toggle = "tooltip" title = "Yeni etkinlik Ekle" href = "?modul=etkinlikler&islem=ekle&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
@@ -196,10 +194,14 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 								</tr>
 							</thead>
 							<tbody>
-								<?php $sayi = 1; foreach( $etkinlikler AS $etkinlik ) { ?>
+								<?php 
+									$sayi = 1; 
+									$dil = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+									foreach( $etkinlikler AS $etkinlik ) { 
+								?>
 								<tr oncontextmenu="fun();" class ="etkinlik-Tr <?php if( $etkinlik[ 'id' ] == $id ) echo $satir_renk; ?>" data-id="<?php echo $etkinlik[ 'id' ]; ?>">
 									<td><?php echo $sayi++; ?></td>
-									<td><?php echo $etkinlik[ 'baslik' ]; ?></td>
+									<td><?php echo $etkinlik[ 'baslik'.$dil ]; ?></td>
 									<td align = "center">
 										<a modul = 'etkinlikler' yetki_islem="duzenle" class = "btn btn-sm btn-warning btn-xs" href = "?modul=etkinlikler&islem=guncelle&id=<?php echo $etkinlik[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" >
 											Düzenle
@@ -221,9 +223,9 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 					<div class="card-header p-2">
 						<ul class="nav nav-pills tab-container">
 							<?php if( $id > 0 ) { ?>
-								<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; etkinlik Düzenle</h6>
+								<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; Etkinlik Düzenle</h6>
 							<?php } else {
-								echo "<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; etkinlik Ekle</h6>";
+								echo "<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; Etkinlik Ekle</h6>";
 								}
 							?>
 							
@@ -240,6 +242,18 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 								</div>		
 								<?php } ?>						
 								<form class="form-horizontal" action = "_modul/etkinlikler/etkinliklerSEG.php" method = "POST" enctype="multipart/form-data">
+									<?php foreach( array_keys($tek_etkinlik) as $anahtar ){ ?>
+									<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $tek_etkinlik[$anahtar];  ?>'>
+									<?php } ?>
+									<div class="form-group">
+										<label class="control-label">Dil</label>
+										<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
+											<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
+											<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
+											<option value="_en" <?php if( $_REQUEST['dil'] == "_en" ) echo "selected"; ?> >English</option>
+											<option value="_ru" <?php if( $_REQUEST['dil'] == "_ru" ) echo "selected"; ?> >Россия</option>
+										</select>
+									</div>
 									<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 									<input type = "hidden" name = "id" value = "<?php echo $id; ?>">
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
@@ -266,7 +280,7 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 									</div>
 									<div class="form-group">
 										<label class="control-label">Başlık</label>
-										<input required type="text" class="form-control" name ="baslik" value = "<?php echo $tek_etkinlik[ "baslik" ]; ?>"  autocomplete="off">
+										<input required type="text" class="form-control" id ="baslik" name ="baslik" value = "<?php echo $tek_etkinlik[ "baslik" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label class="control-label">İçerik</label>
@@ -545,3 +559,27 @@ $('#card_etkinlikler').on('minimized.lte.cardwidget', function() {
 				window.editor = editor;
 			});
         </script>
+	<script>
+		var select = document.getElementById('dil');
+		<?php if( isset($_REQUEST['dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['dil'];  ?>";
+		<?php }else{ ?>
+			select.value = "<?php echo $sistem_dil;  ?>";
+		<?php } ?>
+
+		<?php if( isset($_REQUEST['sistem_dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['sistem_dil'];  ?>";
+		<?php } ?>
+
+		select.dispatchEvent(new Event('change'));
+
+		function dil_degistir(eleman){
+			//alert("<?php echo $islem; ?>");
+			if( eleman.value == "_tr" ) dil = ""; else dil = eleman.value;
+			<?php if( $islem == "guncelle" ){ ?>
+				document.getElementById("baslik").value = document.getElementsByName("baslik"+dil)[0].value;
+				//document.getElementById("editor").value = document.getElementsByName("icerik"+dil)[0].value;
+				window.editor.data.set(document.getElementsByName("icerik"+dil)[0].value);
+			<?php } ?>
+		}
+	</script>

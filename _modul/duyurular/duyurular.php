@@ -194,10 +194,14 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 								</tr>
 							</thead>
 							<tbody>
-								<?php $sayi = 1; foreach( $duyurular AS $duyuru ) { ?>
+								<?php 
+									$sayi = 1; 
+									$dil = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+									foreach( $duyurular AS $duyuru ) { 
+								?>
 								<tr oncontextmenu="fun();" class ="duyuru-Tr <?php if( $duyuru[ 'id' ] == $id ) echo $satir_renk; ?>" data-id="<?php echo $duyuru[ 'id' ]; ?>">
 									<td><?php echo $sayi++; ?></td>
-									<td><?php echo $duyuru[ 'baslik' ]; ?></td>
+									<td><?php echo $duyuru[ 'baslik'.$dil ]; ?></td>
 									<td align = "center">
 										<a modul = 'duyurular' yetki_islem="duzenle" class = "btn btn-sm btn-warning btn-xs" href = "?modul=duyurular&islem=guncelle&id=<?php echo $duyuru[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" >
 											Düzenle
@@ -238,6 +242,19 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 								</div>		
 								<?php } ?>						
 								<form class="form-horizontal" action = "_modul/duyurular/duyurularSEG.php" method = "POST" enctype="multipart/form-data">
+									<?php foreach( array_keys($tek_duyuru) as $anahtar ){ ?>
+									<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $tek_duyuru[$anahtar];  ?>'>
+									<?php } ?>
+									<div class="form-group">
+										<label class="control-label">Dil</label>
+										<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
+											<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
+											<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
+											<option value="_en" <?php if( $_REQUEST['dil'] == "_en" ) echo "selected"; ?> >English</option>
+											<option value="_ru" <?php if( $_REQUEST['dil'] == "_ru" ) echo "selected"; ?> >Россия</option>
+										</select>
+									</div>
+
 									<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 									<input type = "hidden" name = "id" value = "<?php echo $id; ?>">
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
@@ -264,7 +281,7 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 									</div>
 									<div class="form-group">
 										<label class="control-label">Başlık</label>
-										<input required type="text" class="form-control" name ="baslik" value = "<?php echo $tek_duyuru[ "baslik" ]; ?>"  autocomplete="off">
+										<input required type="text" class="form-control" id ="baslik" name ="baslik" value = "<?php echo $tek_duyuru[ "baslik" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label class="control-label">İçerik</label>
@@ -543,3 +560,27 @@ $('#card_duyurular').on('minimized.lte.cardwidget', function() {
 				window.editor = editor;
 			});
         </script>
+	<script>
+		var select = document.getElementById('dil');
+		<?php if( isset($_REQUEST['dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['dil'];  ?>";
+		<?php }else{ ?>
+			select.value = "<?php echo $sistem_dil;  ?>";
+		<?php } ?>
+
+		<?php if( isset($_REQUEST['sistem_dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['sistem_dil'];  ?>";
+		<?php } ?>
+
+		select.dispatchEvent(new Event('change'));
+
+		function dil_degistir(eleman){
+			//alert("<?php echo $islem; ?>");
+			if( eleman.value == "_tr" ) dil = ""; else dil = eleman.value;
+			<?php if( $islem == "guncelle" ){ ?>
+				document.getElementById("baslik").value = document.getElementsByName("baslik"+dil)[0].value;
+				//document.getElementById("editor").value = document.getElementsByName("icerik"+dil)[0].value;
+				window.editor.data.set(document.getElementsByName("icerik"+dil)[0].value);
+			<?php } ?>
+		}
+	</script>
