@@ -11,11 +11,357 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 15/09/2023 18:07:18
+ Date: 18/09/2023 01:21:38
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for bolumler
+-- ----------------------------
+DROP TABLE IF EXISTS `bolumler`;
+CREATE TABLE `bolumler`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `birim_id` int NULL DEFAULT NULL,
+  `bolum_adi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `duzey` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `fakulte` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 159 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bolumler
+-- ----------------------------
+INSERT INTO `bolumler` VALUES (80, 62, 'Педагогика және психология', 'Бакалавриат', 'Sosyal ve Beşeri bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (81, 63, 'Мектепке дейінгі және бастауышта білім беру', 'Бакалавриат', 'Sosyal ve Beşeri bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (82, 64, 'Тарих', 'Бакалавриат', 'Sosyal ve Beşeri bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (83, 65, 'Журналистика', 'Бакалавриат', 'Sosyal ve Beşeri bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (84, 66, 'Педагогика және психология', 'Магистратура', 'Sosyal ve Beşeri bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (85, 67, 'Мектепке дейінгі және бастауышта білім беру', 'Магистратура', 'Sosyal ve Beşeri bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (86, 68, 'Тарих', 'Магистратура', 'Sosyal ve Beşeri bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (87, 69, 'Дене мәдениеті', 'Бакалавриат', 'Spor ve Sanat Fakültesi');
+INSERT INTO `bolumler` VALUES (88, 70, 'Орындаушылық өнер', 'Бакалавриат', 'Spor ve Sanat Fakültesi');
+INSERT INTO `bolumler` VALUES (89, 71, 'Бейнелеу өнері', 'Бакалавриат', 'Spor ve Sanat Fakültesi');
+INSERT INTO `bolumler` VALUES (90, 72, 'Дене мәдениеті', 'Магистратура', 'Spor ve Sanat Fakültesi');
+INSERT INTO `bolumler` VALUES (91, 73, 'Орындаушылық өнер', 'Магистратура', 'Spor ve Sanat Fakültesi');
+INSERT INTO `bolumler` VALUES (92, 74, 'Бейнелеу өнері', 'Магистратура', 'Spor ve Sanat Fakültesi');
+INSERT INTO `bolumler` VALUES (93, 75, 'Математика', 'Бакалавриат', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (94, 76, 'Физика', 'Бакалавриат', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (95, 77, 'Экология және химия', 'Бакалавриат', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (96, 78, 'Биология', 'Бакалавриат', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (97, 79, 'Физика', 'Магистратура', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (98, 80, 'Математика', 'Магистратура', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (99, 81, 'Экология және химия', 'Магистратура', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (100, 82, 'Биология', 'Магистратура', 'Fen Fakültesi');
+INSERT INTO `bolumler` VALUES (101, 83, 'Компьютерлік ғылымдар', 'Бакалавриат', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (102, 84, 'Компьютерлік инженерия', 'Бакалавриат', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (103, 85, 'Электр инженериясы', 'Бакалавриат', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (104, 86, 'Компьютерлік ғылымдар', 'Магистратура', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (105, 87, 'Компьютерлік инженерия', 'Магистратура', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (106, 88, 'Электр инженериясы', 'Магистратура', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (107, 89, 'Компьютерлік ғылымдар', 'Докторантура', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (108, 90, 'Компьютерлік инженерия', 'Докторантура', 'Mühendislik Fakültesi');
+INSERT INTO `bolumler` VALUES (109, 92, 'Қазақ филологиясы ', 'Бакалавриат', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (110, 93, 'Орыс тілі және әдебиеті', 'Бакалавриат', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (111, 94, 'Педагогикалық шетел тілдері', 'Бакалавриат', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (112, 95, 'Түрік филологиясы', 'Бакалавриат', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (113, 96, 'Ағылшын филологиясы және аударма ісі', 'Бакалавриат', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (114, 98, 'Педагогикалық шетел тілдері', 'Магистратура', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (115, 99, 'Қазақ филологиясы ', 'Магистратура', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (116, 100, 'Орыс тілі және әдебиеті', 'Магистратура', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (117, 101, 'Түрік филологиясы', 'Магистратура', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (118, 102, 'Ағылшын филологиясы және аударма ісі', 'Магистратура', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (119, 105, 'Қазақ филологиясы ', 'Докторантура', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (120, 106, 'Педагогикалық шетел тілдері', 'Докторантура', 'Filoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (121, 110, 'Дінтану', 'Бакалавриат', 'Teoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (122, 111, 'Теология', 'Бакалавриат', 'Teoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (123, 112, 'Дінтану', 'Магистратура', 'Teoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (124, 113, 'Теология', 'Магистратура', 'Teoloji Fakültesi');
+INSERT INTO `bolumler` VALUES (125, 114, 'Мемлекеттік басқару және халықаралық қатынастар', 'Бакалавриат', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (126, 115, 'Менеджмент және туризм ', 'Бакалавриат', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (127, 116, 'Экономика, қаржы және есеп', 'Бакалавриат', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (128, 117, 'Құқықтану', 'Бакалавриат', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (129, 118, 'Мемлекеттік басқару және халықаралық қатынастар', 'Магистратура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (130, 119, 'Экономика, қаржы және есеп', 'Магистратура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (131, 120, 'Менеджмент және туризм', 'Магистратура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (132, 121, 'Құқықтану', 'Магистратура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (133, 122, 'Экономика, қаржы және есеп', 'Докторантура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (134, 123, 'Менеджмент және туризм ', 'Докторантура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (135, 124, 'Мемлекеттік басқару және халықаралық қатынастар', 'Докторантура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (136, 125, 'Құқықтану', 'Докторантура', 'İktisadi ve İdari Bilimler Fakültesi');
+INSERT INTO `bolumler` VALUES (137, 126, '', 'Бакалавриат', 'Tıp Fakültesi');
+INSERT INTO `bolumler` VALUES (138, 127, '', 'Магистратура', 'Tıp Fakültesi');
+INSERT INTO `bolumler` VALUES (139, 128, '', 'Докторантура', 'Tıp Fakültesi');
+INSERT INTO `bolumler` VALUES (141, 130, 'Экология және химия', 'Магистратура', 'Fen Bilimleri Fakültesi');
+INSERT INTO `bolumler` VALUES (142, 131, 'Физика', 'Магистратура', 'Fen Bilimleri Fakültesi');
+INSERT INTO `bolumler` VALUES (143, 132, 'Математика', 'Магистратура', 'Fen Bilimleri Fakültesi');
+INSERT INTO `bolumler` VALUES (144, 133, 'Математика', 'Докторантура', 'Fen Bilimleri Fakültesi');
+INSERT INTO `bolumler` VALUES (145, 134, 'Физика', 'Докторантура', 'Fen Bilimleri Fakültesi');
+INSERT INTO `bolumler` VALUES (146, 135, 'Педагогика және психология', 'Докторантура', 'İnsan Ve Toplum Bilimleri Fakültesi');
+INSERT INTO `bolumler` VALUES (147, 136, 'Тарих', 'Докторантура', 'İnsan Ve Toplum Bilimleri Fakültesi');
+INSERT INTO `bolumler` VALUES (148, 137, 'Акушерлік гинекология', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (149, 138, 'Арнайы хирургиялық пәндер', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (150, 139, 'Жалпы дәрігерлік практика № 1', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (151, 140, 'Жалпы дәрігерлік практика № 2', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (152, 141, 'Жұқпалы аурулар және фтизиатрия', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (153, 142, 'Ішкі аурулар', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (154, 143, 'Неврология, психиатрия, наркология', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (155, 144, 'Педиатрия', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (156, 145, 'Профилактикалық медицина және стоматологиялық пәндер', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (157, 146, 'Хирургия және анестезиология-реанимация', 'Резидентура ', 'Lisansüstü Tıp Eğitimi  Fakültesi');
+INSERT INTO `bolumler` VALUES (158, 147, 'Стоматология', 'Бакалавриат', 'Diş Hekimliği Fakültesi');
+
+-- ----------------------------
+-- Table structure for deneme
+-- ----------------------------
+DROP TABLE IF EXISTS `deneme`;
+CREATE TABLE `deneme`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `a1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a9` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a10` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a11` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `a12` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ust_id` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 175 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of deneme
+-- ----------------------------
+INSERT INTO `deneme` VALUES (1, 'Sosyal ve Beşeri bilimler Fakültesi', 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji', 'Бакалавриат', '6B01101', 'Педагогика и психология', 'Педагогика және психология', 'Рedagogy and psychology', 'Pedagoji ve Psikoloji', NULL, 62);
+INSERT INTO `deneme` VALUES (2, 'Sosyal ve Beşeri bilimler Fakültesi', 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi', 'Бакалавриат', '6B01202', 'Дошкольное обучение и воспитание', 'Мектепке дейінгі оқыту және тәрбиелеу', 'Pre-school education and upbringing', 'Okul Öncesi Eğitim ve Öğretim', NULL, 63);
+INSERT INTO `deneme` VALUES (3, 'Sosyal ve Beşeri bilimler Fakültesi', 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi', 'Бакалавриат', '6B01303', 'Педагогика и методика начального обучения', 'Бастауышта оқыту педагогикасы мен әдістемесі', 'Pedagogy and methods of primary education ', 'İlköğretim Pedagojisi ve Metodolojisi', NULL, 63);
+INSERT INTO `deneme` VALUES (4, 'Spor ve Sanat Fakültesi', 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi', 'Бакалавриат', '6B01404', 'Начальная военная подготовка', 'Бастапқы әскери дайындық', 'Basic Military Training', 'İlk Askeri Hazırlık', NULL, 69);
+INSERT INTO `deneme` VALUES (5, 'Spor ve Sanat Fakültesi', 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi', 'Бакалавриат', '6B01405', 'Физическая культура и спорт', 'Денешынықтыру және спорт', 'Physical education and sports', 'Beden Eğitimi ve Spor', NULL, 69);
+INSERT INTO `deneme` VALUES (6, 'Spor ve Sanat Fakültesi', 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi', 'Бакалавриат', '6B01485', 'Физическая культура и начальная военная подготовка', 'Дене шынықтыру және бастапқы әскери дайындық', 'Physical education and initial military training', 'Beden Eğitimi ve Spor', NULL, 69);
+INSERT INTO `deneme` VALUES (7, 'Spor ve Sanat Fakültesi', 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', 'Бакалавриат', '6B01406', 'Музыкальное образование', 'Музыкалық білім', 'Music Education', 'Müzik Eğitimi', NULL, 70);
+INSERT INTO `deneme` VALUES (8, 'Spor ve Sanat Fakültesi', 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', 'Бакалавриат', '6B01408', 'Изобразительное искусство и черчение', 'Бейнелеу өнері және сызу', 'Fine Art and Drawing', 'Güzel Sanatlar ve Çizim', NULL, 71);
+INSERT INTO `deneme` VALUES (9, 'Spor ve Sanat Fakültesi', 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', 'Бакалавриат', '6B01407', 'Профессиональное обучение', 'Кәсіптік оқыту', 'Professional Training', 'Meslekî Eğitim', NULL, 71);
+INSERT INTO `deneme` VALUES (10, 'Spor ve Sanat Fakültesi', 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', 'Бакалавриат', '6B01478', 'Художественный труд и графическое проектирование ', 'Көркем еңбек және графикалық жобалау ', 'Artistic work and graphic design', 'Sanatsal Çalışma ve Grafik Çizim', NULL, 71);
+INSERT INTO `deneme` VALUES (11, 'Fen Fakültesi', 'Математика', 'Математики', 'Mathematicians', 'Matematikler', 'Бакалавриат', '6B01509', 'Математика', 'Математика', 'Mathematics', 'Matematik Öğretmenliği', NULL, 75);
+INSERT INTO `deneme` VALUES (12, 'Fen Fakültesi', 'Физика', 'Физики', 'Physicists', 'Fizikler', 'Бакалавриат', '6B01510', 'Физика', 'Физика', 'Physics', 'Fizik Öğretmenliği', NULL, 76);
+INSERT INTO `deneme` VALUES (13, 'Mühendislik Fakültesi', 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi', 'Бакалавриат', '6B01511', 'Информатика', 'Информатика', 'Computer Science ', 'Bilgi İşlem', NULL, 83);
+INSERT INTO `deneme` VALUES (14, 'Mühendislik Fakültesi', 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi', 'Бакалавриат', '6B01573', 'Информатика, ИКТ и робототехника ', 'Информатика, АКТ және робототехника ', 'Computer Science, ICT and robotic', 'Bilgi İşlem, Bilişim Teknolojileri ve Robototeknik ', NULL, 83);
+INSERT INTO `deneme` VALUES (15, 'Fen Fakültesi', 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', 'Бакалавриат', '6B01512', 'Химия', 'Химия', 'Chemistry', 'Kimya Öğetmenliği', NULL, 77);
+INSERT INTO `deneme` VALUES (16, 'Fen Fakültesi', 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', 'Бакалавриат', '6B01562 ', 'Химия-Биология ', 'Химия-Биология ', 'Chemistry-Biology ', 'Kimya-Biyoloji Öğretmenliği', NULL, 77);
+INSERT INTO `deneme` VALUES (17, 'Fen Fakültesi', 'Биология', 'Биологии', 'Biology', 'Biyolojiler', 'Бакалавриат', '6B01513', 'Биология', 'Биология', 'Biology', 'Biyoloji Öğretmenliği', NULL, 78);
+INSERT INTO `deneme` VALUES (18, 'Fen Fakültesi', 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', 'Бакалавриат', '6B01514', 'География', 'География', 'Geography', 'Coğrafya Öğretmenliği', NULL, 77);
+INSERT INTO `deneme` VALUES (19, 'Sosyal ve Beşeri bilimler Fakültesi', 'Тарих', 'Истории', 'Historii', 'Tarih', 'Бакалавриат', '6B01615', 'История', 'Тарих', 'History', 'Tarih Öğretmenliği', NULL, 64);
+INSERT INTO `deneme` VALUES (20, 'Filoloji Fakültesi', 'Қазақ филологиясы ', 'Казахской филологии ', 'Kazakh Philology', 'Kazak Filolojisi', 'Бакалавриат', '6B01716', 'Казахский язык и литература', 'Қазақ тілі мен әдебиеті', 'Kazakh language and literature', 'Kazak Dili ve Edebiyatı', NULL, 92);
+INSERT INTO `deneme` VALUES (21, 'Filoloji Fakültesi', 'Орыс тілі және әдебиеті', 'Русского языка и литература', 'Russian language and literature', 'Rus dili ve edebiyatı', 'Бакалавриат', '6B01717', 'Русский язык и литература', 'Орыс тілі мен әдебиеті', 'Russian language and literature ', 'Rus Dili ve Edebiyatı', NULL, 93);
+INSERT INTO `deneme` VALUES (22, 'Filoloji Fakültesi', 'Орыс тілі және әдебиеті', 'Русского языка и литература', 'Russian language and literature', 'Rus dili ve edebiyatı', 'Бакалавриат', '6B01764', 'Русский язык и литература с нерусским языком обучения ', 'Орыс тілінде оқытпайтын мектептердегі орыс тілі мен әдебиеті  ', 'Russian Language and Literature in International  Schools ', 'Rusçada Eğitim Vermeyen Okullarda Rus Dili ve Edebiyatı', NULL, 93);
+INSERT INTO `deneme` VALUES (23, 'Filoloji Fakültesi', 'Педагогикалық шетел тілдері', 'Педагогических иностранных языков', 'Pedagogical foreign languages', 'Pedagojik yabancı diller', 'Бакалавриат', '6B01718  ', 'Иностранный язык: два иностранных языка (английский-китайский)', 'Шетел тілі: екі шетел тілі (ағылшын-қытай)', 'Foreign language: two foreign languages (English - Chinese )', 'İngilizce Çince Öğretmenliği', NULL, 94);
+INSERT INTO `deneme` VALUES (24, 'Filoloji Fakültesi', 'Педагогикалық шетел тілдері', 'Педагогических иностранных языков', 'Pedagogical foreign languages', 'Pedagojik yabancı diller', 'Бакалавриат', '6B01719 ', 'Иностранный язык: два иностранных языка (английский-турецский)', 'Шетел тілі: екі шетел тілі (ағылшын-түрік)', 'Foreign Language: Two Foreign Languages(English -Turkish )', 'İngilizce Türkçe Öğretmenliği', NULL, 94);
+INSERT INTO `deneme` VALUES (25, 'Spor ve Sanat Fakültesi', 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', 'Бакалавриат', '6B02121', 'Вокальное искусство', 'Вокалдық өнер', 'Vocal art', 'Vokal Sanatı', NULL, 70);
+INSERT INTO `deneme` VALUES (26, 'Spor ve Sanat Fakültesi', 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', 'Бакалавриат', '6B02165', 'Искусство эстрады', 'Эстрада өнері', 'Pop art ', 'Pop Müzik Sanatı ', NULL, 70);
+INSERT INTO `deneme` VALUES (27, 'Spor ve Sanat Fakültesi', 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', 'Бакалавриат', '6B02122', 'Традиционное музыкальное искусство(Народное пение)', 'Дәстүрлі музыка өнері (Халық әні)', 'Traditional Music Art (Folk singing)', 'Geleneksel müzik sanatı', NULL, 70);
+INSERT INTO `deneme` VALUES (28, 'Spor ve Sanat Fakültesi', 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', 'Бакалавриат', '6B02123', 'Актерское искусство', 'Актерлік өнер', 'Acting art', 'Oyunculuk Sanatı', NULL, 70);
+INSERT INTO `deneme` VALUES (29, 'Spor ve Sanat Fakültesi', 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', 'Бакалавриат', '6B02124', 'Хореография', 'Хореография', 'Choreography', 'Koreografi', NULL, 70);
+INSERT INTO `deneme` VALUES (30, 'Spor ve Sanat Fakültesi', 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', 'Бакалавриат', '6B02125', 'Декоративное искусство', 'Сән өнері', 'Decorative Art', 'Dekoratif Sanatı', NULL, 71);
+INSERT INTO `deneme` VALUES (31, 'Spor ve Sanat Fakültesi', 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', 'Бакалавриат', '6B02126', 'Дизайн', 'Дизайн', 'Design', 'Tasarım', NULL, 71);
+INSERT INTO `deneme` VALUES (32, 'Spor ve Sanat Fakültesi', 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', 'Бакалавриат', '6B02184', 'Декоративно-прикладное искусство', 'Сәндік-қолданбалы өнері', 'Decorative and applied art', 'Dekoratif Sanatlar', NULL, 71);
+INSERT INTO `deneme` VALUES (33, 'Teoloji Fakültesi', 'Дінтану', 'Религиоведения', 'Religious studies', 'Din Bilimi', 'Бакалавриат', '6В02286', 'Философия -Религиоведение ', 'Философия-Дінтану', 'Philosophy-Religious Studies', 'Din Felsefesi', NULL, 110);
+INSERT INTO `deneme` VALUES (34, 'Teoloji Fakültesi', 'Дінтану', 'Религиоведения', 'Religious studies', 'Din Bilimi', 'Бакалавриат', '6B02228', 'Религиоведение', 'Дінтану', 'Religious Studies', 'Din Bilimleri', NULL, 110);
+INSERT INTO `deneme` VALUES (35, 'Teoloji Fakültesi', 'Теология', 'Теологии', 'Theology', 'Teoloji', 'Бакалавриат', '6B02229', 'Теология', 'Теология', 'Theology', 'İlahiyat', NULL, 111);
+INSERT INTO `deneme` VALUES (36, 'Teoloji Fakültesi', 'Теология', 'Теологии', 'Theology', 'Teoloji', 'Бакалавриат', '6B02266', 'Исламоведение', 'Исламтану', 'Islamic Studies', 'İslam Bilimleri', NULL, 111);
+INSERT INTO `deneme` VALUES (37, 'Teoloji Fakültesi', 'Дінтану', 'Религиоведения', 'Religious studies', 'Din Bilimi', 'Бакалавриат', '6B01683', 'Религиоведение', 'Дінтану', 'Religious Studies', 'Din Bilimleri', NULL, 110);
+INSERT INTO `deneme` VALUES (38, 'Sosyal ve Beşeri bilimler Fakültesi', 'Тарих', 'Истории', 'Historii', 'Tarih', 'Бакалавриат', '6B02231', 'История', 'Тарих', 'History', 'Tarih', NULL, 64);
+INSERT INTO `deneme` VALUES (39, 'Filoloji Fakültesi', 'Түрік филологиясы', 'Турецкой филологии', 'Turkish Philology', 'Türk Filolojisi', 'Бакалавриат', '6B02267', 'Тюркология ', 'Түркітану ', 'Turkology', 'Türkoloji', NULL, 95);
+INSERT INTO `deneme` VALUES (40, 'Filoloji Fakültesi', 'Ағылшын филологиясы және аударма ісі', 'Английской филологии и переводческого дела', 'English Philology and Translation', 'İngiliz Filolojisi ve çeviri işleri', 'Бакалавриат', '6B02332  ', 'Иностранная филология (английский язык)', 'Шетел филологиясы (ағылшын тілі)', 'Foreign Philology:  (english language)', 'İngiliz Dili ve Edebiyatı', NULL, 96);
+INSERT INTO `deneme` VALUES (41, 'Filoloji Fakültesi', 'Түрік филологиясы', 'Турецкой филологии', 'Turkish Philology', 'Türk Filolojisi', 'Бакалавриат', '6B02333', 'Иностранная филология (турецский язык)', 'Шетел филологиясы  (түрік тілі)', 'Foreign Philology:(тurkish language)', '\"Türk Dili Ve Edebiyatı', NULL, 95);
+INSERT INTO `deneme` VALUES (43, 'Filoloji Fakültesi', 'Ағылшын филологиясы және аударма ісі', 'Английской филологии и переводческого дела', 'English Philology and Translation', 'İngiliz Filolojisi ve çeviri işleri', 'Бакалавриат', '6B02335', '\"Переводческое дело:английский язык', NULL, NULL, NULL, NULL, 96);
+INSERT INTO `deneme` VALUES (46, 'Filoloji Fakültesi', 'Қазақ филологиясы ', 'Казахской филологии', 'Kazakh Philology', 'Kazak Filolojisi', 'Бакалавриат', '6B02336', 'Филология: казахская филология', 'Филология: қазақ филологиясы', 'Philology: Kazakh Philology', 'Kazak Dili ve Edebiyatı', NULL, 92);
+INSERT INTO `deneme` VALUES (47, 'İktisadi ve İdari Bilimler Fakültesi', 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler', 'Бакалавриат', '6B03138', 'Международные отношения', 'Халықаралық қатынастар', 'International Relations', 'Uluslararası İlişkiler', NULL, 114);
+INSERT INTO `deneme` VALUES (48, 'Teoloji Fakültesi', 'Дінтану', 'Религиоведения', 'Religious studies', 'Din Bilimi', 'Бакалавриат', '6В03187', 'Психология-Религиоведение', 'Психология-Дінтану', 'Psychology-Religious Studies', 'Din Psikolojisi', NULL, 110);
+INSERT INTO `deneme` VALUES (49, 'Sosyal ve Beşeri bilimler Fakültesi', 'Журналистика', 'Журналистики', 'Journalism', 'Gazetecilikler', 'Бакалавриат', '6B03239', 'Журналистика', 'Журналистика', 'Journalism', 'Gazetecilik', NULL, 65);
+INSERT INTO `deneme` VALUES (50, 'Sosyal ve Beşeri bilimler Fakültesi', 'Журналистика', 'Журналистики', 'Journalism', 'Gazetecilikler', 'Бакалавриат', '6B03279', 'Цифровая медиа и телерадиожурналистика', 'Сандық медия және телерадиожурналистика', 'Digital media and TV, radio journalism', 'Dijital medya ve televizyon ve radyo gazeteciliği', NULL, 65);
+INSERT INTO `deneme` VALUES (51, 'İktisadi ve İdari Bilimler Fakültesi', 'Менеджмент және туризм ', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm', 'Бакалавриат', '6B04140', 'Менеджмент', 'Менеджмент ', 'Management', 'İşletme', NULL, 115);
+INSERT INTO `deneme` VALUES (52, 'İktisadi ve İdari Bilimler Fakültesi', 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler', 'Бакалавриат', '6B04141', 'Государственное и местное управление', 'Мемлекеттік және жергілікті басқару', 'Public and Local administration', 'Kamu ve Yerel Yönetimi', NULL, 114);
+INSERT INTO `deneme` VALUES (53, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Бакалавриат', '6B04143', 'Учет и аудит', 'Есеп және аудит', 'Accounting and Audit', 'Muhasebe ve Denetim', NULL, 116);
+INSERT INTO `deneme` VALUES (54, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Бакалавриат', '6B04144', 'Финансы', 'Қаржы', 'Finance', 'Finans', NULL, 116);
+INSERT INTO `deneme` VALUES (55, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Бакалавриат', '6B04142', 'Экономика', 'Экономика', 'Economics', 'Ekonomi ', NULL, 116);
+INSERT INTO `deneme` VALUES (56, 'İktisadi ve İdari Bilimler Fakültesi', 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk', 'Бакалавриат', '6B04245', 'Юриспруденция', 'Құқықтану', 'Jurisprudence', 'Hukuk', NULL, 117);
+INSERT INTO `deneme` VALUES (57, 'İktisadi ve İdari Bilimler Fakültesi', 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk', 'Бакалавриат', '6B04282 ', 'Правоохранительная деятельность', 'Құқыққорғау қызметі', 'Law enforcement ', 'Hukuk Hizmetleri', NULL, 117);
+INSERT INTO `deneme` VALUES (58, 'İktisadi ve İdari Bilimler Fakültesi', 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk', 'Бакалавриат', '6B04281', 'Международное право', 'Халықаралық құқық', '\"International Law', NULL, NULL, 117);
+INSERT INTO `deneme` VALUES (60, 'Fen Fakültesi', 'Биология', 'Биологии', 'Biology', 'Biyolojiler', 'Бакалавриат', '6B05146', 'Биология', 'Биология', 'Biology', 'Biyoloji', NULL, 78);
+INSERT INTO `deneme` VALUES (61, 'Fen Fakültesi', 'Биология', 'Биологии', 'Biology', 'Biyolojiler', 'Бакалавриат', '6B05169', 'Биотехнология ', 'Биотехнология ', 'Biotechnology ', 'Biyoteknoloji (yeni)', NULL, 78);
+INSERT INTO `deneme` VALUES (62, 'Fen Fakültesi', 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', 'Бакалавриат', '6B05247', 'Экология ', 'Экология', 'Ecology', 'Ekoloji', NULL, 77);
+INSERT INTO `deneme` VALUES (63, 'Fen Fakültesi', 'Физика', 'Физики', 'Physicists', 'Fizikler', 'Бакалавриат', '6B05348', 'Физика ', 'Физика', 'Physics', 'Fizik', NULL, 76);
+INSERT INTO `deneme` VALUES (64, 'Fen Fakültesi', 'Математика', 'Математики', 'Mathematicians', 'Matematikler', 'Бакалавриат', '6B05449', 'Математика ', 'Математика', 'Mathematics', 'Matematik', NULL, 75);
+INSERT INTO `deneme` VALUES (65, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Бакалавриат', '6B06151', 'Информационные системы', 'Ақпараттық жүйелер', 'Information Systems', 'Bilişim Sistemleri', NULL, 84);
+INSERT INTO `deneme` VALUES (66, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Бакалавриат', '6B06152', 'Вычислительная техника и программное обеспечение', 'Есептеу техникасы және бағдарламалық қамтамасыз ету', 'Computing and Software', 'Hesaplama Teknikleri ve Programlama', NULL, 84);
+INSERT INTO `deneme` VALUES (67, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Бакалавриат', '6B06182', 'Компьютерная инженерия ', 'Компьютерлік инженерия  ', 'Computer Enginering', 'Bilgisayar Mühendisliği ', NULL, 84);
+INSERT INTO `deneme` VALUES (68, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Бакалавриат', '6B06181', 'Обработка информации и визуализация данных ', 'Ақпаратты өңдеу және деректерді визуализациялау ', 'Information Processing and Data Visualization ', 'Bilgi İşlem ve Verilerin Görselleştirilmesi', NULL, 84);
+INSERT INTO `deneme` VALUES (69, 'Mühendislik Fakültesi', 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği', 'Бакалавриат', '6B07153', 'Электроэнергетика', 'Электр энергетика', 'Electrical power engineering', '\"Elektrik Enerjisi', NULL, 85);
+INSERT INTO `deneme` VALUES (71, 'Mühendislik Fakültesi', 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği', 'Бакалавриат', '6B07154', 'Автоматизация и управление', 'Автоматтандыру және басқару', '\"Automation and Control', NULL, NULL, 85);
+INSERT INTO `deneme` VALUES (74, 'Mühendislik Fakültesi', 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği', 'Бакалавриат', '6B07189', 'Машиностроение', 'Машина жасау', '6B07189 Mechanical engineering', 'Makine Mühendisliği', NULL, 85);
+INSERT INTO `deneme` VALUES (75, 'Tıp Fakültesi', 'деканат', '', '', '', 'Бакалавриат', '6B10155', 'Общая медицина', 'Жалпы медицина', 'General Medicine', 'Genel Tıp', NULL, NULL);
+INSERT INTO `deneme` VALUES (76, 'Tıp Fakültesi', 'деканат', '', '', '', 'Бакалавриат', '6B10173', 'Сестринское дело', 'Мейіргер ісі', 'Nursing', 'Hemşirelik', NULL, NULL);
+INSERT INTO `deneme` VALUES (77, 'Diş Hekimliği Fakültesi', 'деканат', '', '', '', 'Бакалавриат', '6B10156', 'Стоматология', 'Стоматология', 'Stomatology', 'Diş Hekimliği', NULL, NULL);
+INSERT INTO `deneme` VALUES (78, 'İktisadi ve İdari Bilimler Fakültesi', 'Менеджмент және туризм ', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm', 'Бакалавриат', '6B11157', 'Туризм', 'Туризм', 'Tourism', 'Turizm', NULL, 115);
+INSERT INTO `deneme` VALUES (79, 'İktisadi ve İdari Bilimler Fakültesi', 'Менеджмент және туризм ', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm', 'Бакалавриат', '6B11180', '\" Ресторанное дело и гостиничный ', NULL, NULL, NULL, NULL, 115);
+INSERT INTO `deneme` VALUES (81, 'Tıp Fakültesi', 'деканат', '', '', '', 'Бакалавриат', '6B10188', 'Медицина', 'Медицина', 'Medicine', 'Tıp', NULL, NULL);
+INSERT INTO `deneme` VALUES (82, 'Diş Hekimliği Fakültesi', 'деканат', '', '', '', 'Бакалавриат', '6B10189', 'Стоматология', 'Стоматология', 'Dentistry', 'Diş Hekimliği', NULL, NULL);
+INSERT INTO `deneme` VALUES (83, 'Sosyal ve Beşeri bilimler Fakültesi', 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji', 'Магистратура', '7M01101', 'Педагогика и психология', 'Педагогика және психология', 'Pedagogy and psychology', 'Pedagoji ve Psikoloji', NULL, 66);
+INSERT INTO `deneme` VALUES (84, 'Sosyal ve Beşeri bilimler Fakültesi', 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi', 'Магистратура', '7M01202', 'Педагогика дошкольного воспитания и обучения', 'Мектепке дейінгі тәрбиелеу және оқыту педагогикасы', 'Pedagogy of the pre-school education and upbringing', 'Okul Öğrenci Öğretmenliği', NULL, 67);
+INSERT INTO `deneme` VALUES (85, 'Sosyal ve Beşeri bilimler Fakültesi', 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi', 'Магистратура', '7M01303', 'Педагогика и методика начального обучения', 'Бастауышта оқыту педагогикасы мен әдістемесі', 'Pedagogy and methods of primary education', 'Sınıf Öğretmenliği', NULL, 67);
+INSERT INTO `deneme` VALUES (86, 'Spor ve Sanat Fakültesi', 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi', 'Магистратура', '7M01404', 'Физическая культура и спорт', 'Дене шынықтыру және спорт', 'Physical Culture and Sport', 'Fiziksel Kültür ve Spor', NULL, 72);
+INSERT INTO `deneme` VALUES (87, 'Spor ve Sanat Fakültesi', 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', 'Магистратура', '7M01434', 'Музыкальное образование', 'Музыкалық білім', 'Music Education', 'Müzik Eğitimi', NULL, 73);
+INSERT INTO `deneme` VALUES (88, 'Spor ve Sanat Fakültesi', 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', 'Магистратура', '7M01405', 'Изобразительное искусство и черчение', 'Бейнелеу өнері және сызу', 'Fine Art and Drawing', 'Güzel Sanatlar ve Çizim', NULL, 74);
+INSERT INTO `deneme` VALUES (89, 'Fen Fakültesi', 'Физика', 'Физики', 'Physicists', 'Fizikler', 'Магистратура', '7M01506', 'Физика', 'Физика', 'Physics', 'Fizik Öğretmenliği', NULL, 79);
+INSERT INTO `deneme` VALUES (90, 'Fen Fakültesi', 'Математика', 'Математики', 'Mathematicians', 'Matematikler', 'Магистратура', '7M01547', 'Математика', 'Математика', 'Mathematics', 'Matematik Öğretmenliği', NULL, 80);
+INSERT INTO `deneme` VALUES (91, 'Mühendislik Fakültesi', 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi', 'Магистратура', '7M01557', 'Информатика ', 'Информатика', 'Computer Science', 'Bilgi İşlem', NULL, 86);
+INSERT INTO `deneme` VALUES (92, 'Fen Fakültesi', 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', 'Магистратура', '7M01535', 'Химия', 'Химия', 'Chemistry', 'Kimya Öğetmenliği', NULL, 81);
+INSERT INTO `deneme` VALUES (93, 'Fen Fakültesi', 'Биология', 'Биологии', 'Biology', 'Biyolojiler', 'Магистратура', '7M01507', 'Биология', 'Биология', 'Biology', 'Biyoloji Öğretmenliği', NULL, 82);
+INSERT INTO `deneme` VALUES (94, 'Filoloji Fakültesi', 'Педагогикалық шетел тілдері', 'Педагогических иностранных языков', 'Pedagogical foreign languages', 'Pedagojik yabancı diller', 'Магистратура', '7M01708', 'Иностранный язык: два иностранных языка', 'Шетел тілі: екі шетел тілі', 'Foreign Language: Two Foreign Languages', 'Yabancı Dil: İki Yabancı Dil ', NULL, 98);
+INSERT INTO `deneme` VALUES (95, 'Filoloji Fakültesi', 'Қазақ филологиясы ', 'Казахской филологии', 'Kazakh Philology', 'Kazak Filolojisi', 'Магистратура', '7M01737', 'Казахский язык и литература', 'Қазақ тілі мен әдебиеті', 'Kazakh Language and Literature ', 'Kazak Dili ve Edebiyatı Öğretmenliği', NULL, 99);
+INSERT INTO `deneme` VALUES (96, 'Filoloji Fakültesi', 'Орыс тілі және әдебиеті', 'Русского языка и литература', 'Russian language and literature', 'Rus dili ve edebiyatı', 'Магистратура', '7M01738', 'Русский язык и литература ', 'Орыс тілі мен әдебиеті', 'Russian language and literature', 'Rus Dili ve Edebiyatı Öğretmenliği', NULL, 100);
+INSERT INTO `deneme` VALUES (97, 'Sosyal ve Beşeri bilimler Fakültesi', 'Тарих', 'Истории', 'Historii', 'Tarih', 'Магистратура', '7M02210', 'История', 'Тарих', 'History', 'Tarih', NULL, 68);
+INSERT INTO `deneme` VALUES (98, 'Teoloji Fakültesi', 'Дінтану', 'Религиоведения', 'Religious studies', 'Din Bilimi', 'Магистратура', '7M02211', 'Религиоведение', 'Дінтану', 'Religious Studies', 'Din Bilimleri', NULL, 112);
+INSERT INTO `deneme` VALUES (99, 'Teoloji Fakültesi', 'Теология', 'Теологии', 'Theology', 'Teoloji', 'Магистратура', '7M02262', 'Теология', 'Теология', 'Theology', 'İlahiyat', NULL, 113);
+INSERT INTO `deneme` VALUES (100, 'Filoloji Fakültesi', 'Түрік филологиясы', 'Турецкой филологии', 'Turkish Philology', 'Türk Filolojisi', 'Магистратура', '7M02212', 'Тюркология', 'Түркітану', 'Turkology', 'Türkoloji', NULL, 101);
+INSERT INTO `deneme` VALUES (101, 'Filoloji Fakültesi', 'Ағылшын филологиясы және аударма ісі', 'Английской филологии и переводческого дела', 'English Philology and Translation', 'İngiliz Filolojisi ve çeviri işleri', 'Магистратура', '7M02313', 'Иностранная филология (английский язык)', 'Шетел филологиясы:  Ағылшын тілі', 'Foreign Philology(English)', 'İngiliz Dili ve Edebiyatı', NULL, 102);
+INSERT INTO `deneme` VALUES (102, 'Filoloji Fakültesi', 'Түрік филологиясы', 'Турецкой филологии', 'Turkish Philology', 'Türk Filolojisi', 'Магистратура', '7M02314', 'Иностранная филология (турецкий язык)', 'Шетел филологиясы: Түрік тілі', 'Foreign Philology (Turkish)', '\"Türk Dili ve Edebiyatı', NULL, 101);
+INSERT INTO `deneme` VALUES (104, 'Filoloji Fakültesi', 'Қазақ филологиясы ', 'Казахской филологии', 'Kazakh Philology', 'Kazak Filolojisi', 'Магистратура', '7M02315', 'Филология', 'Филология', 'Philology', 'Dil Bilimi', NULL, 99);
+INSERT INTO `deneme` VALUES (105, 'İktisadi ve İdari Bilimler Fakültesi', 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler', 'Магистратура', '7M03117', 'Политология', 'Саясаттану', 'Political Science ', 'Siyaset Bilimi', NULL, 118);
+INSERT INTO `deneme` VALUES (106, 'İktisadi ve İdari Bilimler Fakültesi', 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler', 'Магистратура', '7M03140', 'Международные отношения', 'Халықаралық қатынастар', 'International Relations', 'Uluslararası İlişkiler', NULL, 118);
+INSERT INTO `deneme` VALUES (107, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Магистратура', '7M04118', 'Экономика', 'Экономика', 'Economics', 'Ekonomi', NULL, 119);
+INSERT INTO `deneme` VALUES (108, 'İktisadi ve İdari Bilimler Fakültesi', 'Менеджмент және туризм', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm', 'Магистратура', '7M04119', 'Менеджмент', 'Менеджмент', 'Management', 'İşletme', NULL, 120);
+INSERT INTO `deneme` VALUES (109, 'İktisadi ve İdari Bilimler Fakültesi', 'Менеджмент және туризм', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm', 'Магистратура', '7M04160', 'Менеджмент в сфере здравоохранения 1', 'Денсаулық сақтау саласындағы менеджмент 1ж', '7M04160 Health Management 1', 'Sağlık İşletmeciliği', NULL, 120);
+INSERT INTO `deneme` VALUES (110, 'İktisadi ve İdari Bilimler Fakültesi', 'Менеджмент және туризм', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm', 'Магистратура', '7M04150', 'Менеджмент в сфере образования 1', 'Білім беру саласындағы менеджмент 1ж', '7M04150 Education Management 1', 'Eğitim Yönetimi', NULL, 120);
+INSERT INTO `deneme` VALUES (111, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Магистратура', '7M04120', 'Учет и аудит', 'Есеп және аудит', 'Accounting and Audit', 'Muhasebe ve Denetim', NULL, 119);
+INSERT INTO `deneme` VALUES (112, 'İktisadi ve İdari Bilimler Fakültesi', 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler', 'Магистратура', '7M04121', 'Государственное и местное управление', 'Мемлекеттік және жергілікті басқару', 'State and local government ', 'Kamu Yönetimi', NULL, 118);
+INSERT INTO `deneme` VALUES (113, 'İktisadi ve İdari Bilimler Fakültesi', 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler', 'Магистратура', '7M04143', 'Управление человеческими ресурсами  ', 'Адам ресурстарын басқару', 'Human resource management', 'Insan kaynakları yönetimi', NULL, 118);
+INSERT INTO `deneme` VALUES (114, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Магистратура', '7M04141', 'Финансы ', 'Қаржы ', 'Finance', 'Finans', NULL, 119);
+INSERT INTO `deneme` VALUES (115, 'İktisadi ve İdari Bilimler Fakültesi', 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk', 'Магистратура', '7M04222', 'Право', 'Құқық', 'Law', 'Hukuk', NULL, 121);
+INSERT INTO `deneme` VALUES (116, 'Fen Bilimleri Fakültesi', 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', 'Магистратура', '7M05223', 'Экология', 'Экология', 'Ecology', 'Ekoloji', NULL, 130);
+INSERT INTO `deneme` VALUES (117, 'Fen Bilimleri Fakültesi', 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', 'Магистратура', '7M05324', 'Химия', 'Химия', 'Chemistry', 'Kimya', NULL, 130);
+INSERT INTO `deneme` VALUES (118, 'Fen Bilimleri Fakültesi', 'Физика', 'Физики', 'Physicists', 'Fizikler', 'Магистратура', '7M05325', 'Физика', 'Физика', 'Physics', 'Fizik', NULL, 131);
+INSERT INTO `deneme` VALUES (119, 'Fen Bilimleri Fakültesi', 'Математика', 'Математики', 'Mathematicians', 'Matematikler', 'Магистратура', '7M05426', 'Математика', 'Математика', 'Mathematics', 'Matematik', NULL, 132);
+INSERT INTO `deneme` VALUES (120, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Магистратура', '7M06127', 'Информатика', 'Информатика', 'Computer Science', 'Bilgi İşlem', NULL, 87);
+INSERT INTO `deneme` VALUES (121, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Магистратура', '7M06128', 'Информационные системы', 'Ақпараттық жүйелер', 'Information Systems', 'Bilişim Sistemleri', NULL, 87);
+INSERT INTO `deneme` VALUES (122, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Магистратура', '7M06146', 'Компьютерная инженерия ', 'Компьютерлік инженерия  ', 'Computer Enginering', 'Bilgisayar Mühendisliği ', NULL, 87);
+INSERT INTO `deneme` VALUES (123, 'Fen Bilimleri Fakültesi', 'Математика', 'Математики', 'Mathematicians', 'Matematikler', 'Магистратура', '7M06129', 'Математическое и компьютерное моделирование', 'Математикалық және компьютерлік модельдеу', 'Mathematical and Computer Modeling', 'Matematiksel ve Bilgisayarda Modelleme', NULL, 132);
+INSERT INTO `deneme` VALUES (124, 'Mühendislik Fakültesi', 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği', 'Магистратура', '7M07130', 'Электроэнергетика', 'Электр энергетикасы', 'Electrical power engineering', 'Electricity', NULL, 88);
+INSERT INTO `deneme` VALUES (125, 'Mühendislik Fakültesi', 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği', 'Магистратура', '7M07158', 'Автоматизация и управление', 'Автоматтандыру және басқару', 'Automation and Management', 'Automation and Management', NULL, 88);
+INSERT INTO `deneme` VALUES (126, 'Tıp Fakültesi', 'деканат', '', '', '', 'Магистратура', '7M10131', 'Медицина ', 'Медицина', 'Medicine', 'Tıp', NULL, NULL);
+INSERT INTO `deneme` VALUES (127, 'Tıp Fakültesi', 'деканат', '', '', '', 'Магистратура', '7M10144', 'Общественное здравоохранение ', 'Қоғамдық денсаулық сақтау ', 'Public Health', 'Halk sağlığı', NULL, NULL);
+INSERT INTO `deneme` VALUES (128, 'İnsan Ve Toplum Bilimleri Fakültesi', 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji', 'Докторантура', '8D01101', 'Педагогика и психология', 'Педагогика және психология', 'Рedagogy and Psychology', 'Pedagoji ve Psikoloji', NULL, 135);
+INSERT INTO `deneme` VALUES (129, 'Fen Bilimleri Fakültesi', 'Математика', 'Математики', 'Mathematicians', 'Matematikler', 'Докторантура', '8D01502', 'Математика', 'Математика', 'Mathematics', 'Matematik Öğretmenliği', NULL, 133);
+INSERT INTO `deneme` VALUES (130, 'Fen Bilimleri Fakültesi', 'Физика', 'Физики', 'Physicists', 'Fizikler', 'Докторантура', '8D01503', 'Физика', 'Физика', 'Physics', 'Fizik Öğretmenliği', NULL, 134);
+INSERT INTO `deneme` VALUES (131, 'Mühendislik Fakültesi', 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi', 'Докторантура', '8D01516 ', 'Информатика', 'Информатика', 'Computer Science', 'Bilgi İşlem', NULL, 89);
+INSERT INTO `deneme` VALUES (132, 'İnsan Ve Toplum Bilimleri Fakültesi', 'Тарих', 'Истории', 'Historii', 'Tarih', 'Докторантура', '8D01604', 'История', 'Тарих', 'History', 'Tarih Öğretmenliği', NULL, 136);
+INSERT INTO `deneme` VALUES (133, 'Filoloji Fakültesi', 'Қазақ филологиясы ', 'Казахской филологии', 'Kazakh Philology', 'Kazak Filolojisi', 'Докторантура', '8D01705', 'Казахский язык и литература', 'Қазақ тілі мен әдебиеті', 'Kazakh language and literature ', 'Kazak Dili ve Edebiyatı', NULL, 105);
+INSERT INTO `deneme` VALUES (134, 'Filoloji Fakültesi', 'Педагогикалық шетел тілдері', 'Педагогических иностранных языков', 'Pedagogical foreign languages', 'Pedagojik yabancı diller', 'Докторантура', '8D01713', 'Иностранный язык: два иностранных языка', 'Шетел тілі: екі шетел тілі ', 'Foreign Language: Two Foreign Languages', 'Yabancı Dil: İki Yabancı Dil Öğretmenliği', NULL, 106);
+INSERT INTO `deneme` VALUES (135, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Докторантура', '8D04106', 'Экономика', 'Экономика', 'Economics', 'Ekonomi', NULL, 122);
+INSERT INTO `deneme` VALUES (136, 'İktisadi ve İdari Bilimler Fakültesi', 'Менеджмент және туризм ', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm', 'Докторантура', '8D04107', 'Менеджмент', 'Менеджмент', 'Management', 'İşletme', NULL, 123);
+INSERT INTO `deneme` VALUES (137, 'İktisadi ve İdari Bilimler Fakültesi', 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler', 'Докторантура', '8D04114', 'Государственное и местное управление', 'Мемлекеттік және жергілікті басқару ', 'State and local government ', 'Kamu ve Yerel Yönetimi', NULL, 124);
+INSERT INTO `deneme` VALUES (138, 'İktisadi ve İdari Bilimler Fakültesi', 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe', 'Докторантура', '8D04117', 'Финансы', 'Қаржы', 'Finance', 'Finans', NULL, 122);
+INSERT INTO `deneme` VALUES (139, 'İktisadi ve İdari Bilimler Fakültesi', 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk', 'Докторантура', '8D04208', 'Право', 'Құқық', 'Law', 'Hukuk', NULL, 125);
+INSERT INTO `deneme` VALUES (140, 'Mühendislik Fakültesi', 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', 'Докторантура', '8D06115', 'Информационные системы', 'Ақпараттық жүйелер ', 'Information Systems', 'Bilişim Sistemleri', NULL, 90);
+INSERT INTO `deneme` VALUES (141, 'Fen Bilimleri Fakültesi', 'Математика', 'Математики', 'Mathematicians', 'Matematikler', 'Докторантура', '8D06109', 'Математическое и компьютерное моделирование', 'Математикалық және компьютерлік модельдеу', 'Mathematical and computer modeling', 'Matematiksel ve Bilgisayarda Modelleme', NULL, 133);
+INSERT INTO `deneme` VALUES (142, 'Tıp Fakültesi', 'деканат', '', '', '', 'Докторантура', '8D10110', 'Медицина ', 'Медицина', 'Medicine', 'Tıp', NULL, NULL);
+INSERT INTO `deneme` VALUES (143, 'Tıp Fakültesi', 'деканат', '', '', '', 'Докторантура', '8D10111', 'Общественное здравоохранение', 'Қоғамдық денсаулық сақтау', 'Public Health', 'Halk sağlığı', NULL, NULL);
+INSERT INTO `deneme` VALUES (144, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Акушерлік  гинекология', 'Акушерская гинекология', 'Obstetric gynecology', 'Obstetrik Jinekoloji', 'Резидентура', '7R01102', 'Акушерство и гинекология взрослая, детская', 'Ересектердің, балалардың акушерия және гинекологиясы', 'Obstetrics and gynecology for adults, children', 'Kadın Hastalıkları ve Doğum, Çocuk Kadın Hastalıkları ve Doğumu Dahil', NULL, NULL);
+INSERT INTO `deneme` VALUES (145, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Арнайы  хирургиялық  пәндер', 'Специальные хирургические дисциплины', 'Special surgical disciplines', 'Özel cerrahi disiplinler', 'Резидентура', '7R01120', 'Травматология-ортопедия взрослая, детская', 'Ересектердің, балалардың травматология-ортопедиясы', 'Traumatology-orthopedics adults, children', 'Yetişkinler ve çocuklar için travmatoloji ve ortopedi', NULL, NULL);
+INSERT INTO `deneme` VALUES (146, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Арнайы  хирургиялық  пәндер', 'Специальные хирургические дисциплины', 'Special surgical disciplines', 'Özel cerrahi disiplinler', 'Резидентура', '7R01115', 'Кардиохирургия взрослая, детская', 'Ересектердің, балалардың кардиохирургиясы', 'Cardiac surgery adults, children', 'Kalp cerrahisi, yetişkinler, çocuklar', NULL, NULL);
+INSERT INTO `deneme` VALUES (147, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Арнайы  хирургиялық  пәндер', 'Специальные хирургические дисциплины', 'Special surgical disciplines', 'Özel cerrahi disiplinler', 'Резидентура', '7R01121', 'Урология и андрология взрослая, детская', 'Ересектердің, балалардың урология және андрологиясы', 'Urology and andrology adults, children', 'Yetişkinlerin ve çocukların ürolojisi ve androlojisi', NULL, NULL);
+INSERT INTO `deneme` VALUES (148, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Арнайы  хирургиялық  пәндер', 'Специальные хирургические дисциплины', 'Special surgical disciplines', 'Özel cerrahi disiplinler', 'Резидентура', '7R01119', 'Оториноларингология взрослая, детская', 'Ересектердің, балалардың оториноларингологиясы', 'Otorhinolaryngology adults, children', 'Yetişkinlerde ve çocuklarda kulak burun boğaz', NULL, NULL);
+INSERT INTO `deneme` VALUES (149, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Арнайы  хирургиялық  пәндер', 'Специальные хирургические дисциплины', 'Special surgical disciplines', 'Özel cerrahi disiplinler', 'Резидентура', '7R01124', 'Онкология взрослая', 'Ересектердің онкологиясы', 'Adult oncology ', 'Onkoloji', NULL, NULL);
+INSERT INTO `deneme` VALUES (150, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Жалпы  дәрігерлік  практика № 1', 'Общей врачебной практики  № 1', 'General medical practice  № 1', 'Genel Tıbbi uygulamalar  № 1', 'Резидентура', '7R01114', 'Радиология ', 'Радиология ', 'Radiology', 'Radyoloji Teşhisi', NULL, NULL);
+INSERT INTO `deneme` VALUES (151, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Жалпы  дәрігерлік  практика № 2', 'Общей врачебной практики  № 2', 'General medical practice  № 2', 'Genel Tıbbi uygulamalar  № 2', 'Резидентура', '7R01106', 'Семейная медицина', 'Отбасылық медицина', 'Family doctor', 'Aile Hekimliği ', NULL, NULL);
+INSERT INTO `deneme` VALUES (152, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Жалпы  дәрігерлік  практика № 2', 'Общей врачебной практики  № 2', 'General medical practice  № 2', 'Genel Tıbbi uygulamalar  № 2', 'Резидентура', '7R01129', 'Патологическая анатомия', 'Патологиялық анатомия', 'Pathological anatomy', 'Patolojik anatomi', NULL, NULL);
+INSERT INTO `deneme` VALUES (153, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Жалпы  дәрігерлік  практика № 2', 'Общей врачебной практики  № 2', 'General medical practice  № 2', 'Genel Tıbbi uygulamalar  № 2', 'Резидентура', '7R01116', 'Клиническая фармакология', 'Клиникалық фармакология', 'Clinical pharmacology', 'Klinik Farmakoloji', NULL, NULL);
+INSERT INTO `deneme` VALUES (154, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Жұқпалы  аурулар  және  фтизиатрия', 'Инфекционных заболеваний и фтизиатрии', 'Infectious diseases and phthisiology', 'Bulaşıcı hastalıklar ve Phthysiatrics', 'Резидентура', '7R01122', 'Дерматовенерология взрослая, детская', 'Ересектердің, балалардың дерматовенерологиясы', 'Dermatovenerology adults, children', 'Yetişkinlerin ve çocukların dermatovenerolojisi', NULL, NULL);
+INSERT INTO `deneme` VALUES (155, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Жұқпалы  аурулар  және  фтизиатрия', 'Инфекционных заболеваний и фтизиатрии', 'Infectious diseases and phthisiology', 'Bulaşıcı hastalıklar ve Phthysiatrics', 'Резидентура', '7R01123', 'Инфекционные болезни взрослые, детские', 'Ересектердің, балалардың инфекциялық аурулары', 'Infectious diseases adults, children', 'Yetişkinlerin ve çocukların bulaşıcı hastalıkları', NULL, NULL);
+INSERT INTO `deneme` VALUES (156, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Ішкі  аурулар', 'Внутренних болезней', 'Internal diseases', 'Dahiliye', 'Резидентура', '7R01105', 'Терапия', 'Терапия', 'Therapy', 'Terapi', NULL, NULL);
+INSERT INTO `deneme` VALUES (157, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Ішкі  аурулар', 'Внутренних болезней', 'Internal diseases', 'Dahiliye', 'Резидентура', '7R01107', 'Кардиология взрослая, детская', 'Ересектердің, балалардың кардиологиясы', 'Cardiology adult, children', 'Kardiyoloji, Çocuk Kardiyolojisi ', NULL, NULL);
+INSERT INTO `deneme` VALUES (158, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Ішкі  аурулар', 'Внутренних болезней', 'Internal diseases', 'Dahiliye', 'Резидентура', '7R01108', 'Эндокринология взрослая, детская', 'Ересектердің, балалардың эндокринологиясы', 'Endocrinology adult, children', 'Endokrinoloji, Çocuk Endokrinolojisi ', NULL, NULL);
+INSERT INTO `deneme` VALUES (159, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Ішкі  аурулар', 'Внутренних болезней', 'Internal diseases', 'Dahiliye', 'Резидентура', '7R01126', 'Аллергология и иммунология взрослая, детская', 'Ересектердің, балалардың аллергология және иммунологиясы', 'Allergology and immunology adult, children', 'Yetişkinlerin ve çocukların alerjisi ve immünolojisi', NULL, NULL);
+INSERT INTO `deneme` VALUES (160, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Ішкі  аурулар', 'Внутренних болезней', 'Internal diseases', 'Dahiliye', 'Резидентура', '7R01127', 'Пульмонология взрослая, детская', 'Ересектердің, балалардың пульмонологиясы  ', 'Pulmonology adult, children', 'Yetişkinlerin ve çocukların göğüs hastalıkları', NULL, NULL);
+INSERT INTO `deneme` VALUES (161, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Ішкі  аурулар', 'Внутренних болезней', 'Internal diseases', 'Dahiliye', 'Резидентура', '7R01110', 'Гастроэнтерология взрослая, детская', 'Ересектердің, балалардың гастроэнтерологиясы', 'Gastroenterology adults, children', 'Gastroenteroloji, Çocuk Gastroenterolojisi ', NULL, NULL);
+INSERT INTO `deneme` VALUES (162, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Неврология, психиатрия, наркология', 'Неврологии, психиатрии, наркологии', 'Neurology, psychiatry, narcology', 'Nöroloji, psikiyatri, uyuşturucu bilimi', 'Резидентура', '7R01104', 'Неврология взрослая, детская', 'Ересектердің, балалардың неврологиясы', 'Neurology adults, children ', 'Pediatrik Nöroloji , Çocuk Nörolojisi', NULL, 143);
+INSERT INTO `deneme` VALUES (163, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Неврология, психиатрия, наркология', 'Неврологии, психиатрии, наркологии', 'Neurology, psychiatry, narcology', 'Nöroloji, psikiyatri, uyuşturucu bilimi', 'Резидентура', '7R01117', 'Физическая медицина и реабилитация взрослая, детская', 'Ересектердің, балалардың физикалық медицина және реабилитациясы', 'Physical medicine and rehabilitation adults, children', 'Yetişkinlerde ve çocuklarda fiziksel tıp ve rehabilitasyon', NULL, 143);
+INSERT INTO `deneme` VALUES (164, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Неврология, психиатрия, наркология', 'Неврологии, психиатрии, наркологии', 'Neurology, psychiatry, narcology', 'Nöroloji, psikiyatri, uyuşturucu bilimi', 'Резидентура', '7R01113', 'Психиатрия взрослая, детская', 'Ересектер мен балалар психиатриясы', 'Psychiatry  adults, children ', 'Psikiyatri', NULL, 143);
+INSERT INTO `deneme` VALUES (165, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Педиатрия', 'Педиатрии', 'Pediatrics', 'Pediatri', 'Резидентура', '7R01101', 'Педиатрия', 'Педиатрия', 'Pediatrics', 'Pediatri', NULL, 144);
+INSERT INTO `deneme` VALUES (166, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Педиатрия', 'Педиатрии', 'Pediatrics', 'Pediatri', 'Резидентура', '7R01125', 'Неонатология', 'Неонатология', 'Neonatology', 'Neonatoloji', NULL, 144);
+INSERT INTO `deneme` VALUES (167, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Профилактикалық медицина және стоматологиялық пәндер', 'Профилактической медицины и стоматологических дисциплин', 'Preventive medicine and dental disciplines', 'Önleyici tıp ve diş disiplinleri', 'Резидентура', '7R01130', 'Терапевтическая стоматология', 'Терапиялық стоматология', 'Therapeutic dentistry', 'Terapötik diş hekimliği', NULL, 145);
+INSERT INTO `deneme` VALUES (168, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon', 'Резидентура', '7R01103', 'Общая хирургия ', 'Жалпы хирургия', 'General surgery', 'Genel Cerrahi', NULL, NULL);
+INSERT INTO `deneme` VALUES (169, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon', 'Резидентура', '7R01111', 'Офтальмология взрослая, детская', 'Ересектердің, балалардың офтальмологиясы', 'Ophthalmology  adults, children', 'Oftalmoloji, Çocuk Oftalmolojisi ', NULL, NULL);
+INSERT INTO `deneme` VALUES (170, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon', 'Резидентура', '7R01112', 'Анестезиология и реаниматология взрослая, детская', 'Ересектердің, балалардың анестезиология және реаниматологиясы', 'Anesthesiology and resuscitation adults, children', 'Anesteziyoloji ve Resüsitasyon, Çocuk Anesteziyoloji ve Resüsitasyonu Dahil', NULL, NULL);
+INSERT INTO `deneme` VALUES (171, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon', 'Резидентура', '7R01109', 'Нейрохирургия взрослая, детская.', 'Ересектердің, балалардың нейрохирургиясы', 'Neurosurgery  adults, children', 'Sinir Cerrahisi, Çocuk Sinir Cerrahisi ', NULL, NULL);
+INSERT INTO `deneme` VALUES (172, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon', 'Резидентура', '7R01118', 'Детская хирургия', 'Балалар хирургиясы', 'Pediatric surgery', 'Çocuk Cerrahisi', NULL, NULL);
+INSERT INTO `deneme` VALUES (173, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon', 'Резидентура', '7R01128', 'Ангиохирургия взрослая, детская', 'Ересектердің, балалардың ангиохирургиясы', 'Angiosurgery adults, children', 'Çocuk ve Yetişkin Anjiyo Cerrahi', NULL, NULL);
+INSERT INTO `deneme` VALUES (174, 'Lisansüstü Tıp Eğitimi  Fakültesi', 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon', 'Резидентура', '7R01131', 'Челюстно-лицевая хирургия взрослая, детская', 'Ересектердің, балалардың бет-жақ хирургиясы', 'Maxillofacial surgery for adults, children', 'Çocuk ve Yetişkin Çene-Yüz cerrahisi', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for tb_anabilim_dallari
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_anabilim_dallari`;
+CREATE TABLE `tb_anabilim_dallari`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fakulte_id` int NULL DEFAULT NULL,
+  `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  `aktif` tinyint NULL DEFAULT 1,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tb_anabilim_dallari
+-- ----------------------------
+INSERT INTO `tb_anabilim_dallari` VALUES (1, 1, 'Anesteziyoloji ve Reanimasyon Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (2, 1, 'Çocuk Cerrahisi Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (3, 1, 'Genel Cerrahi Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (4, 1, 'Göğüs Cerrahisi Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (5, 1, 'Göz Hastalıkları Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (6, 1, 'Kadın Hastalıkları ve Doğum Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (7, 1, 'Kalp ve Damar Cerrahisi Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (8, 1, 'Kulak Burun Boğaz Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (9, 1, 'Nöroşirürji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (10, 1, 'Ortopedi ve Travmatoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (11, 1, 'Plastik ve Rekonstrüktif Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (12, 1, 'Üroloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (13, 1, 'Anatomi Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (14, 1, 'Biyofizik Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (15, 1, 'Biyoistatistik Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (16, 1, 'Biyokimya Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (17, 1, 'Fizyoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (18, 1, 'Histoloji ve Embriyoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (19, 1, 'Mikrobiyoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (20, 1, 'Patoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (21, 1, 'Tıbbi Biyoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (22, 1, 'Tıbbi Parazitoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (23, 1, 'Tıp Eğitimi ve Bilişimi Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (24, 1, 'Tıp Tarihi ve Etik Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (25, 1, 'Acil Tıp Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (26, 1, 'Adli Tıp Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (27, 1, 'Aile Hekimliği Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (28, 1, 'Çocuk Sağlığı ve Hastalıkları Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (29, 1, 'Dermatoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (30, 1, 'Farmakoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (31, 1, 'Fiziksel Tıp ve Rehabilitasyon Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (32, 1, 'Göğüs Hastalıkları Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (33, 1, 'Halk Sağlığı Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (34, 1, 'İç Hastalıkları Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (35, 1, 'Kardiyoloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (36, 1, 'Klinik Bakteriyoloji ve Enfeksiyon Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (37, 1, 'Nöroloji Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (38, 1, 'Nükleer Tıp Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (39, 1, 'Psikiyatri Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (40, 1, 'Radyasyon Onkolojisi Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (41, 1, 'Radyodiagnostik Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (42, 1, 'Spor Hekimliği Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (43, 1, 'Tıbbi Genetik Anabilim Dalı', 1);
+INSERT INTO `tb_anabilim_dallari` VALUES (44, 1, 'Diğer', 1);
 
 -- ----------------------------
 -- Table structure for tb_anket_cevaplari
@@ -221,98 +567,265 @@ CREATE TABLE `tb_birim_agaci`  (
   `kategori` tinyint NULL DEFAULT NULL,
   `grup` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 279 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_agaci
 -- ----------------------------
-INSERT INTO `tb_birim_agaci` VALUES (1, 0, NULL, NULL, NULL, 'Ahmet Yesevi Üniversitesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (2, 1, NULL, NULL, NULL, 'Akademik Birimler', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (3, 1, NULL, NULL, NULL, 'İdari Birimler', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (4, 2, 'Факультет\r\n', 'Факультет', 'Faculty', 'Fakülteler', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (5, 2, NULL, NULL, NULL, 'Enstitüler', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (6, 2, NULL, NULL, NULL, 'Merkezler', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (7, 2, NULL, NULL, NULL, 'Meslek Yüksekokulları', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (8, 4, 'Әлеуметтік - Гуманитарлық  ғылымдар', 'Социально-гуманитарных наук', 'Social and Humanitarian Sciences', 'Sosyal ve Beşeri bilimler Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (9, 4, 'Спорт және өнер ', 'Спорта и искусства', 'Sports and Art', 'Spor ve Sanat Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (10, 4, 'Жаратылыстану ғылымдар', 'Естестенных наук', 'Natural Sciences', 'Fen Fakültesi', NULL, 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (1, 0, 'Ahmet Yesevi Üniversitesi', 'Ahmet Yesevi Üniversitesi', 'Ahmet Yesevi Üniversitesi', 'Ahmet Yesevi Üniversitesi', 'ahmet-yesevi-universitesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (2, 1, 'Академиялық бөлім', 'Академическая единица', 'Academic Unit', 'Akademik Birimler', 'akademik-birimler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (3, 1, NULL, NULL, 'Administrative Units', 'İdari Birimler', 'idari-birimler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (4, 2, 'Факультет\r\n', 'Факультет', 'Faculty', 'Fakülteler', 'fakulteler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (5, 2, NULL, NULL, NULL, 'Enstitüler', 'enstituler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (6, 2, NULL, NULL, NULL, 'Merkezler', 'merkezler', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (7, 2, NULL, NULL, NULL, 'Meslek Yüksekokulları', 'meslek-yuksekokullari', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (8, 4, 'Әлеуметтік - Гуманитарлық  ғылымдар', 'Социально-гуманитарных наук', 'Social and Humanitarian Sciences', 'Sosyal ve Beşeri bilimler Fakültesi', 'sosyal-ve-beseri-bilimler-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (9, 4, 'Спорт және өнер ', 'Спорта и искусства', 'Sports and Art', 'Spor ve Sanat Fakültesi', 'spor-ve-sanat-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (10, 4, 'Жаратылыстану ғылымдар', 'Естестенных наук', 'Natural Sciences', 'Fen Fakültesi', 'fen-fakultesi', 1, NULL);
 INSERT INTO `tb_birim_agaci` VALUES (11, 4, 'Инженерия', 'Инженерии', 'Engineering', 'Mühendislik Fakültesi', 'muhendislik-fakultesi', 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (12, 4, 'Филология', 'Филологический', 'Philological', 'Filoloji Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (13, 4, 'Спорт және өнер', 'Спорта и искусства', 'Sports and Art', 'Spor ve Sanat Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (14, 4, 'Теология', 'Теологический', 'Theological', 'Teolojik Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (15, 4, 'Экономика, басқару және құқық', 'Экономики, управления и права', 'Economics, Management and Law', 'İktisadi ve İdari Bilimler Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (16, 4, 'Медицина', 'Медицинский', 'Medical', 'Tıp Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (17, 4, 'Стоматология', 'Стоматологический', 'Dental', 'Diş Hekimliği Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (18, 4, 'Экономика, басқару және құқық ', 'Экономики, управления и права', 'Economics, Management and Law', 'İktisadi ve İdari Bilimler Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (19, 4, 'Жаратылыстану ғылымдар', 'Естестенных наук', 'Natural Sciences', 'Fen Bilimleri Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (20, 4, 'Әлеуметтік - Гуманитарлық  ғылымдар', 'Социально-гуманитарных наук', 'Social and Humanitarian Sciences', 'İnsan Ve Toplum Bilimleri Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (21, 4, 'Жоғары медициналық білімнен кейінгі білім беру', 'Послевузовского высшего медицинское образования', 'Postgraduate higher medical education', 'Lisansüstü Tıp Eğitimi  Fakültesi', NULL, 1, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (22, 8, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (23, 8, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (25, 9, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (26, 9, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (28, 10, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (29, 10, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (31, 11, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (32, 11, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (33, 11, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (34, 12, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (35, 12, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (36, 12, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (37, 13, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (38, 13, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (39, 13, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (40, 14, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (41, 14, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (42, 14, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (43, 15, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (44, 15, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (45, 15, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (46, 16, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (47, 16, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (48, 16, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (49, 17, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (50, 17, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (51, 17, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (52, 18, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (53, 18, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (54, 18, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (55, 19, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (56, 19, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (57, 19, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (58, 20, 'Бакалавриат', NULL, NULL, 'Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (59, 20, 'Магистратура', NULL, NULL, 'Yüksek Lisans', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (60, 20, 'Докторантура', NULL, NULL, 'Doktora', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (61, 21, 'Резидентура\r\n', NULL, NULL, 'Tıpta Uzmanlık Eğitimi', NULL, 1, 1);
-INSERT INTO `tb_birim_agaci` VALUES (62, 22, 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (63, 22, 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (64, 22, 'Тарих', 'Истории', 'Historii', 'Tarih', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (65, 22, 'Журналистика', 'Журналистики', 'Journalism', 'Gazetecilik', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (66, 23, 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (67, 23, 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (68, 23, 'Тарих', 'Истории', 'Historii', 'Tarih', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (69, 25, 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (70, 25, 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (71, 25, 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (72, 26, 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (73, 26, 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (74, 26, 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (75, 28, 'Математика', 'Математики', 'Mathematicians', 'Matematik', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (76, 28, 'Физика', 'Физики', 'Physicists', 'Fizik', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (77, 28, 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (78, 28, 'Биология', 'Биологии', 'Biology', 'Biyoloji', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (79, 29, 'Физика', 'Физики', 'Physicists', 'Fizik', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (80, 29, 'Математика', 'Математики', 'Mathematicians', 'Matematik', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (81, 29, 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (82, 29, 'Биология', 'Биологии', 'Biology', 'Biyoloji', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (83, 31, 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (84, 31, 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (85, 31, 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (86, 32, 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (87, 32, 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (88, 32, 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (89, 33, 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi', NULL, NULL, NULL);
-INSERT INTO `tb_birim_agaci` VALUES (90, 33, 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği', NULL, NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (12, 4, 'Филология', 'Филологический', 'Philological', 'Filoloji Fakültesi', 'filoloji-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (14, 4, 'Теология', 'Теологический', 'Theological', 'Teoloji Fakültesi', 'teoloji-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (15, 4, 'Экономика, басқару және құқық', 'Экономики, управления и права', 'Economics, Management and Law', 'İktisadi ve İdari Bilimler Fakültesi', 'iktisadi-ve-idari-bilimler-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (16, 4, 'Медицина', 'Медицинский', 'Medical', 'Tıp Fakültesi', 'tip-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (17, 4, 'Стоматология', 'Стоматологический', 'Dental', 'Diş Hekimliği Fakültesi', 'dis-hekimligi-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (19, 4, 'Жаратылыстану ғылымдар', 'Естестенных наук', 'Natural Sciences', 'Fen Bilimleri Fakültesi', 'fen-bilimleri-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (20, 4, 'Әлеуметтік - Гуманитарлық  ғылымдар', 'Социально-гуманитарных наук', 'Social and Humanitarian Sciences', 'İnsan Ve Toplum Bilimleri Fakültesi', 'insan-ve-toplum-bilimleri-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (21, 4, 'Жоғары медициналық білімнен кейінгі білім беру', 'Послевузовского высшего медицинское образования', 'Postgraduate higher medical education', 'Lisansüstü Tıp Eğitimi  Fakültesi', 'lisansustu-tip-egitimi-fakultesi', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (22, 8, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (23, 8, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (25, 9, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (26, 9, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (28, 10, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (29, 10, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (31, 11, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (32, 11, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (33, 11, 'Докторантура', 'Докторантура', 'PhD', 'Doktora', 'doktora', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (34, 12, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (35, 12, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (36, 12, 'Докторантура', 'Докторантура', 'PhD', 'Doktora', 'doktora', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (40, 14, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (41, 14, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (43, 15, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (44, 15, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (45, 15, 'Докторантура', 'Докторантура', 'PhD', 'Doktora', 'doktora', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (46, 16, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (47, 16, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (48, 16, 'Докторантура', 'Докторантура', 'PhD', 'Doktora', 'doktora', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (49, 17, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (50, 17, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (51, 17, 'Докторантура', 'Докторантура', 'PhD', 'Doktora', 'doktora', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (55, 19, 'Бакалавриат', 'Бакалавриат', 'Undergraduate', 'Lisans', 'lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (56, 19, 'Магистратура', 'Магистратура', 'Master', 'Yüksek Lisans', 'yuksek-lisans', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (57, 19, 'Докторантура', 'Докторантура', 'PhD', 'Doktora', 'doktora', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (60, 20, 'Докторантура', 'Докторантура', 'PhD', 'Doktora', 'doktora', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (61, 21, 'Резидентура\r\n', 'Резидентура\r\n', 'Specialization Training in Medicine', 'Tıpta Uzmanlık Eğitimi', 'tipta-uzmanlik-egitimi', 1, 1);
+INSERT INTO `tb_birim_agaci` VALUES (62, 22, 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji Bölümü', 'pedagoji-ve-psikoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (63, 22, 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi Bölümü', 'okul-oncesi-ve-ilkokul-egitimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (64, 22, 'Тарих', 'Истории', 'Historii', 'Tarih Bölümü', 'tarih-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (65, 22, 'Журналистика', 'Журналистики', 'Journalism', 'Gazetecilik Bölümü', 'gazetecilik-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (66, 23, 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji Bölümü', 'pedagoji-ve-psikoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (67, 23, 'Мектепке дейінгі және бастауышта білім беру', 'Дошкольного и начального образования', 'Preschool and primary education', 'Okul öncesi ve ilkokul eğitimi Bölümü', 'okul-oncesi-ve-ilkokul-egitimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (68, 23, 'Тарих', 'Истории', 'Historii', 'Tarih Bölümü', 'tarih-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (69, 25, 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi Bölümü', 'beden-egitimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (70, 25, 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları Bölümü', 'sahne-sanatlari-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (71, 25, 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar Bölümü', 'guzel-sanatlar-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (72, 26, 'Дене мәдениеті', 'Физической культуры', 'Physical education', 'Beden eğitimi Bölümü', 'beden-egitimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (73, 26, 'Орындаушылық өнер', 'Исполнительского искусства', 'Executive search', 'Sahne sanatları Bölümü', 'sahne-sanatlari-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (74, 26, 'Бейнелеу өнері', 'Изобразительного искусство', 'Fine arts', 'Güzel sanatlar Bölümü', 'guzel-sanatlar-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (75, 28, 'Математика', 'Математики', 'Mathematicians', 'Matematik Bölümü', 'matematik-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (76, 28, 'Физика', 'Физики', 'Physicists', 'Fizik Bölümü', 'fizik-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (77, 28, 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya Bölümü', 'ekoloji-ve-kimya-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (78, 28, 'Биология', 'Биологии', 'Biology', 'Biyoloji Bölümü', 'biyoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (79, 29, 'Физика', 'Физики', 'Physicists', 'Fizik Bölümü', 'fizik-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (80, 29, 'Математика', 'Математики', 'Mathematicians', 'Matematik Bölümü', 'matematik-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (81, 29, 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya Bölümü', 'ekoloji-ve-kimya-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (82, 29, 'Биология', 'Биологии', 'Biology', 'Biyoloji Bölümü', 'biyoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (83, 31, 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi Bölümü', 'bilgisayar-bilimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (84, 31, 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği Bölümü', 'bilgisayar-muhendisligi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (85, 31, 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği Bölümü', 'elektrik-muhendisligi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (86, 32, 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi Bölümü', 'bilgisayar-bilimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (87, 32, 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği Bölümü', 'bilgisayar-muhendisligi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (88, 32, 'Электр инженериясы', 'Электроинженерии', 'Electrical Engineering', 'Elektrik Mühendisliği Bölümü', 'elektrik-muhendisligi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (89, 33, 'Компьютерлік ғылымдар', 'Компьютерных наук', 'Computer Science', 'Bilgisayar Bilimi Bölümü', 'bilgisayar-bilimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (90, 33, 'Компьютерлік инженерия', 'Компьютерной инженерии', 'Computer Engineering', 'Bilgisayar Mühendisliği Bölümü', 'bilgisayar-muhendisligi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (92, 34, 'Қазақ филологиясы ', 'Казахской филологии ', 'Kazakh Philology', 'Kazak Filolojisi Bölümü', 'kazak-filolojisi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (93, 34, 'Орыс тілі және әдебиеті', 'Русского языка и литература', 'Russian language and literature', 'Rus dili ve edebiyatı Bölümü', 'rus-dili-ve-edebiyati-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (94, 34, 'Педагогикалық шетел тілдері', 'Педагогических иностранных языков', 'Pedagogical foreign languages', 'Pedagojik yabancı diller Bölümü', 'pedagojik-yabanci-diller-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (95, 34, 'Түрік филологиясы', 'Турецкой филологии', 'Turkish Philology', 'Türk Filolojisi Bölümü', 'turk-filolojisi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (96, 34, 'Ағылшын филологиясы және аударма ісі', 'Английской филологии и переводческого дела', 'English Philology and Translation', 'İngiliz Filolojisi ve çeviri işleri Bölümü', 'ingiliz-filolojisi-ve-ceviri-isleri-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (98, 35, 'Педагогикалық шетел тілдері', 'Педагогических иностранных языков', 'Pedagogical foreign languages', 'Pedagojik yabancı diller Bölümü', 'pedagojik-yabanci-diller-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (99, 35, 'Қазақ филологиясы ', 'Казахской филологии', 'Kazakh Philology', 'Kazak Filolojisi Bölümü', 'kazak-filolojisi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (100, 35, 'Орыс тілі және әдебиеті', 'Русского языка и литература', 'Russian language and literature', 'Rus dili ve edebiyatı Bölümü', 'rus-dili-ve-edebiyati-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (101, 35, 'Түрік филологиясы', 'Турецкой филологии', 'Turkish Philology', 'Türk Filolojisi Bölümü', 'turk-filolojisi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (102, 35, 'Ағылшын филологиясы және аударма ісі', 'Английской филологии и переводческого дела', 'English Philology and Translation', 'İngiliz Filolojisi ve çeviri işleri Bölümü', 'ingiliz-filolojisi-ve-ceviri-isleri-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (105, 36, 'Қазақ филологиясы ', 'Казахской филологии', 'Kazakh Philology', 'Kazak Filolojisi Bölümü', 'kazak-filolojisi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (106, 36, 'Педагогикалық шетел тілдері', 'Педагогических иностранных языков', 'Pedagogical foreign languages', 'Pedagojik yabancı diller Bölümü', 'pedagojik-yabanci-diller-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (110, 40, 'Дінтану', 'Религиоведения', 'Religious studies', 'Din Bilimi Bölümü', 'din-bilimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (111, 40, 'Теология', 'Теологии', 'Theology', 'Teoloji Bölümü', 'teoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (112, 41, 'Дінтану', 'Религиоведения', 'Religious studies', 'Din Bilimi Bölümü', 'din-bilimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (113, 41, 'Теология', 'Теологии', 'Theology', 'Teoloji Bölümü', 'teoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (114, 43, 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler Bölümü', 'kamu-yonetimi-ve-uluslararasi-iliskiler-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (115, 43, 'Менеджмент және туризм ', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm Bölümü', 'yonetim-ve-turizm-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (116, 43, 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe Bölümü', 'ekonomi-finans-ve-muhasebe-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (117, 43, 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk Bölümü', 'hukuk-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (118, 44, 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler Bölümü', 'kamu-yonetimi-ve-uluslararasi-iliskiler-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (119, 44, 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe Bölümü', 'ekonomi-finans-ve-muhasebe-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (120, 44, 'Менеджмент және туризм', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm Bölümü', 'yonetim-ve-turizm-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (121, 44, 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk Bölümü', 'hukuk-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (122, 45, 'Экономика, қаржы және есеп', 'Экономика, финансы и учет', 'Economics, Finance and Accounting', 'Ekonomi, Finans ve Muhasebe Bölümü', 'ekonomi-finans-ve-muhasebe-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (123, 45, 'Менеджмент және туризм ', 'Менеджмента и туризма', 'Management and Tourism', 'Yönetim ve Turizm Bölümü', 'yonetim-ve-turizm-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (124, 45, 'Мемлекеттік басқару және халықаралық қатынастар', 'Государственного управления и международных отношений', 'Public administration and international relations', 'Kamu yönetimi ve uluslararası ilişkiler Bölümü', 'kamu-yonetimi-ve-uluslararasi-iliskiler-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (125, 45, 'Құқықтану', 'Юриспруденции', 'Law', 'Hukuk Bölümü', 'hukuk-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (126, 46, 'деканат', NULL, 'Medicine', 'Tıp Bölümü', 'tip-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (127, 47, 'деканат', NULL, 'Medicine', 'Tıp Bölümü', 'tip-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (128, 48, 'деканат', NULL, 'Medicine', 'Tıp Bölümü', 'tip-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (129, 49, 'Стоматология', 'Стоматологический', 'Dentistry', 'Diş Hekimliği Bölümü', 'dis-hekimligi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (130, 56, 'Экология және химия', 'Экологии и химии', 'Ecology and Chemistry', 'Ekoloji ve Kimya Bölümü', 'ekoloji-ve-kimya-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (131, 56, 'Физика', 'Физики', 'Physicists', 'Fizik Bölümü', 'fizik-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (132, 56, 'Математика', 'Математики', 'Mathematicians', 'Matematik Bölümü', 'matematik-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (133, 57, 'Математика', 'Математики', 'Mathematicians', 'Matematikler Bölümü', 'matematikler-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (134, 57, 'Физика', 'Физики', 'Physicists', 'Fizikler Bölümü', 'fizikler-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (135, 60, 'Педагогика және психология', 'Педагогики и психологии', 'Pedagogy and psychology', 'Pedagoji ve psikoloji Bölümü', 'pedagoji-ve-psikoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (136, 60, 'Тарих', 'Истории', 'History', 'Tarih Bölümü', 'tarih-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (137, 61, 'Акушерлік  гинекология', 'Акушерская гинекология', 'Obstetric gynecology', 'Obstetrik Jinekoloji Bölümü', 'obstetrik-jinekoloji-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (138, 61, 'Арнайы  хирургиялық  пәндер', 'Специальные хирургические дисциплины', 'Special surgical disciplines', 'Özel cerrahi disiplinler Bölümü', 'ozel-cerrahi-disiplinler-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (139, 61, 'Жалпы  дәрігерлік  практика 1', 'Общей врачебной практики 1', 'General medical practice 1', 'Genel Tıbbi uygulamalar 1 Bölümü', 'genel-tibbi-uygulamalar-1-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (140, 61, 'Жалпы  дәрігерлік  практика 2', 'Общей врачебной практики 2', 'General medical practice 2', 'Genel Tıbbi uygulamalar 2 Bölümü', 'genel-tibbi-uygulamalar-2-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (141, 61, 'Жұқпалы  аурулар  және  фтизиатрия', 'Инфекционных заболеваний и фтизиатрии', 'Infectious diseases and phthisiology', 'Bulaşıcı hastalıklar ve Phthysiatrics Bölümü', 'bulasici-hastaliklar-ve-phthysiatrics-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (142, 61, 'Ішкі  аурулар', 'Внутренних болезней', 'Internal diseases', 'Dahiliye Bölümü', 'dahiliye-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (143, 61, 'Неврология, психиатрия, наркология', 'Неврологии, психиатрии, наркологии', 'Neurology, psychiatry, narcology', 'Nöroloji, psikiyatri, uyuşturucu bilimi Bölümü', 'noroloji-psikiyatri-uyusturucu-bilimi-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (144, 61, 'Педиатрия', 'Педиатрии', 'Pediatrics', 'Pediatri Bölümü', 'pediatri-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (145, 61, 'Профилактикалық медицина және стоматологиялық пәндер', 'Профилактической медицины и стоматологических дисциплин', 'Preventive medicine and dental disciplines', 'Önleyici tıp ve diş disiplinleri Bölümü', 'onleyici-tip-ve-dis-disiplinleri-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (146, 61, 'Хирургия  және анестезиология-реанимация', 'Хирургия и анестезиология-реанимация', 'Surgery and Anesthesiology-Intensive care', 'Cerrahi ve Anesteziyoloji-Resüsitasyon Bölümü', 'cerrahi-ve-anesteziyoloji-resusitasyon-bolumu', 1, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (147, 49, 'Стоматология', 'Стоматология', 'Dentistry', 'Diş Hekimliği', 'dis-hekimligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (148, 62, 'Педагогика и психология', 'Педагогика және психология', 'Рedagogy and psychology', 'Pedagoji ve Psikoloji', 'pedagoji-ve-psikoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (149, 63, 'Дошкольное обучение и воспитание', 'Мектепке дейінгі оқыту және тәрбиелеу', 'Pre-school education and upbringing', 'Okul Öncesi Eğitim ve Öğretim', 'okul-oncesi-egitim-ve-ogretim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (150, 63, 'Педагогика и методика начального обучения', 'Бастауышта оқыту педагогикасы мен әдістемесі', 'Pedagogy and methods of primary education ', 'İlköğretim Pedagojisi ve Metodolojisi', 'ilkogretim-pedagojisi-ve-metodolojisi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (151, 64, 'История', 'Тарих', 'History', 'Tarih Öğretmenliği', 'tarih-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (152, 64, 'История', 'Тарих', 'History', 'Tarih', 'tarih', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (153, 65, 'Журналистика', 'Журналистика', 'Journalism', 'Gazetecilik', 'gazetecilik', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (154, 65, 'Цифровая медиа и телерадиожурналистика', 'Сандық медия және телерадиожурналистика', 'Digital media and TV, radio journalism', 'Dijital medya ve televizyon ve radyo gazeteciliği', 'dijital-medya-ve-televizyon-ve-radyo-gazeteciligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (155, 66, 'Педагогика и психология', 'Педагогика және психология', 'Pedagogy and psychology', 'Pedagoji ve Psikoloji', 'pedagoji-ve-psikoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (156, 67, 'Педагогика дошкольного воспитания и обучения', 'Мектепке дейінгі тәрбиелеу және оқыту педагогикасы', 'Pedagogy of the pre-school education and upbringing', 'Okul Öğrenci Öğretmenliği', 'okul-ogrenci-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (157, 67, 'Педагогика и методика начального обучения', 'Бастауышта оқыту педагогикасы мен әдістемесі', 'Pedagogy and methods of primary education', 'Sınıf Öğretmenliği', 'sinif-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (158, 68, 'История', 'Тарих', 'History', 'Tarih', 'tarih', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (159, 69, 'Начальная военная подготовка', 'Бастапқы әскери дайындық', 'Basic Military Training', 'İlk Askeri Hazırlık', 'ilk-askeri-hazirlik', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (160, 69, 'Физическая культура и спорт', 'Денешынықтыру және спорт', 'Physical education and sports', 'Beden Eğitimi ve Spor', 'beden-egitimi-ve-spor', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (161, 69, 'Физическая культура и начальная военная подготовка', 'Дене шынықтыру және бастапқы әскери дайындық', 'Physical education and initial military training', 'Beden Eğitimi ve Spor', 'beden-egitimi-ve-spor', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (162, 70, 'Музыкальное образование', 'Музыкалық білім', 'Music Education', 'Müzik Eğitimi', 'muzik-egitimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (163, 70, 'Вокальное искусство', 'Вокалдық өнер', 'Vocal art', 'Vokal Sanatı', 'vokal-sanati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (164, 70, 'Искусство эстрады', 'Эстрада өнері', 'Pop art ', 'Pop Müzik Sanatı ', 'pop-muzik-sanati-', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (165, 70, 'Традиционное музыкальное искусство(Народное пение)', 'Дәстүрлі музыка өнері (Халық әні)', 'Traditional Music Art (Folk singing)', 'Geleneksel müzik sanatı', 'geleneksel-muzik-sanati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (166, 70, 'Актерское искусство', 'Актерлік өнер', 'Acting art', 'Oyunculuk Sanatı', 'oyunculuk-sanati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (167, 70, 'Хореография', 'Хореография', 'Choreography', 'Koreografi', 'koreografi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (168, 71, 'Изобразительное искусство и черчение', 'Бейнелеу өнері және сызу', 'Fine Art and Drawing', 'Güzel Sanatlar ve Çizim', 'guzel-sanatlar-ve-cizim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (169, 71, 'Профессиональное обучение', 'Кәсіптік оқыту', 'Professional Training', 'Meslekî Eğitim', 'meslek-egitim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (170, 71, 'Художественный труд и графическое проектирование ', 'Көркем еңбек және графикалық жобалау ', 'Artistic work and graphic design', 'Sanatsal Çalışma ve Grafik Çizim', 'sanatsal-calisma-ve-grafik-cizim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (171, 71, 'Декоративное искусство', 'Сән өнері', 'Decorative Art', 'Dekoratif Sanatı', 'dekoratif-sanati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (172, 71, 'Дизайн', 'Дизайн', 'Design', 'Tasarım', 'tasarim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (173, 71, 'Декоративно-прикладное искусство', 'Сәндік-қолданбалы өнері', 'Decorative and applied art', 'Dekoratif Sanatlar', 'dekoratif-sanatlar', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (174, 72, 'Физическая культура и спорт', 'Дене шынықтыру және спорт', 'Physical Culture and Sport', 'Fiziksel Kültür ve Spor', 'fiziksel-kultur-ve-spor', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (175, 73, 'Музыкальное образование', 'Музыкалық білім', 'Music Education', 'Müzik Eğitimi', 'muzik-egitimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (176, 74, 'Изобразительное искусство и черчение', 'Бейнелеу өнері және сызу', 'Fine Art and Drawing', 'Güzel Sanatlar ve Çizim', 'guzel-sanatlar-ve-cizim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (177, 75, 'Математика', 'Математика', 'Mathematics', 'Matematik Öğretmenliği', 'matematik-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (178, 75, 'Математика ', 'Математика', 'Mathematics', 'Matematik', 'matematik', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (179, 76, 'Физика', 'Физика', 'Physics', 'Fizik Öğretmenliği', 'fizik-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (180, 76, 'Физика ', 'Физика', 'Physics', 'Fizik', 'fizik', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (181, 77, 'Химия', 'Химия', 'Chemistry', 'Kimya Öğetmenliği', 'kimya-ogetmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (182, 77, 'Химия-Биология ', 'Химия-Биология ', 'Chemistry-Biology ', 'Kimya-Biyoloji Öğretmenliği', 'kimya-biyoloji-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (183, 77, 'География', 'География', 'Geography', 'Coğrafya Öğretmenliği', 'cografya-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (184, 77, 'Экология ', 'Экология', 'Ecology', 'Ekoloji', 'ekoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (185, 78, 'Биология', 'Биология', 'Biology', 'Biyoloji Öğretmenliği', 'biyoloji-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (186, 78, 'Биология', 'Биология', 'Biology', 'Biyoloji', 'biyoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (187, 78, 'Биотехнология ', 'Биотехнология ', 'Biotechnology ', 'Biyoteknoloji', 'biyoteknoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (188, 79, 'Физика', 'Физика', 'Physics', 'Fizik Öğretmenliği', 'fizik-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (189, 80, 'Математика', 'Математика', 'Mathematics', 'Matematik Öğretmenliği', 'matematik-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (190, 81, 'Химия', 'Химия', 'Chemistry', 'Kimya Öğetmenliği', 'kimya-ogetmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (191, 82, 'Биология', 'Биология', 'Biology', 'Biyoloji Öğretmenliği', 'biyoloji-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (192, 83, 'Информатика', 'Информатика', 'Computer Science ', 'Bilgi İşlem', 'bilgi-islem', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (193, 83, 'Информатика, ИКТ и робототехника ', 'Информатика, АКТ және робототехника ', 'Computer Science, ICT and robotic', 'Bilgi İşlem, Bilişim Teknolojileri ve Robototeknik ', 'bilgi-islem-bilisim-teknolojileri-ve-robototeknik-', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (194, 84, 'Информационные системы', 'Ақпараттық жүйелер', 'Information Systems', 'Bilişim Sistemleri', 'bilisim-sistemleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (195, 84, 'Вычислительная техника и программное обеспечение', 'Есептеу техникасы және бағдарламалық қамтамасыз ету', 'Computing and Software', 'Hesaplama Teknikleri ve Programlama', 'hesaplama-teknikleri-ve-programlama', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (196, 84, 'Компьютерная инженерия ', 'Компьютерлік инженерия  ', 'Computer Enginering', 'Bilgisayar Mühendisliği ', 'bilgisayar-muhendisligi-', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (197, 84, 'Обработка информации и визуализация данных ', 'Ақпаратты өңдеу және деректерді визуализациялау ', 'Information Processing and Data Visualization ', 'Bilgi İşlem ve Verilerin Görselleştirilmesi', 'bilgi-islem-ve-verilerin-gorsellestirilmesi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (198, 85, 'Электроэнергетика', 'Электр энергетика', 'Electrical power engineering', 'Elektrik Enerjisi', 'elektrik-enerjisi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (200, 85, 'Машиностроение', 'Машина жасау', 'Mechanical engineering', 'Makine Mühendisliği', 'makine-muhendisligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (201, 86, 'Информатика ', 'Информатика', 'Computer Science', 'Bilgi İşlem', 'bilgi-islem', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (202, 87, 'Информатика', 'Информатика', 'Computer Science', 'Bilgi İşlem', 'bilgi-islem', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (203, 87, 'Информационные системы', 'Ақпараттық жүйелер', 'Information Systems', 'Bilişim Sistemleri', 'bilisim-sistemleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (204, 87, 'Компьютерная инженерия ', 'Компьютерлік инженерия  ', 'Computer Enginering', 'Bilgisayar Mühendisliği ', 'bilgisayar-muhendisligi-', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (205, 88, 'Электроэнергетика', 'Электр энергетикасы', 'Electrical power engineering', 'Electricity', 'electricity', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (206, 88, 'Автоматизация и управление', 'Автоматтандыру және басқару', 'Automation and Management', 'Automation and Management', 'automation-and-management', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (207, 89, 'Информатика', 'Информатика', 'Computer Science', 'Bilgi İşlem', 'bilgi-islem', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (208, 90, 'Информационные системы', 'Ақпараттық жүйелер ', 'Information Systems', 'Bilişim Sistemleri', 'bilisim-sistemleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (209, 92, 'Казахский язык и литература', 'Қазақ тілі мен әдебиеті', 'Kazakh language and literature', 'Kazak Dili ve Edebiyatı', 'kazak-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (210, 92, 'Филология: казахская филология', 'Филология: қазақ филологиясы', 'Philology: Kazakh Philology', 'Kazak Dili ve Edebiyatı', 'kazak-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (211, 93, 'Русский язык и литература', 'Орыс тілі мен әдебиеті', 'Russian language and literature ', 'Rus Dili ve Edebiyatı', 'rus-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (212, 93, 'Русский язык и литература с нерусским языком обучения ', 'Орыс тілінде оқытпайтын мектептердегі орыс тілі мен әдебиеті  ', 'Russian Language and Literature in International  Schools ', 'Rusçada Eğitim Vermeyen Okullarda Rus Dili ve Edebiyatı', 'ruscada-egitim-vermeyen-okullarda-rus-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (213, 94, 'Иностранный язык: два иностранных языка (английский-китайский)', 'Шетел тілі: екі шетел тілі (ағылшын-қытай)', 'Foreign language: two foreign languages (English - Chinese )', 'İngilizce Çince Öğretmenliği', 'ingilizce-cince-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (214, 94, 'Иностранный язык: два иностранных языка (английский-турецский)', 'Шетел тілі: екі шетел тілі (ағылшын-түрік)', 'Foreign Language: Two Foreign Languages(English -Turkish )', 'İngilizce Türkçe Öğretmenliği', 'ingilizce-turkce-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (215, 95, 'Тюркология ', 'Түркітану ', 'Turkology', 'Türkoloji', 'turkoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (216, 95, 'Иностранная филология (турецский язык)', 'Шетел филологиясы  (түрік тілі)', 'Foreign Philology:(тurkish language)', 'Türk Dili Ve Edebiyatı', 'turk-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (217, 96, 'Иностранная филология (английский язык)', 'Шетел филологиясы (ағылшын тілі)', 'Foreign Philology:  (english language)', 'İngiliz Dili ve Edebiyatı', 'ingiliz-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (219, 98, 'Иностранный язык: два иностранных языка', 'Шетел тілі: екі шетел тілі', 'Foreign Language: Two Foreign Languages', 'Yabancı Dil: İki Yabancı Dil ', 'yabanci-dil-iki-yabanci-dil-', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (220, 99, 'Казахский язык и литература', 'Қазақ тілі мен әдебиеті', 'Kazakh Language and Literature ', 'Kazak Dili ve Edebiyatı Öğretmenliği', 'kazak-dili-ve-edebiyati-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (221, 99, 'Филология', 'Филология', 'Philology', 'Dil Bilimi', 'dil-bilimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (222, 100, 'Русский язык и литература ', 'Орыс тілі мен әдебиеті', 'Russian language and literature', 'Rus Dili ve Edebiyatı Öğretmenliği', 'rus-dili-ve-edebiyati-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (223, 101, 'Тюркология', 'Түркітану', 'Turkology', 'Türkoloji', 'turkoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (224, 101, 'Иностранная филология (турецкий язык)', 'Шетел филологиясы: Түрік тілі', 'Foreign Philology (Turkish)', 'Türk Dili ve Edebiyatı', 'turk-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (225, 102, 'Иностранная филология (английский язык)', 'Шетел филологиясы:  Ағылшын тілі', 'Foreign Philology(English)', 'İngiliz Dili ve Edebiyatı', 'ingiliz-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (226, 105, 'Казахский язык и литература', 'Қазақ тілі мен әдебиеті', 'Kazakh language and literature ', 'Kazak Dili ve Edebiyatı', 'kazak-dili-ve-edebiyati', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (227, 106, 'Иностранный язык: два иностранных языка', 'Шетел тілі: екі шетел тілі ', 'Foreign Language: Two Foreign Languages', 'Yabancı Dil: İki Yabancı Dil Öğretmenliği', 'yabanci-dil-iki-yabanci-dil-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (228, 110, 'Философия -Религиоведение ', 'Философия-Дінтану', 'Philosophy-Religious Studies', 'Din Felsefesi', 'din-felsefesi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (229, 110, 'Религиоведение', 'Дінтану', 'Religious Studies', 'Din Bilimleri', 'din-bilimleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (230, 110, 'Религиоведение', 'Дінтану', 'Religious Studies', 'Din Bilimleri', 'din-bilimleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (231, 110, 'Психология-Религиоведение', 'Психология-Дінтану', 'Psychology-Religious Studies', 'Din Psikolojisi', 'din-psikolojisi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (232, 111, 'Теология', 'Теология', 'Theology', 'İlahiyat', 'ilahiyat', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (233, 111, 'Исламоведение', 'Исламтану', 'Islamic Studies', 'İslam Bilimleri', 'islam-bilimleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (234, 112, 'Религиоведение', 'Дінтану', 'Religious Studies', 'Din Bilimleri', 'din-bilimleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (235, 113, 'Теология', 'Теология', 'Theology', 'İlahiyat', 'ilahiyat', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (236, 114, 'Международные отношения', 'Халықаралық қатынастар', 'International Relations', 'Uluslararası İlişkiler', 'uluslararasi-iliskiler', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (237, 114, 'Государственное и местное управление', 'Мемлекеттік және жергілікті басқару', 'Public and Local administration', 'Kamu ve Yerel Yönetimi', 'kamu-ve-yerel-yonetimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (238, 115, 'Менеджмент', 'Менеджмент ', 'Management', 'İşletme', 'isletme', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (239, 115, 'Туризм', 'Туризм', 'Tourism', 'Turizm', 'turizm', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (241, 116, 'Учет и аудит', 'Есеп және аудит', 'Accounting and Audit', 'Muhasebe ve Denetim', 'muhasebe-ve-denetim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (242, 116, 'Финансы', 'Қаржы', 'Finance', 'Finans', 'finans', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (243, 116, 'Экономика', 'Экономика', 'Economics', 'Ekonomi ', 'ekonomi-', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (244, 117, 'Юриспруденция', 'Құқықтану', 'Jurisprudence', 'Hukuk', 'hukuk', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (245, 117, 'Правоохранительная деятельность', 'Құқыққорғау қызметі', 'Law enforcement ', 'Hukuk Hizmetleri', 'hukuk-hizmetleri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (246, 117, 'Международное право', 'Халықаралық құқық', 'International Law', 'Uluslararası Hukuk', 'uluslararasi-hukuk', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (247, 118, 'Политология', 'Саясаттану', 'Political Science ', 'Siyaset Bilimi', 'siyaset-bilimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (248, 118, 'Международные отношения', 'Халықаралық қатынастар', 'International Relations', 'Uluslararası İlişkiler', 'uluslararasi-iliskiler', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (249, 118, 'Государственное и местное управление', 'Мемлекеттік және жергілікті басқару', 'State and local government ', 'Kamu Yönetimi', 'kamu-yonetimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (250, 118, 'Управление человеческими ресурсами  ', 'Адам ресурстарын басқару', 'Human resource management', 'Insan kaynakları yönetimi', 'insan-kaynaklari-yonetimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (251, 119, 'Экономика', 'Экономика', 'Economics', 'Ekonomi', 'ekonomi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (252, 119, 'Учет и аудит', 'Есеп және аудит', 'Accounting and Audit', 'Muhasebe ve Denetim', 'muhasebe-ve-denetim', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (253, 119, 'Финансы ', 'Қаржы ', 'Finance', 'Finans', 'finans', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (254, 120, 'Менеджмент', 'Менеджмент', 'Management', 'İşletme', 'isletme', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (255, 120, 'Менеджмент в сфере здравоохранения 1', 'Денсаулық сақтау саласындағы менеджмент 1ж', '7M04160 Health Management 1', 'Sağlık İşletmeciliği', 'saglik-isletmeciligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (256, 120, 'Менеджмент в сфере образования 1', 'Білім беру саласындағы менеджмент 1ж', '7M04150 Education Management 1', 'Eğitim Yönetimi', 'egitim-yonetimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (257, 121, 'Право', 'Құқық', 'Law', 'Hukuk', 'hukuk', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (258, 122, 'Экономика', 'Экономика', 'Economics', 'Ekonomi', 'ekonomi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (259, 122, 'Финансы', 'Қаржы', 'Finance', 'Finans', 'finans', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (260, 123, 'Менеджмент', 'Менеджмент', 'Management', 'İşletme', 'isletme', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (261, 124, 'Государственное и местное управление', 'Мемлекеттік және жергілікті басқару ', 'State and local government ', 'Kamu ve Yerel Yönetimi', 'kamu-ve-yerel-yonetimi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (262, 125, 'Право', 'Құқық', 'Law', 'Hukuk', 'hukuk', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (263, 130, 'Экология', 'Экология', 'Ecology', 'Ekoloji', 'ekoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (264, 130, 'Химия', 'Химия', 'Chemistry', 'Kimya', 'kimya', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (265, 131, 'Физика', 'Физика', 'Physics', 'Fizik', 'fizik', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (266, 132, 'Математика', 'Математика', 'Mathematics', 'Matematik', 'matematik', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (267, 132, 'Математическое и компьютерное моделирование', 'Математикалық және компьютерлік модельдеу', 'Mathematical and Computer Modeling', 'Matematiksel ve Bilgisayarda Modelleme', 'matematiksel-ve-bilgisayarda-modelleme', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (268, 133, 'Математика', 'Математика', 'Mathematics', 'Matematik Öğretmenliği', 'matematik-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (269, 133, 'Математическое и компьютерное моделирование', 'Математикалық және компьютерлік модельдеу', 'Mathematical and computer modeling', 'Matematiksel ve Bilgisayarda Modelleme', 'matematiksel-ve-bilgisayarda-modelleme', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (270, 134, 'Физика', 'Физика', 'Physics', 'Fizik Öğretmenliği', 'fizik-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (271, 135, 'Педагогика и психология', 'Педагогика және психология', 'Рedagogy and Psychology', 'Pedagoji ve Psikoloji', 'pedagoji-ve-psikoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (272, 136, 'История', 'Тарих', 'History', 'Tarih Öğretmenliği', 'tarih-ogretmenligi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (273, 143, 'Неврология взрослая, детская', 'Ересектердің, балалардың неврологиясы', 'Neurology adults, children ', 'Pediatrik Nöroloji , Çocuk Nörolojisi', 'pediatrik-noroloji-cocuk-norolojisi', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (274, 143, 'Физическая медицина и реабилитация взрослая, детская', 'Ересектердің, балалардың физикалық медицина және реабилитациясы', 'Physical medicine and rehabilitation adults, children', 'Yetişkinlerde ve çocuklarda fiziksel tıp ve rehabilitasyon', 'yetiskinlerde-ve-cocuklarda-fiziksel-tip-ve-rehabilitasyon', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (275, 143, 'Психиатрия взрослая, детская', 'Ересектер мен балалар психиатриясы', 'Psychiatry  adults, children ', 'Psikiyatri', 'psikiyatri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (276, 144, 'Педиатрия', 'Педиатрия', 'Pediatrics', 'Pediatri', 'pediatri', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (277, 144, 'Неонатология', 'Неонатология', 'Neonatology', 'Neonatoloji', 'neonatoloji', NULL, NULL);
+INSERT INTO `tb_birim_agaci` VALUES (278, 145, 'Терапевтическая стоматология', 'Терапиялық стоматология', 'Therapeutic dentistry', 'Terapötik diş hekimliği', 'terapotik-dis-hekimligi', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_birim_agaci_copy1
@@ -396,7 +909,7 @@ CREATE TABLE `tb_birim_sayfa_icerikleri`  (
 -- ----------------------------
 -- Records of tb_birim_sayfa_icerikleri
 -- ----------------------------
-INSERT INTO `tb_birim_sayfa_icerikleri` VALUES (1, 9, 8, 'Hakkımızda', '<p><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', 'sdfsdf', 'About Us', 'sdfsdf', 'fewrwerdfgdfg', '<p>About Us</p>', 'werwertert4356456', NULL);
+INSERT INTO `tb_birim_sayfa_icerikleri` VALUES (1, 9, 8, 'Hakkımızda', '<figure class=\"image\"><img src=\"/hr/ckeditor_files/files/muhendislik.jpg\" alt=\"\"></figure><p><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', 'sdfsdf', 'About Us', 'sdfsdf', 'fewrwerdfgdfg', '<p>About Us</p>', 'werwertert4356456', NULL);
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfalari
@@ -417,7 +930,7 @@ CREATE TABLE `tb_birim_sayfalari`  (
   `adi_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `adi_ru` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_sayfalari
@@ -436,7 +949,7 @@ INSERT INTO `tb_birim_sayfalari` VALUES (22, 11, 21, 'Fakülte Yönetimi', 'faku
 INSERT INTO `tb_birim_sayfalari` VALUES (23, 11, 21, 'Fakülte Kurulları', 'fakulte-kurullari', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (24, 11, 21, 'Organizasyon Şeması', 'organizasyon-semasi', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (25, 11, 21, 'Öğrenci Temsilcileri', 'ogrenci-temsilcileri', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (26, 11, 0, 'Bölümler', 'bolumler', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (26, 11, 0, 'Bölümler', 'bolumler', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (27, 11, 0, 'Öğrenci', 'ogrenci', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (28, 11, 27, 'Eğitim ve Öğretim', 'egitim-ve-ogretim', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (29, 11, 27, 'Önemli Bilgiler', 'onemli-bilgiler', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -446,6 +959,7 @@ INSERT INTO `tb_birim_sayfalari` VALUES (32, 11, 27, 'Staj', 'staj', 0, NULL, NU
 INSERT INTO `tb_birim_sayfalari` VALUES (33, 11, 27, 'Öğrenci İşleri Daire Başkanlığı', 'ogrenci-isleri-daire-baskanligi', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (34, 11, 27, 'Aday Öğrenci', 'aday-ogrenci', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_birim_sayfalari` VALUES (35, 11, 0, 'İletişim', 'iletisim', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (39, 11, 0, NULL, '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfalari_2
@@ -538,7 +1052,7 @@ CREATE TABLE `tb_ceviriler`  (
   `adi_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `adi_ru` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 249 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_ceviriler
@@ -566,14 +1080,141 @@ INSERT INTO `tb_ceviriler` VALUES (20, 1, 'Paylaş', '', '', '');
 INSERT INTO `tb_ceviriler` VALUES (21, 1, 'Anasayfa', '', '', '');
 INSERT INTO `tb_ceviriler` VALUES (22, 1, 'Etkinlikler', '', '', '');
 INSERT INTO `tb_ceviriler` VALUES (23, 1, 'Yer', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (27, 2, 'Anasayfa', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (28, 2, 'Menüde Ara', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (29, 2, 'MENÜ', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (30, 2, 'AYU İnsan Kaynakları', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (31, 2, 'Ekle', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (32, 2, 'Düzenle', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (33, 2, 'Kaydet', '', '', '');
-INSERT INTO `tb_ceviriler` VALUES (34, 2, 'Güncelle', '', '', '');
+INSERT INTO `tb_ceviriler` VALUES (114, 2, 'AYU İnsan Kaynakları', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (115, 2, 'MENÜ', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (116, 2, 'Anasayfa', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (117, 2, 'Panel Çevirileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (118, 2, 'Web Çevirileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (119, 2, 'Birim Ağacı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (120, 2, 'Birim Sayfaları', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (121, 2, 'Duyurular', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (122, 2, 'Manşetler', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (123, 2, 'Etkinlikler', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (124, 2, 'Genel Ayarlar', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (125, 2, 'Personeller', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (126, 2, 'Öğrenim Bilgileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (127, 2, 'Sabit Tanımlar', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (128, 2, 'Görev Kategorileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (129, 2, 'Sistem Kullanıcıları', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (130, 2, 'Sistem İşlemleri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (131, 2, 'Yetkiler', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (132, 2, 'Modul Yetkileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (133, 2, 'Birimler', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (134, 2, 'Birim Ekle / Düzenle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (135, 2, 'Dil', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (136, 2, 'Üst Birim', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (137, 2, 'Birim Adı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (138, 2, 'Alt birimleri olacak.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (139, 2, 'asdasdasdasd', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (140, 2, 'Sadece gruplama için kullanılacak.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (141, 2, 'Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (142, 2, 'Dikkat!', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (143, 2, 'Bu Kaydı silmeniz durumunda kategori Altında bulunan diğer kategoriler silinecektir.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (144, 2, 'Bu kaydı Silmek istediğinize emin misiniz?', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (145, 2, 'İptal', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (146, 2, 'Evet', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (147, 2, 'Yeni Birim Ekle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (148, 2, 'Bu birimin alt birimleri olacaksa işaretlenmelidir.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (149, 2, 'Kaydet', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (150, 2, 'Birim Düzenle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (151, 2, 'Güncelle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (152, 2, 'Hayır', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (153, 2, 'Duyuru Ekle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (154, 2, 'Lütfen Birim Seçiniz', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (155, 2, 'Lütfen Dikkat', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (156, 2, 'Manşet Ekle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (157, 2, 'Başlık', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (158, 2, 'Düzenle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (159, 2, 'Sil', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (160, 2, 'Foto', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (161, 2, 'Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (162, 2, 'Tarih', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (163, 2, 'İçerik', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (164, 2, 'Etkinlik Ekle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (165, 2, 'Genel Ayarlar Düzenle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (166, 2, 'Logo', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (167, 2, 'Footer Logo', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (168, 2, 'Footer Sağ Alt Logo', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (169, 2, 'Footer Sağ Alt Logo Link', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (170, 2, 'Map', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (171, 2, 'Adres', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (172, 2, 'Tel', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (173, 2, 'Email', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (174, 2, 'Facebook', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (175, 2, 'Twitter', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (176, 2, 'Instagram', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (177, 2, 'Linkedin', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (178, 2, 'Youtube', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (179, 2, 'Slogan', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (180, 2, 'Anasayfa Başlık', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (181, 2, 'Anasayfa İçerik', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (182, 2, 'Öğrenci Sayısı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (183, 2, 'Bölüm Sayısı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (184, 2, 'Eğitmen Sayısı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (185, 2, 'Yayın Sayısı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (186, 2, 'Buton 1', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (187, 2, 'Buton 1 Url', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (188, 2, 'Buton 2', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (189, 2, 'Buton 2 Url', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (190, 2, 'Yeni Sayfa Ekle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (191, 2, 'Üst Sayfa', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (192, 2, 'Adı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (193, 2, 'Kategori Mi?', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (194, 2, 'Sayfa Düzenle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (195, 2, 'Sayfalar', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (196, 2, 'Sayfa Ayarları', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (197, 2, 'Aktif', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (198, 2, 'İşaretlenmezse Sayfa Yayınlanmaz', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (199, 2, 'Harici Sayfa', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (200, 2, 'Menüde görünmeyecek sayfalar için işaretlenmelidir.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (201, 2, 'Link', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (202, 2, 'Bu alana Link eklenirse menü bu linke yönlendirilecektir.', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (203, 2, 'Sayfa İçeriği', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (204, 2, 'In No', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (205, 2, 'Adı Soyadı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (206, 2, 'Profil', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (207, 2, 'Personel Ekle', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (208, 2, 'Fotoğraf değiştirmek için fotoğrafa tıklayınız', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (209, 2, 'Birim', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (210, 2, 'Personel Niteliği', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (211, 2, 'Seçiniz', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (212, 2, 'Personel Türü', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (213, 2, 'Kişisel Bilgiler', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (214, 2, 'Uyruk', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (215, 2, 'In Numarası', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (216, 2, 'Vatandaşlık No', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (217, 2, 'Pasaport No', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (218, 2, 'Ünvan', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (219, 2, 'Soyadı', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (220, 2, 'Cinsiyet', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (221, 2, 'Kadın', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (222, 2, 'Erkek', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (223, 2, 'Doğum Tarihi', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (224, 2, 'Medeni Durumu', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (225, 2, 'Bekar', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (226, 2, 'Evli', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (227, 2, 'Kan Grubu', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (228, 2, 'Araç Plaka', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (229, 2, 'Engel Bilgileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (230, 2, 'Engel Durumu', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (231, 2, 'Yok', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (232, 2, 'Var', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (233, 2, 'Engel Türü', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (234, 2, 'Eğitim Bilgileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (235, 2, 'Eğitim Düzeyi', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (236, 2, 'İletişim Bilgileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (237, 2, 'GSM 1', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (238, 2, 'GSM 2', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (239, 2, 'İş Telefonu', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (240, 2, 'Ev Adresi', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (241, 2, 'İş Adresi', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (242, 2, 'Sözleşme Bilgileri', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (243, 2, 'İşe Başlama Tarihi', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (244, 2, 'Sözleşme Başlama Tarihi', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (245, 2, 'Sözleşme Bitiş Tarihi', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (246, 2, 'Şifre Değiştir', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (247, 2, 'Şifre', NULL, NULL, NULL);
+INSERT INTO `tb_ceviriler` VALUES (248, 1, 'Fakülte Yönetimi', '', '', '');
 
 -- ----------------------------
 -- Table structure for tb_ders_kategorileri
@@ -1052,11 +1693,11 @@ CREATE TABLE `tb_etkinlikler`  (
 -- ----------------------------
 -- Records of tb_etkinlikler
 -- ----------------------------
-INSERT INTO `tb_etkinlikler` VALUES (12, 9, '2015-04-17 00:00:00', 'Deneme deneme deneme', '', '6503fc3906c4c030e65da2b1c944090548d36b244b28d.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tb_etkinlikler` VALUES (13, 9, '2023-09-04 00:00:00', 'Ahmet Yesevi Üniversitesi Mütevelli Heyet Başkanı Prof. Dr. Muhittin Şimşek, T.C. Lefkoşa Büyükelçisi Prof. Dr. Metin Feyzioğlu’nu Ziyaret Etti', '<p>Deneme</p>', '64fe9d638abfdc0f971d8cd24364f2029fcb9ac7b71f5.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tb_etkinlikler` VALUES (14, 9, '2023-09-27 00:00:00', 'Ahmet Yesevi Üniversitesi\'nde 30 Ağustos Zafer Bayramı ve Kazakistan Cumhuriyeti Anayasa Günü Coşkuyla Kutlandı', '<p>sdafsf</p>', '64fe9d825e953227f6afd3b7f89b96c4bb91f95d50f6d.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tb_etkinlikler` VALUES (15, 9, '2022-10-12 00:00:00', 'Ahmet Yesevi Üniversitesi Mütevelli Heyet Başkanı Prof. Dr. Muhittin Şimşek, Üniversitemiz Senato Toplantısına Katıldı', '<p>asdfsdf</p>', '64fe9da504fa3f3b7e5d3eb074cde5b76e26bc0fb5776.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tb_etkinlikler` VALUES (28, 9, '2023-09-11 00:00:00', 'Ahmet Yesevi Üniversitesi Mütevell, Heyet Başkanı Prof. Dr. Muhittin Şimşek, Hizmet İçi Eğitim Almak Üzere Ankara’ya Gelen Personellerle Bir Araya Geldi', '<p>sadasd</p>', '64fe9dc0d4cd9d0010a6f34908640a4a6da2389772a78.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tb_etkinlikler` VALUES (12, 11, '2015-04-17 00:00:00', 'Deneme deneme deneme', '', '6503fc3906c4c030e65da2b1c944090548d36b244b28d.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tb_etkinlikler` VALUES (13, 11, '2023-09-04 00:00:00', 'Ahmet Yesevi Üniversitesi Mütevelli Heyet Başkanı Prof. Dr. Muhittin Şimşek, T.C. Lefkoşa Büyükelçisi Prof. Dr. Metin Feyzioğlu’nu Ziyaret Etti', '<p>Deneme</p>', '64fe9d638abfdc0f971d8cd24364f2029fcb9ac7b71f5.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tb_etkinlikler` VALUES (14, 11, '2023-09-27 00:00:00', 'Ahmet Yesevi Üniversitesi\'nde 30 Ağustos Zafer Bayramı ve Kazakistan Cumhuriyeti Anayasa Günü Coşkuyla Kutlandı', '<p>sdafsf</p>', '64fe9d825e953227f6afd3b7f89b96c4bb91f95d50f6d.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tb_etkinlikler` VALUES (15, 11, '2022-10-12 00:00:00', 'Ahmet Yesevi Üniversitesi Mütevelli Heyet Başkanı Prof. Dr. Muhittin Şimşek, Üniversitemiz Senato Toplantısına Katıldı', '<p>asdfsdf</p>', '64fe9da504fa3f3b7e5d3eb074cde5b76e26bc0fb5776.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tb_etkinlikler` VALUES (28, 11, '2023-09-11 00:00:00', 'Ahmet Yesevi Üniversitesi Mütevell, Heyet Başkanı Prof. Dr. Muhittin Şimşek, Hizmet İçi Eğitim Almak Üzere Ankara’ya Gelen Personellerle Bir Araya Geldi', '<p>sadasd</p>', '64fe9dc0d4cd9d0010a6f34908640a4a6da2389772a78.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- ----------------------------
 -- Table structure for tb_fakulteler
@@ -2118,7 +2759,7 @@ CREATE TABLE `tb_personeller`  (
 -- ----------------------------
 -- Records of tb_personeller
 -- ----------------------------
-INSERT INTO `tb_personeller` VALUES (3, '45982964018', '456982964018', '456412222', 37, 'Serbest', 'Ziyanak', 223, 2, '2030-11-01 00:00:00', 1, 1, 'yok', NULL, 1, 5, 4, '2030-11-01 00:00:00', '2030-11-01 00:00:00', '2030-11-01 00:00:00', 'serbest.ziyanak@gmail.com', '5444961144', '5444961144', 'Mağjan 4', 'Ayu kampüs', '5444961144', 'personel_3_64eddb6da478c.jpg', '21HB001', 2, 'personel', NULL, 1, 'Kazakça Serbest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_personeller` VALUES (3, '45982964018', '456982964018', '456412222', 192, 'Serbest', 'Ziyanak', 223, 2, '0000-00-00 00:00:00', 1, 1, 'yok', NULL, 1, 5, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'serbest.ziyanak@gmail.com', '5444961144', '5444961144', 'Mağjan 4', 'Ayu kampüs', '5444961144', 'personel_3_64eddb6da478c.jpg', '21HB001', 2, 'personel', NULL, 1, 'Kazakça Serbest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_programlar
@@ -2446,14 +3087,13 @@ CREATE TABLE `tb_sistem_kullanici`  (
   `universiteler` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT '',
   `kullanici_turu` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT 'admin',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_sistem_kullanici
 -- ----------------------------
-INSERT INTO `tb_sistem_kullanici` VALUES (19, 'Serbest', 'ZİYANAK', 'serbest.ziyanak@gmail.com', '0(544) 496-1144', 'bc000ebca4a5687a014d9c9f94da86e8', 14, 1, '19.jpg', '45982964018', '1989-01-20 00:00:00', '1', 'admin');
-INSERT INTO `tb_sistem_kullanici` VALUES (31, 'Admin', 'PROFİLİ', 'muh_dekanlik@gmail.com', '0(536) 637-3523', '4297f44b13955235245b2497399d7a93', 20, 1, '31.jpg', '13337993570', '1997-02-02 00:00:00', '1', 'admin');
-INSERT INTO `tb_sistem_kullanici` VALUES (34, 'Dekanlık', 'DEKANLIK', 'dekanlik@gmail.com', '0(555) 555-5555', '62e7536230c127d8c4b90bf264e3520a', 20, 1, 'resim_yok.jpg', '1111', '1990-01-01 00:00:00', '1', 'admin');
+INSERT INTO `tb_sistem_kullanici` VALUES (19, 'Serbest', 'ZİYANAK', 'serbest.ziyanak@gmail.com', '0(544) 496-1144', 'bc000ebca4a5687a014d9c9f94da86e8', 1, 1, '19.jpg', '45982964018', '1989-01-20 00:00:00', '1', 'admin');
+INSERT INTO `tb_sistem_kullanici` VALUES (35, 'H. Eray', 'ÇELİK', 'heraycelik@gmail.com', '0(544) 496-1144', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, 'resim_yok.jpg', '11111111111', '1970-01-01 00:00:00', '1', 'admin');
 
 -- ----------------------------
 -- Table structure for tb_sistem_kullanici_yetkili_birimler
@@ -2490,10 +3130,10 @@ CREATE TABLE `tb_slaytlar`  (
 -- ----------------------------
 -- Records of tb_slaytlar
 -- ----------------------------
-INSERT INTO `tb_slaytlar` VALUES (4, 9, '64fdfdd731776slide-1.jpg', NULL);
-INSERT INTO `tb_slaytlar` VALUES (5, 9, '64fdfdde3dabaslide-2.jpg', NULL);
-INSERT INTO `tb_slaytlar` VALUES (6, 9, '64fdfded4d896slide-3.jpg', NULL);
-INSERT INTO `tb_slaytlar` VALUES (9, 9, '64fe23351c51cslide-1.jpg', NULL);
+INSERT INTO `tb_slaytlar` VALUES (4, 11, '64fdfdd731776slide-1.jpg', NULL);
+INSERT INTO `tb_slaytlar` VALUES (5, 11, '64fdfdde3dabaslide-2.jpg', NULL);
+INSERT INTO `tb_slaytlar` VALUES (6, 11, '64fdfded4d896slide-3.jpg', NULL);
+INSERT INTO `tb_slaytlar` VALUES (9, 11, '64fe23351c51cslide-1.jpg', NULL);
 
 -- ----------------------------
 -- Table structure for tb_soru_bankasi

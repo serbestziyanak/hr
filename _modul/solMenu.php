@@ -12,7 +12,33 @@ $SQL_alt_modul = <<<SQL
 SELECT * FROM tb_modul WHERE ust_id = ? AND menude_goster = 1 ORDER BY sira
 SQL;
 
+$SQL_ceviriler = <<< SQL
+SELECT
+  *
+FROM 
+  tb_ceviriler
+WHERE
+  turu = 2 
+SQL;
+
 $moduller = $vt->select( $SQL_modul );
+
+@$ceviriler = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
+
+foreach( $ceviriler as $ceviri ){
+    $dizi_dil[$ceviri['adi']]['_tr'] = $ceviri['adi']; 
+    $dizi_dil[$ceviri['adi']]['_kz'] = $ceviri['adi_kz']; 
+    $dizi_dil[$ceviri['adi']]['_en'] = $ceviri['adi_en']; 
+    $dizi_dil[$ceviri['adi']]['_ru'] = $ceviri['adi_ru']; 
+}
+
+function dil_cevir( $metin, $dizi, $dil ){
+	if( array_key_exists( $metin, $dizi ) and $dizi[$metin][$dil] != "" )
+		return $dizi[$metin][$dil];
+	else
+		return $metin;
+
+}
 
 ?>
 <!-- Main Sidebar Container -->
@@ -21,7 +47,7 @@ $moduller = $vt->select( $SQL_modul );
 	<a href="index.php" class="brand-link">
 	<img src="img/ayu_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
 	<!--span class="brand-text font-weight-light">EYPS - Van YYÜ</span-->
-	<span class="brand-text">AYU İnsan Kaynakları</span>
+	<span class="brand-text"><?php echo dil_cevir( "AYU İnsan Kaynakları", $dizi_dil, $sistem_dil ); ?></span>
 	</a>
 	<!--
 	<a href="index.php" class="brand-link" >
@@ -61,7 +87,7 @@ $moduller = $vt->select( $SQL_modul );
 		<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-flat text-sm" data-widget="treeview" role="menu" data-accordion="false">
 		<!-- Add icons to the links using the .nav-icon class
 			   with font-awesome or any other icon font library -->
-			<li class="nav-header">MENÜ</li>
+			<li class="nav-header"><?php echo dil_cevir( "MENÜ", $dizi_dil, $sistem_dil ); ?></li>
 			
 			<?php foreach( $moduller[ 2 ] AS $modul ) { ?>
 				<?php if( $modul[ 'kategori' ] * 1 > 0 ) {
@@ -81,7 +107,7 @@ $moduller = $vt->select( $SQL_modul );
 								<a href="#" class="nav-link <?php if( in_array( $_REQUEST[ 'modul' ], $mdl ) ) echo "active"; ?>">
 									<i class="nav-icon <?php echo $modul[ 'simge' ]?> <?php if( in_array( $_REQUEST[ 'modul' ], $mdl ) ) echo "text-white"; ?>"></i>
 									<p>
-										<?php echo $modul[ 'adi' ]; ?>
+										<?php echo dil_cevir( $modul[ 'adi' ], $dizi_dil, $sistem_dil ); ?>
 										<i class="right fas fa-angle-left"></i>
 									</p>
 								</a>
@@ -103,7 +129,7 @@ $moduller = $vt->select( $SQL_modul );
 											?>
 											<a class="nav-link <?php if( $url_modul == $altModul[ 'modul' ] ) echo "active"; ?>" modul='<?php echo $altModul[ 'modul' ];?>' yetki_islem='goruntule' href="<?php echo $__url; ?>" <?php echo $yeni_sekme; ?>>
 												<i class="nav-icon <?php echo $altModul[ 'simge' ]?>"></i> 
-												<p><?php echo $altModul[ 'adi' ]?></p>
+												<p><?php echo dil_cevir( $altModul[ 'adi' ], $dizi_dil, $sistem_dil ); ?></p>
 											</a>
 										</li>
 									<?php } ?>
@@ -118,7 +144,7 @@ $moduller = $vt->select( $SQL_modul );
 					<a href="?modul=<?php echo $modul[ 'modul' ]?>" class="nav-link <?php if( $url_modul == $modul[ 'modul' ] ) echo "active"; ?>">
 						<i class="nav-icon <?php echo $modul[ 'simge' ]?> <?php if( $url_modul == $modul[ 'modul' ] ) echo "text-white"; ?>"></i> 
 						<p>
-							<?php echo $modul[ 'adi' ]?>
+							<?php echo dil_cevir( $modul[ 'adi' ], $dizi_dil, $sistem_dil ); ?>
 						</p>
 					</a>
 				</li>

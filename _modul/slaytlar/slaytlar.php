@@ -62,14 +62,14 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Lütfen Dikkat</h4>
+				<h4 class="modal-title"><?php echo dil_cevir( "Lütfen Dikkat", $dizi_dil, $sistem_dil ); ?></h4>
 			</div>
 			<div class="modal-body">
-				<p>Bu kaydı silmek istediğinize emin misiniz?</p>
+				<p><?php echo dil_cevir( "Bu kaydı silmek istediğinize emin misiniz?", $dizi_dil, $sistem_dil ); ?></p>
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Hayır</button>
-				<a class="btn btn-danger btn-evet">Evet</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo dil_cevir( "Hayır", $dizi_dil, $sistem_dil ); ?></button>
+				<a class="btn btn-danger btn-evet"><?php echo dil_cevir( "Evet", $dizi_dil, $sistem_dil ); ?></a>
 			</div>
 		</div>
 	</div>
@@ -91,7 +91,7 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 			<div class="col-md-6 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Birimler</h3>
+						<h3 class="card-title"><?php echo dil_cevir( "Birimler", $dizi_dil, $sistem_dil ); ?></h3>
 					</div>
 					<div class="card-body p-0">
 						<div class="overflow-auto" style="height:600px;">
@@ -180,7 +180,7 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 			<div class="col-md-6">
 				<div class="card card-secondary" id = "card_slaytlar">
 					<div class="card-header">
-						<h3 class="card-title">Manşetler</h3>
+						<h3 class="card-title"><?php echo dil_cevir( "Manşetler", $dizi_dil, $sistem_dil ); ?></h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
 							<a id = "yeni_slayt" data-toggle = "tooltip" title = "Yeni slayt Ekle" href = "?modul=slaytlar&islem=ekle&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
@@ -191,8 +191,8 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 							<thead>
 								<tr>
 									<th style="width: 15px">#</th>
-									<th>Foto</th>
-									<th data-priority="1" style="width: 20px">Sil</th>
+									<th><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></th>
+									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -201,7 +201,7 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 									<td><?php echo $sayi++; ?></td>
 									<td><img src="resimler/slaytlar/<?php echo $slayt[ 'foto' ]; ?>" height="100"></td>
 									<td align = "center">
-										<button modul= 'slaytlar' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/slaytlar/slaytlarSEG.php?islem=sil&id=<?php echo $slayt[ 'id' ]; ?>&foto=<?php echo $slayt[ 'foto' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" data-toggle="modal" data-target="#sil_onay">Sil</button>
+										<button modul= 'slaytlar' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/slaytlar/slaytlarSEG.php?islem=sil&id=<?php echo $slayt[ 'id' ]; ?>&foto=<?php echo $slayt[ 'foto' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" data-toggle="modal" data-target="#sil_onay">Sil<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></button>
 									</td>
 								</tr>
 								<?php } ?>
@@ -216,7 +216,7 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 				<div class="card <?php if( $slayt_id == 0 ) echo 'card-secondary' ?>">
 					<div class="card-header p-2">
 						<ul class="nav nav-pills tab-container">
-							<h6 style = 'font-size: 1rem;'>Manşet Ekle</h6>
+							<h6 style = 'font-size: 1rem;'><?php echo dil_cevir( "Manşet Ekle", $dizi_dil, $sistem_dil ); ?></h6>
 							
 						</ul>
 					</div>
@@ -237,20 +237,20 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
 									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
 									<div class="form-group">
-										<label class="control-label">Dosya</label>
+										<label class="control-label"><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="foto" class="" ><br>
-										<small class="text-muted">Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır. </small>
+										<small class="text-muted"><?php echo dil_cevir( "Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır.", $dizi_dil, $sistem_dil ); ?> </small>
 									</div>
 
 									<div class="card-footer">
-										<button modul= 'slaytlar' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
+										<button modul= 'slaytlar' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span><?php echo dil_cevir( $kaydet_buton_yazi, $dizi_dil, $sistem_dil ); ?></button>
 									</div>
 								</form>
 							</div>
 						</div>
                         <?php }else{ ?>
                             <div class="text-center" style="height:600px;">
-                                <h2> Lütfen Birim Seçiniz</h2>
+                                <h2> <?php echo dil_cevir( "Lütfen Birim Seçiniz", $dizi_dil, $sistem_dil ); ?></h2>
                                 <br>
                                 <div class="spinner-grow text-primary " role="status">
                                 <span class="sr-only">Loading...</span>

@@ -53,14 +53,14 @@ if( $tek_genel_ayar['id'] > 0 )
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Lütfen Dikkat</h4>
+				<h4 class="modal-title"><?php echo dil_cevir( "Lütfen Dikkat", $dizi_dil, $sistem_dil ); ?></h4>
 			</div>
 			<div class="modal-body">
-				<p>Bu kaydı silmek istediğinize emin misiniz?</p>
+				<p><?php echo dil_cevir( "Bu kaydı silmek istediğinize emin misiniz?", $dizi_dil, $sistem_dil ); ?></p>
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Hayır</button>
-				<a class="btn btn-danger btn-evet">Evet</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo dil_cevir( "Hayır", $dizi_dil, $sistem_dil ); ?></button>
+				<a class="btn btn-danger btn-evet"><?php echo dil_cevir( "Evet", $dizi_dil, $sistem_dil ); ?></a>
 			</div>
 		</div>
 	</div>
@@ -82,7 +82,7 @@ if( $tek_genel_ayar['id'] > 0 )
 			<div class="col-md-4 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Birimler</h3>
+						<h3 class="card-title"><?php echo dil_cevir( "Birimler", $dizi_dil, $sistem_dil ); ?></h3>
 					</div>
 					<div class="card-body p-0">
 						<div class="overflow-auto" style="height:600px;">
@@ -172,7 +172,7 @@ if( $tek_genel_ayar['id'] > 0 )
 				<div class="card card-secondary">
 					<div class="card-header p-2">
 						<ul class="nav nav-pills tab-container">
-							<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; Genel Ayarlar Düzenle</h6>
+							<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; <?php echo dil_cevir( "Genel Ayarlar Düzenle", $dizi_dil, $sistem_dil ); ?></h6>
 
 							
 						</ul>
@@ -192,7 +192,7 @@ if( $tek_genel_ayar['id'] > 0 )
 									<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $tek_genel_ayar[$anahtar];  ?>'>
 									<?php } ?>
 									<div class="form-group">
-										<label class="control-label">Dil</label>
+										<label class="control-label"><?php echo dil_cevir( "Dil", $dizi_dil, $sistem_dil ); ?></label>
 										<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
 											<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
 											<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
@@ -209,76 +209,76 @@ if( $tek_genel_ayar['id'] > 0 )
 									<input type = "hidden" name = "footer_sag_logo_eski" value = "<?php echo $tek_genel_ayar[ 'footer_sag_logo' ]; ?>">
 
 									<div class="form-group card-body bg-light">
-										<label class="control-label">Logo</label>
+										<label class="control-label"><?php echo dil_cevir( "Logo", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="logo" class="" >
 										<img src="resimler/logolar/<?php echo $tek_genel_ayar[ 'logo' ]; ?>" height="100">
 									</div>
 
 									<div class="form-group card-body bg-light">
-										<label class="control-label">Footer Logo</label>
+										<label class="control-label"><?php echo dil_cevir( "Footer Logo", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="footer_logo" class="" >
 										<img src="resimler/logolar/<?php echo $tek_genel_ayar[ 'footer_logo' ]; ?>" height="100">
 									</div>
 
 									<div class="form-group card-body bg-light">
-										<label class="control-label">Footer Sağ Alt Logo</label>
+										<label class="control-label"><?php echo dil_cevir( "Footer Sağ Alt Logo", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="footer_sag_logo" class="" >
 										<img src="resimler/logolar/<?php echo $tek_genel_ayar[ 'footer_sag_logo' ]; ?>" height="100">
 									</div>
 
 									<div class="form-group">
-										<label class="control-label">Footer Sağ Alt Logo Link</label>
+										<label class="control-label"><?php echo dil_cevir( "Footer Sağ Alt Logo Link", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="footer_sag_logo_link" value = "<?php echo $tek_genel_ayar[ "footer_sag_logo_link" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Map</label>
+										<label class="control-label"><?php echo dil_cevir( "Map", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="map" value = "<?php echo $tek_genel_ayar[ "map" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Adres</label>
+										<label class="control-label"><?php echo dil_cevir( "Adres", $dizi_dil, $sistem_dil ); ?></label>
 										<textarea  type="text" class="form-control" id ="adres" name ="adres" value = "<?php echo $tek_genel_ayar[ "adres" ]; ?>"  autocomplete="off"><?php echo $tek_genel_ayar[ "adres" ]; ?></textarea>
 									</div>
 									<div class="form-group">
-										<label class="control-label">Tel</label>
+										<label class="control-label"><?php echo dil_cevir( "Tel", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="tel" value = "<?php echo $tek_genel_ayar[ "tel" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Email</label>
+										<label class="control-label"><?php echo dil_cevir( "Email", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="email" value = "<?php echo $tek_genel_ayar[ "email" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Facebook</label>
+										<label class="control-label"><?php echo dil_cevir( "Facebook", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="facebook" value = "<?php echo $tek_genel_ayar[ "facebook" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Twitter</label>
+										<label class="control-label"><?php echo dil_cevir( "Twitter", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="twitter" value = "<?php echo $tek_genel_ayar[ "twitter" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Instagram</label>
+										<label class="control-label"><?php echo dil_cevir( "Instagram", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="instagram" value = "<?php echo $tek_genel_ayar[ "instagram" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<label class="control-label">Linkedin</label>
+										<label class="control-label"><?php echo dil_cevir( "Linkedin", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="linkedin" value = "<?php echo $tek_genel_ayar[ "linkedin" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<label class="control-label">Youtube</label>
+										<label class="control-label"><?php echo dil_cevir( "Youtube", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="youtube" value = "<?php echo $tek_genel_ayar[ "youtube" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<label class="control-label">Slogan</label>
+										<label class="control-label"><?php echo dil_cevir( "Slogan", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" id ="slogan" name ="slogan" value = "<?php echo $tek_genel_ayar[ "slogan" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Anasayfa Başlık</label>
+										<label class="control-label"><?php echo dil_cevir( "Anasayfa Başlık", $dizi_dil, $sistem_dil ); ?></label>
 										<input required type="text" class="form-control" id ="anasayfa_baslik" name ="anasayfa_baslik" value = "<?php echo $tek_genel_ayar[ "anasayfa_baslik" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Anasayfa İçerik</label>
+										<label class="control-label"><?php echo dil_cevir( "Anasayfa İçerik", $dizi_dil, $sistem_dil ); ?></label>
 										<style>
 										.ck-editor__editable_inline:not(.ck-comment__input *) {
 											height: 600px;
@@ -290,50 +290,50 @@ if( $tek_genel_ayar['id'] > 0 )
 										</textarea>
 									</div>
 									<div class="form-group">
-										<label class="control-label">Öğrenci Sayısı</label>
+										<label class="control-label"><?php echo dil_cevir( "Öğrenci Sayısı", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="ogrenci_sayisi" value = "<?php echo $tek_genel_ayar[ "ogrenci_sayisi" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Bölüm Sayısı</label>
+										<label class="control-label"><?php echo dil_cevir( "Bölüm Sayısı", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="bolum_sayisi" value = "<?php echo $tek_genel_ayar[ "bolum_sayisi" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Eğitmen Sayısı</label>
+										<label class="control-label"><?php echo dil_cevir( "Eğitmen Sayısı", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="egitmen_sayisi" value = "<?php echo $tek_genel_ayar[ "egitmen_sayisi" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Yayın Sayısı</label>
+										<label class="control-label"><?php echo dil_cevir( "Yayın Sayısı", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="yayin_sayisi" value = "<?php echo $tek_genel_ayar[ "yayin_sayisi" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Slogan2</label>
+										<label class="control-label"><?php echo dil_cevir( "Slogan", $dizi_dil, $sistem_dil ); ?>2</label>
 										<input  type="text" class="form-control" id ="slogan2" name ="slogan2" value = "<?php echo $tek_genel_ayar[ "slogan2" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Slogan3</label>
+										<label class="control-label"><?php echo dil_cevir( "Slogan", $dizi_dil, $sistem_dil ); ?>3</label>
 										<input  type="text" class="form-control" id ="slogan3" name ="slogan3" value = "<?php echo $tek_genel_ayar[ "slogan3" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Buton 1</label>
+										<label class="control-label"><?php echo dil_cevir( "Buton 1", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" id ="buton_deger1" name ="buton_deger1" value = "<?php echo $tek_genel_ayar[ "buton_deger1" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<label class="control-label">Buton 1 Url</label>
+										<label class="control-label"><?php echo dil_cevir( "Buton 1 Url", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="buton_url1" value = "<?php echo $tek_genel_ayar[ "buton_url1" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">Buton 2</label>
+										<label class="control-label"><?php echo dil_cevir( "Buton 2", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" id ="buton_deger2" name ="buton_deger2" value = "<?php echo $tek_genel_ayar[ "buton_deger2" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<label class="control-label">Buton 2 Url</label>
+										<label class="control-label"><?php echo dil_cevir( "Buton 2 Url", $dizi_dil, $sistem_dil ); ?></label>
 										<input  type="text" class="form-control" name ="buton_url2" value = "<?php echo $tek_genel_ayar[ "buton_url2" ]; ?>"  autocomplete="off">
 									</div>
 
 									<div class="card-footer">
-										<button modul= 'genel_ayarlar' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
+										<button modul= 'genel_ayarlar' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo dil_cevir( $kaydet_buton_yazi, $dizi_dil, $sistem_dil ); ?></button>
 									</div>
 								</form>
 							</div>

@@ -80,6 +80,15 @@ WHERE
   kisa_ad = ? 
 SQL;
 
+$SQL_bolumler = <<< SQL
+SELECT
+  *
+FROM 
+  tb_birim_agaci
+WHERE
+  ust_id = ? 
+SQL;
+
 $SQL_birim_sayfa_bilgileri = <<< SQL
 SELECT
   *
@@ -109,6 +118,7 @@ SQL;
 
 
 @$birim_bilgileri 	    = $vt->selectSingle($SQL_birim_bilgileri, array( $_REQUEST['kisa_ad'] ) )[ 2 ];
+
 $birim_id				= @array_key_exists( 'id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'id' ]	: 0;
 @$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'] ) )[ 2 ];
 $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_bilgileri[ 'id' ]	: 0;
@@ -120,9 +130,9 @@ $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_
 @$duyurular 	        = $vt->select($SQL_duyurular, array( $birim_id ) )[ 2 ];
 @$etkinlikler 	        = $vt->select($SQL_etkinlikler, array( $birim_id ) )[ 2 ];
 @$slaytlar 	            = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
-@$ceviriler	            = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
 @$genel_ayarlar 	    = $vt->selectSingle($SQL_genel_ayarlar, array( $birim_id ) )[ 2 ];
 
+@$ceviriler	            = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
 foreach( $ceviriler as $ceviri ){
     $dizi[$ceviri['adi']]['tr'] = $ceviri['adi']; 
     $dizi[$ceviri['adi']]['kz'] = $ceviri['adi_kz']; 
@@ -365,7 +375,7 @@ if( $birim_id == 0 ){
                                     <nav class="main-menu d-none d-lg-inline-block">
                                         <ul>
                                         <?php 
-                                            function buildList(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil): string
+                                            function buildList(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler): string
                                             {
                                                 $dil2 = $dil == "tr" ? "" : "_".$dil ;
                                                 $adi = "adi".$dil2;
@@ -375,12 +385,29 @@ if( $birim_id == 0 ){
                                                 $menu = "<ul class='sub-menu'>";
                                                 foreach($array as $item) {
                                                     if( $item['ust_id'] == $ust_id ){
-                                                        if( $item['kategori'] == 0 )
+                                                        if( $item['kategori'] == 0 ){
                                                             $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
-                                                        else
+                                                        }else{
                                                              $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
+                                                        }
                                                         if ( $item['kategori'] == 1 ) {
-                                                                $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil);
+                                                                if( $item['kisa_ad'] == 'bolumler' ){
+                                                                    @$bolumler = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
+                                                                    $menu .= "<ul class='sub-menu'>";
+                                                                    foreach( $bolumler as $bolum ){
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum['adi']}</a>";
+                                                                            @$bolumler2 = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
+                                                                            $menu .= "<ul class='sub-menu'>";
+                                                                            foreach( $bolumler2 as $bolum2 ){                                                                                
+                                                                                $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2['adi']}</a></li>";
+
+                                                                            }
+                                                                            $menu .= "</ul></li>";
+                                                                    }
+                                                                    $menu .= "</ul>";
+                                                                }else{
+                                                                    $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
+                                                                }
                                                         }
                                                         $menu .= "</li>";
                                                     }
@@ -389,7 +416,7 @@ if( $birim_id == 0 ){
 
                                                 return $menu;
                                             }
-                                            echo buildList($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil']);
+                                            echo buildList($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil'],$vt,$SQL_bolumler);
                                         ?>
                                         </ul>
                                     </nav>

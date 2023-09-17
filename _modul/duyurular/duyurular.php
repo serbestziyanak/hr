@@ -59,14 +59,14 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Lütfen Dikkat</h4>
+				<h4 class="modal-title"><?php echo dil_cevir( "Dikkat!", $dizi_dil, $sistem_dil ); ?></h4>
 			</div>
 			<div class="modal-body">
-				<p>Bu kaydı silmek istediğinize emin misiniz?</p>
+				<p><?php echo dil_cevir( "Bu kaydı silmek istediğinize emin misiniz?", $dizi_dil, $sistem_dil ); ?></p>
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Hayır</button>
-				<a class="btn btn-danger btn-evet">Evet</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo dil_cevir( "Hayır", $dizi_dil, $sistem_dil ); ?></button>
+				<a class="btn btn-danger btn-evet"><?php echo dil_cevir( "Evet", $dizi_dil, $sistem_dil ); ?></a>
 			</div>
 		</div>
 	</div>
@@ -88,7 +88,7 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 			<div class="col-md-4 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Birimler</h3>
+						<h3 class="card-title"><?php echo dil_cevir( "Birimler", $dizi_dil, $sistem_dil ); ?></h3>
 					</div>
 					<div class="card-body p-0">
 						<div class="overflow-auto" style="height:600px;">
@@ -177,7 +177,7 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 			<div class="col-md-4">
 				<div class="card card-secondary" id = "card_duyurular">
 					<div class="card-header">
-						<h3 class="card-title">Duyurular</h3>
+						<h3 class="card-title"><?php echo dil_cevir( "Duyurular", $dizi_dil, $sistem_dil ); ?></h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
 							<a id = "yeni_duyuru" data-toggle = "tooltip" title = "Yeni Duyuru Ekle" href = "?modul=duyurular&islem=ekle&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
@@ -188,9 +188,9 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 							<thead>
 								<tr>
 									<th style="width: 15px">#</th>
-									<th>Başlık</th>
-									<th data-priority="1" style="width: 20px">Düzenle</th>
-									<th data-priority="1" style="width: 20px">Sil</th>
+									<th><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?></th>
+									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Düzenle", $dizi_dil, $sistem_dil ); ?></th>
+									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -204,11 +204,11 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 									<td><?php echo $duyuru[ 'baslik'.$dil ]; ?></td>
 									<td align = "center">
 										<a modul = 'duyurular' yetki_islem="duzenle" class = "btn btn-sm btn-warning btn-xs" href = "?modul=duyurular&islem=guncelle&id=<?php echo $duyuru[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" >
-											Düzenle
+											<?php echo dil_cevir( "Düzenle", $dizi_dil, $sistem_dil ); ?>
 										</a>
 									</td>
 									<td align = "center">
-										<button modul= 'duyurular' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/duyurular/duyurularSEG.php?islem=sil&id=<?php echo $duyuru[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" data-toggle="modal" data-target="#sil_onay">Sil</button>
+										<button modul= 'duyurular' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/duyurular/duyurularSEG.php?islem=sil&id=<?php echo $duyuru[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" data-toggle="modal" data-target="#sil_onay"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></button>
 									</td>
 								</tr>
 								<?php } ?>
@@ -223,10 +223,11 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 					<div class="card-header p-2">
 						<ul class="nav nav-pills tab-container">
 							<?php if( $id > 0 ) { ?>
-								<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; Duyuru Düzenle</h6>
-							<?php } else {
-								echo "<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; Duyuru Ekle</h6>";
-								}
+								<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; <?php echo dil_cevir( "Duyuru Düzenle", $dizi_dil, $sistem_dil ); ?></h6>
+							<?php } else { ?>
+
+								<h6 style = 'font-size: 1rem;'> &nbsp;&nbsp;&nbsp; <?php echo dil_cevir( "Duyuru Ekle", $dizi_dil, $sistem_dil ); ?></h6>
+							<?php	}
 							?>
 							
 						</ul>
@@ -246,7 +247,7 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 									<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $tek_duyuru[$anahtar];  ?>'>
 									<?php } ?>
 									<div class="form-group">
-										<label class="control-label">Dil</label>
+										<label class="control-label"><?php echo dil_cevir( "Dil", $dizi_dil, $sistem_dil ); ?></label>
 										<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
 											<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
 											<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
@@ -260,18 +261,18 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
 									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
 									<div class="form-group">
-										<label class="control-label">Foto</label>
+										<label class="control-label"><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="foto" class="" ><br>
-										<small class="text-muted">Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır. </small>
+										<small class="text-muted"><?php echo dil_cevir( "Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır.", $dizi_dil, $sistem_dil ); ?> </small>
 									</div>
 									<?php if( $islem == "guncelle" ){ ?>
 									<div class="form-group">
-										<label class="control-label">Var olan görsel</label><br>
+										<label class="control-label"><?php echo dil_cevir( "Var olan görsel", $dizi_dil, $sistem_dil ); ?></label><br>
 										<img src="resimler/duyurular/<?php echo $tek_duyuru[ 'foto' ]; ?>" width="200">
 									</div>
 									<?php } ?>
 									<div class="form-group">
-										<label class="control-label">Tarih</label>
+										<label class="control-label"><?php echo dil_cevir( "Tarih", $dizi_dil, $sistem_dil ); ?></label>
 										<div class="input-group date" id="tarih" data-target-input="nearest">
 											<div class="input-group-append" data-target="#tarih" data-toggle="datetimepicker">
 												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -280,11 +281,11 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label">Başlık</label>
+										<label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?></label>
 										<input required type="text" class="form-control" id ="baslik" name ="baslik" value = "<?php echo $tek_duyuru[ "baslik" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label">İçerik</label>
+										<label class="control-label"><?php echo dil_cevir( "İçerik", $dizi_dil, $sistem_dil ); ?></label>
 										<style>
 										.ck-editor__editable_inline:not(.ck-comment__input *) {
 											height: 600px;
@@ -298,7 +299,7 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 
 									<div class="card-footer">
 										<?php if( $birim_id >0 ){ ?>
-										<button modul= 'duyurular' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
+										<button modul= 'duyurular' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo dil_cevir( $kaydet_buton_yazi, $dizi_dil, $sistem_dil ); ?></button>
 										<?php } ?>
 									</div>
 								</form>
@@ -306,7 +307,7 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 						</div>
                         <?php }else{ ?>
                             <div class="text-center" style="height:600px;">
-                                <h2> Lütfen Birim Seçiniz</h2>
+                                <h2> <?php echo dil_cevir( "Lütfen Birim Seçiniz", $dizi_dil, $sistem_dil ); ?></h2>
                                 <br>
                                 <div class="spinner-grow text-primary " role="status">
                                 <span class="sr-only">Loading...</span>

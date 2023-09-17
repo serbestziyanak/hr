@@ -91,14 +91,14 @@ if( $sayfa_id > 0 ){
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Lütfen Dikkat</h4>
+				<h4 class="modal-title"><?php echo dil_cevir( "Dikkat!", $dizi_dil, $sistem_dil ); ?></h4>
 			</div>
 			<div class="modal-body">
-				<p>Bu kaydı silmek istediğinize emin misiniz?</p>
+				<p><?php echo dil_cevir( "Bu kaydı silmek istediğinize emin misiniz?", $dizi_dil, $sistem_dil ); ?></p>
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Hayır</button>
-				<a class="btn btn-danger btn-evet">Evet</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo dil_cevir( "İptal", $dizi_dil, $sistem_dil ); ?></button>
+				<a class="btn btn-danger btn-evet"><?php echo dil_cevir( "Evet", $dizi_dil, $sistem_dil ); ?></a>
 			</div>
 		</div>
 	</div>
@@ -119,7 +119,7 @@ if( $sayfa_id > 0 ){
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-success text-white">
-					<h3 class="card-title">Yeni Kategori Ekle</h3>
+					<h3 class="card-title">Yeni Sayfa Ekle<?php echo dil_cevir( "Yeni Sayfa Ekle", $dizi_dil, $sistem_dil ); ?></h3>
 					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -129,28 +129,28 @@ if( $sayfa_id > 0 ){
 						<input type="hidden" id="yeni_kategori_ust_id"  name="ust_id">
 						<input type="hidden" id="kategori_birim_id"  name="birim_id">
 						<div class="form-group">
-							<label class="control-label">Ust Kategori</label>
+							<label class="control-label"><?php echo dil_cevir( "Üst Sayfa", $dizi_dil, $sistem_dil ); ?></label>
 							<input required type="text" class="form-control" id="kategori_ad"  autocomplete="off" disabled>
 						</div>
 
 						<div class="form-group">
-							<label class="control-label">Adı (TR)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (TR)</label>
 							<input required type="text" class="form-control" name ="adi"  autocomplete="off" >
 						</div>
 						<div class="form-group">
-							<label class="control-label">Adı (KZ)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (KZ)</label>
 							<input  type="text" class="form-control" name ="adi_kz"  autocomplete="off" >
 						</div>
 						<div class="form-group">
-							<label class="control-label">Adı (EN)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (EN)</label>
 							<input  type="text" class="form-control" name ="adi_en"  autocomplete="off"">
 						</div>
 						<div class="form-group">
-							<label class="control-label">Adı (RU)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (RU)</label>
 							<input  type="text" class="form-control" name ="adi_ru"  autocomplete="off" ">
 						</div>
 						<div class="form-group">
-							<label  class="control-label">Kategori Mi? </label>
+							<label  class="control-label"><?php echo dil_cevir( "Kategori Mi?", $dizi_dil, $sistem_dil ); ?> </label>
 							<div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-focused bootstrap-switch-animate bootstrap-switch-off" >
 								<div class="bootstrap-switch-container" >
 									<input type="checkbox" name="kategori" data-bootstrap-switch="" data-off-color="danger" data-on-text="Kategori" data-off-text="Değil" data-on-color="success">
@@ -160,8 +160,8 @@ if( $sayfa_id > 0 ){
 
 					</div>
 					<div class="modal-footer justify-content-between">
-						<button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
-						<button  modul= 'birimSayfalari' yetki_islem='kaydet' type="submit" class="btn btn-danger">Kaydet</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal"><?php echo dil_cevir( "İptal", $dizi_dil, $sistem_dil ); ?></button>
+						<button  modul= 'birimSayfalari' yetki_islem='kaydet' type="submit" class="btn btn-danger"><?php echo dil_cevir( "Kaydet", $dizi_dil, $sistem_dil ); ?></button>
 					</div>
 				</form>
 			</div>
@@ -175,7 +175,7 @@ if( $sayfa_id > 0 ){
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-warning">
-					<h4 class="card-title">Kategori Düzenle</h4>
+					<h4 class="card-title"><?php echo dil_cevir( "Sayfa Düzenle", $dizi_dil, $sistem_dil ); ?></h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -187,26 +187,26 @@ if( $sayfa_id > 0 ){
 						<input type="hidden" id="birim_id_duzenle" name="birim_id">
 
 						<div class="form-group">
-							<label class="control-label">Adı (TR)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (TR)</label>
 							<input required type="text" class="form-control" name ="adi"  autocomplete="off" id="kategori_ad_duzenle">
 						</div>
 						<div class="form-group">
-							<label class="control-label">Adı (KZ)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (KZ)</label>
 							<input  type="text" class="form-control" name ="adi_kz"  autocomplete="off" id="kategori_ad_duzenle_kz">
 						</div>
 						<div class="form-group">
-							<label class="control-label">Adı (EN)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (EN)</label>
 							<input  type="text" class="form-control" name ="adi_en"  autocomplete="off" id="kategori_ad_duzenle_en">
 						</div>
 						<div class="form-group">
-							<label class="control-label">Adı (RU)</label>
+							<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?> (RU)</label>
 							<input  type="text" class="form-control" name ="adi_ru"  autocomplete="off" id="kategori_ad_duzenle_ru">
 						</div>
 
 					</div>
 					<div class="modal-footer justify-content-between">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">İptal</button>
-						<button  modul= 'birimSayfalari' yetki_islem='duzenle' type="submit" class="btn btn-success">Güncelle</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo dil_cevir( "İptal", $dizi_dil, $sistem_dil ); ?></button>
+						<button  modul= 'birimSayfalari' yetki_islem='duzenle' type="submit" class="btn btn-success"><?php echo dil_cevir( "Güncelle", $dizi_dil, $sistem_dil ); ?></button>
 					</div>
 				</form>
 			</div>
@@ -224,7 +224,7 @@ if( $sayfa_id > 0 ){
 			<div class="col-md-3 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Birimler</h3>
+						<h3 class="card-title"><?php echo dil_cevir( "Birimler", $dizi_dil, $sistem_dil ); ?></h3>
 					</div>
 					<div class="card-body p-0">
 						<div class="overflow-auto" style="height:600px;">
@@ -312,7 +312,7 @@ if( $sayfa_id > 0 ){
 			<div class="col-md-3 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Birim Sayfaları</h3>							
+						<h3 class="card-title"><?php echo dil_cevir( "Birim Sayfaları", $dizi_dil, $sistem_dil ); ?></h3>							
 					</div>
 					<div class="card-body p-1">
 						<div class="overflow-auto" style="height:600px;">
@@ -320,8 +320,8 @@ if( $sayfa_id > 0 ){
 							<tbody>
 								<tr >
 									<td class="bg-dark p-1">
-										Sayfalar
-										<a  modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='btn btn-success float-right btn-xs KategoriEkle' data-id = "0" data-kategori_ad ='Ana Kategori' data-birim_id ='<?php echo $birim_id; ?>' data-modal='kategori_ekle'>Kategori Ekle</a>
+										<?php echo dil_cevir( "Sayfalar", $dizi_dil, $sistem_dil ); ?>
+										<a  modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='btn btn-success float-right btn-xs KategoriEkle' data-id = "0" data-kategori_ad ='Ana Kategori' data-birim_id ='<?php echo $birim_id; ?>' data-modal='kategori_ekle'>Sayfa Ekle<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></a>
 									</td>
 								</tr>	
 								<?php
@@ -439,7 +439,7 @@ if( $sayfa_id > 0 ){
 						<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $sayfa_icerik_bilgileri[$anahtar];  ?>'>
 						<?php } ?>
 						<div class="form-group">
-							<label class="control-label">Dil</label>
+							<label class="control-label"><?php echo dil_cevir( "Dil", $dizi_dil, $sistem_dil ); ?></label>
 							<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
 								<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
 								<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
@@ -453,47 +453,47 @@ if( $sayfa_id > 0 ){
 						<input type = "hidden" name = "sayfa_id" value = "<?php echo $sayfa_id; ?>">
 						<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
 						<input type = "hidden" name = "sayfa_adi" value = "<?php echo $sayfa_adi; ?>">
-						<h5 class="float-left text-olive">Sayfa Ayarları</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+						<h5 class="float-left text-olive"><?php echo dil_cevir( "Sayfa Ayarları", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 						<div class="card card-body">
 							<div class="form-group clearfix">
 								<div class="icheck-success d-inline">
 									<input type="checkbox" id="checkboxPrimary1" name="aktif" <?php if( $sayfa_bilgileri[ "aktif" ] == 1 ) echo "checked"; if( $islem == "icerik_ekle" ) echo "checked";  ?> >
 									<label for="checkboxPrimary1">
-										Aktif
+										<?php echo dil_cevir( "Aktif", $dizi_dil, $sistem_dil ); ?>
 									</label>
-									<small class="form-text text-muted">İşaretlenmezse Sayfa Yayınlanmaz</small>
+									<small class="form-text text-muted"><?php echo dil_cevir( "İşaretlenmezse Sayfa Yayınlanmaz", $dizi_dil, $sistem_dil ); ?></small>
 								</div>
 							</div>
 							<div class="form-group clearfix">
 								<div class="icheck-primary d-inline">
 									<input type="checkbox" id="checkboxPrimary2" name="harici" <?php if( $sayfa_bilgileri[ "harici" ] == 1 ) echo "checked"; ?> >
 									<label for="checkboxPrimary2">
-										Harici Sayfa
+										<?php echo dil_cevir( "Harici Sayfa", $dizi_dil, $sistem_dil ); ?>
 									</label>
-									<small class="form-text text-muted">Menüde görünmeyecek sayfalar için işaretlenmelidir.</small>
+									<small class="form-text text-muted"><?php echo dil_cevir( "Menüde görünmeyecek sayfalar için işaretlenmelidir.", $dizi_dil, $sistem_dil ); ?></small>
 								</div>
 							</div>
 							<div class="form-group clearfix">
 								<div class="icheck-secondary d-inline">
 									<input type="checkbox" id="link_check" name="link" onclick="link_aktif(this);" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "checked"; ?> >
 									<label for="link_check">
-										Link
+										<?php echo dil_cevir( "Link", $dizi_dil, $sistem_dil ); ?>
 									</label>
 								</div>
 							</div>
 							<div class="form-group">
 								<input required type="text" id="link_yonlendirme" placeholder="Link" class="form-control form-control-sm" name ="link_url" value = "<?php echo $sayfa_bilgileri[ "link_url" ]; ?>"  autocomplete="off" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "";else echo "disabled"; if( $islem == "icerik_ekle" ) echo "disabled";  ?>>
-								<small class="form-text text-muted">Bu alana Link eklenirse menü bu linke yönlendirilecektir.</small>
+								<small class="form-text text-muted"><?php echo dil_cevir( "Bu alana Link eklenirse menü bu linke yönlendirilecektir.", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 
 						</div>
-						<br><h5 class="float-right text-olive">Sayfa İçeriği</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+						<br><h5 class="float-right text-olive"><?php echo dil_cevir( "Sayfa İçeriği", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 						<div class="form-group">
-							<label class="control-label">Başlık</label>
+							<label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?></label>
 							<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" id ="baslik" value = "<?php echo $sayfa_icerik_bilgileri[ "baslik" ]; ?>"  autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label class="control-label">İçerik</label>
+							<label class="control-label"><?php echo dil_cevir( "İçerik", $dizi_dil, $sistem_dil ); ?></label>
 							<style>
 								.ck-editor__editable_inline:not(.ck-comment__input *) {
 									height: 600px;
@@ -511,7 +511,7 @@ if( $sayfa_id > 0 ){
 					</div>
                         <?php }else{ ?>
                             <div class="text-center" style="height:600px;">
-                                <h2> Lütfen Birim Seçiniz</h2>
+                                <h2> <?php echo dil_cevir( "Lütfen Birim Seçiniz", $dizi_dil, $sistem_dil ); ?></h2>
                                 <br>
                                 <div class="spinner-grow text-primary " role="status">
                                 <span class="sr-only">Loading...</span>

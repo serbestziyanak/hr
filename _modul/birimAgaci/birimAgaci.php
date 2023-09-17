@@ -33,6 +33,7 @@ WHERE
 	id = ?
 SQL;
 
+
 @$birim_agacilar 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 @$birim_bilgileri 		= $vt->selectSingle($SQL_birim_bilgileri, array( $id ) )[ 2 ];
 
@@ -43,7 +44,7 @@ SQL;
 	<div class="col-md-6">
 		<div class="card card-dark">
 			<div class="card-header">
-				<h3 class="card-title">Birimler</h3>
+				<h3 class="card-title"><?php echo dil_cevir( "Birimler", $dizi_dil, $sistem_dil ); ?></h3>
 				<!--div class="form-group float-right mb-0">
 					<select class="form-control select2" name="ders_id" required  onchange="dersSecimi(this.value);">
 						<option value="">Ders Seçiniz...</option>
@@ -141,7 +142,7 @@ SQL;
 	<div class="col-md-6">
 		<div class="card card-secondary">
 			<div class="card-header">
-				<h3 class="card-title">Birim Ekle / Düzenle</h3>
+				<h3 class="card-title"><?php echo dil_cevir( "Birim Ekle / Düzenle", $dizi_dil, $sistem_dil ); ?></h3>
 			</div>
 			<form class="form-horizontal" action = "_modul/birimAgaci/birimAgaciSEG.php" method = "POST" enctype="multipart/form-data">
 			<div class="card-body">
@@ -149,7 +150,7 @@ SQL;
 				<input type="hidden"  name="<?php echo $anahtar;  ?>" value="<?php echo $birim_bilgileri[$anahtar];  ?>">
 				<?php } ?>
 				<div class="form-group">
-					<label class="control-label">Dil</label>
+					<label class="control-label"><?php echo dil_cevir( "Dil", $dizi_dil, $sistem_dil ); ?></label>
 					<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
 						<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
 						<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
@@ -161,23 +162,23 @@ SQL;
 				<?php if( $islem == 'ekle' ){ ?>
 				<input type="hidden"  name="ust_id" value="<?php if( $islem == 'ekle' ) echo $birim_bilgileri['id'];  ?>">
 				<div class="form-group">
-					<label class="control-label">Üst Birim</label>
+					<label class="control-label"><?php echo dil_cevir( "Üst Birim", $dizi_dil, $sistem_dil ); ?></label>
 					<input required type="text" class="form-control"  value="<?php if( $islem == 'ekle' ) echo $birim_bilgileri['adi'];  ?>"  autocomplete="off" disabled>
 				</div>
 				<?php }else{ ?>
 				<input type="hidden"  name="birim_agaci_id" value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['id'];  ?>">
 				<?php } ?>
 				<div class="form-group">
-					<label class="control-label">Birim Adı</label>
+					<label class="control-label"><?php echo dil_cevir( "Birim Adı", $dizi_dil, $sistem_dil ); ?></label>
 					<input required type="text" class="form-control" id ="adi" name ="adi"  value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['adi'];  ?>"  autocomplete="off">
 				</div>
 				<div class="form-group clearfix">
 					<div class="icheck-success d-inline">
 						<input type="checkbox" id="kategori"  name="kategori" <?php if( $islem == 'guncelle' and $birim_bilgileri['kategori'] == 1 ) echo "checked";  ?> >
 						<label for="kategori">
-							Alt birimleri olacak.
+							<?php echo dil_cevir( "Alt birimleri olacak.", $dizi_dil, $sistem_dil ); ?>
 						</label>
-						<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.</small>
+						<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></small>
 					</div>
 				</div>
 
@@ -185,15 +186,15 @@ SQL;
 					<div class="icheck-primary d-inline">
 						<input type="checkbox"  id="grup" name="grup"  <?php if( $islem == 'guncelle' and $birim_bilgileri['grup'] == 1 ) echo "checked";  ?> >
 						<label for="grup">
-							Sadece gruplama için kullanılacak.
+							<?php echo dil_cevir( "Sadece gruplama için kullanılacak.", $dizi_dil, $sistem_dil ); ?>
 						</label>
-						<small class="form-text text-muted">Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.</small>
+						<small class="form-text text-muted"><?php echo dil_cevir( "Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.", $dizi_dil, $sistem_dil ); ?></small>
 					</div>
 				</div>
 			</div>
 			<div class="card-footer">
 				<?php if( $id > 0 ){ ?>
-				<button modul= 'birimAgaci' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo $kaydet_buton_yazi; ?></button>
+				<button modul= 'birimAgaci' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo dil_cevir( $kaydet_buton_yazi, $dizi_dil, $sistem_dil ); ?></button>
 				<?php } ?>
 			</div>
 			</form>
@@ -207,18 +208,18 @@ SQL;
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Lütfen Dikkat!</h4>
+					<h4 class="modal-title"><?php echo dil_cevir( "Dikkat!", $dizi_dil, $sistem_dil ); ?></h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<p><b>Bu Kaydı silmeniz durumunda kategori Altında bulunan diğer kategoriler silinecektir.</b></p>
-					<p>Bu kaydı <b>Silmek</b> istediğinize emin misiniz?</p>
+					<p><b><?php echo dil_cevir( "Bu Kaydı silmeniz durumunda kategori Altında bulunan diğer kategoriler silinecektir.", $dizi_dil, $sistem_dil ); ?></b></p>
+					<p><?php echo dil_cevir( "Bu kaydı Silmek istediğinize emin misiniz?", $dizi_dil, $sistem_dil ); ?></p>
 				</div>
 				<div class="modal-footer justify-content-between">
-					<button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
-					<a type="button" class="btn btn-danger btn-evet">Evet</a>
+					<button type="button" class="btn btn-success" data-dismiss="modal"><?php echo dil_cevir( "İptal", $dizi_dil, $sistem_dil ); ?></button>
+					<a type="button" class="btn btn-danger btn-evet"><?php echo dil_cevir( "Evet", $dizi_dil, $sistem_dil ); ?></a>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -269,7 +270,7 @@ SQL;
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Yeni Kategori Ekle</h4>
+					<h4 class="modal-title"><?php echo dil_cevir( "Yeni Birim Ekle", $dizi_dil, $sistem_dil ); ?></h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -278,21 +279,21 @@ SQL;
 					<div class="modal-body">
 						<input type="hidden" id="yeni_kategori_ust_id"  name="ust_id">
 						<div class="form-group">
-							<label class="control-label">Üst Birim</label>
+							<label class="control-label"><?php echo dil_cevir( "Üst Birim", $dizi_dil, $sistem_dil ); ?></label>
 							<input required type="text" class="form-control" id="kategori_ad"  autocomplete="off" disabled>
 						</div>
 
 						<div class="form-group">
-							<label class="control-label">Birim Adı</label>
+							<label class="control-label"><?php echo dil_cevir( "Birim Adı", $dizi_dil, $sistem_dil ); ?></label>
 							<input required type="text" class="form-control" name ="adi"  autocomplete="off">
 						</div>
 						<div class="form-group clearfix">
 							<div class="icheck-success d-inline">
 								<input type="checkbox" id="kategori"  name="kategori" >
 								<label for="kategori">
-									Alt birimleri olacak.
+									<?php echo dil_cevir( "Alt birimleri olacak.", $dizi_dil, $sistem_dil ); ?>
 								</label>
-								<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.</small>
+								<small class="form-text text-muted"><?php echo dil_cevir( "Bu birimin alt birimleri olacaksa işaretlenmelidir.", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 						</div>
 
@@ -300,16 +301,16 @@ SQL;
 							<div class="icheck-primary d-inline">
 								<input type="checkbox" id="grup" name="grup" >
 								<label for="grup">
-									Sadece gruplama için kullanılacak.
+									<?php echo dil_cevir( "Sadece gruplama için kullanılacak.", $dizi_dil, $sistem_dil ); ?>
 								</label>
-								<small class="form-text text-muted">Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.</small>
+								<small class="form-text text-muted">Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 						</div>
 
 					</div>
 					<div class="modal-footer justify-content-between">
-						<button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
-						<button  modul= 'birimAgaci' yetki_islem='kaydet' type="submit" class="btn btn-danger">Kaydet</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal"><?php echo dil_cevir( "İptal", $dizi_dil, $sistem_dil ); ?></button>
+						<button  modul= 'birimAgaci' yetki_islem='kaydet' type="submit" class="btn btn-danger"><?php echo dil_cevir( "Kaydet", $dizi_dil, $sistem_dil ); ?></button>
 					</div>
 				</form>
 			</div>
@@ -323,7 +324,7 @@ SQL;
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Kategori Düzenle</h4>
+					<h4 class="modal-title"><?php echo dil_cevir( "Birim Düzenle", $dizi_dil, $sistem_dil ); ?></h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -334,16 +335,16 @@ SQL;
 						<input type="hidden" id="birim_agaci_id" name="birim_agaci_id">
 
 						<div class="form-group">
-							<label class="control-label">Kategori Adı</label>
+							<label class="control-label"><?php echo dil_cevir( "Birim Adı", $dizi_dil, $sistem_dil ); ?></label>
 							<input required type="text" class="form-control" name ="adi"  autocomplete="off" id="kategori_ad_duzenle">
 						</div>
 						<div class="form-group clearfix">
 							<div class="icheck-success d-inline">
 								<input type="checkbox" id="kategori_mi_duzenle"  name="kategori" >
 								<label for="kategori_mi_duzenle">
-									Alt birimleri olacak.
+									<?php echo dil_cevir( "Alt birimleri olacak.", $dizi_dil, $sistem_dil ); ?>
 								</label>
-								<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.</small>
+								<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 						</div>
 
@@ -351,16 +352,16 @@ SQL;
 							<div class="icheck-primary d-inline">
 								<input type="checkbox" id="grup_duzenle" name="grup" >
 								<label for="grup_duzenle">
-									Sadece gruplama için kullanılacak.
+									<?php echo dil_cevir( "Sadece gruplama için kullanılacak.", $dizi_dil, $sistem_dil ); ?>
 								</label>
-								<small class="form-text text-muted">Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.</small>
+								<small class="form-text text-muted"><?php echo dil_cevir( "Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 						</div>
 
 					</div>
 					<div class="modal-footer justify-content-between">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">İptal</button>
-						<button  modul= 'birimAgaci' yetki_islem='duzenle' type="submit" class="btn btn-success">Güncelle</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo dil_cevir( "İptal", $dizi_dil, $sistem_dil ); ?></button>
+						<button  modul= 'birimAgaci' yetki_islem='duzenle' type="submit" class="btn btn-success"><?php echo dil_cevir( "Güncelle", $dizi_dil, $sistem_dil ); ?></button>
 					</div>
 				</form>
 			</div>
