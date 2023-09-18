@@ -1,5 +1,5 @@
 <?php
-include "../_cekirdek/fonksiyonlar.php";
+include "../admin/_cekirdek/fonksiyonlar.php";
 $vt = new VeriTabani();
 $fn = new Fonksiyonlar();
 
@@ -173,7 +173,7 @@ if( $birim_id == 0 ){
 <html class="no-js" lang="zxx">
 
 <head>
-  <base href="/hr/birim_sayfalari/" />
+  <base href="/hr/birimler/" />
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title><?php echo $birim_bilgileri['adi'.$dil]; ?></title>
@@ -271,7 +271,7 @@ if( $birim_id == 0 ){
                         <?php foreach( $duyurular as $duyuru ){ ?>
                         <li class="woocommerce-mini-cart-item mini_cart_item d-flex align-items-center justify-content-center">
                             <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>" style="font-size:12px; " class="align-middle">
-                            <img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Cart Image" style="object-fit: cover;"><?php echo $duyuru['baslik'.$dil]; ?>
+                            <img src="../admin/resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Cart Image" style="object-fit: cover;"><?php echo $duyuru['baslik'.$dil]; ?>
                             </a>
                             <small class="text-muted"><i class="fa-solid fa-calendar-days"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></small>
                            
@@ -300,34 +300,50 @@ if( $birim_id == 0 ){
             </div>
             <div class="th-mobile-menu">
                 <ul>
-                <?php 
-                    function buildListMobile(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil): string
-                    {
-                        $dil2 = $dil == "tr" ? "" : "_".$dil ;
-                        $adi = "adi".$dil2;
+                                        <?php 
+                                            function buildList2(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler): string
+                                            {
+                                                $dil2 = $dil == "tr" ? "" : "_".$dil ;
+                                                $adi = "adi".$dil2;
+                                                if( $ilk )
+                                                $menu = "";
+                                                else
+                                                $menu = "<ul class='sub-menu'>";
+                                                foreach($array as $item) {
+                                                    if( $item['ust_id'] == $ust_id ){
+                                                        if( $item['kategori'] == 0 ){
+                                                            $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                                        }else{
+                                                             $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
+                                                        }
+                                                        if ( $item['kategori'] == 1 ) {
+                                                                if( $item['kisa_ad'] == 'bolumler' ){
+                                                                    @$bolumler = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
+                                                                    $menu .= "<ul class='sub-menu'>";
+                                                                    foreach( $bolumler as $bolum ){
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum['adi']}</a>";
+                                                                            @$bolumler2 = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
+                                                                            $menu .= "<ul class='sub-menu'>";
+                                                                            foreach( $bolumler2 as $bolum2 ){                                                                                
+                                                                                $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2['adi']}</a></li>";
 
-                        if( $ilk )
-                        $menu = "";
-                        else
-                        $menu = "<ul class='sub-menu'>";
-                        foreach($array as $item) {
-                            if( $item['ust_id'] == $ust_id ){
-                                if( $item['kategori'] == 0 )
-                                    $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
-                                else
-                                        $menu .= "<li class='menu-item-has-children'><a href='#'>{$item[$adi]}</a>";
-                                if ( $item['kategori'] == 1 ) {
-                                        $menu .= buildListMobile($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil);
-                                }
-                                $menu .= "</li>";
-                            }
-                        }
-                        $menu .= "</ul>";
+                                                                            }
+                                                                            $menu .= "</ul></li>";
+                                                                    }
+                                                                    $menu .= "</ul>";
+                                                                }else{
+                                                                    $menu .= buildList2($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
+                                                                    $menu .= "</li>";
+                                                                }
+                                                        }
+                                                    }
+                                                }
+                                                $menu .= "</ul>";
 
-                        return $menu;
-                    }
-                    echo buildListMobile($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil']);
-                ?>
+                                                return $menu;
+                                            }
+                                            echo buildList2($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil'],$vt,$SQL_bolumler);
+                                        ?>
                 </ul>
             </div>
         </div>
@@ -429,9 +445,9 @@ if( $birim_id == 0 ){
                                                                     $menu .= "</ul>";
                                                                 }else{
                                                                     $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
+                                                                    $menu .= "</li>";
                                                                 }
                                                         }
-                                                        $menu .= "</li>";
                                                     }
                                                 }
                                                 $menu .= "</ul>";
@@ -513,7 +529,7 @@ Hero Area
                                         $slayt_aktif = $sira == 1 ? "active" : "";
                                     ?>
                                     <div class="carousel-item <?php echo $slayt_aktif; ?>">
-                                    <img src="../resimler/slaytlar/<?php echo $slayt['foto']; ?>"  class="d-block w-100"  alt="First slide">
+                                    <img src="../admin/resimler/slaytlar/<?php echo $slayt['foto']; ?>"  class="d-block w-100"  alt="First slide">
                                     </div>
                                     <?php } ?>
                                 </div>
@@ -609,7 +625,7 @@ Servce Area
                 <div class="col-md-6 col-lg-4">
                     <div class="course-box" style="height: 500px;">
                         <div class="course-img" style="height: 200px;">
-                            <img src="../resimler/duyurular/<?php echo $duyuru['foto'] ?>" alt="img" style="height: 200px;object-fit: cover;">
+                            <img src="../admin/resimler/duyurular/<?php echo $duyuru['foto'] ?>" alt="img" style="height: 200px;object-fit: cover;">
                             <span class="tag"><i class="fas fa-clock"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></span>
                         </div>
                         <div class="course-content">
@@ -648,26 +664,26 @@ Counter Area
             <div class="row justify-content-between">
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['ogrenci_sayisi']; ?></span><span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi["Öğrenci"][$_REQUEST["dil"]]; ?></strong> </p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac1']; ?></span><span class="fw-normal">+</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac1_adi'.$dil]][$_REQUEST["dil"]]; ?></strong> </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['bolum_sayisi']; ?></span><span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi["Bölüm"][$_REQUEST["dil"]]; ?></strong> </p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac2']; ?></span><span class="fw-normal">+</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac2_adi'.$dil]][$_REQUEST["dil"]]; ?></strong> </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['egitmen_sayisi']; ?></span><span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi["Eğitmen"][$_REQUEST["dil"]]; ?></strong></p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac3']; ?></span><span class="fw-normal">%</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac3_adi'.$dil]][$_REQUEST["dil"]]; ?></strong></p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
-                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['yayin_sayisi']; ?></span><span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi["Akademik Yayın"][$_REQUEST["dil"]]; ?></strong> </p>
+                        <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac4']; ?></span><span class="fw-normal">+</span></h2>
+                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac4_adi'.$dil]][$_REQUEST["dil"]]; ?></strong> </p>
                     </div>
                 </div>
             </div>
@@ -728,7 +744,7 @@ Event Area
                 <div class="col-lg-6 col-xl-4">
                     <div class="event-card">
                         <div class="event-card_img" data-mask-src="assets/img/event/event_img-shape.png">
-                            <img src="../resimler/etkinlikler/<?php echo $etkinlik['foto'] ?>" alt="event" style="width: 200px;height: 200px;object-fit: cover;">
+                            <img src="../admin/resimler/etkinlikler/<?php echo $etkinlik['foto'] ?>" alt="event" style="width: 200px;height: 200px;object-fit: cover;">
                         </div>
                         <div class="event-card_content">
                             <div class="event-author">

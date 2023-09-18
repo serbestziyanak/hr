@@ -3,6 +3,9 @@ include "../../_cekirdek/fonksiyonlar.php";
 $vt		= new VeriTabani();
 $fn		= new Fonksiyonlar();
 
+$dil	 			= array_key_exists( 'dil', $_REQUEST ) 	? $_REQUEST[ 'dil' ] : "";
+$dil	 			= $dil == "_tr" ? "" : $dil;
+
 echo "<pre>";
 var_dump($_REQUEST);
 echo "</pre>";
@@ -25,7 +28,7 @@ INSERT INTO
 SET
 	 birim_id				= ?
 	,logo					= ?
-	,slogan					= ?
+	,slogan$dil				= ?
 	,footer_logo			= ?
 	,footer_sag_logo		= ?
 	,footer_sag_logo_link	= ?
@@ -38,19 +41,22 @@ SET
 	,instagram				= ?
 	,linkedin				= ?
 	,youtube				= ?
-	,anasayfa_baslik		= ?
-	,anasayfa_icerik		= ?
-	,ogrenci_sayisi			= ?
-	,bolum_sayisi			= ?
-	,egitmen_sayisi			= ?
-	,yayin_sayisi			= ?
-	,slogan2				= ?
-	,slogan3				= ?
-	,buton_deger1 			= ?
+	,anasayfa_baslik$dil	= ?
+	,anasayfa_icerik$dil	= ?
+	,sayac1					= ?
+	,sayac2					= ?
+	,sayac3					= ?
+	,sayac4					= ?
+	,sayac1_adi$dil			= ?
+	,sayac2_adi$dil			= ?
+	,sayac3_adi$dil			= ?
+	,sayac4_adi$dil			= ?
+	,slogan2$dil			= ?
+	,slogan3$dil			= ?
+	,buton_deger1$dil		= ?
 	,buton_url1 			= ?
-	,buton_deger2 			= ?
+	,buton_deger2$dil 		= ?
 	,buton_url2 			= ?
-
 SQL;
 
 $SQL_guncelle = <<< SQL
@@ -58,7 +64,7 @@ UPDATE
 	tb_genel_ayarlar
 SET
 	 logo					= ?
-	,slogan					= ?
+	,slogan$dil				= ?
 	,footer_logo			= ?
 	,footer_sag_logo		= ?
 	,footer_sag_logo_link	= ?
@@ -71,17 +77,21 @@ SET
 	,instagram				= ?
 	,linkedin				= ?
 	,youtube				= ?
-	,anasayfa_baslik		= ?
-	,anasayfa_icerik		= ?
-	,ogrenci_sayisi			= ?
-	,bolum_sayisi			= ?
-	,egitmen_sayisi			= ?
-	,yayin_sayisi			= ?
-	,slogan2				= ?
-	,slogan3				= ?
-	,buton_deger1 			= ?
+	,anasayfa_baslik$dil	= ?
+	,anasayfa_icerik$dil	= ?
+	,sayac1					= ?
+	,sayac2					= ?
+	,sayac3					= ?
+	,sayac4					= ?
+	,sayac1_adi$dil			= ?
+	,sayac2_adi$dil			= ?
+	,sayac3_adi$dil			= ?
+	,sayac4_adi$dil			= ?
+	,slogan2$dil			= ?
+	,slogan3$dil			= ?
+	,buton_deger1$dil		= ?
 	,buton_url1 			= ?
-	,buton_deger2 			= ?
+	,buton_deger2$dil 		= ?
 	,buton_url2 			= ?
 WHERE
 	birim_id = ?
@@ -132,10 +142,15 @@ switch( $islem ) {
 			,$_REQUEST[	'youtube' ]
 			,$_REQUEST[	'anasayfa_baslik' ]
 			,$_REQUEST[	'anasayfa_icerik' ]
-			,$_REQUEST[ 'ogrenci_sayisi' ]
-			,$_REQUEST[ 'bolum_sayisi' ]
-			,$_REQUEST[ 'egitmen_sayisi' ]
-			,$_REQUEST[ 'yayin_sayisi' ]
+			,$_REQUEST[ 'sayac1' ]
+			,$_REQUEST[ 'sayac2' ]
+			,$_REQUEST[ 'sayac3' ]
+			,$_REQUEST[ 'sayac4' ]
+			,$_REQUEST[ 'sayac1_adi' ]
+			,$_REQUEST[ 'sayac2_adi' ]
+			,$_REQUEST[ 'sayac3_adi' ]
+			,$_REQUEST[ 'sayac4_adi' ]
+			,$_REQUEST[ 'slogan2' ]
 			,$_REQUEST[ 'slogan3' ]
 			,$_REQUEST[ 'buton_deger1' ]
 			,$_REQUEST[ 'buton_url1' ]
@@ -188,10 +203,14 @@ switch( $islem ) {
 			,$_REQUEST[	'youtube' ]
 			,$_REQUEST[	'anasayfa_baslik' ]
 			,$_REQUEST[	'anasayfa_icerik' ]
-			,$_REQUEST[ 'ogrenci_sayisi' ]
-			,$_REQUEST[ 'bolum_sayisi' ]
-			,$_REQUEST[ 'egitmen_sayisi' ]
-			,$_REQUEST[ 'yayin_sayisi' ]
+			,$_REQUEST[ 'sayac1' ]
+			,$_REQUEST[ 'sayac2' ]
+			,$_REQUEST[ 'sayac3' ]
+			,$_REQUEST[ 'sayac4' ]
+			,$_REQUEST[ 'sayac1_adi' ]
+			,$_REQUEST[ 'sayac2_adi' ]
+			,$_REQUEST[ 'sayac3_adi' ]
+			,$_REQUEST[ 'sayac4_adi' ]
 			,$_REQUEST[ 'slogan2' ]
 			,$_REQUEST[ 'slogan3' ]
 			,$_REQUEST[ 'buton_deger1' ]

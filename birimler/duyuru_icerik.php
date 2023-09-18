@@ -29,12 +29,12 @@
                 <div class="col-xxl-8 col-lg-7">
                     <div class="th-blog blog-single" >
                         <div class="blog-img">
-                            <img src="../resimler/duyurular/<?php echo $duyuru_icerik['foto']; ?>" alt="Blog Image">
+                            <img src="../admin/resimler/duyurular/<?php echo $duyuru_icerik['foto']; ?>" alt="Blog Image">
                         </div>
                         <div class="blog-content" style="min-height: 600px;">
                             <div class="blog-meta">
-                                <a class="author" href="blog.html"><i class="far fa-user"></i><?php echo @$birim_bilgileri['adi'.$dil]; ?></a>
-                                <a href="blog.html"><i class="fa-light fa-calendar-days"></i><?php echo $fn->tarihVer($duyuru_icerik['tarih']); ?></a>
+                                <a class="author" href="<?php echo $_REQUEST["dil"]."/".$_REQUEST['kisa_ad']; ?>/"><i class="far fa-user"></i><?php echo @$birim_bilgileri['adi'.$dil]; ?></a>
+                                <a ><i class="fa-light fa-calendar-days"></i><?php echo $fn->tarihVer($duyuru_icerik['tarih']); ?></a>
                                 <!--a href="blog-details.html"><i class="fa-light fa-book"></i>Business Analysis</a-->
                             </div>
                             <h2 class="blog-title" style="font-size: 24px;"><?php echo @$duyuru_icerik['baslik'.$dil]; ?></h2>
@@ -70,7 +70,7 @@
                                 <?php foreach( $duyurular as $duyuru ){ ?>
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
+                                        <a href="<?php echo $_REQUEST["dil"]."/".$_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../admin/resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
                                     </div>
                                     <div class="media-body">
                                         <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>

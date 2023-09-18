@@ -788,7 +788,7 @@ $('#card_personeller').on('minimized.lte.cardwidget', function() {
             CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
                 // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
 				ckfinder: {
-					uploadUrl: '../../plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+					uploadUrl: 'plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
 				},
                 toolbar: {
                     items: [

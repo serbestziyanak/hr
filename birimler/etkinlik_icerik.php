@@ -29,7 +29,7 @@
                 <div class="col-xxl-8 col-lg-7">
                     <div class="th-blog blog-single" >
                         <div class="blog-img">
-                            <img src="../resimler/etkinlikler/<?php echo $etkinlik_icerik['foto']; ?>" alt="Blog Image">
+                            <img src="../admin/resimler/etkinlikler/<?php echo $etkinlik_icerik['foto']; ?>" alt="Blog Image">
                         </div>
                         <div class="blog-content" style="min-height: 600px;">
                             <div class="blog-meta">
@@ -70,7 +70,7 @@
                                 <?php foreach( $etkinlikler as $duyuru ){ ?>
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>"><img src="../resimler/etkinlikler/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
+                                        <a href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>"><img src="../admin/resimler/etkinlikler/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
                                     </div>
                                     <div class="media-body">
                                         <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>

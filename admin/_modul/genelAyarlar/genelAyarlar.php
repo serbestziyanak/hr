@@ -290,20 +290,36 @@ if( $tek_genel_ayar['id'] > 0 )
 										</textarea>
 									</div>
 									<div class="form-group">
-										<label class="control-label"><?php echo dil_cevir( "Öğrenci Sayısı", $dizi_dil, $sistem_dil ); ?></label>
-										<input  type="text" class="form-control" name ="ogrenci_sayisi" value = "<?php echo $tek_genel_ayar[ "ogrenci_sayisi" ]; ?>"  autocomplete="off">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 1", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" name ="sayac1" value = "<?php echo $tek_genel_ayar[ "sayac1" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label"><?php echo dil_cevir( "Bölüm Sayısı", $dizi_dil, $sistem_dil ); ?></label>
-										<input  type="text" class="form-control" name ="bolum_sayisi" value = "<?php echo $tek_genel_ayar[ "bolum_sayisi" ]; ?>"  autocomplete="off">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 1 Metin", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" id ="sayac1_adi" name ="sayac1_adi" value = "<?php echo $tek_genel_ayar[ "sayac1_adi" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label"><?php echo dil_cevir( "Eğitmen Sayısı", $dizi_dil, $sistem_dil ); ?></label>
-										<input  type="text" class="form-control" name ="egitmen_sayisi" value = "<?php echo $tek_genel_ayar[ "egitmen_sayisi" ]; ?>"  autocomplete="off">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 2", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" name ="sayac2" value = "<?php echo $tek_genel_ayar[ "sayac2" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
-										<label class="control-label"><?php echo dil_cevir( "Yayın Sayısı", $dizi_dil, $sistem_dil ); ?></label>
-										<input  type="text" class="form-control" name ="yayin_sayisi" value = "<?php echo $tek_genel_ayar[ "yayin_sayisi" ]; ?>"  autocomplete="off">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 2 Metin", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" id ="sayac2_adi" name ="sayac2_adi" value = "<?php echo $tek_genel_ayar[ "sayac2_adi" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 3", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" name ="sayac3" value = "<?php echo $tek_genel_ayar[ "sayac3" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 3 Metin", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" id ="sayac3_adi" name ="sayac3_adi" value = "<?php echo $tek_genel_ayar[ "sayac3_adi" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 4", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" name ="sayac4" value = "<?php echo $tek_genel_ayar[ "sayac4" ]; ?>"  autocomplete="off">
+									</div>
+									<div class="form-group">
+										<label class="control-label"><?php echo dil_cevir( "Sayaç 4 Metin", $dizi_dil, $sistem_dil ); ?></label>
+										<input  type="text" class="form-control" id ="sayac4_adi" name ="sayac4_adi" value = "<?php echo $tek_genel_ayar[ "sayac4_adi" ]; ?>"  autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label class="control-label"><?php echo dil_cevir( "Slogan", $dizi_dil, $sistem_dil ); ?>2</label>

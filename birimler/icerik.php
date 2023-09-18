@@ -48,7 +48,7 @@
                                         <div class="team-card team-card-1-1-active mt-0">
                                             <div class="team-img-wrap">
                                                 <div class="team-img">
-                                                    <img src="../resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
+                                                    <img src="../admin/resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
                                                 </div>
                                             </div>
                                             <div class="team-hover-wrap">
@@ -81,7 +81,7 @@
                                         <div class="team-card team-card-1-1-active mt-0">
                                             <div class="team-img-wrap">
                                                 <div class="team-img">
-                                                    <img src="../resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
+                                                    <img src="../admin/resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
                                                 </div>
                                             </div>
                                             <div class="team-hover-wrap">
@@ -114,7 +114,7 @@
                                         <div class="team-card team-card-1-1-active mt-0">
                                             <div class="team-img-wrap">
                                                 <div class="team-img">
-                                                    <img src="../resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
+                                                    <img src="../admin/resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
                                                 </div>
                                             </div>
                                             <div class="team-hover-wrap">
@@ -175,12 +175,12 @@
                                 <?php foreach( $duyurular as $duyuru ){ ?>
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="blog-details.html"><img src="../resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
+                                        <a href="<?php echo $_REQUEST["dil"]."/".$_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../admin/resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>
+                                        <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST["dil"]."/".$_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>
                                         <div class="recent-post-meta">
-                                            <small class="text-muted"><a href="<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><i class="fal fa-calendar"></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></a></small>
+                                            <small class="text-muted"><a href="<?php echo $_REQUEST["dil"]."/".$_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><i class="fal fa-calendar"></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></a></small>
                                         </div>
                                     </div>
                                 </div>
