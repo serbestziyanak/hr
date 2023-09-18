@@ -55,6 +55,7 @@ SET
 	,is_telefonu				= ?
 	,arac_plaka					= ?
 	,medeni_durumu				= ?
+	,sifre						= ?
 SQL;
 
 $SQL_guncelle = <<< SQL
@@ -88,6 +89,7 @@ SET
 	,is_telefonu				= ?
 	,arac_plaka					= ?
 	,medeni_durumu				= ?
+	,sifre						= ?
 WHERE
 	id = ?
 SQL;
@@ -147,7 +149,7 @@ switch( $islem ) {
 				,$_REQUEST[	'soyadi' ]
 				,$_REQUEST[	'uyruk_id' ]
 				,$_REQUEST[	'cinsiyet' ]
-				,$_REQUEST[	'dogum_tarihi' ]
+				,$dogum_tarihi
 				,$_REQUEST[	'kan_grubu_id' ]
 				,$_REQUEST[	'engel_durumu' ]
 				,$_REQUEST[	'engel_turu' ]
@@ -155,9 +157,9 @@ switch( $islem ) {
 				,$_REQUEST[	'personel_nitelik_id' ]
 				,$_REQUEST[	'egitim_duzeyi_id' ]
 				,$_REQUEST[	'unvan_id' ]
-				,$_REQUEST[	'ise_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_bitis_tarihi' ]
+				,$ise_baslama_tarihi
+				,$sozlesme_baslama_tarihi
+				,$sozlesme_bitis_tarihi
 				,$_REQUEST[	'email' ]
 				,$_REQUEST[	'gsm1' ]
 				,$_REQUEST[	'gsm2' ]
@@ -166,6 +168,7 @@ switch( $islem ) {
 				,$_REQUEST[	'is_telefonu' ]
 				,$_REQUEST[	'arac_plaka' ]
 				,$_REQUEST[	'medeni_durumu' ]
+				,md5($_REQUEST[	'sifre' ])
 			) );
 			if( $sorgu_sonuc[ 0 ] ){
 				$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
@@ -200,7 +203,7 @@ switch( $islem ) {
 				,$_REQUEST[	'soyadi' ]
 				,$_REQUEST[	'uyruk_id' ]
 				,$_REQUEST[	'cinsiyet' ]
-				,$_REQUEST[	'dogum_tarihi' ]
+				,$dogum_tarihi
 				,$_REQUEST[	'kan_grubu_id' ]
 				,$_REQUEST[	'engel_durumu' ]
 				,$_REQUEST[	'engel_turu' ]
@@ -208,9 +211,9 @@ switch( $islem ) {
 				,$_REQUEST[	'personel_nitelik_id' ]
 				,$_REQUEST[	'egitim_duzeyi_id' ]
 				,$_REQUEST[	'unvan_id' ]
-				,$_REQUEST[	'ise_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_baslama_tarihi' ]
-				,$_REQUEST[	'sozlesme_bitis_tarihi' ]
+				,$ise_baslama_tarihi
+				,$sozlesme_baslama_tarihi
+				,$sozlesme_bitis_tarihi
 				,$_REQUEST[	'email' ]
 				,$_REQUEST[	'gsm1' ]
 				,$_REQUEST[	'gsm2' ]
@@ -219,6 +222,7 @@ switch( $islem ) {
 				,$_REQUEST[	'is_telefonu' ]
 				,$_REQUEST[	'arac_plaka' ]
 				,$_REQUEST[	'medeni_durumu' ]
+				,$sifre
 				,$personel_id
 		) );
 

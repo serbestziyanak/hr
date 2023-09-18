@@ -13,7 +13,7 @@ if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 }
 
 
-$islem					= array_key_exists( 'islem'		         ,$_REQUEST ) ? $_REQUEST[ 'islem' ]				: 'ekle';
+$islem						= array_key_exists( 'islem'		         ,$_REQUEST ) ? $_REQUEST[ 'islem' ]				: 'ekle';
 $personel_id				= array_key_exists( 'personel_id' ,$_REQUEST ) ? $_REQUEST[ 'personel_id' ]	: 0;
 
 if( $_SESSION[ 'kullanici_turu' ] == "personel"  ){
@@ -127,6 +127,19 @@ FROM
 	tb_birim_agaci
 SQL;
 
+$SQL_ust_id_getir = <<< SQL
+WITH RECURSIVE ust_kategoriler AS (
+    SELECT id, ust_id, adi
+    FROM tb_birim_agaci
+    WHERE id = ? -- burası istediğiniz başlangıç ID'si
+    UNION ALL
+    SELECT k.id, k.ust_id, k.adi
+    FROM tb_birim_agaci k
+    JOIN ust_kategoriler uk ON k.id = uk.ust_id
+)
+SELECT * FROM ust_kategoriler;i
+SQL;
+
 @$birim_agacilar 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 $uyruklar				= $vt->select( $SQL_uyruklar, array(  ) )[ 2 ];
 $kan_gruplari			= $vt->select( $SQL_kan_gruplari, array(  ) )[ 2 ];
@@ -134,6 +147,7 @@ $egitim_duzeyleri		= $vt->select( $SQL_egitim_duzeyleri, array(  ) )[ 2 ];
 $unvanlar				= $vt->select( $SQL_unvanlar, array(  ) )[ 2 ];
 $personel_nitelikleri	= $vt->select( $SQL_personel_nitelikleri, array(  ) )[ 2 ];
 $personel_turleri		= $vt->select( $SQL_personel_turleri, array(  ) )[ 2 ];
+
 
 
 
@@ -145,7 +159,12 @@ if( $_SESSION[ 'kullanici_turu' ] == "personel" ){
 
 $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 @$tek_personel				= $vt->select( $SQL_tek_personel_oku, array( $personel_id ) )[ 2 ][ 0 ];		
+$ust_idler					= $vt->select( $SQL_ust_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
 
+foreach($ust_idler as $ust_id) 
+	$ust_id_dizi[] = $ust_id['ust_id'];
+
+//var_dump($ust_id_dizi);
 ?>
 
 <div class="modal fade" id="sil_onay">
@@ -238,12 +257,16 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 					</div>
 					<form class="form-horizontal" action = "_modul/personeller/personellerSEG.php" method = "POST" enctype="multipart/form-data">
 						<div class="card-body">
+							<?php foreach( array_keys($tek_personel) as $anahtar ){ ?>
+							<input type="hidden"  name="<?php echo $anahtar;  ?>" value='<?php echo $tek_personel[$anahtar];  ?>'>
+							<?php } ?>
+
 							<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 							<input type = "hidden" name = "personel_id" value = "<?php echo $personel_id; ?>">
 							<input type = "hidden" name = "universite_id" value = "<?php echo $_SESSION['universite_id']; ?>">
 							<?php
 								if( $islem == "guncelle" ){
-									$resim_src = "resimler/".$tek_personel[ "resim" ];
+									$resim_src = "resimler/personel_resimler/".$tek_personel[ "foto" ];
 								}else{
 									$resim_src = "resimler/resim_yok.png";
 								}
@@ -260,19 +283,27 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							<input type="file" id="gizli_input_file" name = "input_personel_resim" style = "display:none;" name = "resim" accept="image/gif, image/jpeg, image/png"  onchange="resimOnizle(this)"; />
 
 							<br><h5 class="float-right text-olive"><?php echo dil_cevir( "Birim", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+							<div class="form-group">
+								<label class="control-label"><?php echo dil_cevir( "Dil", $dizi_dil, $sistem_dil ); ?></label>
+								<select class="form-control" name = "dil" id="dil" required onchange="dil_degistir(this);">
+									<option value="_tr" <?php if( $_REQUEST['dil'] == "" ) echo "selected"; ?> >Türkçe</option>
+									<option value="_kz" <?php if( $_REQUEST['dil'] == "_kz" ) echo "selected"; ?> >қазақ</option>
+									<option value="_en" <?php if( $_REQUEST['dil'] == "_en" ) echo "selected"; ?> >English</option>
+									<option value="_ru" <?php if( $_REQUEST['dil'] == "_ru" ) echo "selected"; ?> >Россия</option>
+								</select>
+							</div>
+
 							<div class="form-group ">
 								<label  class="control-label"><?php echo dil_cevir( "Birimler", $dizi_dil, $sistem_dil ); ?></label>
-								<div class="overflow-auto" style="height:300px;">
+								<div class="overflow-auto" >
 									<table class="table table-sm table-hover ">
 									<tbody>
 										<?php
 										//var_dump($birim_agacilar);
-											function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id){
-												if( $_SESSION[ 'kullanici_turu' ] == "ogrenci" ){
-													$degerlendirme_ekle_class = "";
-												}else{
-													$degerlendirme_ekle_class = "degerlendirmeEkle";
-												}
+											function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $gelen_birim_id, $ust_id_dizi, $sistem_dil){
+												$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+												$adi = "adi".$sistem_dil2;
+
 												$html = "<tr class='expandable-body'>
 																<td>
 																	<div class='p-0'>
@@ -285,12 +316,18 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 															$renk = 1;
 														} 
 
+														if( $kategori['id'] == $gelen_birim_id  ){
+															$secili = "checked";
+														}else{
+															$secili = "";
+														}
+
 														if( $kategori['kategori'] == 0){
 															$html .= "
 																	<tr>
 																		<td class=' bg-renk7' >
 																				<div class='icheck-success d-inline'>
-																					<input type='radio' class='form-control form-control-sm' id='icheck_$kategori[id]' name='birim_id' value='$kategori[id]' required>
+																					<input type='radio' class='form-control form-control-sm' id='icheck_$kategori[id]' name='birim_id' value='$kategori[id]' $secili required>
 																					<label for='icheck_$kategori[id]'>
 																					$kategori[adi]
 																					</label>
@@ -300,10 +337,15 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 
 														}
 														if( $kategori['kategori'] == 1 ){
-															if( $kategori['ust_id'] == 0 )
+															if( in_array($kategori['id'], $ust_id_dizi) )
 																$agac_acik = "true";
 															else
 																$agac_acik = "false";
+
+															// if( $kategori['ust_id'] == 0 )
+															// 	$agac_acik = "true";
+															// else
+															// 	$agac_acik = "false";
 
 																$html .= "
 																		<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
@@ -314,7 +356,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 																		</tr>
 																	";								
 																$renk++;
-																$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id);
+																$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $gelen_birim_id, $ust_id_dizi, $sistem_dil);
 																
 																$renk--;
 															
@@ -331,7 +373,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 												return $html;
 											}
 											if( count( $birim_agacilar ) ) 
-												echo kategoriListele3($birim_agacilar,0,0, $vt, $SQL_ogrenci_birim_agaci_degerlendirme, $ogrenci_id);
+												echo kategoriListele3($birim_agacilar,0,0, $vt, $tek_personel[ "birim_id" ], $ust_id_dizi, $sistem_dil);
 											
 
 										?>
@@ -339,9 +381,10 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 									</table>
 								</div>
 							</div>
+							<br><h5 class="float-left text-olive"><?php echo dil_cevir( "Personel Bilgileri", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group">
 								<label  class="control-label"><?php echo dil_cevir( "Personel Niteliği", $dizi_dil, $sistem_dil ); ?></label>
-								<select class="form-control form-control-sm select2" name = "personel_nitelik_id" required>
+								<select class="form-control form-control-sm select2" name = "personel_nitelik_id" >
 									<option><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
 									<?php 
 										foreach( $personel_nitelikleri AS $personel_nitelik ){
@@ -353,11 +396,11 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							</div>
 							<div class="form-group">
 								<label  class="control-label"><?php echo dil_cevir( "Personel Türü", $dizi_dil, $sistem_dil ); ?></label>
-								<select class="form-control form-control-sm select2" name = "personel_tur_id" required>
+								<select class="form-control form-control-sm select2" name = "personel_turu_id" >
 									<option><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
 									<?php 
 										foreach( $personel_turleri AS $personel_turu ){
-											echo '<option value="'.$personel_turu[ "id" ].'" '.( $tek_personel[ "personel_tur_id" ] == $personel_turu[ "id" ] ? "selected" : null) .'>'.$personel_turu[ "adi" ].'</option>';
+											echo '<option value="'.$personel_turu[ "id" ].'" '.( $tek_personel[ "personel_turu_id" ] == $personel_turu[ "id" ] ? "selected" : null) .'>'.$personel_turu[ "adi" ].'</option>';
 										}
 
 									?>
@@ -366,7 +409,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							<br><h5 class="float-left text-olive"><?php echo dil_cevir( "Kişisel Bilgiler", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group">
 								<label  class="control-label"><?php echo dil_cevir( "Uyruk", $dizi_dil, $sistem_dil ); ?></label>
-								<select class="form-control form-control-sm select2" name = "uyruk_id" required>
+								<select class="form-control form-control-sm select2" name = "uyruk_id" >
 									<option><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
 									<?php 
 										foreach( $uyruklar AS $uyruk ){
@@ -383,12 +426,12 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Vatandaşlık No", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="text" placeholder="Vatandaşlık No" class="form-control form-control-sm" name ="vatandaslik_no" value = "<?php echo $tek_personel[ "vatandaslik_no" ]; ?>"  autocomplete="off">
+								<input  type="text" placeholder="Vatandaşlık No" class="form-control form-control-sm" name ="vatandaslik_no" value = "<?php echo $tek_personel[ "vatandaslik_no" ]; ?>"  autocomplete="off">
 							</div>
 
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Pasaport No", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="text" placeholder="Pasaport No" class="form-control form-control-sm" name ="pasaport_no" value = "<?php echo $tek_personel[ "pasaport_no" ]; ?>"  autocomplete="off">
+								<input  type="text" placeholder="Pasaport No" class="form-control form-control-sm" name ="pasaport_no" value = "<?php echo $tek_personel[ "pasaport_no" ]; ?>"  autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label  class="control-label"><?php echo dil_cevir( "Ünvan", $dizi_dil, $sistem_dil ); ?></label>
@@ -405,22 +448,22 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Adı", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="text" placeholder="Adı" class="form-control form-control-sm" name ="adi" value = "<?php echo $tek_personel[ "adi".$dil ]; ?>"  autocomplete="off">
+								<input required type="text" placeholder="Adı" class="form-control form-control-sm" id ="adi" name ="adi" value = "<?php echo $tek_personel[ "adi".$dil ]; ?>"  autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Soyadı", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="text" placeholder="Soyadı" class="form-control form-control-sm" name ="soyadi" value = "<?php echo $tek_personel[ "soyadi" ]; ?>"  autocomplete="off">
+								<input required type="text" placeholder="Soyadı" class="form-control form-control-sm" id ="soyadi" name ="soyadi" value = "<?php echo $tek_personel[ "soyadi" ]; ?>"  autocomplete="off">
 							</div>
 							<div class="form-group card card-body">
 								<label class="control-label"><?php echo dil_cevir( "Cinsiyet", $dizi_dil, $sistem_dil ); ?></label>
 								<div class='icheck-danger d-inline '>
-									<input type='radio' class='form-control form-control-sm' id='kadin' name='cinsiyet' value="1" required>
+									<input type='radio' class='form-control form-control-sm' id='kadin' name='cinsiyet' value="1" <?php if( $tek_personel[ "cinsiyet" ] == 1 ) echo "checked"; ?> >
 									<label for='kadin'>
 										<?php echo dil_cevir( "Kadın", $dizi_dil, $sistem_dil ); ?>
 									</label>
 								</div>
 								<div class='icheck-primary d-inline'>
-									<input type='radio' class='form-control form-control-sm' id='erkek' name='cinsiyet' value="2" required>
+									<input type='radio' class='form-control form-control-sm' id='erkek' name='cinsiyet' value="2" <?php if( $tek_personel[ "cinsiyet" ] == 2 ) echo "checked"; ?> >
 									<label for='erkek'>
 										<?php echo dil_cevir( "Erkek", $dizi_dil, $sistem_dil ); ?>
 									</label>
@@ -432,19 +475,19 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 									<div class="input-group-append" data-target="#dogum_tarihi" data-toggle="datetimepicker">
 										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 									</div>
-									<input required type="text" data-target="#dogum_tarihi" data-toggle="datetimepicker" name="dogum_tarihi" value="<?php if( $tek_personel[ 'dogum_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'dogum_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#datetimepicker1"/>
+									<input  type="text" data-target="#dogum_tarihi" data-toggle="datetimepicker" name="dogum_tarihi" value="<?php if( $tek_personel[ 'dogum_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'dogum_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#datetimepicker1"/>
 								</div>
 							</div>
 							<div class="form-group card card-body">
 								<label class="control-label"><?php echo dil_cevir( "Medeni Durumu", $dizi_dil, $sistem_dil ); ?></label>
 								<div class='icheck-primary d-inline '>
-									<input type='radio' class='form-control form-control-sm' id='bekar' name='medeni_durumu' value="1" required>
+									<input type='radio' class='form-control form-control-sm' id='bekar' name='medeni_durumu' value="1" <?php if( $tek_personel[ "medeni_durumu" ] == 1 ) echo "checked"; ?> >
 									<label for='bekar'>
 										<?php echo dil_cevir( "Bekar", $dizi_dil, $sistem_dil ); ?>
 									</label>
 								</div>
 								<div class='icheck-primary d-inline'>
-									<input type='radio' class='form-control form-control-sm' id='evli' name='medeni_durumu' value="2" required>
+									<input type='radio' class='form-control form-control-sm' id='evli' name='medeni_durumu' value="2" <?php if( $tek_personel[ "medeni_durumu" ] == 2 ) echo "checked"; ?> >
 									<label for='evli'>
 										<?php echo dil_cevir( "Evli", $dizi_dil, $sistem_dil ); ?>
 									</label>
@@ -453,7 +496,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 
 							<div class="form-group">
 								<label  class="control-label"><?php echo dil_cevir( "Kan Grubu", $dizi_dil, $sistem_dil ); ?></label>
-								<select class="form-control form-control-sm select2" name = "kan_grubu_id" required>
+								<select class="form-control form-control-sm select2" name = "kan_grubu_id" >
 									<option><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
 									<?php 
 										foreach( $kan_gruplari AS $kan_grubu ){
@@ -465,19 +508,19 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Araç Plaka", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="text" placeholder="Araç Plaka" class="form-control form-control-sm" name ="arac_plaka" value = "<?php echo $tek_personel[ "arac_plaka" ]; ?>"  autocomplete="off">
+								<input  type="text" placeholder="Araç Plaka" class="form-control form-control-sm" name ="arac_plaka" value = "<?php echo $tek_personel[ "arac_plaka" ]; ?>"  autocomplete="off">
 							</div>
 							<br><h5 class="float-right text-olive"><?php echo dil_cevir( "Engel Bilgileri", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group card card-body">
 								<label class="control-label"><?php echo dil_cevir( "Engel Durumu", $dizi_dil, $sistem_dil ); ?></label>
 								<div class='icheck-primary d-inline '>
-									<input type='radio' class='form-control form-control-sm' id='engel_yok' name='engel_durumu' value="1" required>
+									<input type='radio' class='form-control form-control-sm' id='engel_yok' name='engel_durumu' value="1" <?php if( $tek_personel[ "engel_durumu" ] == 1 ) echo "checked"; ?> >
 									<label for='engel_yok'>
 										<?php echo dil_cevir( "Yok", $dizi_dil, $sistem_dil ); ?>
 									</label>
 								</div>
 								<div class='icheck-primary d-inline'>
-									<input type='radio' class='form-control form-control-sm' id='engel_var' name='engel_durumu' value="2" required>
+									<input type='radio' class='form-control form-control-sm' id='engel_var' name='engel_durumu' value="2" <?php if( $tek_personel[ "engel_durumu" ] == 2 ) echo "checked"; ?> >
 									<label for='engel_var'>
 										<?php echo dil_cevir( "Var", $dizi_dil, $sistem_dil ); ?>
 									</label>
@@ -485,13 +528,13 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Engel Türü", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="text" class="form-control form-control-sm" name ="engel_turu" value = "<?php echo $tek_personel[ "engel_turu" ]; ?>"  autocomplete="off">
+								<input  type="text" class="form-control form-control-sm" id ="engel_turu" name ="engel_turu" value = "<?php echo $tek_personel[ "engel_turu" ]; ?>"  autocomplete="off">
 							</div>
 
 							<br><h5 class="float-left text-olive"><?php echo dil_cevir( "Eğitim Bilgileri", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group">
 								<label  class="control-label"><?php echo dil_cevir( "Eğitim Düzeyi", $dizi_dil, $sistem_dil ); ?></label>
-								<select class="form-control form-control-sm select2" name = "egitim_duzeyi_id" required>
+								<select class="form-control form-control-sm select2" name = "egitim_duzeyi_id" >
 									<option><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
 									<?php 
 										foreach( $egitim_duzeyleri AS $egitim_duzeyi ){
@@ -505,15 +548,15 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							<br><h5 class="float-right text-olive"><?php echo dil_cevir( "İletişim Bilgileri", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "GSM 1", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="tel" class="form-control form-control-sm" name ="gsm1" value = "<?php echo $tek_personel[ "gsm1" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
+								<input  type="tel" class="form-control form-control-sm" name ="gsm1" value = "<?php echo $tek_personel[ "gsm1" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "GSM 2", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="tel" class="form-control form-control-sm" name ="gsm2" value = "<?php echo $tek_personel[ "gsm2" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
+								<input  type="tel" class="form-control form-control-sm" name ="gsm2" value = "<?php echo $tek_personel[ "gsm2" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "İş Telefonu", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="tel" class="form-control form-control-sm" name ="is_telefonu" value = "<?php echo $tek_personel[ "is_telefonu" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
+								<input  type="tel" class="form-control form-control-sm" name ="is_telefonu" value = "<?php echo $tek_personel[ "is_telefonu" ]; ?>" pattern="[0-9]{10}" placeholder="5555555555" autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Email", $dizi_dil, $sistem_dil ); ?></label>
@@ -521,11 +564,11 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Ev Adresi", $dizi_dil, $sistem_dil ); ?></label>
-								<textarea name="ev_adresi" class="form-control form-control-sm" ><?php echo $tek_personel[ "ev_adresi" ]; ?></textarea>
+								<textarea id="ev_adresi" name="ev_adresi" class="form-control form-control-sm" ><?php echo $tek_personel[ "ev_adresi" ]; ?></textarea>
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "İş Adresi", $dizi_dil, $sistem_dil ); ?></label>
-								<textarea name="is_adresi" class="form-control form-control-sm" ><?php echo $tek_personel[ "is_adresi" ]; ?></textarea>
+								<textarea id="is_adresi" name="is_adresi" class="form-control form-control-sm" ><?php echo $tek_personel[ "is_adresi" ]; ?></textarea>
 							</div>
 							<br><h5 class="float-left text-olive"><?php echo dil_cevir( "Sözleşme Bilgileri", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group">
@@ -534,7 +577,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 									<div class="input-group-append" data-target="#ise_baslama_tarihi" data-toggle="datetimepicker">
 										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 									</div>
-									<input required type="text" data-target="#ise_baslama_tarihi" data-toggle="datetimepicker" name="ise_baslama_tarihi" value="<?php if( $tek_personel[ 'ise_baslama_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'ise_baslama_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#ise_baslama_tarihi"/>
+									<input  type="text" data-target="#ise_baslama_tarihi" data-toggle="datetimepicker" name="ise_baslama_tarihi" value="<?php if( $tek_personel[ 'ise_baslama_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'ise_baslama_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#ise_baslama_tarihi"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -543,7 +586,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 									<div class="input-group-append" data-target="#sozlesme_baslama_tarihi" data-toggle="datetimepicker">
 										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 									</div>
-									<input required type="text" data-target="#sozlesme_baslama_tarihi" data-toggle="datetimepicker" name="sozlesme_baslama_tarihi" value="<?php if( $tek_personel[ 'sozlesme_baslama_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'sozlesme_baslama_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#sozlesme_baslama_tarihi"/>
+									<input  type="text" data-target="#sozlesme_baslama_tarihi" data-toggle="datetimepicker" name="sozlesme_baslama_tarihi" value="<?php if( $tek_personel[ 'sozlesme_baslama_tarihi' ] !='' ){echo date('d.m.Y',strtotime($tek_personel[ 'sozlesme_baslama_tarihi' ] ));}//else{ echo date('d.m.Y'); } ?>" class="form-control form-control-sm datetimepicker-input" data-target="#sozlesme_baslama_tarihi"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -558,7 +601,7 @@ $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 							<br><h5 class="float-right text-olive"><?php echo dil_cevir( "Şifre Değiştir", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Şifre", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="password" minlength="6" class="form-control form-control-sm" name ="sifre" value = "<?php echo $tek_personel[ "sifre" ]; ?>"  autocomplete="off">
+								<input  type="password" minlength="6" class="form-control form-control-sm" name ="sifre" value = "<?php echo $tek_personel[ "sifre" ]; ?>"  autocomplete="off">
 							</div>
 						</div>
 						<div class="card-footer">
@@ -745,3 +788,32 @@ $('#card_personeller').on('minimized.lte.cardwidget', function() {
 
 
 </script>
+	<script>
+		var select = document.getElementById('dil');
+		<?php if( isset($_REQUEST['dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['dil'];  ?>";
+		<?php }else{ ?>
+			select.value = "<?php echo $sistem_dil;  ?>";
+		<?php } ?>
+
+		<?php if( isset($_REQUEST['sistem_dil'] )){ ?>
+			select.value = "<?php echo $_REQUEST['sistem_dil'];  ?>";
+		<?php } ?>
+
+		select.dispatchEvent(new Event('change'));
+
+		function dil_degistir(eleman){
+			//alert("<?php echo $islem; ?>");
+			if( eleman.value == "_tr" ) dil = ""; else dil = eleman.value;
+			<?php if( $islem == "guncelle" ){ ?>
+				
+				document.getElementById("adi").value = document.getElementsByName("adi"+dil)[0].value;
+				document.getElementById("soyadi").value = document.getElementsByName("soyadi"+dil)[0].value;
+				document.getElementById("engel_turu").value = document.getElementsByName("engel_turu"+dil)[0].value;
+				document.getElementById("ev_adresi").value = document.getElementsByName("ev_adresi"+dil)[0].value;
+				document.getElementById("is_adresi").value = document.getElementsByName("is_adresi"+dil)[0].value;
+				//document.getElementById("editor").value = document.getElementsByName("icerik"+dil)[0].value;
+				//window.editor.data.set(document.getElementsByName("icerik"+dil)[0].value);
+			<?php } ?>
+		}
+	</script>

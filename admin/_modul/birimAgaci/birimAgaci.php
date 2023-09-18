@@ -93,9 +93,13 @@ SQL;
 
 									}
 									if( $kategori['kategori'] == 1 ){
+										if( $kategori['ust_id'] == 0 )
+											$agac_acik = "true";
+										else
+											$agac_acik = "false";
 
 											$html .= "
-													<tr data-widget='expandable-table' aria-expanded='true' class='border-0'>
+													<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 														<td class='bg-renk$renk'>
 															$kategori[$adi]
 															<span>

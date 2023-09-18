@@ -116,6 +116,27 @@ WHERE
   turu = 1 
 SQL;
 
+$SQL_tum_gorevler = <<< SQL
+SELECT 
+	g.*
+	,concat(unv.adi,' ',p.adi,' ',p.soyadi) as adi_soyadi
+	,concat(unv.adi_kz,' ',p.adi_kz,' ',p.soyadi_kz) as adi_soyadi_kz
+	,concat(unv.adi_en,' ',p.adi_en,' ',p.soyadi_en) as adi_soyadi_en
+	,concat(unv.adi_ru,' ',p.adi_ru,' ',p.soyadi_ru) as adi_soyadi_ru
+    ,p.foto
+	,gk.adi as gorev_adi
+	,gk.adi_kz as gorev_adi_kz
+	,gk.adi_en as gorev_adi_en
+	,gk.adi_ru as gorev_adi_ru
+    ,gk.oncelik_sirasi
+FROM 
+	tb_gorevler as g
+LEFT JOIN tb_gorev_kategorileri AS gk ON gk.id = g.gorev_kategori_id
+LEFT JOIN tb_personeller AS p ON p.id = g.personel_id
+LEFT JOIN tb_unvanlar AS unv ON unv.id = p.unvan_id
+WHERE 
+	g.birim_id = ?
+SQL;
 
 @$birim_bilgileri 	    = $vt->selectSingle($SQL_birim_bilgileri, array( $_REQUEST['kisa_ad'] ) )[ 2 ];
 
@@ -131,6 +152,7 @@ $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_
 @$etkinlikler 	        = $vt->select($SQL_etkinlikler, array( $birim_id ) )[ 2 ];
 @$slaytlar 	            = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
 @$genel_ayarlar 	    = $vt->selectSingle($SQL_genel_ayarlar, array( $birim_id ) )[ 2 ];
+@$gorevler   			= $vt->select( $SQL_tum_gorevler, 	array( $birim_id ) )[ 2 ];
 
 @$ceviriler	            = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
 foreach( $ceviriler as $ceviri ){

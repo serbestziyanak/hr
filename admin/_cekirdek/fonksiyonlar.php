@@ -498,7 +498,7 @@ SQL;
 				$errors[] = 'Dosya boyutu en fazla 2MB olabilir';
 			}
 			if( empty( $errors ) == true ) {
-				if( move_uploaded_file( $file_tmp, "../../resimler/personel_resimler" . $dosya_adi . "." . $file_ext ) ) {
+				if( move_uploaded_file( $file_tmp, "../../resimler/personel_resimler/" . $dosya_adi . "." . $file_ext ) ) {
 					return array( true, $dosya_adi . "." . $file_ext );
 				} else {
 					return array( false, false );

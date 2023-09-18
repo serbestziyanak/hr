@@ -51,13 +51,13 @@ $modul_yetkili_islem_turleri	= $fn->yetkiliIslemTurleriVer( $modul_id );
 			</div>
 			<div class="card-body">
 				<table class="table table-sm table-bordered table-hover">
-					<tr>
+					<tr class="">
 						<th  style="width: 15px">#</th>
 						<th>Adı</th>
 						<th style="width: 40px">İşlemler</th>
 					</tr>
 					<?php $sayi = 1; foreach( $moduller[ 2 ] AS $modul ) { ?>
-					<tr class="<?php if( $modul[ 'id' ] == $modul_id ) echo 'info'; ?>" >
+					<tr class="<?php if( $modul[ 'id' ] == $modul_id ) echo 'bg-info'; ?>" >
 						<td><?php echo $sayi++; ?></td>
 						<td><?php echo $modul[ 'adi' ]; ?></td>
 						<td align = "center">
