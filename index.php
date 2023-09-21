@@ -706,7 +706,7 @@ foreach( $ceviriler as $ceviri ){
                                                             if( $ust_id == 0 )
                                                              $menu .= "<li class='has-droupdown'><a href='#' >{$item[$adi]}</a>";
                                                              else
-                                                             $menu .= "<li><h6 style='color:#eb0023;'>{$item[$adi]}</h6>";
+                                                             $menu .= "<li><h6 style='color:#eb0023;'>&emsp;{$item[$adi]}</h6>";
                                                         }
                                                         if ( $item['kategori'] == 1 ) {
                                                                 if( $item['kisa_ad'] == 'bolumler' ){
@@ -717,14 +717,17 @@ foreach( $ceviriler as $ceviri ){
                                                         }
                                                     }
                                                 }
+                                                if( $ilk ){
+                                                $menu .= "";
+                                                }else{
                                                 $menu .= "</ul>";
-
+                                                }
                                                 return $menu;
                                             }
                                             echo buildList($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_bolumler);
                                         ?>
 
-                                    <li class="has-droupdown"><a href="#">Üniversitemiz</a>
+                                    <!--li class="has-droupdown"><a href="#">Üniversitemiz</a>
                                         <ul class="mega-menu mega-menu-two">
                                             <li><h6 style="color:#eb0023;">&emsp;Hakkımızda</h6>
                                                 <ul class="submenu mega-sub-menu mega-sub-menu-01">
@@ -764,18 +767,9 @@ foreach( $ceviriler as $ceviri ){
                                                     <li style="list-style-type: square;"><a href="#">Video & Müzik</a></li>
                                                 </ul>
                                             </li>
-                                            <!--li>
-                                                <ul class="submenu mega-sub-menu-01">
-                                                    <li>
-                                                        <a href="https://1.envato.market/5bQ022">
-                                                            <img src="assets/images/others/mega-menu-image.webp" alt="advertising Image">
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li-->
                                         </ul>
-                                    </li>
-                                    <li class="has-droupdown"><a href="#">Akademik</a>
+                                    </li-->
+                                    <!--li class="has-droupdown"><a href="#">Akademik</a>
                                         <ul class="mega-menu mega-menu-two">
                                             <li><h6 style="color:#eb0023;">&emsp;Fakülteler</h6>
                                                 <ul class="submenu mega-sub-menu mega-sub-menu-01">
@@ -830,17 +824,8 @@ foreach( $ceviriler as $ceviri ){
                                                     <li style="list-style-type: square;"><a href="#">Türk Edebiyatı Eserler Sözlüğü</a></li>
                                                 </ul>
                                             </li>
-                                            <!--li>
-                                                <ul class="submenu mega-sub-menu-01">
-                                                    <li>
-                                                        <a href="https://1.envato.market/5bQ022">
-                                                            <img src="assets/images/others/mega-menu-image.webp" alt="advertising Image">
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li-->
                                         </ul>
-                                    </li>
+                                    </li-->
                                     <li class="has-droupdown"><a href="#">Akademik</a>
                                         <ul class="mega-menu mega-menu-two">
                                         <?php 
