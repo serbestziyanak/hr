@@ -38,7 +38,7 @@
                                 <a href="blog-details.html"><i class="fa-light fa-book"></i>Business Analysis</a>
                             </div-->
                             <?php if( $_REQUEST['sayfa_kisa_ad'] == "fakulte-yonetimi" ){ ?>
-                                <h2 class="blog-title" style="font-size: 24px;"><?php echo $dizi["Fakülte Yönetimi"][$_REQUEST["dil"]]; ?></h2>
+                                <h2 class="blog-title" style="font-size: 24px;"><?php echo dil_cevir( "Fakülte Yönetimi", $dizi_dil, $_REQUEST["dil"] ); ?></h2>
 
                                 <div class="row text-center justify-content-md-center">
                                     <?php foreach( $gorevler as $gorev ){ if( $gorev['oncelik_sirasi'] == 1 ){  

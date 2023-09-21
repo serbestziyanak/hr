@@ -7,3 +7,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # Ardından sadece /muhendislik-fakultesi gibi URL'leri ele alalım
 RewriteRule ^([a-zA-Z0-9_-]+)/?$ hr/index.php?dil=$1 [L,QSA]
+
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ hr/index.php?dil=$1&sayfa_kisa_ad=$2 [L,QSA]

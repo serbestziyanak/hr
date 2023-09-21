@@ -321,7 +321,7 @@ if( $sayfa_id > 0 ){
 								<tr >
 									<td class="bg-dark p-1">
 										<?php echo dil_cevir( "Sayfalar", $dizi_dil, $sistem_dil ); ?>
-										<a  modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='btn btn-success float-right btn-xs KategoriEkle' data-id = "0" data-kategori_ad ='Ana Kategori' data-birim_id ='<?php echo $birim_id; ?>' data-modal='kategori_ekle'>Sayfa Ekle<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></a>
+										<a  modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='btn btn-success float-right btn-xs KategoriEkle' data-id = "0" data-kategori_ad ='Ana Kategori' data-birim_id ='<?php echo $birim_id; ?>' data-modal='kategori_ekle'><?php echo dil_cevir( "Sayfa Ekle", $dizi_dil, $sistem_dil ); ?></a>
 									</td>
 								</tr>	
 								<?php

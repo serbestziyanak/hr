@@ -12,10 +12,10 @@
         </div>
         <div class="container">
             <div class="breadcumb-content text-center">
-                <h1 class="breadcumb-title">ETKİNLİKLER</h1>
+                <h1 class="breadcumb-title"><?php echo dil_cevir( "ETKİNLİKLER", $dizi_dil, $_REQUEST["dil"] ); ?></h1>
                 <ul class="breadcumb-menu">
-                    <li><a href="<?php echo $_REQUEST['kisa_ad']; ?>">Anasayfa</a></li>
-                    <li>Etkinlikler</li>
+                    <li><a href="<?php echo $_REQUEST['kisa_ad']; ?>"><?php echo dil_cevir( "Anasayfa", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
+                    <li><?php echo dil_cevir( "Etkinlikler", $dizi_dil, $_REQUEST["dil"] ); ?></li>
                 </ul>
             </div>
         </div>
@@ -50,7 +50,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-auto text-xl-end">
-                                    <span class="share-links-title">Paylaş:</span>
+                                    <span class="share-links-title"><?php echo dil_cevir( "Paylaş", $dizi_dil, $_REQUEST["dil"] ); ?>:</span>
                                     <ul class="social-links">
                                         <li><a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                                         <li><a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a></li>
@@ -65,7 +65,7 @@
                 <div class="col-xxl-4 col-lg-5">
                     <aside class="sidebar-area">
                         <div class="widget  ">
-                            <h3 class="widget_title">Duyurular</h3>
+                            <h3 class="widget_title"><?php echo dil_cevir( "Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                             <div class="recent-post-wrap">
                                 <?php foreach( $etkinlikler as $duyuru ){ ?>
                                 <div class="recent-post">

@@ -113,7 +113,7 @@ SQL;
 			<div class="col-md-12">
 				<div class="card card-secondary">
 					<div class="card-header">
-						<h3 class="card-title">Panel Çevirileri</h3>
+						<h3 class="card-title">Birim Web Sayfası Çevirileri</h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
 							<a data-toggle="modal" data-target="#ceviri_ekle" title = "Çeviri" href = "?modul=webCevirileri&islem=ekle" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>

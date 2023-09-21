@@ -156,11 +156,20 @@ $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_
 
 @$ceviriler	            = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
 foreach( $ceviriler as $ceviri ){
-    $dizi[$ceviri['adi']]['tr'] = $ceviri['adi']; 
-    $dizi[$ceviri['adi']]['kz'] = $ceviri['adi_kz']; 
-    $dizi[$ceviri['adi']]['en'] = $ceviri['adi_en']; 
-    $dizi[$ceviri['adi']]['ru'] = $ceviri['adi_ru']; 
+    $dizi_dil[$ceviri['adi']]['tr'] = $ceviri['adi']; 
+    $dizi_dil[$ceviri['adi']]['kz'] = $ceviri['adi_kz']; 
+    $dizi_dil[$ceviri['adi']]['en'] = $ceviri['adi_en']; 
+    $dizi_dil[$ceviri['adi']]['ru'] = $ceviri['adi_ru']; 
 }
+
+function dil_cevir( $metin, $dizi, $dil ){
+	if( array_key_exists( $metin, $dizi ) and $dizi[$metin][$dil] != "" )
+		return $dizi[$metin][$dil];
+	else
+		return $metin;
+
+}
+
 
 //var_dump($dizi);
 
@@ -265,7 +274,7 @@ if( $birim_id == 0 ){
         <div class="sidemenu-content">
             <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
             <div class="widget woocommerce widget_shopping_cart">
-                <h3 class="widget_title"><?php echo $dizi["Duyurular"][$_REQUEST["dil"]]; ?></h3>
+                <h3 class="widget_title"><?php echo dil_cevir( "Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                 <div class="widget_shopping_cart_content">
                     <ul class="woocommerce-mini-cart cart_list product_list_widget">
                         <?php foreach( $duyurular as $duyuru ){ ?>
@@ -369,7 +378,7 @@ if( $birim_id == 0 ){
                             <ul>
                                 <li>
                                     <div class="header-social">
-                                        <span class="social-title"><?php echo $dizi["Bizi takip et"][$_REQUEST["dil"]]; ?>:</span>
+                                        <span class="social-title"><?php echo dil_cevir( "Bizi takip et", $dizi_dil, $_REQUEST["dil"] ); ?>:</span>
                                         <a href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
                                         <a href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
                                         <a href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
@@ -471,7 +480,7 @@ if( $birim_id == 0 ){
                                             <i class="fa-solid fa-bullhorn"></i>
                                             <span class="badge">5</span>
                                         </button>
-                                        <a href="https://portal.ayu.edu.kz/" target="_blank" class="th-btn ml-25">AYU Portal <i class="fas fa-arrow-right ms-1"></i></a>
+                                        <a href="https://portal.ayu.edu.kz/" target="_blank" class="th-btn ml-25"><?php echo dil_cevir( "AYU Portal", $dizi_dil, $_REQUEST["dil"] ); ?> <i class="fas fa-arrow-right ms-1"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -577,7 +586,7 @@ About Area
                         </div>
                         <div class="about-grid" data-bg-src="assets/img/bg/3.jpg" style="width: 154px;height: 197px;object-fit: cover;">
                             <h3 class="about-grid_year"><span class="counter-number">10</span>k<span class="text-theme">+</span></h3>
-                            <p class="about-grid_text"><?php echo $dizi["Öğrenci"][$_REQUEST["dil"]]; ?></p>
+                            <p class="about-grid_text"><?php echo dil_cevir( "Öğrenci", $dizi_dil, $_REQUEST["dil"] ); ?></p>
                         </div>
                         <div class="img2">
                             <img class="tilt-active" src="assets/img/bg/7.jpg" alt="About" style="width: 340px;height: 265px;object-fit: cover;">
@@ -596,7 +605,7 @@ About Area
                         <?php echo $genel_ayarlar['anasayfa_icerik'.$dil]; ?>
                     </p>
                     <div class="btn-group mt-40">
-                        <a href="#" class="th-btn"><?php echo $dizi["Daha Fazla"][$_REQUEST["dil"]]; ?><i class="fa-regular fa-arrow-right ms-2"></i></a>
+                        <a href="#" class="th-btn"><?php echo dil_cevir( "Daha Fazla", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-regular fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -611,12 +620,12 @@ Servce Area
                 <div class="row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="title-area mb-md-0">
-                            <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo $dizi["Son Duyurular"][$_REQUEST["dil"]]; ?></span>
-                            <h2 class="sec-title"><?php echo $dizi["Duyurular"][$_REQUEST["dil"]]; ?></h2>
+                            <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo dil_cevir( "Son Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?></span>
+                            <h2 class="sec-title"><?php echo dil_cevir( "Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?></h2>
                         </div>
                     </div>
                     <div class="col-md-auto">
-                        <a href="#" class="th-btn"><?php echo $dizi["Tüm Duyurular"][$_REQUEST["dil"]]; ?><i class="fa-solid fa-arrow-right ms-2"></i></a>
+                        <a href="#" class="th-btn"><?php echo dil_cevir( "Tüm Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-solid fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -625,7 +634,7 @@ Servce Area
                 <div class="col-md-6 col-lg-4">
                     <div class="course-box" style="height: 500px;">
                         <div class="course-img" style="height: 200px;">
-                            <img src="../admin/resimler/duyurular/<?php echo $duyuru['foto'] ?>" alt="img" style="height: 200px;object-fit: cover;">
+                            <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../admin/resimler/duyurular/<?php echo $duyuru['foto'] ?>" alt="img" style="height: 200px;object-fit: cover;"></a>
                             <span class="tag"><i class="fas fa-clock"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></span>
                         </div>
                         <div class="course-content">
@@ -665,25 +674,25 @@ Counter Area
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
                         <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac1']; ?></span><span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac1_adi'.$dil]][$_REQUEST["dil"]]; ?></strong> </p>
+                        <p class="counter-card_text"><strong><?php echo dil_cevir( $genel_ayarlar['sayac1_adi'.$dil], $dizi_dil, $_REQUEST["dil"] ); ?></strong> </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
                         <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac2']; ?></span><span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac2_adi'.$dil]][$_REQUEST["dil"]]; ?></strong> </p>
+                        <p class="counter-card_text"><strong><?php echo dil_cevir( $genel_ayarlar['sayac2_adi'.$dil], $dizi_dil, $_REQUEST["dil"] ); ?></strong> </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
                         <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac3']; ?></span><span class="fw-normal">%</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac3_adi'.$dil]][$_REQUEST["dil"]]; ?></strong></p>
+                        <p class="counter-card_text"><strong><?php echo dil_cevir( $genel_ayarlar['sayac3_adi'.$dil], $dizi_dil, $_REQUEST["dil"] ); ?></strong></p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-xl-3 counter-card-wrap">
                     <div class="counter-card">
                         <h2 class="counter-card_number"><span class="counter-number"><?php echo $genel_ayarlar['sayac4']; ?></span><span class="fw-normal">+</span></h2>
-                        <p class="counter-card_text"><strong><?php echo $dizi[$genel_ayarlar['sayac4_adi'.$dil]][$_REQUEST["dil"]]; ?></strong> </p>
+                        <p class="counter-card_text"><strong><?php echo dil_cevir( $genel_ayarlar['sayac4_adi'.$dil], $dizi_dil, $_REQUEST["dil"] ); ?></strong> </p>
                     </div>
                 </div>
             </div>
@@ -736,8 +745,8 @@ Event Area
         </div>
         <div class="container">
             <div class="title-area text-center">
-                <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo $dizi["Güncel Etkinlikler"][$_REQUEST["dil"]]; ?></span>
-                <h2 class="sec-title"><?php echo $dizi["Etkinlikler"][$_REQUEST["dil"]]; ?></h2>
+                <span class="sub-title"><i class="fal fa-book me-2"></i> <?php echo dil_cevir( "Güncel Etkinlikler", $dizi_dil, $_REQUEST["dil"] ); ?></span>
+                <h2 class="sec-title"><?php echo dil_cevir( "Etkinlikler", $dizi_dil, $_REQUEST["dil"] ); ?></h2>
             </div>
             <div class="row slider-shadow event-slider-1 th-carousel gx-70" data-slide-show="3" data-lg-slide-show="3" data-md-slide-show="1" data-sm-slide-show="1" data-xs-slide-show="1" data-arrows="true">
                 <?php foreach( $etkinlikler as $etkinlik ){ ?>
@@ -756,7 +765,7 @@ Event Area
                                 </div>
                             </div>
                             <div class="event-meta">
-                                <p><i class="fal fa-location-dot"></i><?php echo $dizi["Yer"][$_REQUEST["dil"]]; ?></p>
+                                <p><i class="fal fa-location-dot"></i><?php echo dil_cevir( "Yer", $dizi_dil, $_REQUEST["dil"] ); ?></p>
                                 <p><i class="fal fa-clock"></i>08:00 am - 10:00 am</p>
                             </div>
                             <h3 class="event-card_title" style="font-size: 16px;;">
@@ -765,7 +774,7 @@ Event Area
                                 </a>
                             </h3>
                             <div class="event-card_bottom">
-                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>" class="th-btn"><?php echo $dizi["Etkinliği Gör"][$_REQUEST["dil"]]; ?> <i class="far fa-arrow-right ms-1"></i></a>
+                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>" class="th-btn"><?php echo dil_cevir( "Etkinliği Gör", $dizi_dil, $_REQUEST["dil"] ); ?> <i class="far fa-arrow-right ms-1"></i></a>
                             </div>
                             <div class="event-card-shape jump">
                                 <img src="assets/img/event/event-box-shape1.png" alt="img">
@@ -799,7 +808,7 @@ Event Area
                             <i class="fal fa-phone"></i>
                         </div>
                         <div class="media-body">
-                            <p class="footer-contact_text"><?php echo $dizi["Bizi ara"][$_REQUEST["dil"]]; ?>:</p>
+                            <p class="footer-contact_text"><?php echo dil_cevir( "Bizi ara", $dizi_dil, $_REQUEST["dil"] ); ?>:</p>
                             <a href="tel:<?php echo $genel_ayarlar['tel']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['tel']; ?></a>
                         </div>
                     </div>
@@ -809,7 +818,7 @@ Event Area
                             <i class="fal fa-envelope"></i>
                         </div>
                         <div class="media-body">
-                            <p class="footer-contact_text"><?php echo $dizi["Email"][$_REQUEST["dil"]]; ?>:</p>
+                            <p class="footer-contact_text"><?php echo dil_cevir( "Email", $dizi_dil, $_REQUEST["dil"] ); ?>:</p>
                             <a href="mailto:<?php echo $genel_ayarlar['email']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['email']; ?>v</a>
                         </div>
                     </div>
@@ -819,7 +828,7 @@ Event Area
                             <i class="fal fa-location-dot"></i>
                         </div>
                         <div class="media-body">
-                            <p class="footer-contact_text"><?php echo $dizi["Adres"][$_REQUEST["dil"]]; ?>:</p>
+                            <p class="footer-contact_text"><?php echo dil_cevir( "Adres", $dizi_dil, $_REQUEST["dil"] ); ?>:</p>
                             <a href="https://goo.gl/maps/FfX1sG6LPF4vTT1g7" class="footer-contact_link"><?php echo $genel_ayarlar['adres'.$dil]; ?></a>
                         </div>
                     </div>
@@ -836,9 +845,9 @@ Event Area
                                     <div class="about-logo">
                                         <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo_beyaz.png" alt="Ahmet Yesevi Üniversitesi" style="height: 200px;"></a>
                                     </div>
-                                    <p class="about-text"><?php echo $dizi["Türk dünyasının parlayan yıldızı."][$_REQUEST["dil"]]; ?></p>
+                                    <p class="about-text"><?php echo dil_cevir( "Türk dünyasının parlayan yıldızı.", $dizi_dil, $_REQUEST["dil"] ); ?></p>
                                     <div class="th-social">
-                                        <h6 class="title text-white"><?php echo $dizi["Bizi takip et"][$_REQUEST["dil"]]; ?>:</h6>
+                                        <h6 class="title text-white"><?php echo dil_cevir( "Bizi takip et", $dizi_dil, $_REQUEST["dil"] ); ?>:</h6>
                                         <a href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
                                         <a href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
                                         <a href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
@@ -850,7 +859,7 @@ Event Area
                         </div>
                         <div class="col-md-6 col-xl-auto">
                             <div class="widget widget_nav_menu footer-widget">
-                                <h3 class="widget_title"><?php echo $dizi["Hızlı Bağlantılar"][$_REQUEST["dil"]]; ?></h3>
+                                <h3 class="widget_title"><?php echo dil_cevir( "Hızlı Bağlantılar", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                                 <div class="menu-all-pages-container">
                                     <ul class="menu">
                                         <li><a href="course.html">Life Coach</a></li>
@@ -865,7 +874,7 @@ Event Area
                         </div>
                         <div class="col-md-6 col-xl-6">
                             <div class="widget widget_nav_menu footer-widget">
-                                <h3 class="widget_title"><?php echo $dizi["Lokasyon"][$_REQUEST["dil"]]; ?></h3>
+                                <h3 class="widget_title"><?php echo dil_cevir( "Lokasyon", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                                 <div class="menu-all-pages-container">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23147.715132621033!2d68.4852074567093!3d43.51350782394916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4200d538dc3232cf%3A0x73b67e6d72ac6450!2sKentau!5e0!3m2!1str!2skz!4v1694599217045!5m2!1str!2skz" width="500" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
@@ -878,12 +887,12 @@ Event Area
                 <div class="copyright-wrap">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-md-6">
-                            <p class="copyright-text">Copyright © 2023 <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>">Ahmet Yesevi Üniversitesi</a> All Rights Reserved.</p>
+                            <p class="copyright-text">Copyright © 2023 <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><?php echo dil_cevir( "Ahmet Yesevi Üniversitesi", $dizi_dil, $_REQUEST["dil"] ); ?></a> All Rights Reserved.</p>
                         </div>
                         <div class="col-md-6 text-end d-none d-md-block">
                             <div class="footer-links">
                                 <ul>
-                                    <li><a href="about.html"><?php echo $dizi["Gizlilik Politikası"][$_REQUEST["dil"]]; ?></a></li>
+                                    <li><a href="about.html"><?php echo dil_cevir( "Gizlilik Politikası", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
                                 </ul>
                             </div>
                         </div>
