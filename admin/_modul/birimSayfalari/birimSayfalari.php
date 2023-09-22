@@ -48,6 +48,7 @@ FROM
 	tb_birim_sayfalari
 WHERE 
 	birim_id = ?
+ORDER BY sira
 SQL;
 
 $SQL_sayfa_bilgileri = <<< SQL
@@ -327,6 +328,15 @@ if( $sayfa_id > 0 ){
 								<?php
 								//var_dump($birim_sayfalari);
 									function kategoriListele4( $kategoriler, $parent = 0, $renk = 0,$vt, $birim_id, $birim_adi, $sistem_dil){
+										
+										$alt_menu_sayisi = 0;
+										foreach ($kategoriler as $key => $val) {
+											if ($val['ust_id']*1 === $parent*1) {
+												$alt_menu_sayisi++;
+											}
+										}
+
+
 										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
 										$adi = "adi".$sistem_dil2;
 
@@ -342,12 +352,23 @@ if( $sayfa_id > 0 ){
 																	<tbody>";
 
 										foreach ($kategoriler as $kategori){
+											
 											if( $kategori[$adi] == "" )
-												$turkce_ad_ekle = "<i>".$kategori['adi']."</i>";
+												$turkce_ad_ekle = "<i>(".$kategori['adi'].")</i>";
 											else
 												$turkce_ad_ekle = "";
 
 											if( $kategori['ust_id'] == $parent ){
+												if( $kategori['sira'] == 1 )
+													$yukari_buton = "";
+												else
+													$yukari_buton = "<a href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sira_eksi&id=$kategori[id]&ust_id=$kategori[ust_id]&birim_id=$birim_id&sira=$kategori[sira]' class='btn btn-secondary btn-xs'><i class='fas fa-arrow-up'></i></a>";
+												
+												if( $kategori['sira'] == $alt_menu_sayisi )
+													$asagi_buton = "";
+												else
+													$asagi_buton = "<a href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sira_arti&id=$kategori[id]&ust_id=$kategori[ust_id]&birim_id=$birim_id&sira=$kategori[sira]' class='btn btn-secondary btn-xs'><i class='fas fa-arrow-down'></i></a>";
+
 												if( $parent == 0 ) {
 													$renk = 1;
 												} 
@@ -356,14 +377,16 @@ if( $sayfa_id > 0 ){
 													$html .= "
 															<tr>
 																<td class=' bg-renk7 p-1' >
-																	$kategori[$adi]$turkce_ad_ekle
+																	$alt_menu_sayisi $yukari_buton
+																	$asagi_buton
+																	<b>$kategori[sira])</b> $kategori[$adi]$turkce_ad_ekle
 																	<div class='btn-group float-right'>
 																		<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
 																			İşlem
 																		</button>
 																		<div class='dropdown-menu'>
 																			<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-id='$kategori[id]' class='dropdown-item modalAc' data-birim_id = '$birim_id' data-kategori_ad_duzenle='$kategori[adi]' data-kategori_ad_duzenle_kz='$kategori[adi_kz]' data-kategori_ad_duzenle_en='$kategori[adi_en]' data-kategori_ad_duzenle_ru='$kategori[adi_ru]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>
-																			<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item float-right' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]&birim_id=$birim_id' data-toggle='modal' data-target='#sil_onay'>Sil</button>
+																			<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item float-right' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]&sira=$kategori[sira]&ust_id=$kategori[ust_id]&birim_id=$birim_id' data-toggle='modal' data-target='#sil_onay'>Sil</button>
 																			<div class='dropdown-divider'></div>
 																			<a modul= 'birimSayfalari' yetki_islem='icerik_duzenle' class='dropdown-item' href='index.php?modul=birimSayfalari&birim_id=$birim_id&birim_adi=$birim_adi&sayfa_id=$kategori[id]&sayfa_adi=$kategori[$adi]'>İçeriği Düzenle</a>
 																		</div>
@@ -378,7 +401,9 @@ if( $sayfa_id > 0 ){
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='true' class='border-0'>
 																	<td class='bg-renk$renk p-1'>
-																		$kategori[$adi]$turkce_ad_ekle
+																	$alt_menu_sayisi $yukari_buton
+																	$asagi_buton
+																	<b>$kategori[sira])</b> $kategori[$adi]$turkce_ad_ekle
 																		<div class='btn-group float-right'>
 																			<button type='button' class='btn btn-dark btn-xs dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >
 																				İşlem
@@ -386,7 +411,7 @@ if( $sayfa_id > 0 ){
 																			<div class='dropdown-menu'>
 																				<a modul= 'birimSayfalari' yetki_islem='kategori-ekle' href='#' class='dropdown-item KategoriEkle' data-birim_id = '$birim_id' id='$kategori[id]' data-id='$kategori[id]' data-kategori_ad ='$kategori[$adi]' data-ders_id='$kategori[ders_id]' data-modal='kategori_ekle' onclick='event.stopPropagation();' >Sayfa Ekle</a>
 																				<a modul= 'birimSayfalari' yetki_islem='duzenle' href='#' id='$kategori[id]' data-birim_id = '$birim_id' data-id='$kategori[id]' data-ders_id='$kategori[ders_id]' class='dropdown-item modalAc' data-kategori_ad_duzenle='$kategori[adi]' data-kategori_ad_duzenle_kz='$kategori[adi_kz]' data-kategori_ad_duzenle_en='$kategori[adi_en]' data-kategori_ad_duzenle_ru='$kategori[adi_ru]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori ='$kategori[kategori]' onclick='event.stopPropagation();' >Düzenle</a>
-																				<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]&birim_id=$birim_id' data-toggle='modal' data-target='#sil_onay' onclick='$(#sil_onay).modal();event.stopPropagation();' >Sayfayı Sil</button>
+																				<button modul= 'birimSayfalari' yetki_islem='sil' class='dropdown-item' data-href='_modul/birimSayfalari/birimSayfalariSEG.php?islem=sil&id=$kategori[id]&sira=$kategori[sira]&ust_id=$kategori[ust_id]&birim_id=$birim_id' data-toggle='modal' data-target='#sil_onay' onclick='$(#sil_onay).modal();event.stopPropagation();' >Sayfayı Sil</button>
 																			</div>
 																		</div>											
 																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>

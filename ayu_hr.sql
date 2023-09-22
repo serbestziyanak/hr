@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 21/09/2023 18:03:29
+ Date: 22/09/2023 18:10:29
 */
 
 SET NAMES utf8mb4;
@@ -923,6 +923,7 @@ CREATE TABLE `tb_birim_sayfalari`  (
   `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `kisa_ad` text CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL,
   `kategori` tinyint NULL DEFAULT NULL,
+  `sira` int NULL DEFAULT NULL,
   `link` tinyint NULL DEFAULT NULL,
   `link_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `harici` tinyint NULL DEFAULT NULL,
@@ -931,92 +932,93 @@ CREATE TABLE `tb_birim_sayfalari`  (
   `adi_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `adi_ru` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_sayfalari
 -- ----------------------------
-INSERT INTO `tb_birim_sayfalari` VALUES (7, 11, 0, 'Fakülte', 'fakulte', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (8, 11, 7, 'Hakkımızda', 'hakkimizda', 0, 0, '', 0, 1, 'a', 'b', 'c');
-INSERT INTO `tb_birim_sayfalari` VALUES (9, 11, 7, 'Tarihçe', 'tarihce', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (12, 11, 7, 'Dekanın Mesajı', 'dekaninmesaji', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (16, 11, 7, 'Misyon ve Vizyon', 'misyon-ve-vizyon', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (17, 11, 7, 'Değerlerimiz', 'degerlerimiz', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (18, 11, 7, 'Öğrenme Çıktıları', 'ogrenme-ciktilari', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (19, 11, 7, 'Dökümanlar ve Formlar', 'dokumanlar-ve-formlar', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (20, 11, 7, 'Tanıtım', 'tanitim', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (21, 11, 0, 'Yönetim', 'yonetim', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (22, 11, 21, 'Fakülte Yönetimi', 'fakulte-yonetimi', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (23, 11, 21, 'Fakülte Kurulları', 'fakulte-kurullari', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (24, 11, 21, 'Organizasyon Şeması', 'organizasyon-semasi', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (25, 11, 21, 'Öğrenci Temsilcileri', 'ogrenci-temsilcileri', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (26, 11, 0, 'Bölümler', 'bolumler', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (27, 11, 0, 'Öğrenci', 'ogrenci', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (28, 11, 27, 'Eğitim ve Öğretim', 'egitim-ve-ogretim', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (29, 11, 27, 'Önemli Bilgiler', 'onemli-bilgiler', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (30, 11, 27, 'Belge Sağlama', 'belge-saglama', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (31, 11, 27, 'Kariyer Gelişimi', 'kariyer-gelisimi', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (32, 11, 27, 'Staj', 'staj', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (33, 11, 27, 'Öğrenci İşleri Daire Başkanlığı', 'ogrenci-isleri-daire-baskanligi', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (34, 11, 27, 'Aday Öğrenci', 'aday-ogrenci', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (35, 11, 0, 'İletişim', 'iletisim', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tb_birim_sayfalari` VALUES (40, 1, 0, 'Üniversitemiz', 'universitemiz', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (41, 1, 40, 'Hakkımızda', 'hakkimizda', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (43, 1, 41, 'Başkandan Mesaj', 'baskandan-mesaj', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (45, 1, 41, 'Ahmet Yesevi Kimdir', 'ahmet-yesevi-kimdir', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (46, 1, 41, 'Vizyonumuz', 'vizyonumuz', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (47, 1, 41, 'Misyonumuz', 'misyonumuz', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (48, 1, 41, 'Hakkımızda', 'hakkimizda', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (49, 1, 41, 'Temel Değerlerimiz', 'temel-degerlerimiz', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (50, 1, 41, 'Tarihçe', 'tarihce', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (51, 1, 41, 'Logolar', 'logolar', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (53, 1, 40, 'Yönetim', 'yonetim', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (54, 1, 53, 'Mütevelli Heyeti Başkanı', 'mutevelli-heyeti-baskani', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (55, 1, 53, 'Rektör', 'rektor', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (56, 1, 53, 'Rektör Vekili', 'rektor-vekili', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (57, 1, 53, 'Eski Başkanlarımız', 'eski-baskanlarimiz', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (58, 1, 40, 'Mevzuat', 'mevzuat', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (59, 1, 58, 'Tüzük', 'tuzuk', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (60, 1, 58, 'Kişisel Verilerin Korunması', 'kisisel-verilerin-korunmasi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (61, 1, 58, 'Kurum İçi Web', 'kurum-ici-web', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (62, 1, 40, 'Yayınlar', 'yayinlar', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (63, 1, 62, 'Kitap', 'kitap', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (64, 1, 62, 'Dergi', 'dergi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (65, 1, 62, 'Rapor', 'rapor', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (66, 1, 62, 'Bildiri', 'bildiri', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (67, 1, 62, 'Video & Müzik', 'video-muzik', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (69, 1, 0, 'Öğrenci', 'ogrenci', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (70, 1, 69, 'Aday Öğrenci', 'aday-ogrenci', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (71, 1, 70, 'Tanıtım', 'tanitim', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (72, 1, 70, 'T.C. Vatandaşları', 't-c-vatandaslari', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (73, 1, 70, 'K.C. Vatandaşları', 'k-c-vatandaslari', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (74, 1, 70, 'Diğer Ülke Vatandaşları', 'diger-ulke-vatandaslari', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (75, 1, 70, 'Kayıt ve Kabul İşlemleri', 'kayit-ve-kabul-islemleri', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (76, 1, 70, 'Diploma Denkliği', 'diploma-denkligi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (77, 1, 70, 'Taban ve Tavan Puanlar', 'taban-ve-tavan-puanlar', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (78, 1, 70, 'Hazırlık Sınıfı', 'hazirlik-sinifi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (79, 1, 69, 'Kayıt', 'kayit', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (80, 1, 79, 'Ders Kaydı', 'ders-kaydi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (81, 1, 79, 'Öğrenim Ücretleri', 'ogrenim-ucretleri', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (82, 1, 69, 'Akademik İşler Daire Başkanlığı', 'akademik-isler-daire-baskanligi', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (83, 1, 82, 'Eğitim Faaliyetleri Bölümü', 'egitim-faaliyetleri-bolumu', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (84, 1, 82, 'Öğrenci İşleri Birimi (Kayıt Ofisi)', 'ogrenci-isleri-birimi-kayit-ofisi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (85, 1, 82, 'Lisansüstü Eğitim Bölümü', 'lisansustu-egitim-bolumu', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (86, 1, 82, 'Metodoloji Çalışmaları Organizasyon Bölümü', 'metodoloji-calismalari-organizasyon-bolumu', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (87, 1, 69, 'Değişim Programları', 'degisim-programlari', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (88, 1, 87, 'Akademik Değişim Birimi', 'akademik-degisim-birimi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (89, 1, 87, 'Mevlana Değişim Programı', 'mevlana-degisim-programi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (90, 1, 87, 'Orhun Değişim Programı', 'orhun-degisim-programi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (91, 1, 87, 'İç Akademi Değişim Programı', 'ic-akademi-degisim-programi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (92, 1, 87, 'K.C. Eğitim ve Yükseköğretim Bakanlığı Değişim Programı', 'k-c-egitim-ve-yuksekogretim-bakanligi-degisim-programi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (93, 1, 0, 'İletişim', 'iletisim', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (94, 1, 93, 'Birimler', 'birimler', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (95, 1, 94, 'Mütevelli Heyeti Başkanlığı', 'mutevelli-heyeti-baskanligi', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (96, 1, 94, 'Rektörlük', 'rektorluk', 0, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (97, 1, 93, 'Kampüsler', 'kampusler', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (98, 1, 93, 'Sosyal Medya', 'sosyal-medya', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (99, 1, 69, 'Kampüste Yaşam', 'kampuste-yasam', 1, NULL, NULL, NULL, NULL, '', '', '');
-INSERT INTO `tb_birim_sayfalari` VALUES (100, 1, 69, 'Uluslararası İlişkiler', 'uluslararasi-iliskiler', 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (7, 11, 0, 'Fakülte', 'fakulte', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (8, 11, 7, 'Hakkımızda', 'hakkimizda', 0, 1, 0, '', 0, 1, 'a', 'b', 'c');
+INSERT INTO `tb_birim_sayfalari` VALUES (9, 11, 7, 'Tarihçe', 'tarihce', 0, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (12, 11, 7, 'Dekanın Mesajı', 'dekaninmesaji', 0, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (16, 11, 7, 'Misyon ve Vizyon', 'misyon-ve-vizyon', 0, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (17, 11, 7, 'Değerlerimiz', 'degerlerimiz', 0, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (18, 11, 7, 'Öğrenme Çıktıları', 'ogrenme-ciktilari', 0, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (19, 11, 7, 'Dökümanlar ve Formlar', 'dokumanlar-ve-formlar', 0, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (20, 11, 7, 'Tanıtım', 'tanitim', 0, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (21, 11, 0, 'Yönetim', 'yonetim', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (22, 11, 21, 'Fakülte Yönetimi', 'fakulte-yonetimi', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (23, 11, 21, 'Fakülte Kurulları', 'fakulte-kurullari', 0, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (24, 11, 21, 'Organizasyon Şeması', 'organizasyon-semasi', 0, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (25, 11, 21, 'Öğrenci Temsilcileri', 'ogrenci-temsilcileri', 0, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (26, 11, 0, 'Bölümler', 'bolumler', 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (27, 11, 0, 'Öğrenci', 'ogrenci', 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (28, 11, 27, 'Eğitim ve Öğretim', 'egitim-ve-ogretim', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (29, 11, 27, 'Önemli Bilgiler', 'onemli-bilgiler', 0, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (30, 11, 27, 'Belge Sağlama', 'belge-saglama', 0, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (31, 11, 27, 'Kariyer Gelişimi', 'kariyer-gelisimi', 0, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (32, 11, 27, 'Staj', 'staj', 0, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (33, 11, 27, 'Öğrenci İşleri Daire Başkanlığı', 'ogrenci-isleri-daire-baskanligi', 0, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (34, 11, 27, 'Aday Öğrenci', 'aday-ogrenci', 0, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (35, 11, 0, 'İletişim', 'iletisim', 0, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_birim_sayfalari` VALUES (40, 1, 0, 'Üniversitemiz', 'universitemiz', 1, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (41, 1, 40, 'Hakkımızda', 'hakkimizda', 1, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (43, 1, 41, 'Başkandan Mesaj', 'baskandan-mesaj', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (45, 1, 41, 'Ahmet Yesevi Kimdir', 'ahmet-yesevi-kimdir', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (46, 1, 41, 'Vizyonumuz', 'vizyonumuz', 0, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (47, 1, 41, 'Misyonumuz', 'misyonumuz', 0, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (48, 1, 41, 'Hakkımızda', 'hakkimizda', 0, 5, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (49, 1, 41, 'Temel Değerlerimiz', 'temel-degerlerimiz', 0, 6, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (50, 1, 41, 'Tarihçe', 'tarihce', 0, 7, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (51, 1, 41, 'Logolar', 'logolar', 0, 8, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (53, 1, 40, 'Yönetim', 'yonetim', 1, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (54, 1, 53, 'Mütevelli Heyeti Başkanı', 'mutevelli-heyeti-baskani', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (55, 1, 53, 'Rektör', 'rektor', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (56, 1, 53, 'Rektör Vekili', 'rektor-vekili', 0, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (57, 1, 53, 'Eski Başkanlarımız', 'eski-baskanlarimiz', 0, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (58, 1, 40, 'Mevzuat', 'mevzuat', 1, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (59, 1, 58, 'Tüzük', 'tuzuk', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (60, 1, 58, 'Kişisel Verilerin Korunması', 'kisisel-verilerin-korunmasi', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (61, 1, 58, 'Kurum İçi Web', 'kurum-ici-web', 0, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (62, 1, 40, 'Yayınlar', 'yayinlar', 1, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (63, 1, 62, 'Kitap', 'kitap', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (64, 1, 62, 'Dergi', 'dergi', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (65, 1, 62, 'Rapor', 'rapor', 0, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (66, 1, 62, 'Bildiri', 'bildiri', 0, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (67, 1, 62, 'Video & Müzik', 'video-muzik', 0, 5, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (69, 1, 0, 'Öğrenci', 'ogrenci', 1, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (70, 1, 69, 'Aday Öğrenci', 'aday-ogrenci', 1, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (71, 1, 70, 'Tanıtım', 'tanitim', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (72, 1, 70, 'T.C. Vatandaşları', 't-c-vatandaslari', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (73, 1, 70, 'K.C. Vatandaşları', 'k-c-vatandaslari', 0, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (74, 1, 70, 'Diğer Ülke Vatandaşları', 'diger-ulke-vatandaslari', 0, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (75, 1, 70, 'Kayıt ve Kabul İşlemleri', 'kayit-ve-kabul-islemleri', 0, 5, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (76, 1, 70, 'Diploma Denkliği', 'diploma-denkligi', 0, 6, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (77, 1, 70, 'Taban ve Tavan Puanlar', 'taban-ve-tavan-puanlar', 0, 7, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (78, 1, 70, 'Hazırlık Sınıfı', 'hazirlik-sinifi', 0, 8, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (79, 1, 69, 'Kayıt', 'kayit', 1, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (80, 1, 79, 'Ders Kaydı', 'ders-kaydi', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (81, 1, 79, 'Öğrenim Ücretleri', 'ogrenim-ucretleri', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (82, 1, 69, 'Akademik İşler Daire Başkanlığı', 'akademik-isler-daire-baskanligi', 1, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (83, 1, 82, 'Eğitim Faaliyetleri Bölümü', 'egitim-faaliyetleri-bolumu', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (84, 1, 82, 'Öğrenci İşleri Birimi (Kayıt Ofisi)', 'ogrenci-isleri-birimi-kayit-ofisi', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (85, 1, 82, 'Lisansüstü Eğitim Bölümü', 'lisansustu-egitim-bolumu', 0, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (86, 1, 82, 'Metodoloji Çalışmaları Organizasyon Bölümü', 'metodoloji-calismalari-organizasyon-bolumu', 0, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (87, 1, 69, 'Değişim Programları', 'degisim-programlari', 1, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (88, 1, 87, 'Akademik Değişim Birimi', 'akademik-degisim-birimi', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (89, 1, 87, 'Mevlana Değişim Programı', 'mevlana-degisim-programi', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (90, 1, 87, 'Orhun Değişim Programı', 'orhun-degisim-programi', 0, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (91, 1, 87, 'İç Akademi Değişim Programı', 'ic-akademi-degisim-programi', 0, 4, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (92, 1, 87, 'K.C. Eğitim ve Yükseköğretim Bakanlığı Değişim Programı', 'k-c-egitim-ve-yuksekogretim-bakanligi-degisim-programi', 0, 5, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (93, 1, 0, 'İletişim', 'iletisim', 1, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (94, 1, 93, 'Birimler', 'birimler', 1, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (95, 1, 94, 'Mütevelli Heyeti Başkanlığı', 'mutevelli-heyeti-baskanligi', 0, 1, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (96, 1, 94, 'Rektörlük', 'rektorluk', 0, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (97, 1, 93, 'Kampüsler', 'kampusler', 1, 2, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (98, 1, 93, 'Sosyal Medya', 'sosyal-medya', 1, 3, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (99, 1, 69, 'Kampüste Yaşam', 'kampuste-yasam', 1, 5, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (100, 1, 69, 'Uluslararası İlişkiler', 'uluslararasi-iliskiler', 1, 6, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `tb_birim_sayfalari` VALUES (112, 1, 0, 'Deneme', 'deneme', 0, 4, NULL, NULL, NULL, NULL, '', '', '');
 
 -- ----------------------------
 -- Table structure for tb_birim_sayfalari_2

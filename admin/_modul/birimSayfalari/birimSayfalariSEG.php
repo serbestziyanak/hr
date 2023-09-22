@@ -59,6 +59,60 @@ WHERE
 	id 		= ? 
 SQL;
 
+$SQL_birim_sayfa_sira_eksi1 = <<< SQL
+UPDATE
+	tb_birim_sayfalari
+SET
+	 sira = sira + 1
+WHERE 
+	birim_id = ? and ust_id = ? and sira = ? - 1 
+SQL;
+
+$SQL_birim_sayfa_sira_eksi2 = <<< SQL
+UPDATE
+	tb_birim_sayfalari
+SET
+	 sira = sira - 1
+WHERE 
+	id = ? 
+SQL;
+
+$SQL_birim_sayfa_sira_arti1 = <<< SQL
+UPDATE
+	tb_birim_sayfalari
+SET
+	 sira = sira - 1
+WHERE 
+	birim_id = ? and ust_id = ? and sira = ? + 1 
+SQL;
+
+$SQL_birim_sayfa_sira_arti2 = <<< SQL
+UPDATE
+	tb_birim_sayfalari
+SET
+	 sira = sira + 1
+WHERE 
+	id = ? 
+SQL;
+
+$SQL_birim_sayfa_sira_olustur = <<< SQL
+UPDATE
+	tb_birim_sayfalari
+SET
+	 sira = (select count(*) from tb_birim_sayfalari where birim_id = ? and ust_id = ?)
+WHERE 
+	id = ? 
+SQL;
+
+$SQL_birim_sayfa_sira_guncelle = <<< SQL
+UPDATE
+	tb_birim_sayfalari
+SET
+	sira = sira-1
+WHERE 
+	sira > ? and  birim_id = ? and ust_id = ?
+SQL;
+
 $SQL_sil = <<< SQL
 DELETE FROM
 	tb_birim_sayfalari
@@ -130,6 +184,16 @@ switch( $islem ) {
 		$son_eklenen_id	= $sonuc[ 2 ]; 
 		$son_id = $son_eklenen_id;
 
+		$sorgu_sonuc = $vt->update( $SQL_birim_sayfa_sira_olustur, array(
+			 $_REQUEST[	'birim_id' ]
+			,$_REQUEST[	'ust_id' ]
+			,$son_id
+		) );
+		if( $sorgu_sonuc[ 0 ] ){
+			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
+		}else{
+			$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sorgu_sonuc[ 2 ] ); 
+		}
 	break;
 	case 'guncelle':
 		$degerler[] = $_REQUEST[ "adi" ];
@@ -175,6 +239,18 @@ switch( $islem ) {
 
 		echo "gelen id  : $id";
 		kategorisil($vt,$SQL_birim_sayfa_oku, $SQL_sil, $id);
+
+		$sorgu_sonuc = $vt->update( $SQL_birim_sayfa_sira_guncelle, array(
+			 $_REQUEST[	'sira' ]
+			,$_REQUEST[	'birim_id' ]
+			,$_REQUEST[	'ust_id' ]
+		) );
+		if( $sorgu_sonuc[ 0 ] ){
+			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
+		}else{
+			$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sorgu_sonuc[ 2 ] ); 
+		}
+
 	break;
 	case 'icerik_ekle':
 		$sorgu_sonuc = $vt->insert( $SQL_icerik_ekle, array(
@@ -211,6 +287,40 @@ switch( $islem ) {
 
 		if( $sorgu_sonuc[ 0 ] ){
 			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
+		}else{
+			$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sorgu_sonuc[ 2 ] ); 
+		}
+	break;
+	case 'sira_eksi':
+		$sorgu_sonuc = $vt->update( $SQL_birim_sayfa_sira_eksi1, array(
+			 $_REQUEST[	'birim_id' ]
+			,$_REQUEST[	'ust_id' ]
+			,$_REQUEST[	'sira' ]
+		) );
+
+		$sorgu_sonuc = $vt->update( $SQL_birim_sayfa_sira_eksi2, array(
+			$id
+		) );
+
+		if( $sorgu_sonuc[ 0 ] ){
+			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt güncellenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
+		}else{
+			$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sorgu_sonuc[ 2 ] ); 
+		}
+	break;
+	case 'sira_arti':
+		$sorgu_sonuc = $vt->update( $SQL_birim_sayfa_sira_arti1, array(
+			 $_REQUEST[	'birim_id' ]
+			,$_REQUEST[	'ust_id' ]
+			,$_REQUEST[	'sira' ]
+		) );
+
+		$sorgu_sonuc = $vt->update( $SQL_birim_sayfa_sira_arti2, array(
+			$id
+		) );
+
+		if( $sorgu_sonuc[ 0 ] ){
+			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt güncellenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
 		}else{
 			$___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerçekleşti', 'id' => $sorgu_sonuc[ 2 ] ); 
 		}

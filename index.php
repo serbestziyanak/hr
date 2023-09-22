@@ -30,6 +30,7 @@ FROM
 	tb_birim_sayfalari
 WHERE 
 	birim_id = ?
+ORDER BY sira
 SQL;
 
 $SQL_slaytlar = <<< SQL
@@ -647,8 +648,6 @@ foreach( $ceviriler as $ceviri ){
                         </div>
                         <div class="header-top-right">
                             <ul class="header-info">
-                                <li><a href="#">Login</a></li>
-                                <li><a href="#">Register</a></li>
                                 <li><a href="tel:+011235641231"><i class="icon-phone"></i>Call: 123 4561 5523</a></li>
                                 <li><a href="mailto:info@edublink.com" target="_blank"><i class="icon-envelope"></i>Email: info@edublink.com</a></li>
                                 <li class="social-icon">
@@ -701,7 +700,10 @@ foreach( $ceviriler as $ceviri ){
                                                 foreach($array as $item) {
                                                     if( $item['ust_id'] == $ust_id ){
                                                         if( $item['kategori'] == 0 ){
+                                                            if( $item['ust_id'] == 0 )
                                                             $menu .= "<li><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                                            else
+                                                            $menu .= "<li style='list-style-type: square;'><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
                                                         }else{
                                                             if( $ust_id == 0 )
                                                              $menu .= "<li class='has-droupdown'><a href='#' >{$item[$adi]}</a>";
@@ -954,14 +956,8 @@ foreach( $ceviriler as $ceviri ){
                                         <i class="icon-2"></i>
                                     </a>
                                 </li>
-                                <li class="icon cart-icon">
-                                    <a href="cart.html" class="cart-icon">
-                                        <i class="icon-3"></i>
-                                        <span class="count">0</span>
-                                    </a>
-                                </li>
                                 <li class="header-btn">
-                                    <a href="contact-us.html" class="edu-btn btn-medium">Try for free <i class="icon-4"></i></a>
+                                    <a href="https://portal.ayu.edu.kz/" class="edu-btn btn-medium">Ayu Portal <i class="icon-4"></i></a>
                                 </li>
                                 <li class="mobile-menu-bar d-block d-xl-none">
                                     <button class="hamberger-button">
@@ -1103,8 +1099,8 @@ foreach( $ceviriler as $ceviri ){
             <div class="edu-search-popup">
                 <div class="content-wrap">
                     <div class="site-logo">
-                        <img class="logo-light" src="assets/images/logo/logo-dark.png" alt="Corporate Logo">
-                        <img class="logo-dark" src="assets/images/logo/logo-white.png" alt="Corporate Logo">
+                        <img class="logo-light" src="assets/images/logo/ayu_logo2.png" alt="Corporate Logo">
+                        <img class="logo-dark" src="assets/images/logo/ayu_logo2.png" alt="Corporate Logo">
                     </div>
                     <div class="close-button">
                         <button class="close-trigger"><i class="icon-73"></i></button>
