@@ -14,10 +14,12 @@ $SQL_kontrol = <<< SQL
 SELECT
 	 k.*
 	,CASE k.super WHEN 1 THEN "Süper" ELSE r.adi END AS rol_adi
+	,biy.birim_idler
 FROM
 	view_giris_kontrol AS k
-JOIN
+LEFT JOIN
 	tb_roller AS r ON k.rol_id = r.id
+LEFT JOIN tb_birim_yetkileri as biy ON biy.personel_id = k.id
 WHERE
 	k.email = ? AND
 	k.sifre = ?
@@ -98,6 +100,7 @@ if( !$sorguSonuc[ 0 ] ) {
 		$_SESSION[ 'super' ]			= $kullaniciBilgileri[ 'super' ];
 		$_SESSION[ 'universite_id' ]	= $kullaniciBilgileri[ 'universite_id' ];
 		$_SESSION[ 'kullanici_turu' ]	= $kullaniciBilgileri[ 'kullanici_turu' ];
+		$_SESSION[ 'birim_idler' ]		= $kullaniciBilgileri[ 'birim_idler' ];
 
 		$aktif_yil 						= $vt->selectSingle( $SQL_aktif_yil, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];
 		$ders_yillari 					= $vt->select( $SQL_ders_yillari, array( $kullaniciBilgileri[ 'universite_id' ] ) )[ 2 ];

@@ -683,8 +683,9 @@ foreach( $ceviriler as $ceviri ){
                         <div class="header-mainnav">
                             <nav class="mainmenu-nav">
                                 <ul class="mainmenu">
+                                        <li><a href="#">Anasayfa</a></li>
                                         <?php 
-                                            function buildList(array $array, int $ust_id, int $eski_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_bolumler): string
+                                            function buildList(array $array, int $ust_id, int $onceki_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_akademik_birimler): string
                                             {
                                                 $dil2 = $dil == "tr" ? "" : "_".$dil ;
                                                 $adi = "adi".$dil2;
@@ -692,7 +693,7 @@ foreach( $ceviriler as $ceviri ){
                                                 $menu = "";
                                                 }
                                                 else{
-                                                    if( $eski_ust_id == 0 )
+                                                    if( $onceki_ust_id == 0 )
                                                     $menu = "<ul class='mega-menu mega-menu-two'>";
                                                     else
                                                     $menu = "<ul class='submenu mega-sub-menu mega-sub-menu-01'>";
@@ -711,11 +712,36 @@ foreach( $ceviriler as $ceviri ){
                                                              $menu .= "<li><h6 style='color:#eb0023;'>&emsp;{$item[$adi]}</h6>";
                                                         }
                                                         if ( $item['kategori'] == 1 ) {
-                                                                if( $item['kisa_ad'] == 'bolumler' ){
-                                                                }else{
-                                                                    $menu .= buildList($array, $item['id'], $item['ust_id'],0, $birim_id, $dil,$vt,$SQL_bolumler);
-                                                                    $menu .= "</li>";
+                                                            if( $item['kisa_ad'] == 'akademik' ){
+                                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
+                                                                @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 2 ) )[ 2 ];
+                                                                foreach( @$akademik_birimler as $birim ){
+                                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                                        
+                                                                    @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
+                                                                    foreach(@$akademik_birimler2 as $birim2){
+                                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                                    } 
+                                                                $menu .= "</ul></li>";
                                                                 }
+                                                                $menu .= "</ul>";
+                                                            }elseif( $item['kisa_ad'] == 'idari' ){
+                                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
+                                                                @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 3 ) )[ 2 ];
+                                                                foreach( @$akademik_birimler as $birim ){
+                                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                                        
+                                                                    @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
+                                                                    foreach(@$akademik_birimler2 as $birim2){
+                                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                                    } 
+                                                                $menu .= "</ul></li>";
+                                                                }
+                                                                $menu .= "</ul>";
+                                                            }else{
+                                                                $menu .= buildList($array, $item['id'], $item['ust_id'],0, $birim_id, $dil,$vt,$SQL_akademik_birimler);
+                                                                $menu .= "</li>";
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -726,7 +752,7 @@ foreach( $ceviriler as $ceviri ){
                                                 }
                                                 return $menu;
                                             }
-                                            echo buildList($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_bolumler);
+                                            echo buildList($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_akademik_birimler);
                                         ?>
 
                                     <!--li class="has-droupdown"><a href="#">Üniversitemiz</a>
@@ -828,36 +854,7 @@ foreach( $ceviriler as $ceviri ){
                                             </li>
                                         </ul>
                                     </li-->
-                                    <li class="has-droupdown"><a href="#">Akademik</a>
-                                        <ul class="mega-menu mega-menu-two">
-                                        <?php 
-                                            @$akademik_birimler 		= $vt->select($SQL_akademik_birimler, array( 2 ) )[ 2 ];
-                                            foreach( @$akademik_birimler as $birim ){
-                                        ?>
-                                            <li><h6 style="color:#eb0023;">&emsp;<?php echo $birim['adi']; ?></h6>    
-                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
-                                                    <?php 
-                                                    @$akademik_birimler2 		= $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
-                                                    foreach(@$akademik_birimler2 as $birim2){
-
-                                                    ?>
-                                                    <li style="list-style-type: square;"><a href="birimler/tr/<?php echo $birim2['kisa_ad']; ?>"><?php echo $birim2['adi']; ?></a></li>
-                                                    <?php } ?>
-                                                </ul>
-                                            </li>
-                                            <?php } ?>
-                                            <!--li>
-                                                <ul class="submenu mega-sub-menu-01">
-                                                    <li>
-                                                        <a href="https://1.envato.market/5bQ022">
-                                                            <img src="assets/images/others/mega-menu-image.webp" alt="advertising Image">
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li-->
-                                        </ul>
-                                    </li>
-                                    <li class="has-droupdown"><a href="#">Öğrenci</a>
+                                    <!--li class="has-droupdown"><a href="#">Öğrenci</a>
                                         <ul class="mega-menu mega-menu-two">
                                             <li><h6 style="color:#eb0023;">&emsp;Aday Öğrenci</h6>
                                                 <ul class="submenu mega-sub-menu mega-sub-menu-01">
@@ -939,7 +936,7 @@ foreach( $ceviriler as $ceviri ){
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li-->
                                 </ul>
                             </nav>
                         </div>
@@ -985,113 +982,76 @@ foreach( $ceviriler as $ceviri ){
                         </div>
                     </div>
                     <ul class="mainmenu">
-                        <li class="has-droupdown"><a href="#">Home</a>
-                            <ul class="mega-menu mega-menu-one">
-                                <li>
-                                    <ul class="submenu mega-sub-menu mega-sub-menu-01">
-                                        <li><a href="index.html">EduBlink Education <span class="badge-1">hot</span></a></li>
-                                        <li><a href="index-distant-learning.html">Distant Learning</a></li>
-                                        <li><a href="index-university.html">University</a></li>
-                                        <li><a href="index-online-academy.html">Online Academy <span class="badge-1">hot</span></a></li>
-                                        <li><a href="index-modern-schooling.html">Modern Schooling</a></li>
-                                        <li><a href="index-kitchen.html">Kitchen Coach</a></li>
-                                        <li><a href="index-yoga.html">Yoga Instructor</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <ul class="submenu mega-sub-menu mega-sub-menu-01">
-                                        <li><a href="index-kindergarten.html">Kindergarten</a></li>
-                                        <li><a href="index-health-coach.html">Health Coch <span class="badge">new</span></a></li>
-                                        <li><a href="index-language-academy.html">Language Academy <span class="badge">new</span></a></li>
-                                        <li><a href="index-remote-training.html">Remote Training <span class="badge">new</span></a></li>
-                                        <li><a href="index-photography.html">Photography <span class="badge">new</span></a></li>
-                                        <li><a href="https://edublink.html.dark.devsblink.com/" target="_blank">Dark Version</a></li>
-                                        <li><a href="index-landing.html">Landing Demo</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <ul class="submenu mega-sub-menu-01">
-                                        <li>
-                                            <a href="https://1.envato.market/5bQ022">
-                                                <img src="assets/images/others/mega-menu-image.webp" alt="advertising Image">
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="has-droupdown"><a href="#">Pages</a>
-                            <ul class="mega-menu">
-                                <li>
-                                    <h6 class="menu-title">Inner Pages</h6>
-                                    <ul class="submenu mega-sub-menu-01">
-                                        <li><a href="about-one.html">About Us 1</a></li>
-                                        <li><a href="about-two.html">About Us 2</a></li>
-                                        <li><a href="about-three.html">About Us 3</a></li>
-                                        <li><a href="team-one.html">Instructor 1</a></li>
-                                        <li><a href="team-two.html">Instructor 2</a></li>
-                                        <li><a href="team-three.html">Instructor 3</a></li>
-                                        <li><a href="team-details.html">Instructor Profile</a></li>
-                                        <li><a href="faq.html">Faq's</a></li>
-                                        <li><a href="404.html">404 Error</a></li>
-                                        <li><a href="coming-soon.html">Coming Soon</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <h6 class="menu-title">Inner Pages</h6>
-                                    <ul class="submenu mega-sub-menu-01">
-                                        <li><a href="gallery-grid.html">Gallery Grid</a></li>
-                                        <li><a href="gallery-masonry.html">Gallery Masonry</a></li>
-                                        <li><a href="event-grid.html">Event Grid</a></li>
-                                        <li><a href="event-list.html">Event List</a></li>
-                                        <li><a href="event-details.html">Event Details</a></li>
-                                        <li><a href="pricing-table.html">Pricing Table</a></li>
-                                        <li><a href="purchase-guide.html">Purchase Guide</a></li>
-                                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                        <li><a href="terms-condition.html">Terms & Condition</a></li>
-                                        <li><a href="my-account.html">Sign In</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <h6 class="menu-title">Shop Pages</h6>
-                                    <ul class="submenu mega-sub-menu-01">
-                                        <li><a href="shop.html">Shop</a></li>
-                                        <li><a href="product-details.html">Product Details</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="has-droupdown"><a href="#">Courses</a>
-                            <ul class="submenu">
-                                <li><a href="course-one.html">Course Style 1</a></li>
-                                <li><a href="course-two.html">Course Style 2</a></li>
-                                <li><a href="course-three.html">Course Style 3</a></li>
-                                <li><a href="course-four.html">Course Style 4</a></li>
-                                <li><a href="course-five.html">Course Style 5</a></li>
-                                <li><a href="course-details.html">Course Details 1</a></li>
-                                <li><a href="course-details-2.html">Course Details 2</a></li>
-                                <li><a href="course-details-3.html">Course Details 3</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="has-droupdown"><a href="#">Blog</a>
-                            <ul class="submenu">
-                                <li><a href="blog-standard.html">Blog Standard</a></li>
-                                <li><a href="blog-masonry.html">Blog Masonry</a></li>
-                                <li><a href="blog-list.html">Blog List</a></li>
-                                <li><a href="blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-droupdown"><a href="#">Contact</a>
-                            <ul class="submenu">
-                                <li><a href="contact-us.html">Contact Us</a></li>
-                                <li><a href="contact-me.html">Contact Me</a></li>
-                            </ul>
-                        </li>
+                        <?php 
+                            function buildList2(array $array, int $ust_id, int $onceki_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_akademik_birimler): string
+                            {
+                                $dil2 = $dil == "tr" ? "" : "_".$dil ;
+                                $adi = "adi".$dil2;
+                                if( $ilk ){
+                                $menu = "";
+                                }
+                                else{
+                                    if( $onceki_ust_id == 0 )
+                                    $menu = "<ul class='mega-menu mega-menu-two'>";
+                                    else
+                                    $menu = "<ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                }
+                                foreach($array as $item) {
+                                    if( $item['ust_id'] == $ust_id ){
+                                        if( $item['kategori'] == 0 ){
+                                            if( $item['ust_id'] == 0 )
+                                            $menu .= "<li><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                            else
+                                            $menu .= "<li style='list-style-type: square;'><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                        }else{
+                                            if( $ust_id == 0 )
+                                                $menu .= "<li class='has-droupdown'><a href='#' >{$item[$adi]}</a>";
+                                                else
+                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;{$item[$adi]}</h6>";
+                                        }
+                                        if ( $item['kategori'] == 1 ) {
+                                            if( $item['kisa_ad'] == 'akademik' ){
+                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
+                                                @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 2 ) )[ 2 ];
+                                                foreach( @$akademik_birimler as $birim ){
+                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                        
+                                                    @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
+                                                    foreach(@$akademik_birimler2 as $birim2){
+                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                    } 
+                                                $menu .= "</ul></li>";
+                                                }
+                                                $menu .= "</ul>";
+                                            }elseif( $item['kisa_ad'] == 'idari' ){
+                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
+                                                @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 3 ) )[ 2 ];
+                                                foreach( @$akademik_birimler as $birim ){
+                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                        
+                                                    @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
+                                                    foreach(@$akademik_birimler2 as $birim2){
+                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                    } 
+                                                $menu .= "</ul></li>";
+                                                }
+                                                $menu .= "</ul>";
+                                            }else{
+                                                $menu .= buildList2($array, $item['id'], $item['ust_id'],0, $birim_id, $dil,$vt,$SQL_akademik_birimler);
+                                                $menu .= "</li>";
+                                            }
+                                        }
+                                    }
+                                }
+                                if( $ilk ){
+                                $menu .= "";
+                                }else{
+                                $menu .= "</ul>";
+                                }
+                                return $menu;
+                            }
+                            echo buildList2($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_akademik_birimler);
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -1972,6 +1932,66 @@ Uluslararası standartlarda eğitim ortamı, bilimsel ve teknolojik araştırma 
                                     </div>
                                     <h5 class="title"><a href="event-details.html">Ara Sınavlar Başlıyor</a></h5>
                                     <p>Ara Sınavlar 25 Kasım 2023 tarihinde başlıyor...</p>
+                                    <ul class="event-meta">
+                                        <li><i class="icon-40"></i>Türkistan, Kazakistan</li>
+                                    </ul>
+                                    <div class="read-more-btn">
+                                        <a class="edu-btn btn-small btn-secondary" href="event-details.html">Learn More <i class="icon-4"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Event Grid  -->
+                    <!-- Start Event Grid  -->
+                    <div class="col-lg-4 col-md-6" data-sal-delay="300" data-sal="slide-up" data-sal-duration="800">
+                        <div class="edu-event event-style-1">
+                            <div class="inner">
+                                <div class="thumbnail">
+                                    <a href="event-details.html">
+                                        <img src="assets/images/event/event-03.jpg" alt="Blog Images">
+                                    </a>
+                                    <div class="event-time">
+                                        <span><i class="icon-33"></i>10:00AM-11:00AM</span>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="event-date">
+                                        <span class="day">18</span>
+                                        <span class="month">MAR</span>
+                                    </div>
+                                    <h5 class="title"><a href="event-details.html">Nevruz Tatili Başlıyor</a></h5>
+                                    <p>Nevruz Tatili 18 Mart 2024 tarihinde başlıyor..</p>
+                                    <ul class="event-meta">
+                                        <li><i class="icon-40"></i>Türkistan, Kazakistan</li>
+                                    </ul>
+                                    <div class="read-more-btn">
+                                        <a class="edu-btn btn-small btn-secondary" href="event-details.html">Learn More <i class="icon-4"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Event Grid  -->
+                    <!-- Start Event Grid  -->
+                    <div class="col-lg-4 col-md-6" data-sal-delay="300" data-sal="slide-up" data-sal-duration="800">
+                        <div class="edu-event event-style-1">
+                            <div class="inner">
+                                <div class="thumbnail">
+                                    <a href="event-details.html">
+                                        <img src="assets/images/event/event-03.jpg" alt="Blog Images">
+                                    </a>
+                                    <div class="event-time">
+                                        <span><i class="icon-33"></i>10:00AM-11:00AM</span>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="event-date">
+                                        <span class="day">18</span>
+                                        <span class="month">MAR</span>
+                                    </div>
+                                    <h5 class="title"><a href="event-details.html">Nevruz Tatili Başlıyor</a></h5>
+                                    <p>Nevruz Tatili 18 Mart 2024 tarihinde başlıyor..</p>
                                     <ul class="event-meta">
                                         <li><i class="icon-40"></i>Türkistan, Kazakistan</li>
                                     </ul>

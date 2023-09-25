@@ -64,7 +64,7 @@ function dil_cevir( $metin, $dizi, $dil ){
 	<!-- Sidebar user panel (optional) -->
 	<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 		<div class="image">
-		<img src="resimler/<?php echo $_SESSION[ 'kullanici_resim' ]; ?>" class="img-circle elevation-2" alt="User Image">
+		<img src="resimler/<?php if( $_SESSION[ 'kullanici_turu' ] == "personel" ) echo "personel_resimler/"; ?><?php echo $_SESSION[ 'kullanici_resim' ]; ?>" class="img-circle elevation-2" alt="User Image">
 		</div>
 		<div class="info">
 		<a href="#" class="d-block" ><?php echo $_SESSION['adi']." ".$fn->ilkHarfleriBuyut($_SESSION['soyadi']); ?></a><span style = "color:white" id = "user_label"></span>

@@ -69,6 +69,39 @@ WHERE
 	sayfa_id 				= ?
 SQL;
 
+$SQL_ust_id_getir = <<< SQL
+WITH RECURSIVE ust_kategoriler AS (
+    SELECT id, ust_id, adi
+    FROM tb_birim_agaci
+    WHERE id = ? -- burası istediğiniz başlangıç ID'si
+    UNION ALL
+    SELECT k.id, k.ust_id, k.adi
+    FROM tb_birim_agaci k
+    JOIN ust_kategoriler uk ON k.id = uk.ust_id
+)
+SELECT * FROM ust_kategoriler;
+SQL;
+
+$SQL_alt_id_getir = <<< SQL
+WITH RECURSIVE alt_kategoriler AS (
+    SELECT *
+    FROM tb_birim_agaci
+    WHERE id = ? -- burası istediğiniz başlangıç ID'si
+    UNION ALL
+    SELECT k.*
+    FROM tb_birim_agaci k
+    JOIN alt_kategoriler ak ON k.ust_id = ak.id
+)
+SELECT * FROM alt_kategoriler;
+SQL;
+$ust_idler					= $vt->select( $SQL_ust_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
+$alt_idler					= $vt->select( $SQL_alt_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
+
+foreach($ust_idler as $ust_id) 
+	$ust_id_dizi[] = $ust_id['ust_id'];
+
+foreach($alt_idler as $alt_id) 
+	$ust_id_dizi[] = $alt_id['ust_id'];
 
 @$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];

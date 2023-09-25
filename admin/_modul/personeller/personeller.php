@@ -26,32 +26,30 @@ $kaydet_buton_yazi			= $personel_id > 0	? 'Güncelle'							: 'Kaydet';
 $kaydet_buton_cls			= $personel_id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 $kaydet_buton_yetki_islem	= $personel_id > 0	? 'guncelle'									: 'kaydet';
 
-
+//echo $_SESSION['birim_idler'];
 
 $SQL_tum_personeller = <<< SQL
 SELECT 
-	p.*,
-	CONCAT( p.adi, ' ', p.soyadi ) AS adi_soyadi
+	p.*
+	,CONCAT( p.adi, ' ', p.soyadi ) AS adi_soyadi
+	,ba.adi as birim_adi
 FROM 
 	tb_personeller AS p
+LEFT JOIN tb_birim_agaci AS ba ON ba.id = p.birim_id
 ORDER BY p.adi ASC
 SQL;
 
 $SQL_tum_personeller2 = <<< SQL
 SELECT 
-	o.*,
-	CONCAT( o.adi, ' ', o.soyadi ) AS o_adi,
-	u.adi as uzmanlik_dali_adi
+	p.*,
+	CONCAT( p.adi, ' ', p.soyadi ) AS adi_soyadi
 FROM 
-	tb_personeller AS o
-LEFT JOIN tb_uzmanlik_dallari AS u ON u.id = o.uzmanlik_dali_id
-WHERE
-	o.universite_id 	= ? AND
-	o.uzmanlik_dali_id 		= ? AND
-	o.id 		= ? AND
-	o.aktif 		  	= 1 
-ORDER BY o.adi ASC
+	tb_personeller AS p
+WHERE 
+	p.id = ?
+ORDER BY p.adi ASC
 SQL;
+
 
 
 $SQL_tek_personel_oku = <<< SQL
@@ -137,7 +135,20 @@ WITH RECURSIVE ust_kategoriler AS (
     FROM tb_birim_agaci k
     JOIN ust_kategoriler uk ON k.id = uk.ust_id
 )
-SELECT * FROM ust_kategoriler;i
+SELECT * FROM ust_kategoriler;
+SQL;
+
+$SQL_alt_id_getir = <<< SQL
+WITH RECURSIVE alt_kategoriler AS (
+    SELECT *
+    FROM tb_birim_agaci
+    WHERE id = ? -- burası istediğiniz başlangıç ID'si
+    UNION ALL
+    SELECT k.*
+    FROM tb_birim_agaci k
+    JOIN alt_kategoriler ak ON k.ust_id = ak.id
+)
+SELECT * FROM alt_kategoriler;
 SQL;
 
 @$birim_agacilar 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
@@ -151,18 +162,23 @@ $personel_turleri		= $vt->select( $SQL_personel_turleri, array(  ) )[ 2 ];
 
 
 
-if( $_SESSION[ 'kullanici_turu' ] == "personel" ){
-	$personeller					= $vt->select( $SQL_tum_personeller2, array( $_SESSION[ 'universite_id'], $_SESSION[ 'uzmanlik_dali_id'], $_SESSION[ 'kullanici_id'] ) )[ 2 ];
-}else{
-	$personeller					= $vt->select( $SQL_tum_personeller, array(  ) )[ 2 ];
-}
+// if( $_SESSION[ 'kullanici_turu' ] == "personel" ){
+// 	$personeller					= $vt->select( $SQL_tum_personeller2, array( $_SESSION[ 'kullanici_id'] ) )[ 2 ];
+// }else{
+// 	$personeller					= $vt->select( $SQL_tum_personeller, array(  ) )[ 2 ];
+// }
 
+$personeller					= $vt->select( $SQL_tum_personeller, array(  ) )[ 2 ];
 $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 @$tek_personel				= $vt->select( $SQL_tek_personel_oku, array( $personel_id ) )[ 2 ][ 0 ];		
 $ust_idler					= $vt->select( $SQL_ust_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
+$alt_idler					= $vt->select( $SQL_alt_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
 
 foreach($ust_idler as $ust_id) 
 	$ust_id_dizi[] = $ust_id['ust_id'];
+
+foreach($alt_idler as $alt_id) 
+	$ust_id_dizi[] = $alt_id['ust_id'];
 
 //var_dump($ust_id_dizi);
 ?>
@@ -202,7 +218,7 @@ foreach($ust_idler as $ust_id)
 						<h3 class="card-title"><?php echo dil_cevir( "Personeller", $dizi_dil, $sistem_dil ); ?></h3>
 						<div class = "card-tools">
 							<button type="button" data-toggle = "tooltip" title = "Tam sayfa göster" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand fa-lg"></i></button>
-							<a id = "yeni_ogretim_elemanlari" data-toggle = "tooltip" title = "Yeni Personel Ekle" href = "?modul=personeller&islem=ekle" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
+							<a modul= 'personeller' yetki_islem="ekle" id = "yeni_ogretim_elemanlari" data-toggle = "tooltip" title = "Yeni Personel Ekle" href = "?modul=personeller&islem=ekle" class="btn btn-tool" ><i class="fas fa-plus fa-lg"></i></a>
 						</div>
 					</div>
 					<div class="card-body">
@@ -212,7 +228,8 @@ foreach($ust_idler as $ust_id)
 									<th style="width: 15px">#</th>
 									<th><?php echo dil_cevir( "In No", $dizi_dil, $sistem_dil ); ?></th>
 									<th><?php echo dil_cevir( "Adı Soyadı", $dizi_dil, $sistem_dil ); ?></th>
-									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Profil", $dizi_dil, $sistem_dil ); ?></th>
+									<th><?php echo dil_cevir( "Birim", $dizi_dil, $sistem_dil ); ?></th>
+									<!--th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Profil", $dizi_dil, $sistem_dil ); ?></th-->
 									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Düzenle", $dizi_dil, $sistem_dil ); ?></th>
 									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></th>
 								</tr>
@@ -223,11 +240,12 @@ foreach($ust_idler as $ust_id)
 									<td><?php echo $sayi++; ?></td>
 									<td><?php echo $personel[ 'in_no' ]; ?></td>
 									<td><?php echo $personel[ 'adi_soyadi' ]; ?></td>
-									<td align = "center">
+									<td><?php echo $personel[ 'birim_adi' ]; ?></td>
+									<!--td align = "center">
 										<a modul = 'personeller' yetki_islem="profil_goster" class="text-olive" href = "?modul=personelProfil&personel_id=<?php echo $personel[ 'id' ]; ?>" >
 											<h5><i class="fas fa-id-card"></i></h5>
 										</a>
-									</td>
+									</td-->
 									<td align = "center">
 										<a modul = 'personeller' yetki_islem="duzenle" class = "btn btn-sm btn-warning btn-xs" href = "?modul=personeller&islem=guncelle&personel_id=<?php echo $personel[ 'id' ]; ?>" >
 											<?php echo dil_cevir( "Düzenle", $dizi_dil, $sistem_dil ); ?>
@@ -605,7 +623,7 @@ foreach($ust_idler as $ust_id)
 							</div>
 						</div>
 						<div class="card-footer">
-							<button modul= 'personeller' yetki_islem="<?php echo $kaydet_buton_yetki_islem; ?>" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo dil_cevir( $kaydet_buton_yazi, $dizi_dil, $sistem_dil ); ?></button>
+							<button modul= 'personeller' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span> <?php echo dil_cevir( $kaydet_buton_yazi, $dizi_dil, $sistem_dil ); ?></button>
 						</div>
 					</form>
 
