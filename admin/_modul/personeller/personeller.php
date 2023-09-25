@@ -16,7 +16,7 @@ if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 $islem						= array_key_exists( 'islem'		         ,$_REQUEST ) ? $_REQUEST[ 'islem' ]				: 'ekle';
 $personel_id				= array_key_exists( 'personel_id' ,$_REQUEST ) ? $_REQUEST[ 'personel_id' ]	: 0;
 
-if( $_SESSION[ 'kullanici_turu' ] == "personel"  ){
+if( $_SESSION[ 'kullanici_turu' ] == "personel" and $_SESSION['rol_id'] == 1 ){
 	if( $personel_id != $_SESSION[ 'kullanici_id' ] )
 		$personel_id		= "";
 }
@@ -26,6 +26,9 @@ $kaydet_buton_yazi			= $personel_id > 0	? 'Güncelle'							: 'Kaydet';
 $kaydet_buton_cls			= $personel_id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 $kaydet_buton_yetki_islem	= $personel_id > 0	? 'guncelle'									: 'kaydet';
 
+$where="";
+if( $_SESSION['super'] != 1 and $_SESSION['rol_id'] != 1 )
+$where = "WHERE birim_id IN (".$_SESSION[ 'birim_idler' ].")";
 //echo $_SESSION['birim_idler'];
 
 $SQL_tum_personeller = <<< SQL
@@ -36,6 +39,7 @@ SELECT
 FROM 
 	tb_personeller AS p
 LEFT JOIN tb_birim_agaci AS ba ON ba.id = p.birim_id
+$where
 ORDER BY p.adi ASC
 SQL;
 

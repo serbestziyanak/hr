@@ -33,6 +33,9 @@ $kaydet_buton_yetki_islem	= $personel_id > 0	? 'guncelle'									: 'kaydet';
 
 
 
+$where="";
+if( $_SESSION['super'] != 1 and $_SESSION['rol_id'] != 1 )
+$where = "WHERE birim_id IN (".$_SESSION[ 'birim_idler' ].")";
 
 $SQL_birim_agaci_getir = <<< SQL
 SELECT
