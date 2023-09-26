@@ -16,10 +16,6 @@ if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 $islem						= array_key_exists( 'islem'		         ,$_REQUEST ) ? $_REQUEST[ 'islem' ]				: 'ekle';
 $personel_id				= array_key_exists( 'personel_id' ,$_REQUEST ) ? $_REQUEST[ 'personel_id' ]	: 0;
 
-if( $_SESSION[ 'kullanici_turu' ] == "personel"  ){
-	if( $personel_id != $_SESSION[ 'kullanici_id' ] )
-		$personel_id		= "";
-}
 
 $satir_renk					= $personel_id > 0	? 'table-warning'						: '';
 $kaydet_buton_yazi			= $personel_id > 0	? 'Güncelle'							: 'Kaydet';
@@ -62,10 +58,10 @@ SELECT
 	,CONCAT( p.adi, ' ', p.soyadi ) AS adi_soyadi
 	,p.foto
 FROM 
-	tb_birim_yetkileri as biy
-LEFT JOIN tb_personeller as p ON p.id = biy.personel_id
+	tb_personeller as p
+LEFT JOIN tb_birim_yetkileri as biy ON p.id = biy.personel_id
 WHERE 
-	personel_id = ? 
+	p.id = ? 
 SQL;
 
 /*Üniversiteye Ait uzmanlik Dalını Listele*/
@@ -168,11 +164,8 @@ $personel_turleri		= $vt->select( $SQL_personel_turleri, array(  ) )[ 2 ];
 
 
 
-if( $_SESSION[ 'kullanici_turu' ] == "personel" ){
-	$personeller					= $vt->select( $SQL_tum_personeller2, array( $_SESSION[ 'kullanici_id'] ) )[ 2 ];
-}else{
-	$personeller					= $vt->select( $SQL_tum_personeller, array(  ) )[ 2 ];
-}
+
+$personeller					= $vt->select( $SQL_tum_personeller, array(  ) )[ 2 ];
 
 $uzmanlik_dallari			= $vt->select( $SQL_uzmanlik_dallari, array(  ) )[ 2 ];
 @$tek_personel				= $vt->select( $SQL_tek_personel_oku, array( $personel_id ) )[ 2 ][ 0 ];
@@ -292,9 +285,9 @@ foreach($alt_idler as $alt_id)
 					</div>
 					<form class="form-horizontal" action = "_modul/birimYetkileri/birimYetkileriSEG.php" method = "POST" enctype="multipart/form-data">
 						<div class="card-body">
-
 							<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 							<input type = "hidden" name = "personel_id" value = "<?php echo $personel_id; ?>">
+							<input type = "hidden" name = "kayit_var" value = "<?php if($tek_personel[ "personel_id" ]>0) echo "1"; else echo "0"; ?>">
 							<input type = "hidden" name = "universite_id" value = "<?php echo $_SESSION['universite_id']; ?>">
 							<?php
 								if( $islem == "guncelle" ){

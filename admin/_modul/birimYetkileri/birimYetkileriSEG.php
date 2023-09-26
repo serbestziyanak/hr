@@ -15,8 +15,8 @@ $SQL_ekle = <<< SQL
 INSERT INTO
 	tb_birim_yetkileri
 SET
-	 personel_id				= ?
-	,birim_idler				= ?
+	 birim_idler				= ?
+	,personel_id				= ?
 SQL;
 
 $SQL_guncelle = <<< SQL
@@ -33,12 +33,17 @@ $___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerç
 switch( $islem ) {
 
 	case 'guncelle':
-		
-		$sorgu_sonuc = $vt->update( $SQL_guncelle, array(
-				 $birim_idler
-				,$personel_id
-		) );
-
+		if( $_REQUEST['kayit_var']==1 ){
+			$sorgu_sonuc = $vt->update( $SQL_guncelle, array(
+					$birim_idler
+					,$personel_id
+			) );
+		}else{
+			$sorgu_sonuc = $vt->insert( $SQL_ekle, array(
+					 $birim_idler
+					,$personel_id
+			) );
+		}
 		if( $sorgu_sonuc[ 0 ] ){
 			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt güncellenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
 		}else{

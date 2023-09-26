@@ -32,17 +32,7 @@ $kaydet_buton_yetki_islem	= $personel_id > 0	? 'guncelle'									: 'kaydet';
 
 
 
-
-$where="";
-if( $_SESSION['super'] != 1 and $_SESSION['rol_id'] != 1 )
-$where = "WHERE birim_id IN (".$_SESSION[ 'birim_idler' ].")";
-
-$SQL_birim_agaci_getir = <<< SQL
-SELECT
-	*
-FROM 
-	tb_birim_agaci
-SQL;
+include "_modul/birim_agaci_getir.php";
 
 $SQL_birim_sayfalari_getir = <<< SQL
 SELECT
@@ -72,18 +62,7 @@ WHERE
 	sayfa_id 				= ?
 SQL;
 
-$SQL_ust_id_getir = <<< SQL
-WITH RECURSIVE ust_kategoriler AS (
-    SELECT id, ust_id, adi
-    FROM tb_birim_agaci
-    WHERE id = ? -- burası istediğiniz başlangıç ID'si
-    UNION ALL
-    SELECT k.id, k.ust_id, k.adi
-    FROM tb_birim_agaci k
-    JOIN ust_kategoriler uk ON k.id = uk.ust_id
-)
-SELECT * FROM ust_kategoriler;
-SQL;
+
 
 $SQL_alt_id_getir = <<< SQL
 WITH RECURSIVE alt_kategoriler AS (
@@ -97,9 +76,9 @@ WITH RECURSIVE alt_kategoriler AS (
 )
 SELECT * FROM alt_kategoriler;
 SQL;
-$ust_idler					= $vt->select( $SQL_ust_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
 $alt_idler					= $vt->select( $SQL_alt_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
 
+$ust_idler					= $vt->select( $SQL_ust_id_getir, array( $tek_personel['birim_id'] ) )[ 2 ];
 foreach($ust_idler as $ust_id) 
 	$ust_id_dizi[] = $ust_id['ust_id'];
 
@@ -264,76 +243,17 @@ if( $sayfa_id > 0 ){
 						<h3 class="card-title"><?php echo dil_cevir( "Birimler", $dizi_dil, $sistem_dil ); ?></h3>
 					</div>
 					<div class="card-body p-0">
+						<?php if( ( $_SESSION['super']*1 < 1 ) and ( strlen($_SESSION['birim_idler']) == 0 ) ){ ?>
+							<h3 class="card-title"><?php echo dil_cevir( "Yetkili olduğunuz bir birim bulunamadı.", $dizi_dil, $sistem_dil ); ?></h3>
+						<?php } ?>
 						<div class="overflow-auto" style="height:600px;">
 							<table class="table table-sm table-hover text-sm">
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
-										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
-										$adi = "adi".$sistem_dil2;
 
-										$html = "<tr class='expandable-body'>
-														<td>
-															<div class='p-0'>
-																<table class='table table-hover'>
-																	<tbody>";
-
-										foreach ($kategoriler as $kategori){
-											if( $kategori['ust_id'] == $parent ){
-												if( $parent == 0 ) {
-													$renk = 1;
-												} 
-
-												if( $kategori['kategori'] == 0){
-													$html .= "
-															<tr>
-																<td class=' bg-renk7 p-1' >
-																	$kategori[$adi]
-																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
-																</td>
-															</tr>";									
-
-												}
-												if( $kategori['kategori'] == 1 ){
-													if( $kategori['ust_id'] == 0 )
-														$agac_acik = "true";
-													else
-														$agac_acik = "false";
-
-													if( $kategori['grup'] == 1 )
-														$birim_sec_butonu = "";
-													else
-														$birim_sec_butonu = "<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
-
-														$html .= "
-																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
-																	<td class='bg-renk$renk p-1'>																
-																		$kategori[$adi]
-																		$birim_sec_butonu
-																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
-																	</td>
-																</tr>
-															";								
-														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
-														
-														$renk--;
-													
-												}
-											}
-
-										}
-										$html .= '
-																</tbody>
-															</table>
-														</div>
-													</td>
-												</tr>';
-										return $html;
-									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
+										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
 									
 
 								?>
