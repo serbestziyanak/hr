@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 26/09/2023 02:06:10
+ Date: 26/09/2023 17:34:45
 */
 
 SET NAMES utf8mb4;
@@ -1089,12 +1089,13 @@ CREATE TABLE `tb_birim_yetkileri`  (
   `personel_id` int NULL DEFAULT NULL,
   `birim_idler` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_birim_yetkileri
 -- ----------------------------
 INSERT INTO `tb_birim_yetkileri` VALUES (1, 4, '11,31,83,192,193,84,194,195,196,197,85,198,200,32,86,201,87,202,203,204,88,205,206,33,89,207,90');
+INSERT INTO `tb_birim_yetkileri` VALUES (2, 3, '10,28,75,77');
 
 -- ----------------------------
 -- Table structure for tb_bolumler
@@ -1917,7 +1918,7 @@ CREATE TABLE `tb_gorevler`  (
   `gorev_kategori_id` int NULL DEFAULT NULL,
   `personel_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_gorevler
@@ -2937,7 +2938,7 @@ CREATE TABLE `tb_personeller`  (
 -- ----------------------------
 -- Records of tb_personeller
 -- ----------------------------
-INSERT INTO `tb_personeller` VALUES (3, '45982964018', '456982964018', '456412222', 196, 'Serbest', 'Ziyanak', 223, 2, '1989-01-20 00:00:00', 1, 1, 'yok', 1, 1, 5, 4, '2023-08-28 00:00:00', '2023-09-18 00:00:00', '2024-09-18 00:00:00', 'serbest.ziyanak@gmail.com', '5444961144', '5444961144', 'Mağjan 4', 'Ayu kampüs', '5444961144', 'personel_3_65080a3d6b5e2.jpg', '21HB001', 2, 'personel', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Kazakça Serbest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (3, '45982964018', '456982964018', '456412222', 177, 'Serbest', 'Ziyanak', 223, 2, '1989-01-20 00:00:00', 1, 1, 'yok', 1, 1, 5, 4, '2023-08-28 00:00:00', '2023-09-18 00:00:00', '2024-09-18 00:00:00', 'serbest@ayu.edu.kz', '5444961144', '5444961144', 'Mağjan 4', 'Ayu kampüs', '5444961144', 'personel_3_65080a3d6b5e2.jpg', '21HB001', 2, 'personel', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Kazakça Serbest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 14, NULL);
 INSERT INTO `tb_personeller` VALUES (4, '234234234', '', '', 200, 'Naci', 'Genç', 0, 0, NULL, 0, 0, '', 0, 0, 0, 1, NULL, NULL, NULL, 'nacigenc@ayu.edu.kz', '', '', '', '', '', 'personel_4_65080a325c394.jpg', '', 0, 'personel', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 14, NULL);
 
 -- ----------------------------
@@ -3887,6 +3888,6 @@ SELECT
 	`tb_personeller`.`super` AS `super`,
 	`tb_personeller`.`kullanici_turu` AS `kullanici_turu` 
 FROM
-	`tb_personeller` ;
+	`tb_personeller` ; ;
 
 SET FOREIGN_KEY_CHECKS = 1;
