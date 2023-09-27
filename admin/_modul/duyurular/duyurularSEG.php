@@ -69,7 +69,14 @@ $___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerç
 
 switch( $islem ) {
 	case 'ekle':
-		$dosya_adi = uniqid().basename($_FILES["foto"]["name"]);
+		if( isset($_FILES["foto"]) and $_FILES["foto"]['size']>0 ){
+			$dosya_adi = uniqid().basename($_FILES["foto"]["name"]);
+			$target_dir = "../../resimler/duyurular/";
+			$target_file = $target_dir . $dosya_adi;
+			move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
+		}else{
+			$dosya_adi = "";
+		}
 		$sorgu_sonuc = $vt->insert( $SQL_ekle, array(
 			 $_REQUEST[	'baslik' ]
 			,$tarih
@@ -78,9 +85,6 @@ switch( $islem ) {
 			,$dosya_adi
 		) );
 
-		$target_dir = "../../resimler/duyurular/";
-		$target_file = $target_dir . $dosya_adi;
-		move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
 
 		if( $sorgu_sonuc[ 0 ] ){
 			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );

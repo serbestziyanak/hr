@@ -23,6 +23,7 @@ $satir_renk				= $id > 0	? 'table-warning'						: '';
 $kaydet_buton_yazi		= $id > 0	? 'Güncelle'							: 'Kaydet';
 $kaydet_buton_cls		= $id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 
+include "_modul/birim_agaci_getir.php";
 
 $SQL_tum_etkinlikler = <<< SQL
 SELECT 
@@ -42,14 +43,6 @@ WHERE
 	id = ? 
 SQL;
 
-$SQL_birim_agaci_getir = <<< SQL
-SELECT
-	*
-FROM 
-	tb_birim_agaci
-SQL;
-
-@$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 @$tek_etkinlik 		= $vt->select( $SQL_tek_etkinlik_oku, array( $id ) )[ 2 ][ 0 ];
 
@@ -95,74 +88,8 @@ $etkinlikler			= $vt->select( $SQL_tum_etkinlikler, 	array( $birim_id ) )[ 2 ];
 							<table class="table table-sm table-hover text-sm">
 							<tbody>
 								<?php
-								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
-										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
-										$adi = "adi".$sistem_dil2;
-
-										$html = "<tr class='expandable-body'>
-														<td>
-															<div class='p-0'>
-																<table class='table table-hover'>
-																	<tbody>";
-
-										foreach ($kategoriler as $kategori){
-											if( $kategori['ust_id'] == $parent ){
-												if( $parent == 0 ) {
-													$renk = 1;
-												} 
-
-												if( $kategori['kategori'] == 0){
-													$html .= "
-															<tr>
-																<td class=' bg-renk7 p-1' >
-																	$kategori[$adi]
-																	<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
-																</td>
-															</tr>";									
-
-												}
-												if( $kategori['kategori'] == 1 ){
-													if( $kategori['ust_id'] == 0 )
-														$agac_acik = "true";
-													else
-														$agac_acik = "false";
-
-													if( $kategori['grup'] == 1 )
-														$birim_sec_butonu = "";
-													else
-														$birim_sec_butonu = "<a modul= 'etkinlikler' yetki_islem='birim_sec' href='index.php?modul=etkinlikler&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
-
-														$html .= "
-																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
-																	<td class='bg-renk$renk p-1'>																
-																		$kategori[$adi]
-																		$birim_sec_butonu
-																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
-																	</td>
-																</tr>
-															";								
-														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
-														
-														$renk--;
-													
-												}
-											}
-
-										}
-										$html .= '
-																</tbody>
-															</table>
-														</div>
-													</td>
-												</tr>';
-										return $html;
-									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
-									
-
+										echo kategoriListele3($url_modul, $birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
 								?>
 							</tbody>
 							</table>

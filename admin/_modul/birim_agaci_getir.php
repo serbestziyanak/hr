@@ -39,68 +39,77 @@ FROM
 $where
 SQL;
 
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil, $birim_idler){
-										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
-										$adi = "adi".$sistem_dil2;
+@$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 
-										$html = "<tr class='expandable-body'>
-														<td>
-															<div class='p-0'>
-																<table class='table table-hover'>
-																	<tbody>";
 
-										foreach ($kategoriler as $kategori){
-											if( $kategori['ust_id'] == $parent ){
-												if( $parent == 0 ) {
-													$renk = 1;
-												} 
+function kategoriListele3( $url_modul, $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil, $birim_idler){
+	$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
+	$adi = "adi".$sistem_dil2;
 
-												if( $kategori['kategori'] == 0){
-													$html .= "
-															<tr>
-																<td class=' bg-renk7 p-1' >
-																	$kategori[$adi]
-																	<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
-																</td>
-															</tr>";									
+	$html = "<tr class='expandable-body'>
+					<td>
+						<div class='p-0'>
+							<table class='table table-hover'>
+								<tbody>";
 
-												}
-												if( $kategori['kategori'] == 1 ){
-													if( $kategori['ust_id'] == 0 )
-														$agac_acik = "true";
-													else
-														$agac_acik = "false";
+	foreach ($kategoriler as $kategori){
+		if( $kategori['ust_id'] == $parent ){
+			if( $parent == 0 ) {
+				$renk = 1;
+			} 
 
-													if( $kategori['grup'] == 1 ){
-														$birim_sec_butonu = "";
-													}else{
-														if( ( strlen($_SESSION['birim_idler']) > 0 and in_array($kategori['id'], $birim_idler) ) or $_SESSION['super'] > 0 )
-														$birim_sec_butonu = "<a modul= 'birimSayfalari' yetki_islem='birim_sec' href='index.php?modul=birimSayfalari&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
-													}
-														$html .= "
-																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
-																	<td class='bg-renk$renk p-1'>																
-																		$kategori[$adi]
-																		$birim_sec_butonu
-																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
-																	</td>
-																</tr>
-															";								
-														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
-														
-														$renk--;
-													
-												}
-											}
+			if( $kategori['kategori'] == 0){
+				$html .= "
+						<tr>
+							<td class=' bg-renk7 p-1' >
+								$kategori[$adi]
+								<a modul= '$url_modul' yetki_islem='birim_sec' href='index.php?modul=$url_modul&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
+							</td>
+						</tr>";									
 
-										}
-										$html .= '
-																</tbody>
-															</table>
-														</div>
-													</td>
-												</tr>';
-										return $html;
-									}
+			}
+			if( $kategori['kategori'] == 1 ){
+
+				if( $kategori['ust_id'] == 0 ){
+					$agac_acik = "true";
+				}else{
+					if( strlen($_SESSION['birim_idler']) > 0  )
+						$agac_acik = "true";
+					else
+						$agac_acik = "false";
+				}
+
+				if( $kategori['grup'] == 1 ){
+					$birim_sec_butonu = "";
+				}else{
+					if( ( strlen($_SESSION['birim_idler']) > 0 and in_array($kategori['id'], $birim_idler) ) or $_SESSION['super'] > 0 ){
+						$birim_sec_butonu = "<a modul= '$url_modul' yetki_islem='birim_sec' href='index.php?modul=$url_modul&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
+					}
+				}
+					$html .= "
+							<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
+								<td class='bg-renk$renk p-1'>																
+									$kategori[$adi]
+									$birim_sec_butonu
+								<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
+								</td>
+							</tr>
+						";								
+					$renk++;
+					$html .= kategoriListele3($url_modul,$kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
+					
+					$renk--;
+				
+			}
+		}
+
+	}
+	$html .= '
+							</tbody>
+						</table>
+					</div>
+				</td>
+			</tr>';
+	return $html;
+}
 ?>

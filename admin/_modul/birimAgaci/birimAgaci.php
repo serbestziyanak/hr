@@ -83,7 +83,7 @@ SQL;
 										$html .= "
 												<tr>
 													<td class=' bg-renk7' >
-														$kategori[$adi]
+														$kategori[$adi] ($kategori[program_kodu])
 														<span class='m-0 p-0'>
 															<button modul= 'birimAgaci' yetki_islem='sil' class='btn btn-xs ml-1 btn-danger float-right' data-href='_modul/birimAgaci/birimAgaciSEG.php?islem=sil&id=$kategori[id]' data-toggle='modal' data-target='#sil_onay'>Sil</button>
 															<a modul= 'birimAgaci' yetki_islem='duzenle' href='index.php?modul=birimAgaci&id=$kategori[id]&islem=guncelle' id='$kategori[id]' data-id='$kategori[id]' class='btn btn-warning float-right btn-xs ' data-kategori_ad_duzenle='$kategori[$adi]' data-modal='kategori_duzenle' data-islem='guncelle' data-kategori='$kategori[kategori]'>Düzenle</a>

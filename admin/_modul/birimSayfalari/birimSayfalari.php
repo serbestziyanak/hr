@@ -85,7 +85,6 @@ foreach($ust_idler as $ust_id)
 foreach($alt_idler as $alt_id) 
 	$ust_id_dizi[] = $alt_id['ust_id'];
 
-@$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
 @$sayfa_bilgileri 		= $vt->selectSingle($SQL_sayfa_bilgileri, array( $sayfa_id ) )[ 2 ];
 
@@ -253,7 +252,7 @@ if( $sayfa_id > 0 ){
 								//var_dump($birim_sayfalari);
 
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
+										echo kategoriListele3($url_modul, $birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
 									
 
 								?>
@@ -333,7 +332,7 @@ if( $sayfa_id > 0 ){
 													$html .= "
 															<tr>
 																<td class=' bg-renk7 p-1' >
-																	$alt_menu_sayisi $yukari_buton
+																	$yukari_buton
 																	$asagi_buton
 																	<b>$kategori[sira])</b> $kategori[$adi]$turkce_ad_ekle
 																	<div class='btn-group float-right'>
@@ -357,7 +356,7 @@ if( $sayfa_id > 0 ){
 														$html .= "
 																<tr data-widget='expandable-table' aria-expanded='true' class='border-0'>
 																	<td class='bg-renk$renk p-1'>
-																	$alt_menu_sayisi $yukari_buton
+																	$yukari_buton
 																	$asagi_buton
 																	<b>$kategori[sira])</b> $kategori[$adi]$turkce_ad_ekle
 																		<div class='btn-group float-right'>

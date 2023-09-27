@@ -23,6 +23,7 @@ $satir_renk				= $id > 0	? 'table-warning'						: '';
 $kaydet_buton_yazi		= $id > 0	? 'Güncelle'							: 'Kaydet';
 $kaydet_buton_cls		= $id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 
+include "_modul/birim_agaci_getir.php";
 
 $SQL_tum_duyurular = <<< SQL
 SELECT 
@@ -42,16 +43,156 @@ WHERE
 	id = ? 
 SQL;
 
-$SQL_birim_agaci_getir = <<< SQL
-SELECT
+$SQL_birimler = <<< SQL
+SELECT 
 	*
 FROM 
-	tb_birim_agaci
+	birimler
+Group by f4
 SQL;
 
-@$birim_agaclari 		= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
+$SQL_birimler2 = <<< SQL
+SELECT 
+	*
+FROM 
+	birimler
+WHERE f4 = ? and e4 = ?
+Group by b4
+SQL;
+
+$SQL_birimler3 = <<< SQL
+SELECT 
+	*
+FROM 
+	birimler
+WHERE f4 = ? and b4 = ? and e4 = ?
+Group by p4
+SQL;
+
 $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 @$tek_duyuru 		= $vt->select( $SQL_tek_duyuru_oku, array( $id ) )[ 2 ][ 0 ];
+
+$birimler			= $vt->select( $SQL_birimler, 	array( $birim_id ) )[ 2 ];
+
+$fid = 8;
+$eid = 1;
+$bid = 1;
+$pid = 1;
+$ust_id = 1;
+foreach( $birimler as $birim ){
+	$ust_id = 4;
+	echo $fid."|".$ust_id."|".$birim['f1']."|".$birim['f2']."|".$birim['f3']."|".$birim['f4']."|".$fn->kisa_ad_ver( $birim[ 'f4' ] )."|1|0<br>";
+	$ust_id = $fid;
+
+
+	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Lisans" ) );
+	$birim_sayisi = $birimler2[3];
+	$birimler2 = $birimler2[2];
+	if( $birim_sayisi>0 ){
+		$fid++;
+		echo $fid."|".$ust_id."|Бакалавриат|Бакалавриат|Undergraduate|Lisans|lisans|1|1<br>";
+		$ust_id2 = $fid;
+
+		foreach( $birimler2 as $birim2 ){
+			$fid++;
+			echo $fid."|".$ust_id2."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
+
+			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Lisans" ) );
+			$birim_sayisi2 = $birimler3[3];
+			$birimler3 = $birimler3[2];
+			if( $birim_sayisi2>0 ){
+				$ust_id3 = $fid;
+				foreach( $birimler3 as $birim3 ){
+					$fid++;
+					echo $fid."|".$ust_id3."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
+				}
+			}
+
+		}
+	}
+
+	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Yüksek Lisans" ) );
+	$birim_sayisi = $birimler2[3];
+	$birimler2 = $birimler2[2];
+	if( $birim_sayisi>0 ){
+		$fid++;
+		echo $fid."|".$ust_id."|Магистратура|Магистратура|Master|Yüksek Lisans|yuksek-lisans|1|1<br>";
+		$ust_id4 = $fid;
+
+		foreach( $birimler2 as $birim2 ){
+			$fid++;
+			echo $fid."|".$ust_id4."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
+
+			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Yüksek Lisans" ) );
+			$birim_sayisi2 = $birimler3[3];
+			$birimler3 = $birimler3[2];
+			if( $birim_sayisi2>0 ){
+				$ust_id5 = $fid;
+				foreach( $birimler3 as $birim3 ){
+					$fid++;
+					echo $fid."|".$ust_id5."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
+				}
+			}
+
+		}
+	}
+
+	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Doktora" ) );
+	$birim_sayisi = $birimler2[3];
+	$birimler2 = $birimler2[2];
+	if( $birim_sayisi>0 ){
+		$fid++;
+		echo $fid."|".$ust_id."|Докторантура|Докторантура|PhD|Doktora|doktora|1|1<br>";
+		$ust_id6 = $fid;
+
+		foreach( $birimler2 as $birim2 ){
+			$fid++;
+			echo $fid."|".$ust_id6."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
+
+			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Doktora" ) );
+			$birim_sayisi2 = $birimler3[3];
+			$birimler3 = $birimler3[2];
+			if( $birim_sayisi2>0 ){
+				$ust_id7 = $fid;
+				foreach( $birimler3 as $birim3 ){
+					$fid++;
+					echo $fid."|".$ust_id7."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
+				}
+			}
+
+		}
+	}
+
+	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Tıpta Uzmanlık" ) );
+	$birim_sayisi = $birimler2[3];
+	$birimler2 = $birimler2[2];
+	if( $birim_sayisi>0 ){
+		$fid++;
+		echo $fid."|".$ust_id."|Резидентура|Резидентура|Medical Specialty|Tıpta Uzmanlık|tipta-uzmanlik|1|1<br>";
+		$ust_id8 = $fid;
+
+		foreach( $birimler2 as $birim2 ){
+			$fid++;
+			echo $fid."|".$ust_id8."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
+
+			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Tıpta Uzmanlık" ) );
+			$birim_sayisi2 = $birimler3[3];
+			$birimler3 = $birimler3[2];
+			if( $birim_sayisi2>0 ){
+				$ust_id9 = $fid;
+				foreach( $birimler3 as $birim3 ){
+					$fid++;
+					echo $fid."|".$ust_id9."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
+				}
+			}
+
+		}
+	}
+
+
+$fid++;
+}
+
 
 ?>
 
@@ -96,71 +237,8 @@ $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
-										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
-										$adi = "adi".$sistem_dil2;
-
-										$html = "<tr class='expandable-body'>
-														<td>
-															<div class='p-0'>
-																<table class='table table-hover'>
-																	<tbody>";
-
-										foreach ($kategoriler as $kategori){
-											if( $kategori['ust_id'] == $parent ){
-												if( $parent == 0 ) {
-													$renk = 1;
-												} 
-
-												if( $kategori['kategori'] == 0){
-													$html .= "
-															<tr>
-																<td class=' bg-renk7 p-1' >
-																	$kategori[$adi]
-																	<a modul= 'duyurular' yetki_islem='birim_sec' href='index.php?modul=duyurular&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
-																</td>
-															</tr>";									
-
-												}
-												if( $kategori['kategori'] == 1 ){
-													if( $kategori['ust_id'] == 0 )
-														$agac_acik = "true";
-													else
-														$agac_acik = "false";
-
-													if( $kategori['grup'] == 1 )
-														$birim_sec_butonu = "";
-													else
-														$birim_sec_butonu = "<a modul= 'duyurular' yetki_islem='birim_sec' href='index.php?modul=duyurular&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
-
-														$html .= "
-																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
-																	<td class='bg-renk$renk p-1'>																
-																		$kategori[$adi]
-																		$birim_sec_butonu
-																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
-																	</td>
-																</tr>
-															";								
-														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
-														
-														$renk--;
-													
-												}
-											}
-
-										}
-										$html .= '
-																</tbody>
-															</table>
-														</div>
-													</td>
-												</tr>';
-										return $html;
-									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
+										echo kategoriListele3($url_modul, $birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
 									
 
 								?>

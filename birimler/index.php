@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../admin/_cekirdek/fonksiyonlar.php";
 $vt = new VeriTabani();
 $fn = new Fonksiyonlar();
@@ -42,6 +43,8 @@ SELECT
   *
 FROM 
   tb_duyurular
+WHERE 
+  birim_id = ?
 ORDER BY tarih DESC
 SQL;
 
@@ -50,6 +53,8 @@ SELECT
   *
 FROM 
   tb_etkinlikler
+WHERE 
+  birim_id = ?
 ORDER BY tarih DESC
 SQL;
 
@@ -187,8 +192,8 @@ if( $birim_id == 0 ){
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title><?php echo $birim_bilgileri['adi'.$dil]; ?></title>
     <meta name="author" content="themeholy">
-    <meta name="description" content="Edura - Online Courses & Education HTML Template">
-    <meta name="keywords" content="Edura - Online Courses & Education HTML Template">
+    <meta name="description" content="Ahmet Yesevi Üniversitesi">
+    <meta name="keywords" content="Ahmet Yesevi Üniversitesi">
     <meta name="robots" content="INDEX,FOLLOW">
 
     <!-- Mobile Specific Metas -->
@@ -277,13 +282,24 @@ if( $birim_id == 0 ){
                 <h3 class="widget_title"><?php echo dil_cevir( "Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                 <div class="widget_shopping_cart_content">
                     <ul class="woocommerce-mini-cart cart_list product_list_widget">
-                        <?php foreach( $duyurular as $duyuru ){ ?>
-                        <li class="woocommerce-mini-cart-item mini_cart_item d-flex align-items-center justify-content-center">
-                            <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>" style="font-size:12px; " class="align-middle">
-                            <img src="../admin/resimler/duyurular/<?php echo $duyuru['foto']; ?>" alt="Cart Image" style="object-fit: cover;"><?php echo $duyuru['baslik'.$dil]; ?>
+                        <?php 
+                        foreach( $duyurular as $duyuru ){ 
+                            if( $duyuru['foto'] == "" )
+                                $duyuru_foto = "ayu_logo.png";
+                            else
+                                $duyuru_foto = $duyuru['foto'];
+                        ?>
+                        <li class="woocommerce-mini-cart-item mini_cart_item">
+                            <span class="quantity">
+                                <span class="" style="font-size:12px;line-height: normal; ">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    <?php echo $fn->tarihVer($duyuru['tarih']); ?>
+                                </span>
+                            </span>
+                            <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>" style="font-size:12px;line-height: normal; ">
+                                <img src="../admin/resimler/duyurular/<?php echo $duyuru_foto; ?>" alt="Cart Image" style="object-fit: cover; ">
+                                <?php echo $duyuru['baslik'.$dil]; ?>
                             </a>
-                            <small class="text-muted"><i class="fa-solid fa-calendar-days"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></small>
-                           
                         </li>
                         <?php } ?>
                     </ul>
@@ -293,7 +309,7 @@ if( $birim_id == 0 ){
     </div>
     <div class="popup-search-box d-none d-lg-block">
         <button class="searchClose"><i class="fal fa-times"></i></button>
-        <form action="#">
+        <form action="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>">
             <input type="text" placeholder="What are you looking for?">
             <button type="submit"><i class="fal fa-search"></i></button>
         </form>
@@ -305,7 +321,7 @@ if( $birim_id == 0 ){
         <div class="th-menu-area text-center">
             <button class="th-menu-toggle"><i class="fal fa-times"></i></button>
             <div class="mobile-logo">
-                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Edura"></a>
+                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Ahmet Yesevi Üniversitesi"></a>
             </div>
             <div class="th-mobile-menu">
                 <ul>
@@ -413,7 +429,8 @@ if( $birim_id == 0 ){
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto">
                             <div class="header-logo" style="padding: 0px;">
-                                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Edura" style="height:75px;"></a>
+                                <?php if( $genel_ayarlar['logo'] =="" ) $logo = "ayu_logo2.png"; else $logo = $genel_ayarlar['logo'];  ?>
+                                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="../admin/resimler/logolar/<?php echo $logo; ?>" alt="Ahmet Yesevi Üniversitesi" style="height:75px;"></a>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -605,7 +622,7 @@ About Area
                         <?php echo $genel_ayarlar['anasayfa_icerik'.$dil]; ?>
                     </p>
                     <div class="btn-group mt-40">
-                        <a href="#" class="th-btn"><?php echo dil_cevir( "Daha Fazla", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-regular fa-arrow-right ms-2"></i></a>
+                        <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>" class="th-btn"><?php echo dil_cevir( "Daha Fazla", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-regular fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -625,16 +642,24 @@ Servce Area
                         </div>
                     </div>
                     <div class="col-md-auto">
-                        <a href="#" class="th-btn"><?php echo dil_cevir( "Tüm Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-solid fa-arrow-right ms-2"></i></a>
+                        <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>" class="th-btn"><?php echo dil_cevir( "Tüm Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-solid fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
             <div class="row slider-shadow th-carousel course-slider-1" data-slide-show="4" data-ml-slide-show="3" data-lg-slide-show="3" data-md-slide-show="2" data-sm-slide-show="1" data-arrows="true">
-                <?php foreach( $duyurular as $duyuru ){ ?>
+                <?php 
+                foreach( $duyurular as $duyuru ){ 
+                    if( $duyuru['foto'] == "" )
+                        $duyuru_foto = "ayu_logo.png";
+                    else
+                        $duyuru_foto = $duyuru['foto'];                
+                ?>
                 <div class="col-md-6 col-lg-4">
                     <div class="course-box" style="height: 500px;">
-                        <div class="course-img" style="height: 200px;">
-                            <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../admin/resimler/duyurular/<?php echo $duyuru['foto'] ?>" alt="img" style="height: 200px;object-fit: cover;"></a>
+                        <div class="course-img" style="height: 250px;">
+                            <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>">
+                                <img src="../admin/resimler/duyurular/<?php echo $duyuru_foto; ?>" alt="img" style="height: 250px;object-fit: cover;">
+                            </a>
                             <span class="tag"><i class="fas fa-clock"></i> <?php echo $fn->tarihVer($duyuru['tarih']); ?></span>
                         </div>
                         <div class="course-content">
@@ -843,7 +868,7 @@ Event Area
                             <div class="widget footer-widget">
                                 <div class="th-widget-about">
                                     <div class="about-logo">
-                                        <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo_beyaz.png" alt="Ahmet Yesevi Üniversitesi" style="height: 200px;"></a>
+                                        <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="../admin/resimler/logolar/<?php echo $genel_ayarlar['footer_logo']; ?>" alt="Ahmet Yesevi Üniversitesi" style="height: 200px;"></a>
                                     </div>
                                     <p class="about-text"><?php echo dil_cevir( "Türk dünyasının parlayan yıldızı.", $dizi_dil, $_REQUEST["dil"] ); ?></p>
                                     <div class="th-social">
