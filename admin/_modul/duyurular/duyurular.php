@@ -55,7 +55,7 @@ SELECT
 	*
 FROM 
 	birimler
-WHERE f4 = ? and e4 = ?
+WHERE f4 = ?
 Group by b4
 SQL;
 
@@ -71,7 +71,7 @@ SQL;
 $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 @$tek_duyuru 		= $vt->select( $SQL_tek_duyuru_oku, array( $id ) )[ 2 ][ 0 ];
 
-/*
+
 $birimler			= $vt->select( $SQL_birimler, 	array( $birim_id ) )[ 2 ];
 $fid = 8;
 $eid = 1;
@@ -80,118 +80,78 @@ $pid = 1;
 $ust_id = 1;
 foreach( $birimler as $birim ){
 	$ust_id = 4;
-	echo $fid."|".$ust_id."|".$birim['f1']."|".$birim['f2']."|".$birim['f3']."|".$birim['f4']."|".$fn->kisa_ad_ver( $birim[ 'f4' ] )."|1|0<br>";
+	echo $fid."|".$ust_id."|".$birim['f1']."|".$birim['f2']."|".$birim['f3']."|".$birim['f4']."|".$fn->kisa_ad_ver( $ust_id.' '.$birim[ 'f4' ] )."|1|0<br>";
 	$ust_id = $fid;
 
 
-	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Lisans" ) );
+	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'] ) );
 	$birim_sayisi = $birimler2[3];
 	$birimler2 = $birimler2[2];
-	if( $birim_sayisi>0 ){
+		
+	foreach( $birimler2 as $birim2 ){
 		$fid++;
-		echo $fid."|".$ust_id."|Бакалавриат|Бакалавриат|Undergraduate|Lisans|lisans|1|1<br>";
+		echo $fid."|".$ust_id."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $ust_id.' '.$birim2['b4'] )."|1|0<br>";
 		$ust_id2 = $fid;
 
-		foreach( $birimler2 as $birim2 ){
+		$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Lisans" ) );
+		$birim_sayisi2 = $birimler3[3];
+		$birimler3 = $birimler3[2];
+		if( $birim_sayisi2>0 ){
 			$fid++;
-			echo $fid."|".$ust_id2."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
-
-			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Lisans" ) );
-			$birim_sayisi2 = $birimler3[3];
-			$birimler3 = $birimler3[2];
-			if( $birim_sayisi2>0 ){
-				$ust_id3 = $fid;
-				foreach( $birimler3 as $birim3 ){
-					$fid++;
-					echo $fid."|".$ust_id3."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
-				}
+			echo $fid."|".$ust_id2."|Бакалавриат|Бакалавриат|Undergraduate|Lisans|lisans|1|1<br>";
+			$ust_id3 = $fid;
+			foreach( $birimler3 as $birim3 ){
+				$fid++;
+				echo $fid."|".$ust_id3."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $ust_id3.' '.$birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
 			}
-
 		}
+
+		$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Yüksek Lisans" ) );
+		$birim_sayisi2 = $birimler3[3];
+		$birimler3 = $birimler3[2];
+		if( $birim_sayisi2>0 ){
+			$fid++;
+			echo $fid."|".$ust_id2."|Магистратура|Магистратура|Master|Yüksek Lisans|yuksek-lisans|1|1<br>";
+			$ust_id3 = $fid;
+			foreach( $birimler3 as $birim3 ){
+				$fid++;
+				echo $fid."|".$ust_id3."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $ust_id3.' '.$birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
+			}
+		}
+
+		$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Doktora" ) );
+		$birim_sayisi2 = $birimler3[3];
+		$birimler3 = $birimler3[2];
+		if( $birim_sayisi2>0 ){
+			$fid++;
+			echo $fid."|".$ust_id2."|Докторантура|Докторантура|PhD|Doktora|doktora|1|1<br>";
+			$ust_id3 = $fid;
+			foreach( $birimler3 as $birim3 ){
+				$fid++;
+				echo $fid."|".$ust_id3."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $ust_id3.' '.$birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
+			}
+		}
+
+		$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Tıpta Uzmanlık" ) );
+		$birim_sayisi2 = $birimler3[3];
+		$birimler3 = $birimler3[2];
+		if( $birim_sayisi2>0 ){
+			$fid++;
+			echo $fid."|".$ust_id2."|Резидентура|Резидентура|Medical Specialty|Tıpta Uzmanlık|tipta-uzmanlik|1|1<br>";
+			$ust_id3 = $fid;
+			foreach( $birimler3 as $birim3 ){
+				$fid++;
+				echo $fid."|".$ust_id3."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $ust_id3.' '.$birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
+			}
+		}
+
 	}
 
-	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Yüksek Lisans" ) );
-	$birim_sayisi = $birimler2[3];
-	$birimler2 = $birimler2[2];
-	if( $birim_sayisi>0 ){
-		$fid++;
-		echo $fid."|".$ust_id."|Магистратура|Магистратура|Master|Yüksek Lisans|yuksek-lisans|1|1<br>";
-		$ust_id4 = $fid;
-
-		foreach( $birimler2 as $birim2 ){
-			$fid++;
-			echo $fid."|".$ust_id4."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
-
-			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Yüksek Lisans" ) );
-			$birim_sayisi2 = $birimler3[3];
-			$birimler3 = $birimler3[2];
-			if( $birim_sayisi2>0 ){
-				$ust_id5 = $fid;
-				foreach( $birimler3 as $birim3 ){
-					$fid++;
-					echo $fid."|".$ust_id5."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
-				}
-			}
-
-		}
-	}
-
-	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Doktora" ) );
-	$birim_sayisi = $birimler2[3];
-	$birimler2 = $birimler2[2];
-	if( $birim_sayisi>0 ){
-		$fid++;
-		echo $fid."|".$ust_id."|Докторантура|Докторантура|PhD|Doktora|doktora|1|1<br>";
-		$ust_id6 = $fid;
-
-		foreach( $birimler2 as $birim2 ){
-			$fid++;
-			echo $fid."|".$ust_id6."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
-
-			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Doktora" ) );
-			$birim_sayisi2 = $birimler3[3];
-			$birimler3 = $birimler3[2];
-			if( $birim_sayisi2>0 ){
-				$ust_id7 = $fid;
-				foreach( $birimler3 as $birim3 ){
-					$fid++;
-					echo $fid."|".$ust_id7."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
-				}
-			}
-
-		}
-	}
-
-	$birimler2 = $vt->select( $SQL_birimler2, 	array( $birim['f4'], "Tıpta Uzmanlık" ) );
-	$birim_sayisi = $birimler2[3];
-	$birimler2 = $birimler2[2];
-	if( $birim_sayisi>0 ){
-		$fid++;
-		echo $fid."|".$ust_id."|Резидентура|Резидентура|Medical Specialty|Tıpta Uzmanlık|tipta-uzmanlik|1|1<br>";
-		$ust_id8 = $fid;
-
-		foreach( $birimler2 as $birim2 ){
-			$fid++;
-			echo $fid."|".$ust_id8."|".$birim2['b1']."|".$birim2['b2']."|".$birim2['b3']."|".$birim2['b4']."|".$fn->kisa_ad_ver( $birim2['b4'] )."|1|0<br>";
-
-			$birimler3 = $vt->select( $SQL_birimler3, 	array( $birim['f4'], $birim2['b4'], "Tıpta Uzmanlık" ) );
-			$birim_sayisi2 = $birimler3[3];
-			$birimler3 = $birimler3[2];
-			if( $birim_sayisi2>0 ){
-				$ust_id9 = $fid;
-				foreach( $birimler3 as $birim3 ){
-					$fid++;
-					echo $fid."|".$ust_id9."|".$birim3['p1']."|".$birim3['p2']."|".$birim3['p3']."|".$birim3['p4']."|".$fn->kisa_ad_ver( $birim3['p4'] )."|0|0|".$birim3['program_kodu']."<br>";
-				}
-			}
-
-		}
-	}
 
 
 $fid++;
 }
-*/
+
 
 ?>
 
