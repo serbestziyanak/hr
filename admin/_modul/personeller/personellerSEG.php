@@ -241,15 +241,14 @@ switch( $islem ) {
 		}
 	break;
 	case 'sil':
-		//Silinecek olan tarife giriş yapılan firmaya mı ait oldugu kontrol ediliyor Eger firmaya ait ise silinecektir.
-		$tek_personel_oku = $vt->select( $SQL_tek_personel_id_oku, array( $personel_id ) ) [ 2 ];
-		if (count( $tek_personel_oku ) > 0) {
-			$sorgu_sonuc = $vt->delete( $SQL_sil, array( 0, $personel_id ) );
-			if( $sorgu_sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt silinrken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
-		}
+		$sorgu_sonuc = $vt->delete( $SQL_sil, array( 0, $personel_id ) );
+		if( $sorgu_sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt silinrken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
 	break;
 }
 $_SESSION[ 'sonuclar' ] 		= $___islem_sonuc;
 $_SESSION[ 'sonuclar' ][ 'id' ] = $personel_id;
+if( $islem == "sil" )
+header( "Location:../../index.php?modul=personeller");
+else
 header( "Location:../../index.php?modul=personeller&islem=guncelle&personel_id=".$personel_id);
 ?>

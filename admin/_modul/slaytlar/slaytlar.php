@@ -169,7 +169,7 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 									<div class="form-group">
 										<label class="control-label"><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="foto" class="" ><br>
-										<small class="text-muted"><?php echo dil_cevir( "Eklediğiniz görsel 555 x 320 boyutlarında olmalıdır.", $dizi_dil, $sistem_dil ); ?> </small>
+										<small class="text-muted"><?php echo dil_cevir( "Eklediğiniz görsel 750 x 430 boyutlarında olmalıdır.", $dizi_dil, $sistem_dil ); ?> </small>
 									</div>
 
 									<div class="card-footer">

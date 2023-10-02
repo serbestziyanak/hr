@@ -99,7 +99,7 @@ $SQL_birim_sayfa_sira_olustur = <<< SQL
 UPDATE
 	tb_birim_sayfalari
 SET
-	 sira = (select count(*) from tb_birim_sayfalari where birim_id = ? and ust_id = ?)
+	 sira = (select count(*) from (select * from tb_birim_sayfalari) as t1 where birim_id = ? and ust_id = ?)
 WHERE 
 	id = ? 
 SQL;
@@ -258,6 +258,19 @@ switch( $islem ) {
 			,$_REQUEST[	'birim_id' ]
 			,$sayfa_id
 			,$_REQUEST[	'icerik' ]
+		) );
+
+		$link 		= $_REQUEST[ "link" ] 	== "on" ? 1 : 0;
+		$harici 	= $_REQUEST[ "harici" ] == "on" ? 1 : 0;
+		$aktif 		= $_REQUEST[ "aktif" ] 	== "on" ? 1 : 0;
+		$link_url 	= isset($_REQUEST[ "link_url" ]) ? $_REQUEST[ "link_url" ] : "";
+
+		$sorgu_sonuc = $vt->update( $SQL_birim_sayfa_duzenle2, array(
+			 $link
+			,$link_url
+			,$harici
+			,$aktif
+			,$sayfa_id
 		) );
 		if( $sorgu_sonuc[ 0 ] ){
 			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );

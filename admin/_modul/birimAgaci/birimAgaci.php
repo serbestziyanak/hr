@@ -170,6 +170,7 @@ SQL;
 					<input required type="text" class="form-control"  value="<?php if( $islem == 'ekle' ) echo $birim_bilgileri['adi'];  ?>"  autocomplete="off" disabled>
 				</div>
 				<?php }else{ ?>
+				<input type="hidden"  name="ust_id" value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['ust_id'];  ?>">
 				<input type="hidden"  name="birim_agaci_id" value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['id'];  ?>">
 				<?php } ?>
 				<div class="form-group">
@@ -182,7 +183,7 @@ SQL;
 						<label for="kategori">
 							<?php echo dil_cevir( "Alt birimleri olacak.", $dizi_dil, $sistem_dil ); ?>
 						</label>
-						<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></small>
+						<small class="form-text text-muted"><?php echo dil_cevir( "Bu birimin alt birimleri olacaksa işaretlenmelidir.", $dizi_dil, $sistem_dil ); ?></small>
 					</div>
 				</div>
 
@@ -307,7 +308,7 @@ SQL;
 								<label for="grup">
 									<?php echo dil_cevir( "Sadece gruplama için kullanılacak.", $dizi_dil, $sistem_dil ); ?>
 								</label>
-								<small class="form-text text-muted">Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></small>
+								<small class="form-text text-muted"><?php echo dil_cevir( "Eğer bu bir birim değil, sadece gruplama yapmak için kullanılacaksa işaretleyiniz.", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 						</div>
 
@@ -348,7 +349,7 @@ SQL;
 								<label for="kategori_mi_duzenle">
 									<?php echo dil_cevir( "Alt birimleri olacak.", $dizi_dil, $sistem_dil ); ?>
 								</label>
-								<small class="form-text text-muted">Bu birimin alt birimleri olacaksa işaretlenmelidir.<?php echo dil_cevir( "asdasdasdasd", $dizi_dil, $sistem_dil ); ?></small>
+								<small class="form-text text-muted"><?php echo dil_cevir( "Bu birimin alt birimleri olacaksa işaretlenmelidir.", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 						</div>
 

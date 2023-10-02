@@ -33,6 +33,10 @@ foreach( $ceviriler as $ceviri ){
 }
 
 function dil_cevir( $metin, $dizi, $dil ){
+// $myfile = fopen("ceviriler.txt", "a") or die("Unable to open file!");
+// $txt = $metin."\n";
+// fwrite($myfile, $txt);
+// fclose($myfile);
 	if( array_key_exists( $metin, $dizi ) and $dizi[$metin][$dil] != "" )
 		return $dizi[$metin][$dil];
 	else

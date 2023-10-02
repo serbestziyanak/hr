@@ -84,8 +84,5 @@ switch( $islem ) {
 }
 $_SESSION[ 'sonuclar' ] 		= $___islem_sonuc;
 $_SESSION[ 'sonuclar' ][ 'id' ] = $id;
-if( $islem == "sil" )
 header( "Location:../../index.php?modul=gorevler&birim_id=".$_REQUEST['birim_id']."&birim_adi=".$_REQUEST['birim_adi']);
-else
-header( "Location:../../index.php?modul=gorevler&islem=guncelle&id=".$id."&birim_id=".$_REQUEST['birim_id']."&birim_adi=".$_REQUEST['birim_adi']);
 ?>

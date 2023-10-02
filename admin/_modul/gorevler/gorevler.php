@@ -7,7 +7,6 @@ $vt = new VeriTabani();
 if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 	$mesaj								= $_SESSION[ 'sonuclar' ][ 'mesaj' ];
 	$mesaj_turu							= $_SESSION[ 'sonuclar' ][ 'hata' ] ? 'kirmizi' : 'yesil';
-	$_REQUEST[ 'id' ]				= $_SESSION[ 'sonuclar' ][ 'id' ];
 	unset( $_SESSION[ 'sonuclar' ] );
 	echo "<script>mesajVer('$mesaj', '$mesaj_turu')</script>";
 }
@@ -17,6 +16,7 @@ $islem			= array_key_exists( 'islem'		,$_REQUEST )  ? $_REQUEST[ 'islem' ]	 : 'e
 $id    			= array_key_exists( 'id'	,$_REQUEST )  ? $_REQUEST[ 'id' ]	 : 0;
 $birim_id		= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
 $birim_adi		= array_key_exists( 'birim_adi' ,$_REQUEST ) ? $_REQUEST[ 'birim_adi' ]	: "";
+
 
 
 $satir_renk				= $id > 0	? 'table-warning'						: '';
@@ -64,6 +64,7 @@ SELECT
 	*
 FROM 
 	tb_personeller
+WHERE aktif = 1
 SQL;
 
 $SQL_gorev_kategorileri = <<< SQL

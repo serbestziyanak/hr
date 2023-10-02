@@ -7,7 +7,6 @@ $vt = new VeriTabani();
 if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 	$mesaj								= $_SESSION[ 'sonuclar' ][ 'mesaj' ];
 	$mesaj_turu							= $_SESSION[ 'sonuclar' ][ 'hata' ] ? 'kirmizi' 	: 'yesil';
-	$_REQUEST[ 'personel_id' ]			= $_SESSION[ 'sonuclar' ][ 'id' ];
 	unset( $_SESSION[ 'sonuclar' ] );
 	echo "<script>mesajVer('$mesaj', '$mesaj_turu')</script>";
 }
@@ -134,7 +133,7 @@ if( $sayfa_id > 0 ){
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-success text-white">
-					<h3 class="card-title">Yeni Sayfa Ekle<?php echo dil_cevir( "Yeni Sayfa Ekle", $dizi_dil, $sistem_dil ); ?></h3>
+					<h3 class="card-title"><?php echo dil_cevir( "Yeni Sayfa Ekle", $dizi_dil, $sistem_dil ); ?></h3>
 					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -437,7 +436,7 @@ if( $sayfa_id > 0 ){
 						<div class="card card-body">
 							<div class="form-group clearfix">
 								<div class="icheck-success d-inline">
-									<input type="checkbox" id="checkboxPrimary1" name="aktif" <?php if( $sayfa_bilgileri[ "aktif" ] == 1 ) echo "checked"; if( $islem == "icerik_ekle" ) echo "checked";  ?> >
+									<input type="checkbox" id="checkboxPrimary1" name="aktif" <?php if( $sayfa_bilgileri[ "aktif" ] == 1 ) echo "checked";?> >
 									<label for="checkboxPrimary1">
 										<?php echo dil_cevir( "Aktif", $dizi_dil, $sistem_dil ); ?>
 									</label>
@@ -462,7 +461,7 @@ if( $sayfa_id > 0 ){
 								</div>
 							</div>
 							<div class="form-group">
-								<input required type="text" id="link_yonlendirme" placeholder="Link" class="form-control form-control-sm" name ="link_url" value = "<?php echo $sayfa_bilgileri[ "link_url" ]; ?>"  autocomplete="off" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "";else echo "disabled"; if( $islem == "icerik_ekle" ) echo "disabled";  ?>>
+								<input required type="text" id="link_yonlendirme" placeholder="Link" class="form-control form-control-sm" name ="link_url" value = "<?php echo $sayfa_bilgileri[ "link_url" ]; ?>"  autocomplete="off" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "";else echo " disabled "; if( $islem == "icerik_ekle" ) echo " disabled ";  ?>>
 								<small class="form-text text-muted"><?php echo dil_cevir( "Bu alana Link eklenirse menü bu linke yönlendirilecektir.", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 

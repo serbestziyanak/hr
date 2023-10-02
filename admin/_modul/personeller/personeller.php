@@ -7,7 +7,6 @@ $vt = new VeriTabani();
 if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 	$mesaj								= $_SESSION[ 'sonuclar' ][ 'mesaj' ];
 	$mesaj_turu							= $_SESSION[ 'sonuclar' ][ 'hata' ] ? 'kirmizi' 	: 'yesil';
-	$_REQUEST[ 'personel_id' ]			= $_SESSION[ 'sonuclar' ][ 'id' ];
 	unset( $_SESSION[ 'sonuclar' ] );
 	echo "<script>mesajVer('$mesaj', '$mesaj_turu')</script>";
 }
@@ -26,9 +25,9 @@ $kaydet_buton_yazi			= $personel_id > 0	? 'Güncelle'							: 'Kaydet';
 $kaydet_buton_cls			= $personel_id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 $kaydet_buton_yetki_islem	= $personel_id > 0	? 'guncelle'									: 'kaydet';
 
-$where="";
+$where="WHERE aktif = 1 ";
 if( $_SESSION['super'] != 1 and $_SESSION['rol_id'] != 1 )
-$where = "WHERE birim_id IN (".$_SESSION[ 'birim_idler' ].")";
+$where = "AND birim_id IN (".$_SESSION[ 'birim_idler' ].")";
 //echo $_SESSION['birim_idler'];
 
 $SQL_tum_personeller = <<< SQL
@@ -50,7 +49,7 @@ SELECT
 FROM 
 	tb_personeller AS p
 WHERE 
-	p.id = ?
+	p.id = ? AND aktif = 1
 ORDER BY p.adi ASC
 SQL;
 
@@ -182,7 +181,7 @@ foreach($ust_idler as $ust_id)
 	$ust_id_dizi[] = $ust_id['ust_id'];
 
 foreach($alt_idler as $alt_id) 
-	$ust_id_dizi[] = $alt_id['ust_id'];
+	$alt_id_dizi[] = $alt_id['ust_id'];
 
 //var_dump($ust_id_dizi);
 ?>
@@ -368,15 +367,31 @@ foreach($alt_idler as $alt_id)
 															// 	$agac_acik = "true";
 															// else
 															// 	$agac_acik = "false";
-
+															if( $kategori['grup'] == 1 ){
 																$html .= "
 																		<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
 																			<td class='bg-renk$renk'>																
 																				$kategori[adi]
+																				<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
+																			</td>
+																		</tr>
+																	";								
+															}else{
+																$html .= "
+																		<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
+																			<td class='bg-renk$renk'>																
+																				<div class='icheck-success d-inline'>
+																					<input type='radio' class='form-control form-control-sm' id='icheck_$kategori[id]' name='birim_id' value='$kategori[id]' $secili required>
+																					<label for='icheck_$kategori[id]'>
+																					</label>
+																				</div>
+																					$kategori[adi]
 																			<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
 																			</td>
 																		</tr>
 																	";								
+
+															}
 																$renk++;
 																$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $gelen_birim_id, $ust_id_dizi, $sistem_dil);
 																

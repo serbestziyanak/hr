@@ -14,6 +14,7 @@ if( $dil == "" )
 else
 	$kisa_ad = $_REQUEST[ 'kisa_ad' ];
 
+$kisa_ad = $_REQUEST[ 'ust_id' ]."-".$kisa_ad;
 
 var_dump($_REQUEST);
 //exit;

@@ -7,7 +7,6 @@ $vt = new VeriTabani();
 if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 	$mesaj								= $_SESSION[ 'sonuclar' ][ 'mesaj' ];
 	$mesaj_turu							= $_SESSION[ 'sonuclar' ][ 'hata' ] ? 'kirmizi' : 'yesil';
-	$_REQUEST[ 'genel_ayar_id' ]				= $_SESSION[ 'sonuclar' ][ 'id' ];
 	unset( $_SESSION[ 'sonuclar' ] );
 	echo "<script>mesajVer('$mesaj', '$mesaj_turu')</script>";
 }

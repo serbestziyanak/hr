@@ -9,8 +9,8 @@ echo "</pre>";
 //exit;
 
 list($genislik, $yukseklik) = getimagesize($_FILES["foto"]["tmp_name"]);
-if( isset($_FILES["foto"]) and ($genislik != 555 or $yukseklik != 320) ){
-$_SESSION[ 'sonuclar' ] = array( 'hata' => true, 'mesaj' => 'Hata : Görsel boyutlaru 555x320 olmalıdır!', 'id' => 0 );
+if( isset($_FILES["foto"]) and ($genislik != 750 or $yukseklik != 430) ){
+$_SESSION[ 'sonuclar' ] = array( 'hata' => true, 'mesaj' => 'Hata : Eklediğiniz görsel 750 x 430 boyutlarında olmalıdır.', 'id' => 0 );
 header( "Location:../../index.php?modul=slaytlar&birim_id=".$_REQUEST['birim_id']."&birim_adi=".$_REQUEST['birim_adi']);
 exit;
 }

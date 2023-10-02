@@ -54,7 +54,7 @@
           </select>
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-globe"></span>
+              <i class="fas fa-globe"></i>
             </div>
           </div>
         </div>
