@@ -71,7 +71,7 @@ SQL;
 $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 @$tek_duyuru 		= $vt->select( $SQL_tek_duyuru_oku, array( $id ) )[ 2 ][ 0 ];
 
-
+/*
 $birimler			= $vt->select( $SQL_birimler, 	array( $birim_id ) )[ 2 ];
 $fid = 8;
 $eid = 1;
@@ -151,7 +151,7 @@ foreach( $birimler as $birim ){
 
 $fid++;
 }
-
+*/
 
 ?>
 

@@ -362,25 +362,32 @@ if( $birim_id == 0 ){
                                                                     $menu .= "<ul class='sub-menu'>";
                                                                     foreach( $bolumler as $bolum ){
                                                                         $bolum_adi = "adi".$dil2;
+                                                                        $menu .= "<li><a href='{$dil}/{$bolum['kisa_ad']}'>{$bolum[$bolum_adi]}</a></li>";
+                                                                    }
+                                                                    $menu .= "</ul>";
 
-                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum[$bolum_adi]}</a>";
-                                                                            @$bolumler2 = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
+                                                                }elseif( $item['kisa_ad'] == 'programlar' ){
+
+
+                                                                    @$programlar = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
+                                                                    $menu .= "<ul class='sub-menu'>";
+                                                                    foreach( $programlar as $program ){
+                                                                        $program_adi = "adi".$dil2;
+
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$program[$program_adi]}</a>";
+                                                                            @$programlar2 = $vt->select($SQL_bolumler, array( $program['id'] ) )[ 2 ];
                                                                             $menu .= "<ul class='sub-menu'>";
-                                                                            foreach( $bolumler2 as $bolum2 ){                                                                                
-                                                                                $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2[$bolum_adi]}</a></li>";
+                                                                            foreach( $programlar2 as $program2 ){                                                                                
+                                                                                $menu .= "<li><a href='{$dil}/{$program2['kisa_ad']}'>{$program2[$program_adi]}</a></li>";
 
                                                                             }
                                                                             $menu .= "</ul></li>";
                                                                     }
                                                                     $menu .= "</ul>";
-                                                                }elseif( $item['kisa_ad'] == 'programlar' ){
-                                                                    @$programlar = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
-                                                                    $menu .= "<ul class='sub-menu'>";
-                                                                    foreach( $programlar as $program ){
-                                                                        $program_adi = "adi".$dil2;
-                                                                        $menu .= "<li><a href='{$dil}/{$program['kisa_ad']}'>{$program[$program_adi]}</a></li>";
-                                                                    }
-                                                                    $menu .= "</ul>";
+
+
+
+
                                                                 }else{
                                                                     $menu .= buildList2($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
                                                                     $menu .= "</li>";
@@ -392,7 +399,7 @@ if( $birim_id == 0 ){
 
                                                 return $menu;
                                             }
-                                            echo buildList($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil'],$vt,$SQL_bolumler);
+                                            echo buildList2($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil'],$vt,$SQL_bolumler);
                                         ?>
                                 <li >
                                     <a href="tr/<?php echo $_REQUEST['kisa_ad']; ?>">
@@ -507,27 +514,34 @@ if( $birim_id == 0 ){
                                                                     $menu .= "<ul class='sub-menu'>";
                                                                     foreach( $bolumler as $bolum ){
                                                                         $bolum_adi = "adi".$dil2;
+                                                                        $menu .= "<li><a href='{$dil}/{$bolum['kisa_ad']}'>{$bolum[$bolum_adi]}</a></li>";
+                                                                    }
+                                                                    $menu .= "</ul>";
 
-                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum[$bolum_adi]}</a>";
-                                                                            @$bolumler2 = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
+                                                                }elseif( $item['kisa_ad'] == 'programlar' ){
+
+
+                                                                    @$programlar = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
+                                                                    $menu .= "<ul class='sub-menu'>";
+                                                                    foreach( $programlar as $program ){
+                                                                        $program_adi = "adi".$dil2;
+
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$program[$program_adi]}</a>";
+                                                                            @$programlar2 = $vt->select($SQL_bolumler, array( $program['id'] ) )[ 2 ];
                                                                             $menu .= "<ul class='sub-menu'>";
-                                                                            foreach( $bolumler2 as $bolum2 ){                                                                                
-                                                                                $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2[$bolum_adi]}</a></li>";
+                                                                            foreach( $programlar2 as $program2 ){                                                                                
+                                                                                $menu .= "<li><a href='{$dil}/{$program2['kisa_ad']}'>{$program2[$program_adi]}</a></li>";
 
                                                                             }
                                                                             $menu .= "</ul></li>";
                                                                     }
                                                                     $menu .= "</ul>";
-                                                                }elseif( $item['kisa_ad'] == 'programlar' ){
-                                                                    @$programlar = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
-                                                                    $menu .= "<ul class='sub-menu'>";
-                                                                    foreach( $programlar as $program ){
-                                                                        $program_adi = "adi".$dil2;
-                                                                        $menu .= "<li><a href='{$dil}/{$program['kisa_ad']}'>{$program[$program_adi]}</a></li>";
-                                                                    }
-                                                                    $menu .= "</ul>";
+
+
+
+
                                                                 }else{
-                                                                    $menu .= buildList2($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
+                                                                    $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
                                                                     $menu .= "</li>";
                                                                 }
                                                         }

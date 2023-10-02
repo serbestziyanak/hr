@@ -966,6 +966,14 @@ foreach( $ceviriler as $ceviri ){
                     </div>
                 </div>
             </div>
+            <div class="header-top-bar">
+                <div class="container-fluid">
+                    <div class="header-top">
+                        xffdgfdg
+                    </div>
+                </div>
+            </div>
+
             <div class="popup-mobile-menu">
                 <div class="inner">
                     <div class="header-top">
