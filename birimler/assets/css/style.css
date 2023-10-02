@@ -10989,7 +10989,7 @@ ul.comment-list .th-comment-item:first-child > .th-post-comment {
 }
 
 .hero-1 .hero-img1 img {
-  border: 20px solid #fff;
+  border: 10px solid rgba(255, 255, 255, 0.8);
 }
 
 @media (max-width: 1500px) {

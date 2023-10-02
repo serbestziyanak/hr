@@ -18,6 +18,7 @@ FROM
 	tb_birim_sayfalari
 WHERE 
 	birim_id = ?
+ORDER BY sira
 SQL;
 
 $SQL_slaytlar = <<< SQL
@@ -168,6 +169,11 @@ foreach( $ceviriler as $ceviri ){
 }
 
 function dil_cevir( $metin, $dizi, $dil ){
+// $myfile = fopen("ceviriler.txt", "a") or die("Unable to open file!");
+// $txt = $metin."\n";
+// fwrite($myfile, $txt);
+// fclose($myfile);
+
 	if( array_key_exists( $metin, $dizi ) and $dizi[$metin][$dil] != "" )
 		return $dizi[$metin][$dil];
 	else
@@ -321,55 +327,87 @@ if( $birim_id == 0 ){
         <div class="th-menu-area text-center">
             <button class="th-menu-toggle"><i class="fal fa-times"></i></button>
             <div class="mobile-logo">
-                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="assets/img/ayu_logo2.png" alt="Ahmet Yesevi Üniversitesi"></a>
+                <?php if( $genel_ayarlar['logo'] == "" ) $logo = "ayu_logo.png"; else $logo = $genel_ayarlar['logo'];  ?>
+                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="../admin/resimler/logolar/<?php echo $logo; ?>" alt="Ahmet Yesevi Üniversitesi" style="height:100px;"></a>
             </div>
             <div class="th-mobile-menu">
                 <ul>
                     <li><a href='<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>'><?php echo dil_cevir( "Anasayfa", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
-                    <?php 
-                        function buildList2(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler): string
-                        {
-                            $dil2 = $dil == "tr" ? "" : "_".$dil ;
-                            $adi = "adi".$dil2;
-                            if( $ilk )
-                            $menu = "";
-                            else
-                            $menu = "<ul class='sub-menu'>";
-                            foreach($array as $item) {
-                                if( $item['ust_id'] == $ust_id ){
-                                    if( $item['kategori'] == 0 ){
-                                        $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
-                                    }else{
-                                            $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
-                                    }
-                                    if ( $item['kategori'] == 1 ) {
-                                            if( $item['kisa_ad'] == 'bolumler' ){
-                                                @$bolumler = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
-                                                $menu .= "<ul class='sub-menu'>";
-                                                foreach( $bolumler as $bolum ){
-                                                    $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum['adi']}</a>";
-                                                        @$bolumler2 = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
-                                                        $menu .= "<ul class='sub-menu'>";
-                                                        foreach( $bolumler2 as $bolum2 ){                                                                                
-                                                            $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2['adi']}</a></li>";
+                                        <?php 
+                                            function buildList2(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler): string
+                                            {
+                                                $dil2 = $dil == "tr" ? "" : "_".$dil ;
+                                                $adi = "adi".$dil2;
+                                                if( $ilk )
+                                                $menu = "";
+                                                else
+                                                $menu = "<ul class='sub-menu'>";
+                                                foreach($array as $item) {
+                                                    if( $item['ust_id'] == $ust_id and $item['harici'] != 1 and $item['aktif'] == 1  ){
+                                                        if( $item[$adi] == "" )
+                                                            $adi = "adi";
 
+                                                        if( $item['kategori'] == 0 ){
+                                                            if( $item['link'] == 1 )
+                                                                $url = $item['link_url'];
+                                                            else
+                                                                $url = "{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}";
+                                                            $menu .= "<li><a href='{$url}'>{$item[$adi]}</a></li>";
+                                                        }else{
+                                                             $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
                                                         }
-                                                        $menu .= "</ul></li>";
+                                                        if ( $item['kategori'] == 1 ) {
+                                                                if( $item['kisa_ad'] == 'bolumler' ){
+                                                                    @$bolumler = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
+                                                                    $menu .= "<ul class='sub-menu'>";
+                                                                    foreach( $bolumler as $bolum ){
+                                                                        $bolum_adi = "adi".$dil2;
+
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum[$bolum_adi]}</a>";
+                                                                            @$bolumler2 = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
+                                                                            $menu .= "<ul class='sub-menu'>";
+                                                                            foreach( $bolumler2 as $bolum2 ){                                                                                
+                                                                                $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2[$bolum_adi]}</a></li>";
+
+                                                                            }
+                                                                            $menu .= "</ul></li>";
+                                                                    }
+                                                                    $menu .= "</ul>";
+                                                                }elseif( $item['kisa_ad'] == 'programlar' ){
+                                                                    @$programlar = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
+                                                                    $menu .= "<ul class='sub-menu'>";
+                                                                    foreach( $programlar as $program ){
+                                                                        $program_adi = "adi".$dil2;
+                                                                        $menu .= "<li><a href='{$dil}/{$program['kisa_ad']}'>{$program[$program_adi]}</a></li>";
+                                                                    }
+                                                                    $menu .= "</ul>";
+                                                                }else{
+                                                                    $menu .= buildList2($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
+                                                                    $menu .= "</li>";
+                                                                }
+                                                        }
+                                                    }
                                                 }
                                                 $menu .= "</ul>";
-                                            }else{
-                                                $menu .= buildList2($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
-                                                $menu .= "</li>";
-                                            }
-                                    }
-                                }
-                            }
-                            $menu .= "</ul>";
 
-                            return $menu;
-                        }
-                        echo buildList2($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil'],$vt,$SQL_bolumler);
-                    ?>
+                                                return $menu;
+                                            }
+                                            echo buildList($birim_sayfalari, 0, 1, $birim_id, $_REQUEST['kisa_ad'], $_REQUEST['dil'],$vt,$SQL_bolumler);
+                                        ?>
+                                <li >
+                                    <a href="tr/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/tr.svg" style="height: 20px;">
+                                    </a>
+                                    <a href="kz/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/kz.svg" style="height: 20px;">
+                                    </a>
+                                    <a href="en/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/en.svg" style="height: 20px;">
+                                    </a>
+                                    <a href="ru/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        <img src="assets/img/ru.svg" style="height: 20px;">
+                                    </a>
+                                </li>
                 </ul>
             </div>
         </div>
@@ -404,18 +442,18 @@ if( $birim_id == 0 ){
                                     </div>
                                 </li>
                                 <li class="d-none d-lg-inline-block">
-                                    <a href="tr/<?php echo $_REQUEST['kisa_ad']; ?>">
-                                        <img src="assets/img/tr.svg" style="height: 20px;">
+                                    | <a href="tr/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        TR
                                     </a>
-                                    <a href="kz/<?php echo $_REQUEST['kisa_ad']; ?>">
-                                        <img src="assets/img/kz.svg" style="height: 20px;">
+                                    | <a href="kz/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        KZ
                                     </a>
-                                    <a href="en/<?php echo $_REQUEST['kisa_ad']; ?>">
-                                        <img src="assets/img/en.svg" style="height: 20px;">
+                                    | <a href="en/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        EN
                                     </a>
-                                    <a href="ru/<?php echo $_REQUEST['kisa_ad']; ?>">
-                                        <img src="assets/img/ru.svg" style="height: 20px;">
-                                    </a>
+                                    | <a href="ru/<?php echo $_REQUEST['kisa_ad']; ?>">
+                                        RU
+                                    </a> |
                                 </li>
                             </ul>
                         </div>
@@ -430,8 +468,8 @@ if( $birim_id == 0 ){
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto">
                             <div class="header-logo" style="padding: 1px;">
-                                <?php if( $genel_ayarlar['logo'] == "" ) $logo = "ayu_logo2.png"; else $logo = $genel_ayarlar['logo'];  ?>
-                                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="../admin/resimler/logolar/<?php echo $logo; ?>" alt="Ahmet Yesevi Üniversitesi" style="height:75px;"></a>
+                                <?php if( $genel_ayarlar['logo'] == "" ) $logo = "ayu_logo.png"; else $logo = $genel_ayarlar['logo'];  ?>
+                                <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="../admin/resimler/logolar/<?php echo $logo; ?>" alt="Ahmet Yesevi Üniversitesi" style="height:100px;"></a>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -450,9 +488,16 @@ if( $birim_id == 0 ){
                                                 else
                                                 $menu = "<ul class='sub-menu'>";
                                                 foreach($array as $item) {
-                                                    if( $item['ust_id'] == $ust_id ){
+                                                    if( $item['ust_id'] == $ust_id and $item['harici'] != 1 and $item['aktif'] == 1  ){
+                                                        if( $item[$adi] == "" )
+                                                            $adi = "adi";
+
                                                         if( $item['kategori'] == 0 ){
-                                                            $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                                            if( $item['link'] == 1 )
+                                                                $url = $item['link_url'];
+                                                            else
+                                                                $url = "{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}";
+                                                            $menu .= "<li><a href='{$url}'>{$item[$adi]}</a></li>";
                                                         }else{
                                                              $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
                                                         }
@@ -461,18 +506,28 @@ if( $birim_id == 0 ){
                                                                     @$bolumler = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
                                                                     $menu .= "<ul class='sub-menu'>";
                                                                     foreach( $bolumler as $bolum ){
-                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum['adi']}</a>";
+                                                                        $bolum_adi = "adi".$dil2;
+
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$bolum[$bolum_adi]}</a>";
                                                                             @$bolumler2 = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
                                                                             $menu .= "<ul class='sub-menu'>";
                                                                             foreach( $bolumler2 as $bolum2 ){                                                                                
-                                                                                $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2['adi']}</a></li>";
+                                                                                $menu .= "<li><a href='{$dil}/{$bolum2['kisa_ad']}'>{$bolum2[$bolum_adi]}</a></li>";
 
                                                                             }
                                                                             $menu .= "</ul></li>";
                                                                     }
                                                                     $menu .= "</ul>";
+                                                                }elseif( $item['kisa_ad'] == 'programlar' ){
+                                                                    @$programlar = $vt->select($SQL_bolumler, array( $birim_id ) )[ 2 ];
+                                                                    $menu .= "<ul class='sub-menu'>";
+                                                                    foreach( $programlar as $program ){
+                                                                        $program_adi = "adi".$dil2;
+                                                                        $menu .= "<li><a href='{$dil}/{$program['kisa_ad']}'>{$program[$program_adi]}</a></li>";
+                                                                    }
+                                                                    $menu .= "</ul>";
                                                                 }else{
-                                                                    $menu .= buildList($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
+                                                                    $menu .= buildList2($array, $item['id'],0, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler);
                                                                     $menu .= "</li>";
                                                                 }
                                                         }
@@ -526,7 +581,7 @@ Hero Area
 
 
             <div class="th-hero-slide">
-                <div class="th-hero-bg" data-overlay="title" data-opacity="8" data-bg-src="assets/img/hero/1.jpg"></div>
+                <div class="th-hero-bg" data-overlay="title" data-opacity="8" data-bg-src="assets/img/hero/yassawi.jpg"></div>
                 <div class="container">
                     <div class="row align-items-center justify-content-center">
                         <div class="col-md-6">
@@ -729,7 +784,7 @@ Counter Area
 Cta Area  
 ==============================-->
     <section class="cta-area-2 position-relative space-bottom">
-        <div class="cta-bg-img" data-bg-src="assets/img/bg/cta-bg2.png">
+        <div class="cta-bg-img" data-bg-src="assets/img/bg/4.jpg">
         </div>
         <div class="cta-bg-img2" data-bg-src="assets/img/bg/cta-bg2-shape.png">
         </div>
@@ -796,12 +851,12 @@ Event Area
                                 <p><i class="fal fa-clock"></i>08:00 am - 10:00 am</p>
                             </div>
                             <h3 class="event-card_title" style="font-size: 16px;;">
-                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>">
+                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $etkinlik['id']; ?>">
                                 <?php echo $etkinlik['baslik'.$dil]; ?>
                                 </a>
                             </h3>
                             <div class="event-card_bottom">
-                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $duyuru['id']; ?>" class="th-btn"><?php echo dil_cevir( "Etkinliği Gör", $dizi_dil, $_REQUEST["dil"] ); ?> <i class="far fa-arrow-right ms-1"></i></a>
+                                <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/etkinlikler/<?php echo $etkinlik['id']; ?>" class="th-btn"><?php echo dil_cevir( "Etkinliği Gör", $dizi_dil, $_REQUEST["dil"] ); ?> <i class="far fa-arrow-right ms-1"></i></a>
                             </div>
                             <div class="event-card-shape jump">
                                 <img src="assets/img/event/event-box-shape1.png" alt="img">
@@ -846,7 +901,7 @@ Event Area
                         </div>
                         <div class="media-body">
                             <p class="footer-contact_text"><?php echo dil_cevir( "Email", $dizi_dil, $_REQUEST["dil"] ); ?>:</p>
-                            <a href="mailto:<?php echo $genel_ayarlar['email']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['email']; ?>v</a>
+                            <a href="mailto:<?php echo $genel_ayarlar['email']; ?>" class="footer-contact_link"><?php echo $genel_ayarlar['email']; ?></a>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -889,12 +944,11 @@ Event Area
                                 <h3 class="widget_title"><?php echo dil_cevir( "Hızlı Bağlantılar", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                                 <div class="menu-all-pages-container">
                                     <ul class="menu">
-                                        <li><a href="course.html">Life Coach</a></li>
-                                        <li><a href="course.html">Business Coach</a></li>
-                                        <li><a href="course.html">Health Coach</a></li>
-                                        <li><a href="course.html">Development</a></li>
-                                        <li><a href="course.html">Web Design</a></li>
-                                        <li><a href="course.html">SEO Optimize</a></li>
+                                        <li><a href="https://portal.ayu.edu.kz/">Ayu Portal</a></li>
+                                        <li><a href="https://yassawifm.airtime.pro/">Yassawi Fm</a></li>
+                                        <li><a href="https://journals.ayu.edu.kz/">AYU Journals</a></li>
+                                        <li><a href="http://mail.google.com/a/ayu.edu.kz">Email</a></li>
+                                        <li><a href="https://business.documentolog.kz/login">Documentolog</a></li>
                                     </ul>
                                 </div>
                             </div>

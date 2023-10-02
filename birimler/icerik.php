@@ -12,7 +12,7 @@
         </div>
         <div class="container">
             <div class="breadcumb-content text-center">
-                <h1 class="breadcumb-title"><?php echo $birim_sayfa_bilgileri['adi'.$dil]; ?></h1>
+                <h1 class="breadcumb-title" style="text-transform:none;"><?php echo $birim_sayfa_bilgileri['adi'.$dil]; ?></h1>
                 <ul class="breadcumb-menu">
                     <li><a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>">Anasayfa</a></li>
                     <li><?php echo @$birim_sayfa_bilgileri['adi'.$dil]; ?></li>

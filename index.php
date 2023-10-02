@@ -648,8 +648,8 @@ foreach( $ceviriler as $ceviri ){
                         </div>
                         <div class="header-top-right">
                             <ul class="header-info">
-                                <li><a href="tel:+011235641231"><i class="icon-phone"></i>Call: 123 4561 5523</a></li>
-                                <li><a href="mailto:info@edublink.com" target="_blank"><i class="icon-envelope"></i>Email: info@edublink.com</a></li>
+                                <li><a href="tel:+7(725) 336-36-36"><i class="icon-phone"></i>Call: +7(725) 336-36-36</a></li>
+                                <li><a href="mailto:info@ayu.edu.kz" target="_blank"><i class="icon-envelope"></i>Email: info@ayu.edu.kz</a></li>
                                 <li class="social-icon">
                                     <a href="#"><i class="icon-facebook"></i></a>
                                     <a href="#"><i class="icon-instagram"></i></a>
@@ -971,8 +971,8 @@ foreach( $ceviriler as $ceviri ){
                     <div class="header-top">
                         <div class="logo">
                             <a href="index.html">
-                                <img class="logo-light" src="assets/images/logo/logo-dark.png" alt="Corporate Logo">
-                                <img class="logo-dark" src="assets/images/logo/logo-white.png" alt="Corporate Logo">
+                                <img class="logo-light" src="assets/images/logo/ayu_logo2.png" alt="Corporate Logo">
+                                <img class="logo-dark" src="assets/images/logo/ayu_logo2.png" alt="Corporate Logo">
                             </a>
                         </div>
                         <div class="close-menu">
