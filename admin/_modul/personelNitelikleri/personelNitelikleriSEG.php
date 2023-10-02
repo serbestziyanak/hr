@@ -9,31 +9,29 @@ $id					= array_key_exists( 'id', $_REQUEST )	? $_REQUEST[ 'id' ]	: 0;
 
 $SQL_ekle = <<< SQL
 INSERT INTO
-	tb_gorev_kategorileri
+	tb_personel_nitelikleri
 SET
 	 adi						= ?
 	,adi_kz						= ?
 	,adi_en						= ?
 	,adi_ru						= ?
-	,oncelik_sirasi				= ?
 SQL;
 
 $SQL_guncelle = <<< SQL
 UPDATE
-	tb_gorev_kategorileri
+	tb_personel_nitelikleri
 SET
 	 adi						= ?
 	,adi_kz						= ?
 	,adi_en						= ?
 	,adi_ru						= ?
-	,oncelik_sirasi				= ?
 WHERE
 	id = ?
 SQL;
 
 $SQL_sil = <<< SQL
 DELETE FROM
-	tb_gorev_kategorileri
+	tb_personel_nitelikleri
 WHERE
 	id = ?
 SQL;
@@ -47,7 +45,6 @@ switch( $islem ) {
 			,$_REQUEST[	'adi_kz' ]
 			,$_REQUEST[	'adi_en' ]
 			,$_REQUEST[	'adi_ru' ]
-			,$_REQUEST[	'oncelik_sirasi' ]
 		) );
 
 		if( $sorgu_sonuc[ 0 ] ){
@@ -63,7 +60,6 @@ switch( $islem ) {
 			,$_REQUEST[	'adi_kz' ]
 			,$_REQUEST[	'adi_en' ]
 			,$_REQUEST[	'adi_ru' ]
-			,$_REQUEST[	'oncelik_sirasi' ]
 			,$id
 		) );
 		
@@ -88,5 +84,5 @@ switch( $islem ) {
 }
 $_SESSION[ 'sonuclar' ] 		= $___islem_sonuc;
 $_SESSION[ 'sonuclar' ][ 'id' ] = $id;
-header( "Location:../../index.php?modul=gorevKategorileri" );
+header( "Location:../../index.php?modul=personelNitelikleri" );
 ?>

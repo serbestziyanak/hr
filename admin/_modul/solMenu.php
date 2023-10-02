@@ -160,4 +160,4 @@ function dil_cevir( $metin, $dizi, $dil ){
 	</div>
 
 </aside>
-
+<?php include "sil_onay.php"; ?>

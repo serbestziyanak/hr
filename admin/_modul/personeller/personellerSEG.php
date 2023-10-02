@@ -247,8 +247,5 @@ switch( $islem ) {
 }
 $_SESSION[ 'sonuclar' ] 		= $___islem_sonuc;
 $_SESSION[ 'sonuclar' ][ 'id' ] = $personel_id;
-if( $islem == "sil" )
 header( "Location:../../index.php?modul=personeller");
-else
-header( "Location:../../index.php?modul=personeller&islem=guncelle&personel_id=".$personel_id);
 ?>
