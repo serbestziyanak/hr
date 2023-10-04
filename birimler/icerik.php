@@ -141,7 +141,7 @@
                                 </div>
                             <?php }else{ ?>
                                 <h2 class="blog-title" style="font-size: 24px;"><?php echo @$birim_sayfa_icerikleri['baslik'.$dil]; ?></h2>
-                                <p>
+                                <p style="font-family:'Roboto', sans-serif !important; font-size: 16px !important; ">
                                     <?php echo @$birim_sayfa_icerikleri['icerik'.$dil]; ?>
                                 </p>
                             <?php } ?>

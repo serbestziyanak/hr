@@ -137,6 +137,7 @@ SET
 	,birim_id		= ?
 	,sayfa_id		= ?
 	,icerik$dil		= ?
+	,foto			= ?
 SQL;
 
 $SQL_icerik_guncelle = <<< SQL
@@ -149,6 +150,14 @@ WHERE
 	sayfa_id = ?
 SQL;
 
+$SQL_foto_guncelle = <<< SQL
+UPDATE
+	tb_birim_sayfa_icerikleri
+SET
+	foto = ?
+WHERE
+	sayfa_id = ?
+SQL;
 
 $degerler = array();
 
@@ -160,11 +169,7 @@ $___islem_sonuc = array( 'hata' => false, 'mesaj' => 'İşlem başarı ile gerç
 switch( $islem ) {
 	case 'ekle':
 
-		if( $_SESSION[ "kullanici_turu" ] == 'ogretmen' AND $_SESSION[ "super" ] == 0 ){
-			if ( $_REQUEST[ "ogretim_elemani_id" ] != $_SESSION[ "kullanici_id" ] ){
-				die("Hata İşlem Yapmaktasınız.");
-			}
-		}
+
 		$kategori 	= $_REQUEST[ "kategori" ] 	== "on" ? 1 : 0;
 		$ust_id   	= $_REQUEST[ "ust_id" ] 	== "" 	? 0 : $_REQUEST[ "ust_id" ];
 		$birim_id  	= $_REQUEST[ "birim_id" ] 	== "" 	? 0 : $_REQUEST[ "birim_id" ];
@@ -253,11 +258,22 @@ switch( $islem ) {
 
 	break;
 	case 'icerik_ekle':
+
+		if( isset($_FILES["foto"]) and $_FILES["foto"]['size']>0 ){
+			$dosya_adi = uniqid().basename($_FILES["foto"]["name"]);
+			$target_dir = "../../resimler/programlar/";
+			$target_file = $target_dir . $dosya_adi;
+			move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
+		}else{
+			$dosya_adi = "";
+		}
+
 		$sorgu_sonuc = $vt->insert( $SQL_icerik_ekle, array(
 			 $_REQUEST[	'baslik' ]
 			,$_REQUEST[	'birim_id' ]
 			,$sayfa_id
 			,$_REQUEST[	'icerik' ]
+			,$dosya_adi
 		) );
 
 		$link 		= $_REQUEST[ "link" ] 	== "on" ? 1 : 0;
@@ -298,6 +314,18 @@ switch( $islem ) {
 			,$sayfa_id
 		) );
 
+		if( isset($_FILES["foto"]) and $_FILES["foto"]['size']>0 ){
+			$dosya_adi = uniqid().basename($_FILES["foto"]["name"]);
+			$target_dir = "../../resimler/programlar/";
+			$target_file = $target_dir . $dosya_adi;
+			move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
+			unlink( '../../resimler/programlar/'.$_REQUEST[ 'foto_eski' ] );
+			$sorgu_sonuc2 = $vt->update( $SQL_foto_guncelle, array(
+				 $dosya_adi
+				,$sayfa_id
+			) );
+
+		}
 		if( $sorgu_sonuc[ 0 ] ){
 			$___islem_sonuc = array( 'hata' => $sorgu_sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sorgu_sonuc[ 1 ] );
 		}else{

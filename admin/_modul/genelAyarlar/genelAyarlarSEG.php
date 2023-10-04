@@ -33,7 +33,7 @@ SET
 	,footer_sag_logo		= ?
 	,footer_sag_logo_link	= ?
 	,map					= ?
-	,adres					= ?
+	,adres$dil				= ?
 	,tel					= ?
 	,email					= ?
 	,facebook				= ?
@@ -69,7 +69,7 @@ SET
 	,footer_sag_logo		= ?
 	,footer_sag_logo_link	= ?
 	,map					= ?
-	,adres					= ?
+	,adres$dil				= ?
 	,tel					= ?
 	,email					= ?
 	,facebook				= ?

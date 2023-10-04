@@ -85,7 +85,7 @@ Version: 1.0.0
   --icon-font: "Font Awesome 6 Pro";
   --main-container: 1380px;
   --container-gutters: 24px;
-  --section-space: 120px;
+  --section-space: 80px;
   --section-space-mobile: 80px;
   --section-title-space: 70px;
   --ripple-ani-duration: 5s;
@@ -23577,6 +23577,52 @@ span.select2-selection.select2-selection--single:focus {
 }
 
 .course-img .tag ~ .tag {
+  -webkit-transform: translate(calc(100% + 10px), 0);
+      -ms-transform: translate(calc(100% + 10px), 0);
+          transform: translate(calc(100% + 10px), 0);
+}
+
+.course-img .tag2 {
+  position: absolute;
+  top: 70px;
+  left: 30px;
+  background-color: var(--theme-color2);
+  color: var(--white-color);
+  font-weight: bold;
+  font-size: 14px;
+  font-family: var(--body-font);
+  padding: 2px 17px;
+  border-radius: 999px;
+}
+
+.course-img .tag2 i {
+  margin-right: 3px;
+}
+
+.course-img .tag2 ~ .tag2 {
+  -webkit-transform: translate(calc(100% + 10px), 0);
+      -ms-transform: translate(calc(100% + 10px), 0);
+          transform: translate(calc(100% + 10px), 0);
+}
+
+.course-img .tag3 {
+  position: absolute;
+  top: 120px;
+  left: 30px;
+  background-color: var(--theme-color2);
+  color: var(--white-color);
+  font-weight: bold;
+  font-size: 14px;
+  font-family: var(--body-font);
+  padding: 2px 17px;
+  border-radius: 999px;
+}
+
+.course-img .tag3 i {
+  margin-right: 3px;
+}
+
+.course-img .tag3 ~ .tag3 {
   -webkit-transform: translate(calc(100% + 10px), 0);
       -ms-transform: translate(calc(100% + 10px), 0);
           transform: translate(calc(100% + 10px), 0);

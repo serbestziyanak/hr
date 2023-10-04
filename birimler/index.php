@@ -149,6 +149,8 @@ SQL;
 $birim_id				= @array_key_exists( 'id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'id' ]	: 0;
 @$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'] ) )[ 2 ];
 $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_bilgileri[ 'id' ]	: 0;
+
+
 @$birim_sayfa_icerikleri = $vt->selectSingle($SQL_birim_sayfa_icerikleri, array( $sayfa_id ) )[ 2 ];
 @$duyuru_icerik          = $vt->selectSingle($SQL_duyuru_icerik, array( $_REQUEST['id'] ) )[ 2 ];
 @$etkinlik_icerik        = $vt->selectSingle($SQL_etkinlik_icerik, array( $_REQUEST['id'] ) )[ 2 ];
@@ -190,7 +192,8 @@ if( $birim_id == 0 ){
 }
 ?>
 <!doctype html>
-<html class="no-js" lang="zxx">
+<html class="no-js" lang="<?php echo $_REQUEST[ 'dil' ]; ?>">
+<html class="no-js" lang="<?php echo $_REQUEST[ 'dil' ]; ?>">
 
 <head>
   <base href="/hr/birimler/" />
@@ -441,11 +444,11 @@ if( $birim_id == 0 ){
                                 <li>
                                     <div class="header-social">
                                         <span class="social-title"><?php echo dil_cevir( "Bizi takip et", $dizi_dil, $_REQUEST["dil"] ); ?>:</span>
-                                        <a href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
-                                        <a href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
-                                        <a href="<?php echo $genel_ayarlar['youtube']; ?>"><i class="fab fa-youtube"></i></a>
-                                        <a href="<?php echo $genel_ayarlar['instagram']; ?>"><i class="fa-brands fa-instagram"></i></a>
+                                        <a target="_blank" href="<?php echo $genel_ayarlar['facebook']; ?>"><i class="fab fa-facebook-f"></i></a>
+                                        <a target="_blank" href="<?php echo $genel_ayarlar['twitter']; ?>"><i class="fab fa-twitter"></i></a>
+                                        <a target="_blank" href="<?php echo $genel_ayarlar['linkedin']; ?>"><i class="fab fa-linkedin-in"></i></a>
+                                        <a target="_blank" href="<?php echo $genel_ayarlar['youtube']; ?>"><i class="fab fa-youtube"></i></a>
+                                        <a target="_blank" href="<?php echo $genel_ayarlar['instagram']; ?>"><i class="fa-brands fa-instagram"></i></a>
                                     </div>
                                 </li>
                                 <li class="d-none d-lg-inline-block">
@@ -500,11 +503,14 @@ if( $birim_id == 0 ){
                                                             $adi = "adi";
 
                                                         if( $item['kategori'] == 0 ){
-                                                            if( $item['link'] == 1 )
+                                                            if( $item['link'] == 1 ){
                                                                 $url = $item['link_url'];
-                                                            else
+                                                                $target = "_blank";
+                                                            }else{
                                                                 $url = "{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}";
-                                                            $menu .= "<li><a href='{$url}'>{$item[$adi]}</a></li>";
+                                                                $target = "";
+                                                            }
+                                                            $menu .= "<li><a href='{$url}' target='{$target}'>{$item[$adi]}</a></li>";
                                                         }else{
                                                              $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
                                                         }
@@ -530,7 +536,7 @@ if( $birim_id == 0 ){
                                                                             @$programlar2 = $vt->select($SQL_bolumler, array( $program['id'] ) )[ 2 ];
                                                                             $menu .= "<ul class='sub-menu'>";
                                                                             foreach( $programlar2 as $program2 ){                                                                                
-                                                                                $menu .= "<li><a href='{$dil}/{$program2['kisa_ad']}'>{$program2[$program_adi]}</a></li>";
+                                                                                $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/programlar/{$program2['program_kodu']}'>{$program2[$program_adi]}</a></li>";
 
                                                                             }
                                                                             $menu .= "</ul></li>";
@@ -584,6 +590,8 @@ if( $birim_id == 0 ){
     include "duyuru_icerik.php";
 }elseif( @$_REQUEST['sayfa_turu'] == 'etkinlikler' ){ 
     include "etkinlik_icerik.php";
+}elseif( @$_REQUEST['sayfa_turu'] == 'programlar' ){ 
+    include "program_icerik.php";
 }else{ 
 
 ?>
@@ -693,7 +701,7 @@ About Area
                         <?php echo $genel_ayarlar['anasayfa_icerik'.$dil]; ?>
                     </p>
                     <div class="btn-group mt-40">
-                        <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>" class="th-btn"><?php echo dil_cevir( "Daha Fazla", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-regular fa-arrow-right ms-2"></i></a>
+                        <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/hakkimizda" class="th-btn"><?php echo dil_cevir( "Daha Fazla", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-regular fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -958,10 +966,10 @@ Event Area
                                 <h3 class="widget_title"><?php echo dil_cevir( "Hızlı Bağlantılar", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                                 <div class="menu-all-pages-container">
                                     <ul class="menu">
-                                        <li><a href="https://portal.ayu.edu.kz/">Ayu Portal</a></li>
-                                        <li><a href="https://yassawifm.airtime.pro/">Yassawi Fm</a></li>
+                                        <li><a href="https://portal.ayu.edu.kz/">AYU Portal</a></li>
+                                        <li><a href="https://yassawifm.airtime.pro/">Yassawi FM</a></li>
                                         <li><a href="https://journals.ayu.edu.kz/">AYU Journals</a></li>
-                                        <li><a href="http://mail.google.com/a/ayu.edu.kz">Email</a></li>
+                                        <li><a href="http://mail.google.com/a/ayu.edu.kz">E-Mail</a></li>
                                         <li><a href="https://business.documentolog.kz/login">Documentolog</a></li>
                                     </ul>
                                 </div>

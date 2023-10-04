@@ -61,6 +61,15 @@ WHERE
 	sayfa_id 				= ?
 SQL;
 
+$SQL_birim_bilgileri = <<< SQL
+SELECT 
+	*
+FROM 
+	tb_birim_agaci
+WHERE 
+	id = ?
+SQL;
+
 
 
 $SQL_alt_id_getir = <<< SQL
@@ -85,6 +94,7 @@ foreach($alt_idler as $alt_id)
 	$ust_id_dizi[] = $alt_id['ust_id'];
 
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
+@$birim_bilgileri 		= $vt->selectSingle($SQL_birim_bilgileri, array( $birim_id ) )[ 2 ];
 @$sayfa_bilgileri 		= $vt->selectSingle($SQL_sayfa_bilgileri, array( $sayfa_id ) )[ 2 ];
 
 
@@ -467,6 +477,22 @@ if( $sayfa_id > 0 ){
 
 						</div>
 						<br><h5 class="float-right text-olive"><?php echo dil_cevir( "Sayfa İçeriği", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+						
+						<?php  
+						if( $birim_bilgileri['kategori'] == 0 and $sayfa_bilgileri['kisa_ad'] == "programin-amaci" ){
+						?>
+						<div class="form-group">
+							<label class="control-label"><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></label>
+							<input type="file" name="foto" class="" ><br>
+							<input type="hidden" name="foto_eski" value="<?php echo $sayfa_icerik_bilgileri[ 'foto' ]; ?>">
+							<small class="text-muted"><?php echo dil_cevir( "Eklediğiniz görsel 950 x 520 boyutlarında olmalıdır.", $dizi_dil, $sistem_dil ); ?> </small>
+						</div>
+						<div class="form-group">
+							<label class="control-label"><?php echo dil_cevir( "Var olan görsel", $dizi_dil, $sistem_dil ); ?></label><br>
+							<img src="resimler/programlar/<?php echo $sayfa_icerik_bilgileri[ 'foto' ]; ?>" width="200">
+						</div>
+
+						<?php } ?>
 						<div class="form-group">
 							<label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?></label>
 							<input required type="text" placeholder="Başlık" class="form-control form-control-sm" name ="baslik" id ="baslik" value = "<?php echo $sayfa_icerik_bilgileri[ "baslik" ]; ?>"  autocomplete="off">
@@ -816,6 +842,7 @@ $('#card_personeller').on('minimized.lte.cardwidget', function() {
                 fontFamily: {
                     options: [
                         'default',
+						'Roboto, sans-serif',
                         'Arial, Helvetica, sans-serif',
                         'Courier New, Courier, monospace',
                         'Georgia, serif',
@@ -829,7 +856,7 @@ $('#card_personeller').on('minimized.lte.cardwidget', function() {
                 },
                 // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
                 fontSize: {
-                    options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                    options: [ 10, 12, 14, 16, 18, 20, 22 ],
                     supportAllValues: true
                 },
                 // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.

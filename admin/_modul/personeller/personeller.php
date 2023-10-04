@@ -229,7 +229,7 @@ foreach($alt_idler as $alt_id)
 							<thead>
 								<tr>
 									<th style="width: 15px">#</th>
-									<th><?php echo dil_cevir( "In No", $dizi_dil, $sistem_dil ); ?></th>
+									<th><?php echo dil_cevir( "IIN No", $dizi_dil, $sistem_dil ); ?></th>
 									<th><?php echo dil_cevir( "Adı Soyadı", $dizi_dil, $sistem_dil ); ?></th>
 									<th><?php echo dil_cevir( "Birim", $dizi_dil, $sistem_dil ); ?></th>
 									<!--th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Profil", $dizi_dil, $sistem_dil ); ?></th-->
@@ -458,8 +458,8 @@ foreach($alt_idler as $alt_id)
 							</div>
 
 							<div class="form-group">
-								<label class="control-label"><?php echo dil_cevir( "In Numarası", $dizi_dil, $sistem_dil ); ?></label>
-								<input required type="text" placeholder="In Numarası" class="form-control form-control-sm" name ="in_no" value = "<?php echo $tek_personel[ "in_no" ]; ?>"  autocomplete="off">
+								<label class="control-label"><?php echo dil_cevir( "IIN Numarası", $dizi_dil, $sistem_dil ); ?></label>
+								<input required type="text" placeholder="IIN Numarası" class="form-control form-control-sm" name ="in_no" value = "<?php echo $tek_personel[ "in_no" ]; ?>"  autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "Vatandaşlık No", $dizi_dil, $sistem_dil ); ?></label>
