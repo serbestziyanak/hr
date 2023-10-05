@@ -68,9 +68,90 @@ WHERE f4 = ? and b4 = ? and e4 = ?
 Group by p4
 SQL;
 
+/*
+$SQL_fakulteler = <<< SQL
+SELECT
+	*
+FROM 
+	tb_birim_agaci
+WHERE ust_id != 4 and id>8 and kategori=0 and grup=0
+SQL;
+
+$SQL_birim_sayfalari_sablon = <<< SQL
+SELECT
+	*
+FROM 
+	tb_birim_sayfalari_sablon
+WHERE birim_id = 234 ORDER BY ust_id
+SQL;
+
+$SQL_ekle = <<< SQL
+INSERT INTO
+	tb_birim_sayfalari
+SET
+	 birim_id = ?
+	,ust_id = ?
+	,adi = ?
+	,kisa_ad = ?
+	,kategori = ?
+	,sira = ?
+	,link = ?
+	,link_url = ?
+	,harici = ?
+	,aktif = ?
+	,adi_kz = ?
+	,adi_en = ?
+	,adi_ru = ?
+SQL;
+
 $duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
 @$tek_duyuru 		= $vt->select( $SQL_tek_duyuru_oku, array( $id ) )[ 2 ][ 0 ];
 
+
+$fakulteler = $vt->select( $SQL_fakulteler, array(  ) )[ 2 ];
+$birim_sayfalari_sablon = $vt->select( $SQL_birim_sayfalari_sablon, array(  ) )[ 2 ];
+
+foreach( $fakulteler as $fakulte ){
+	foreach( $birim_sayfalari_sablon as $birim_sayfalari_sablon_tek ){
+		echo $birim_sayfalari_sablon_tek['adi'];
+		if( $birim_sayfalari_sablon_tek['ust_id'] == 0 ){
+			$sorgu_sonuc = $vt->insert( $SQL_ekle, array(
+				$fakulte['id']
+				,$birim_sayfalari_sablon_tek['ust_id']
+				,$birim_sayfalari_sablon_tek['adi']
+				,$birim_sayfalari_sablon_tek['kisa_ad']
+				,$birim_sayfalari_sablon_tek['kategori']
+				,$birim_sayfalari_sablon_tek['sira']
+				,$birim_sayfalari_sablon_tek['link']
+				,$birim_sayfalari_sablon_tek['link_url']
+				,$birim_sayfalari_sablon_tek['harici']
+				,$birim_sayfalari_sablon_tek['aktif']
+				,$birim_sayfalari_sablon_tek['adi_kz']
+				,$birim_sayfalari_sablon_tek['adi_en']
+				,$birim_sayfalari_sablon_tek['adi_ru']
+			) );
+			$last_id = $sorgu_sonuc[ 2 ];
+			$ust_idler[$birim_sayfalari_sablon_tek['id']] = $last_id;
+		}else{
+			$sorgu_sonuc = $vt->insert( $SQL_ekle, array(
+				$fakulte['id']
+				,$ust_idler[$birim_sayfalari_sablon_tek['ust_id']]
+				,$birim_sayfalari_sablon_tek['adi']
+				,$birim_sayfalari_sablon_tek['kisa_ad']
+				,$birim_sayfalari_sablon_tek['kategori']
+				,$birim_sayfalari_sablon_tek['sira']
+				,$birim_sayfalari_sablon_tek['link']
+				,$birim_sayfalari_sablon_tek['link_url']
+				,$birim_sayfalari_sablon_tek['harici']
+				,$birim_sayfalari_sablon_tek['aktif']
+				,$birim_sayfalari_sablon_tek['adi_kz']
+				,$birim_sayfalari_sablon_tek['adi_en']
+				,$birim_sayfalari_sablon_tek['adi_ru']
+			) );
+		}
+	}
+}
+*/
 /*
 $birimler			= $vt->select( $SQL_birimler, 	array( $birim_id ) )[ 2 ];
 $fid = 8;

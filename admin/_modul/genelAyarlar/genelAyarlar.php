@@ -133,14 +133,14 @@ if( $tek_genel_ayar['id'] > 0 )
 									<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
 									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
-									<input type = "hidden" name = "logo_eski" value = "<?php echo $tek_genel_ayar[ 'logo' ]; ?>">
+									<input type = "hidden" name = "logo_eski" id="logo_eski" value = "<?php echo $tek_genel_ayar[ 'logo' ]; ?>">
 									<input type = "hidden" name = "footer_logo_eski" value = "<?php echo $tek_genel_ayar[ 'footer_logo' ]; ?>">
 									<input type = "hidden" name = "footer_sag_logo_eski" value = "<?php echo $tek_genel_ayar[ 'footer_sag_logo' ]; ?>">
 
 									<div class="form-group card-body bg-light">
 										<label class="control-label"><?php echo dil_cevir( "Logo", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="logo" class="" >
-										<img src="resimler/logolar/<?php echo $tek_genel_ayar[ 'logo' ]; ?>" height="100">
+										<img src="resimler/logolar/<?php echo $tek_genel_ayar[ 'logo' ]; ?>" id="logo" height="100">
 									</div>
 
 									<div class="form-group card-body bg-light">
@@ -537,6 +537,8 @@ $('#card_genel_ayarlar').on('minimized.lte.cardwidget', function() {
 				document.getElementById("slogan3").value = document.getElementsByName("slogan3"+dil)[0].value;
 				document.getElementById("buton_deger1").value = document.getElementsByName("buton_deger1"+dil)[0].value;
 				document.getElementById("buton_deger2").value = document.getElementsByName("buton_deger2"+dil)[0].value;
+				document.getElementById("logo").src = "resimler/logolar/"+document.getElementsByName("logo"+dil)[0].value;
+				document.getElementById("logo_eski").src = document.getElementsByName("logo"+dil)[0].value;
 				//document.getElementById("editor").value = document.getElementsByName("icerik"+dil)[0].value;
 				window.editor.data.set(document.getElementsByName("anasayfa_icerik"+dil)[0].value);
 			<?php } ?>

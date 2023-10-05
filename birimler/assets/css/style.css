@@ -16431,8 +16431,7 @@ span.select2-selection.select2-selection--single:focus {
 .map-sec .map iframe {
   height: 100%;
   width: 100%;
-  -webkit-filter: grayscale(100);
-          filter: grayscale(100);
+
 }
 
 @media (max-width: 767px) {

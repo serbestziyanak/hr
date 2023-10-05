@@ -687,6 +687,7 @@ foreach( $ceviriler as $ceviri ){
                                         <?php 
                                             function buildList(array $array, int $ust_id, int $onceki_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_akademik_birimler): string
                                             {
+                                                $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                                 $dil2 = $dil == "tr" ? "" : "_".$dil ;
                                                 $adi = "adi".$dil2;
                                                 if( $ilk ){
@@ -707,7 +708,7 @@ foreach( $ceviriler as $ceviri ){
                                                             $menu .= "<li style='list-style-type: square;'><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
                                                         }else{
                                                             if( $ust_id == 0 )
-                                                             $menu .= "<li class='has-droupdown'><a href='#' >{$item[$adi]}</a>";
+                                                             $menu .= "<li class='has-droupdown'><a href='$actual_link#' >{$item[$adi]}</a>";
                                                              else
                                                              $menu .= "<li><h6 style='color:#eb0023;'>&emsp;{$item[$adi]}</h6>";
                                                         }
@@ -993,6 +994,7 @@ foreach( $ceviriler as $ceviri ){
                         <?php 
                             function buildList2(array $array, int $ust_id, int $onceki_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_akademik_birimler): string
                             {
+                                $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                 $dil2 = $dil == "tr" ? "" : "_".$dil ;
                                 $adi = "adi".$dil2;
                                 if( $ilk ){
@@ -1013,7 +1015,7 @@ foreach( $ceviriler as $ceviri ){
                                             $menu .= "<li style='list-style-type: square;'><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
                                         }else{
                                             if( $ust_id == 0 )
-                                                $menu .= "<li class='has-droupdown'><a href='#' >{$item[$adi]}</a>";
+                                                $menu .= "<li class='has-droupdown'><a href='$actual_link#' >{$item[$adi]}</a>";
                                                 else
                                                 $menu .= "<li><h6 style='color:#eb0023;'>&emsp;{$item[$adi]}</h6>";
                                         }

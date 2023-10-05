@@ -67,7 +67,7 @@ SQL;
             <div class="breadcumb-content text-center">
                 <h1 class="breadcumb-title"><?php echo dil_cevir( "Programlar", $dizi_dil, $_REQUEST["dil"] ); ?></h1>
                 <ul class="breadcumb-menu">
-                    <li><a href="<?php echo $_REQUEST['kisa_ad']; ?>"><?php echo dil_cevir( "Anasayfa", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
+                    <li><a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>"><?php echo dil_cevir( "Anasayfa", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
                     <li><?php echo dil_cevir( "Programlar", $dizi_dil, $_REQUEST["dil"] );?></li>
                 </ul>
             </div>
@@ -330,28 +330,26 @@ Event Area
                 <div class="col-xxl-3 col-lg-4">
                     <aside class="sidebar-area">
                         <div class="widget  ">
-                            <h3 class="widget_title"><?php echo dil_cevir( "Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
-                            <div class="recent-post-wrap">
-                                <?php foreach( $duyurular as $duyuru ){ 
-                                    if( $duyuru['foto'] == "" )
-                                        $duyuru_foto = "ayu_logo.png";
-                                    else
-                                        $duyuru_foto = $duyuru['foto'];    
-                                
-                                ?>
-                                <div class="recent-post">
-                                    <div class="media-img">
-                                        <a href="<?php echo $_REQUEST["dil"]."/".$_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><img src="../admin/resimler/duyurular/<?php echo $duyuru_foto; ?>" alt="Blog Image"  style="width: 80px;height: 80px;object-fit: cover;"></a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="post-title" style="font-size: 12px;"><a class="text-inherit" href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><?php echo $duyuru['baslik'.$dil]; ?></a></h4>
-                                        <div class="recent-post-meta">
-                                            <small class="text-muted"><a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>"><i class="fal fa-calendar"></i><?php echo $fn->tarihVer($duyuru['tarih']); ?></a></small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php } ?>
-                            </div>
+                            <h3 class="widget_title"><?php echo dil_cevir( "Programlar", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
+                            <?php
+                                $menu ="";
+                                @$programlar = $vt->select($SQL_bolumler, array( $bolum['id'] ) )[ 2 ];
+                                $menu .= "<ul class='sub-cat'>";
+                                foreach( $programlar as $program ){
+                                    $program_adi = "adi".$dil;
+                                    $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                                    $menu .= "<li ><b>{$program[$program_adi]}</b>";
+                                        @$programlar2 = $vt->select($SQL_bolumler, array( $program['id'] ) )[ 2 ];
+                                        $menu .= "<ul class='sub-cat' >";
+                                        foreach( $programlar2 as $program2 ){                                                                                
+                                            $menu .= "<li><a href='{$_REQUEST['dil']}/{$_REQUEST['kisa_ad']}/programlar/{$program2['program_kodu']}'>{$program2[$program_adi]}</a></li>";
+
+                                        }
+                                        $menu .= "</ul></li>";
+                                }
+                                $menu .= "</ul>";
+                                echo $menu;
+                            ?>
                         </div>
                     </aside>
                 </div>

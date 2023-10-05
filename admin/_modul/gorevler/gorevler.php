@@ -23,6 +23,23 @@ $satir_renk				= $id > 0	? 'table-warning'						: '';
 $kaydet_buton_yazi		= $id > 0	? 'Güncelle'							: 'Kaydet';
 $kaydet_buton_cls		= $id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 
+$SQL_alt_id_getir = <<< SQL
+WITH RECURSIVE alt_kategoriler AS (
+    SELECT id
+    FROM tb_birim_agaci
+    WHERE id = ? -- burası istediğiniz başlangıç ID'si
+    UNION ALL
+    SELECT k.id
+    FROM tb_birim_agaci k
+    JOIN alt_kategoriler ak ON k.ust_id = ak.id
+)
+SELECT * FROM alt_kategoriler;
+SQL;
+$alt_idler	= $vt->select( $SQL_alt_id_getir, array( $birim_id ) )[ 2 ];
+foreach( $alt_idler as $alt_id )
+	$birim_alt_idler[] = $alt_id['id'];
+$birim_alt_idler = implode(",",$birim_alt_idler);
+
 
 $SQL_tum_gorevler = <<< SQL
 SELECT 
@@ -59,12 +76,13 @@ FROM
 	tb_birim_agaci
 SQL;
 
+$where = "AND birim_id IN (".$birim_alt_idler.")";
 $SQL_personeller = <<< SQL
 SELECT
 	*
 FROM 
 	tb_personeller
-WHERE aktif = 1
+WHERE aktif = 1 $where
 SQL;
 
 $SQL_gorev_kategorileri = <<< SQL
@@ -73,6 +91,9 @@ SELECT
 FROM 
 	tb_gorev_kategorileri
 SQL;
+
+
+
 
 @$birim_agaclari 	= $vt->select($SQL_birim_agaci_getir, array(  ) )[ 2 ];
 $gorevler			= $vt->select( $SQL_tum_gorevler, 	array( $birim_id ) )[ 2 ];

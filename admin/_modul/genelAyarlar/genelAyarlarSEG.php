@@ -27,7 +27,7 @@ INSERT INTO
 	tb_genel_ayarlar
 SET
 	 birim_id				= ?
-	,logo					= ?
+	,logo$dil				= ?
 	,slogan$dil				= ?
 	,footer_logo			= ?
 	,footer_sag_logo		= ?
@@ -63,7 +63,7 @@ $SQL_guncelle = <<< SQL
 UPDATE
 	tb_genel_ayarlar
 SET
-	 logo					= ?
+	 logo$dil				= ?
 	,slogan$dil				= ?
 	,footer_logo			= ?
 	,footer_sag_logo		= ?

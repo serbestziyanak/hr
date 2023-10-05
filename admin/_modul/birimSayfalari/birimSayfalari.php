@@ -471,7 +471,7 @@ if( $sayfa_id > 0 ){
 								</div>
 							</div>
 							<div class="form-group">
-								<input required type="text" id="link_yonlendirme" placeholder="Link" class="form-control form-control-sm" name ="link_url" value = "<?php echo $sayfa_bilgileri[ "link_url" ]; ?>"  autocomplete="off" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "";else echo " disabled "; if( $islem == "icerik_ekle" ) echo " disabled ";  ?>>
+								<input required type="text" id="link_yonlendirme" placeholder="Link" class="form-control form-control-sm" name ="link_url" value = "<?php echo $sayfa_bilgileri[ "link_url" ]; ?>"  autocomplete="off" <?php if( $sayfa_bilgileri[ "link" ] == 1 ) echo "";else echo " disabled "; if( $islem == "icerik_ekle" and $sayfa_bilgileri[ "link" ] != 1 ) echo " disabled ";  ?>>
 								<small class="form-text text-muted"><?php echo dil_cevir( "Bu alana Link eklenirse menü bu linke yönlendirilecektir.", $dizi_dil, $sistem_dil ); ?></small>
 							</div>
 

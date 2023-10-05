@@ -101,7 +101,7 @@ SELECT
 FROM 
   tb_birim_sayfalari
 WHERE
-  kisa_ad = ? 
+  kisa_ad = ? and birim_id = ?
 SQL;
 
 $SQL_birim_sayfa_icerikleri = <<< SQL
@@ -144,10 +144,13 @@ WHERE
 	g.birim_id = ?
 SQL;
 
+
+
+
 @$birim_bilgileri 	    = $vt->selectSingle($SQL_birim_bilgileri, array( $_REQUEST['kisa_ad'] ) )[ 2 ];
 
 $birim_id				= @array_key_exists( 'id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'id' ]	: 0;
-@$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'] ) )[ 2 ];
+@$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'], $birim_id ) )[ 2 ];
 $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_bilgileri[ 'id' ]	: 0;
 
 
@@ -182,6 +185,22 @@ function dil_cevir( $metin, $dizi, $dil ){
 		return $metin;
 
 }
+
+
+
+$SQL_logo = <<< SQL
+SELECT
+  *
+FROM 
+  tb_genel_ayarlar
+WHERE
+  birim_id = ? 
+SQL;
+
+
+@$fakulte_logo = $vt->selectSingle($SQL_logo, array( $birim_bilgileri['ust_id'] ) )[ 2 ];
+$fakulte_logo_tr = $fakulte_logo['logo'];
+$fakulte_logo = $fakulte_logo['logo'.$dil];
 
 
 //var_dump($dizi);
@@ -330,7 +349,19 @@ if( $birim_id == 0 ){
         <div class="th-menu-area text-center">
             <button class="th-menu-toggle"><i class="fal fa-times"></i></button>
             <div class="mobile-logo">
-                <?php if( $genel_ayarlar['logo'] == "" ) $logo = "ayu_logo.png"; else $logo = $genel_ayarlar['logo'];  ?>
+                <?php 
+                if( $genel_ayarlar['logo'.$dil] == "" ){
+                    if( $fakulte_logo == "" )
+                        if( $fakulte_logo_tr == "" )
+                            $logo = "ayu_logo.png";
+                        else 
+                            $logo = $fakulte_logo_tr;
+                    else
+                        $logo = $fakulte_logo;
+                }else{
+                    $logo = $genel_ayarlar['logo'.$dil];  
+                }
+                ?>
                 <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="../admin/resimler/logolar/<?php echo $logo; ?>" alt="Ahmet Yesevi Üniversitesi" style="height:100px;"></a>
             </div>
             <div class="th-mobile-menu">
@@ -432,6 +463,7 @@ if( $birim_id == 0 ){
                     <div class="col-auto d-none d-lg-block">
                         <div class="header-links">
                             <ul>
+                                <li><a href="../"><i class="fa-solid fa-house"></i></a></li>
                                 <li><i class="far fa-phone"></i><a href="tel:<?php echo $genel_ayarlar['tel']; ?>"><?php echo $genel_ayarlar['tel']; ?></a></li>
                                 <li class="d-none d-xl-inline-block"><i class="far fa-envelope"></i><a href="mailto:<?php echo $genel_ayarlar['email']; ?>"><?php echo $genel_ayarlar['email']; ?></a></li>
                                 <li><i class="far fa-clock"></i>Mon - Fri: 9:00 - 18:00</li>
@@ -478,7 +510,19 @@ if( $birim_id == 0 ){
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto">
                             <div class="header-logo" style="padding: 1px;">
-                                <?php if( $genel_ayarlar['logo'] == "" ) $logo = "ayu_logo.png"; else $logo = $genel_ayarlar['logo'];  ?>
+                                <?php 
+                                if( $genel_ayarlar['logo'.$dil] == "" ){
+                                    if( $fakulte_logo == "" )
+                                        if( $fakulte_logo_tr == "" )
+                                            $logo = "ayu_logo.png";
+                                        else 
+                                            $logo = $fakulte_logo_tr;
+                                    else
+                                        $logo = $fakulte_logo;
+                                }else{
+                                    $logo = $genel_ayarlar['logo'.$dil];  
+                                }
+                                ?>
                                 <a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><img src="../admin/resimler/logolar/<?php echo $logo; ?>" alt="Ahmet Yesevi Üniversitesi" style="height:100px;"></a>
                             </div>
                         </div>
@@ -491,6 +535,7 @@ if( $birim_id == 0 ){
                                         <?php 
                                             function buildList(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler): string
                                             {
+                                                $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                                 $dil2 = $dil == "tr" ? "" : "_".$dil ;
                                                 $adi = "adi".$dil2;
                                                 if( $ilk )
@@ -512,7 +557,7 @@ if( $birim_id == 0 ){
                                                             }
                                                             $menu .= "<li><a href='{$url}' target='{$target}'>{$item[$adi]}</a></li>";
                                                         }else{
-                                                             $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
+                                                            $menu .= "<li class='menu-item-has-children'><a href='$actual_link#' >{$item[$adi]}</a>";
                                                         }
                                                         if ( $item['kategori'] == 1 ) {
                                                                 if( $item['kisa_ad'] == 'bolumler' ){
@@ -532,7 +577,7 @@ if( $birim_id == 0 ){
                                                                     foreach( $programlar as $program ){
                                                                         $program_adi = "adi".$dil2;
 
-                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$program[$program_adi]}</a>";
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='$actual_link#' >{$program[$program_adi]}</a>";
                                                                             @$programlar2 = $vt->select($SQL_bolumler, array( $program['id'] ) )[ 2 ];
                                                                             $menu .= "<ul class='sub-menu'>";
                                                                             foreach( $programlar2 as $program2 ){                                                                                
@@ -572,7 +617,7 @@ if( $birim_id == 0 ){
                                         </a-->
                                         <button type="button" class="icon-btn sideMenuToggler">
                                             <i class="fa-solid fa-bullhorn"></i>
-                                            <span class="badge">5</span>
+                                            <!--span class="badge">5</span-->
                                         </button>
                                         <a href="https://portal.ayu.edu.kz/" target="_blank" class="th-btn ml-25"><?php echo dil_cevir( "AYU Portal", $dizi_dil, $_REQUEST["dil"] ); ?> <i class="fas fa-arrow-right ms-1"></i></a>
                                     </div>
@@ -592,6 +637,8 @@ if( $birim_id == 0 ){
     include "etkinlik_icerik.php";
 }elseif( @$_REQUEST['sayfa_turu'] == 'programlar' ){ 
     include "program_icerik.php";
+}elseif( @$_REQUEST['sayfa_kisa_ad'] == 'tum_duyurular' ){ 
+    include "tum_duyurular.php";
 }else{ 
 
 ?>
@@ -721,7 +768,7 @@ Servce Area
                         </div>
                     </div>
                     <div class="col-md-auto">
-                        <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>" class="th-btn"><?php echo dil_cevir( "Tüm Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-solid fa-arrow-right ms-2"></i></a>
+                        <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/tum_duyurular" class="th-btn"><?php echo dil_cevir( "Tüm Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?><i class="fa-solid fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -747,7 +794,7 @@ Servce Area
                                     <span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5</span>
                                 </div>
                             </div>
-                            <h3 class="course-title" style="font-size: 16px; height:100px;">
+                            <h3 class="course-title" style="font-size: 16px; height:90px;">
                                 <a href="<?php echo $_REQUEST['dil']; ?>/<?php echo $_REQUEST['kisa_ad']; ?>/duyurular/<?php echo $duyuru['id']; ?>">
                                 <?php echo $duyuru['baslik'.$dil] ?>
                                 </a>
@@ -760,7 +807,6 @@ Servce Area
                                     <img src="assets/img/ayu_logo.png" alt="author">
                                     <a href="<?php echo $_REQUEST['kisa_ad']; ?>" class="author-name"><?php echo $birim_bilgileri['adi'.$dil]; ?></a>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
@@ -979,7 +1025,7 @@ Event Area
                             <div class="widget widget_nav_menu footer-widget">
                                 <h3 class="widget_title"><?php echo dil_cevir( "Lokasyon", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                                 <div class="menu-all-pages-container">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23147.715132621033!2d68.4852074567093!3d43.51350782394916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4200d538dc3232cf%3A0x73b67e6d72ac6450!2sKentau!5e0!3m2!1str!2skz!4v1694599217045!5m2!1str!2skz" width="500" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                    <iframe src="<?php echo $genel_ayarlar['map']; ?>" width="500" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -995,7 +1041,7 @@ Event Area
                         <div class="col-md-6 text-end d-none d-md-block">
                             <div class="footer-links">
                                 <ul>
-                                    <li><a href="about.html"><?php echo dil_cevir( "Gizlilik Politikası", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
+                                    <li><a href="<?php echo (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>"><?php echo dil_cevir( "Gizlilik Politikası", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
                                 </ul>
                             </div>
                         </div>

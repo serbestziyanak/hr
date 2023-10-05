@@ -14,7 +14,7 @@
             <div class="breadcumb-content text-center">
                 <h1 class="breadcumb-title" style="text-transform:none;"><?php echo $birim_sayfa_bilgileri['adi'.$dil]; ?></h1>
                 <ul class="breadcumb-menu">
-                    <li><a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>">Anasayfa</a></li>
+                    <li><a href="<?php echo $_REQUEST['dil']."/".$_REQUEST['kisa_ad']; ?>"><?php echo dil_cevir( "Anasayfa", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
                     <li><?php echo @$birim_sayfa_bilgileri['adi'.$dil]; ?></li>
                 </ul>
             </div>
@@ -23,6 +23,10 @@
     <!--==============================
         Blog Area
     ==============================-->
+<?php 
+    if( $_REQUEST['sayfa_kisa_ad'] == "iletisim" ){
+        include "iletisim.php";
+    }else{ ?>
     <section class="th-blog-wrapper blog-details space-top space-extra2-bottom">
         <div class="container">
             <div class="row gx-30">
@@ -57,10 +61,10 @@
                                                         <i class="far fa-plus"></i>
                                                     </a>
                                                     <div class="th-social">
-                                                        <a target="_blank" href="https://vimeo.com/"><i class="fab fa-vimeo-v"></i></a>
-                                                        <a target="_blank" href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                                        <a target="_blank" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                                        <a target="_blank" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                                                        <a target="_blank" href="#" style="font-size:30px;"><i class="fa-brands fa-orcid"></i></a>
+                                                        <a target="_blank" href="#"><img src="assets/img/scholar.png"></a>
+                                                        <a target="_blank" href="#"><i class="fa-solid fa-envelope"></i></a>
+                                                        <a target="_blank" href="#"><img src="assets/img/avesis.png"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="team-content">
@@ -90,10 +94,10 @@
                                                         <i class="far fa-plus"></i>
                                                     </a>
                                                     <div class="th-social">
-                                                        <a target="_blank" href="https://vimeo.com/"><i class="fab fa-vimeo-v"></i></a>
-                                                        <a target="_blank" href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                                        <a target="_blank" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                                        <a target="_blank" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                                                        <a target="_blank" href="#" style="font-size:30px;"><i class="fa-brands fa-orcid"></i></a>
+                                                        <a target="_blank" href="#"><img src="assets/img/scholar.png"></a>
+                                                        <a target="_blank" href="#"><i class="fa-solid fa-envelope"></i></a>
+                                                        <a target="_blank" href="#"><img src="assets/img/avesis.png"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="team-content">
@@ -123,10 +127,10 @@
                                                         <i class="far fa-plus"></i>
                                                     </a>
                                                     <div class="th-social">
-                                                        <a target="_blank" href="https://vimeo.com/"><i class="fab fa-vimeo-v"></i></a>
-                                                        <a target="_blank" href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                                        <a target="_blank" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                                        <a target="_blank" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                                                        <a target="_blank" href="#" style="font-size:30px;"><i class="fa-brands fa-orcid"></i></a>
+                                                        <a target="_blank" href="#"><img src="assets/img/scholar.png"></a>
+                                                        <a target="_blank" href="#"><i class="fa-solid fa-envelope"></i></a>
+                                                        <a target="_blank" href="#"><img src="assets/img/avesis.png"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="team-content">
@@ -155,7 +159,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-auto text-xl-end">
-                                    <span class="share-links-title">Paylaş:</span>
+                                    <span class="share-links-title">Paylaş<?php echo dil_cevir( "Paylaş", $dizi_dil, $_REQUEST["dil"] ); ?>:</span>
                                     <ul class="social-links">
                                         <li><a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                                         <li><a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a></li>
@@ -170,7 +174,7 @@
                 <div class="col-xxl-4 col-lg-5">
                     <aside class="sidebar-area">
                         <div class="widget  ">
-                            <h3 class="widget_title">Duyurular</h3>
+                            <h3 class="widget_title"><?php echo dil_cevir( "Duyurular", $dizi_dil, $_REQUEST["dil"] ); ?></h3>
                             <div class="recent-post-wrap">
                                 <?php foreach( $duyurular as $duyuru ){ 
                                     if( $duyuru['foto'] == "" )
@@ -198,3 +202,4 @@
             </div>
         </div>
     </section>
+<?php } ?>
