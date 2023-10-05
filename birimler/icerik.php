@@ -148,7 +148,7 @@
                                 <p style="font-family:'Roboto', sans-serif !important; font-size: 16px !important; ">
                                     <?php echo @$birim_sayfa_icerikleri['icerik'.$dil]; ?>
                                 </p>
-                            <?php } ?>
+                            <?php } ?> 
                         </div>
                         <div class="share-links clearfix ">
                             <div class="row justify-content-between">
