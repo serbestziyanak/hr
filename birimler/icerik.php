@@ -52,6 +52,8 @@
                                 include "ogretim_ve_metodoloji_komitesi.php";
                             }elseif( $_REQUEST['sayfa_kisa_ad'] == "kalite-komisyonu" ){ 
                                 include "kalite_komisyonu.php";
+                            }elseif( $_REQUEST['sayfa_kisa_ad'] == "yonetim" ){ 
+                                include "bolum_yonetimi.php";
                             }else{ 
                                 ?>
                                 <h2 class="blog-title" style="font-size: 24px;"><?php echo @$birim_sayfa_icerikleri['baslik'.$dil]; ?></h2>

@@ -5792,7 +5792,7 @@ ol.wp-block-rss {
 .main-menu ul.sub-menu li a {
   position: relative;
   padding-left: 23px;
-  text-transform: capitalize;
+  text-transform: none;
 }
 
 .main-menu ul.sub-menu li a:before {
