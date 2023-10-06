@@ -70,7 +70,7 @@ if( $tek_genel_ayar['id'] > 0 )
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
-			<?php if( !isset($_REQUEST['birim_id']) ){ ?>
+			
 			<div class="col-md-4 p-0">
 				<div class="card card-secondary">
 					<div class="card-header">
@@ -95,9 +95,9 @@ if( $tek_genel_ayar['id'] > 0 )
 
 				</div>
 			</div>
-			<?php }else{ ?>
+			<?php if( isset($_REQUEST['birim_id']) ){ ?>
 
-			<div class="col-md-12">
+			<div class="col-md-8">
 				<div class="card card-secondary">
 					<div class="card-header p-2">
 						<ul class="nav nav-pills tab-container">

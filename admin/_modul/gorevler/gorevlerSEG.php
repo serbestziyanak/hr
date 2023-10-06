@@ -21,6 +21,7 @@ INSERT INTO
 	tb_gorevler
 SET
 	 birim_id				= ?
+	,gorev_turu_id			= ?
 	,gorev_kategori_id		= ?
 	,personel_id			= ?
 SQL;
@@ -30,6 +31,7 @@ UPDATE
 	tb_gorevler
 SET
 	 birim_id				= ?
+	,gorev_turu_id			= ?
 	,gorev_kategori_id		= ?
 	,personel_id			= ?
 WHERE
@@ -51,6 +53,7 @@ switch( $islem ) {
 	case 'ekle':
 		$sorgu_sonuc = $vt->insert( $SQL_ekle, array(
 			 $_REQUEST[	'birim_id' ]
+			,$_REQUEST[	'gorev_turu_id' ]
 			,$_REQUEST[	'gorev_kategori_id' ]
 			,$_REQUEST[	'personel_id' ]
 		) );
@@ -65,6 +68,7 @@ switch( $islem ) {
 	case 'guncelle':	
 		$sorgu_sonuc = $vt->update( $SQL_guncelle, array(
 			 $_REQUEST[	'birim_id' ]
+			,$_REQUEST[	'gorev_turu_id' ]
 			,$_REQUEST[	'gorev_kategori_id' ]
 			,$_REQUEST[	'personel_id' ]
 			,$id

@@ -607,6 +607,18 @@ foreach($alt_idler as $alt_id)
 								<label class="control-label"><?php echo dil_cevir( "İş Adresi", $dizi_dil, $sistem_dil ); ?></label>
 								<textarea id="is_adresi" name="is_adresi" class="form-control form-control-sm" ><?php echo $tek_personel[ "is_adresi" ]; ?></textarea>
 							</div>
+							<div class="form-group">
+								<label class="control-label"><?php echo dil_cevir( "Orcid URL", $dizi_dil, $sistem_dil ); ?></label>
+								<input type="text" name="orcid" class="form-control form-control-sm" value="<?php echo $tek_personel[ "orcid" ]; ?>">
+							</div>
+							<div class="form-group">
+								<label class="control-label"><?php echo dil_cevir( "Google Scholar URL", $dizi_dil, $sistem_dil ); ?></label>
+								<input type="text"  name="scholar" class="form-control form-control-sm" value="<?php echo $tek_personel[ "scholar" ]; ?>">
+							</div>
+							<div class="form-group">
+								<label class="control-label"><?php echo dil_cevir( "Avesis URL", $dizi_dil, $sistem_dil ); ?></label>
+								<input type="text"  name="avesis" class="form-control form-control-sm" value="<?php echo $tek_personel[ "avesis" ]; ?>">
+							</div>
 							<br><h5 class="float-left text-olive"><?php echo dil_cevir( "Sözleşme Bilgileri", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 							<div class="form-group">
 								<label class="control-label"><?php echo dil_cevir( "İşe Başlama Tarihi", $dizi_dil, $sistem_dil ); ?></label>

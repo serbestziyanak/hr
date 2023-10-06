@@ -82,7 +82,7 @@ $egitim_duzeyleri		= $vt->select( $SQL_tum_egitim_duzeyleri, array( ) )[ 2 ];
 										</a>
 									</td>
 									<td align = "center">
-										<button modul= 'egitim_duzeyleri' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/egitimDuzeyleri/egitimDuzeyleriSEG.php?islem=sil&id=<?php echo $egitim_duzey[ 'id' ]; ?>" data-toggle="modal" data-target="#sil_onay"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></button>
+										<button modul= 'egitimDuzeyleri' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/egitimDuzeyleri/egitimDuzeyleriSEG.php?islem=sil&id=<?php echo $egitim_duzey[ 'id' ]; ?>" data-toggle="modal" data-target="#sil_onay"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></button>
 									</td>
 								</tr>
 								<?php } ?>

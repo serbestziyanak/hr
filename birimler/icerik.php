@@ -26,6 +26,8 @@
 <?php 
     if( $_REQUEST['sayfa_kisa_ad'] == "iletisim" ){
         include "iletisim.php";
+    }elseif( $_REQUEST['sayfa_kisa_ad'] == "akademik-personel" ){
+         include "akademik_personel.php";
     }else{ ?>
     <section class="th-blog-wrapper blog-details space-top space-extra2-bottom">
         <div class="container">
@@ -41,109 +43,17 @@
                                 <a href="blog.html"><i class="fa-light fa-calendar-days"></i>05 June, 2023</a>
                                 <a href="blog-details.html"><i class="fa-light fa-book"></i>Business Analysis</a>
                             </div-->
-                            <?php if( $_REQUEST['sayfa_kisa_ad'] == "fakulte-yonetimi" ){ ?>
-                                <h2 class="blog-title" style="font-size: 24px;"><?php echo dil_cevir( "Fakülte Yönetimi", $dizi_dil, $_REQUEST["dil"] ); ?></h2>
-
-                                <div class="row text-center justify-content-md-center">
-                                    <?php foreach( $gorevler as $gorev ){ if( $gorev['oncelik_sirasi'] == 1 ){  
-                                        if( $gorev['foto'] == "resim_yok.png" or $gorev['foto'] == "" ) $foto = "ayu_logo.png"; else $foto = $gorev['foto'];
-                                    ?>
-                                    <div class="col-xl-5 col-md-6 justify-content-md-center">
-                                        <div class="team-card team-card-1-1-active mt-0">
-                                            <div class="team-img-wrap">
-                                                <div class="team-img">
-                                                    <img src="../admin/resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
-                                                </div>
-                                            </div>
-                                            <div class="team-hover-wrap">
-                                                <div class="team-social">
-                                                    <a href="#" class="icon-btn">
-                                                        <i class="far fa-plus"></i>
-                                                    </a>
-                                                    <div class="th-social">
-                                                        <a target="_blank" href="#" style="font-size:30px;"><i class="fa-brands fa-orcid"></i></a>
-                                                        <a target="_blank" href="#"><img src="assets/img/scholar.png"></a>
-                                                        <a target="_blank" href="#"><i class="fa-solid fa-envelope"></i></a>
-                                                        <a target="_blank" href="#"><img src="assets/img/avesis.png"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="team-content">
-                                                    <h3 class="team-title" style="font-size:18px;"><a href="#" ><?php echo $gorev['adi_soyadi'.$dil]; ?></a></h3>
-                                                    <span class="team-desig"><?php echo $gorev['gorev_adi'.$dil]; ?></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                    </div>
-                                    <?php }} ?>
-                                </div>
-                                <div class="row text-center justify-content-md-center">
-                                    <?php foreach( $gorevler as $gorev ){ if( $gorev['oncelik_sirasi'] == 2 ){  
-                                        if( $gorev['foto'] == "resim_yok.png" or $gorev['foto'] == "" ) $foto = "ayu_logo.png"; else $foto = $gorev['foto'];
-                                    ?>
-                                    <div class="col-xl-4 col-md-6 justify-content-md-center">
-                                        <div class="team-card team-card-1-1-active mt-0">
-                                            <div class="team-img-wrap">
-                                                <div class="team-img">
-                                                    <img src="../admin/resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
-                                                </div>
-                                            </div>
-                                            <div class="team-hover-wrap">
-                                                <div class="team-social">
-                                                    <a href="#" class="icon-btn">
-                                                        <i class="far fa-plus"></i>
-                                                    </a>
-                                                    <div class="th-social">
-                                                        <a target="_blank" href="#" style="font-size:30px;"><i class="fa-brands fa-orcid"></i></a>
-                                                        <a target="_blank" href="#"><img src="assets/img/scholar.png"></a>
-                                                        <a target="_blank" href="#"><i class="fa-solid fa-envelope"></i></a>
-                                                        <a target="_blank" href="#"><img src="assets/img/avesis.png"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="team-content">
-                                                    <h3 class="team-title" style="font-size:18px;"><a href="#" ><?php echo $gorev['adi_soyadi'.$dil]; ?></a></h3>
-                                                    <span class="team-desig"><?php echo $gorev['gorev_adi'.$dil]; ?></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                    </div>
-                                    <?php }} ?>
-                                </div>
-                                <div class="row text-center justify-content-md-center">
-                                    <?php foreach( $gorevler as $gorev ){ if( $gorev['oncelik_sirasi'] == 3 ){  
-                                        if( $gorev['foto'] == "resim_yok.png" or $gorev['foto'] == "" ) $foto = "ayu_logo.png"; else $foto = $gorev['foto'];
-                                    ?>
-                                    <div class="col-xl-4 col-md-6 justify-content-md-center">
-                                        <div class="team-card team-card-1-1-active mt-0">
-                                            <div class="team-img-wrap">
-                                                <div class="team-img">
-                                                    <img src="../admin/resimler/personel_resimler/<?php echo $foto; ?>" alt="Team" style="width: 327px;height: 250px;object-fit: cover;">
-                                                </div>
-                                            </div>
-                                            <div class="team-hover-wrap">
-                                                <div class="team-social">
-                                                    <a href="#" class="icon-btn">
-                                                        <i class="far fa-plus"></i>
-                                                    </a>
-                                                    <div class="th-social">
-                                                        <a target="_blank" href="#" style="font-size:30px;"><i class="fa-brands fa-orcid"></i></a>
-                                                        <a target="_blank" href="#"><img src="assets/img/scholar.png"></a>
-                                                        <a target="_blank" href="#"><i class="fa-solid fa-envelope"></i></a>
-                                                        <a target="_blank" href="#"><img src="assets/img/avesis.png"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="team-content">
-                                                    <h3 class="team-title" style="font-size:18px;"><a href="#" ><?php echo $gorev['adi_soyadi'.$dil]; ?></a></h3>
-                                                    <span class="team-desig"><?php echo $gorev['gorev_adi'.$dil]; ?></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                    </div>
-                                    <?php }} ?>
-                                </div>
-                            <?php }else{ ?>
+                            <?php 
+                            if( $_REQUEST['sayfa_kisa_ad'] == "fakulte-yonetimi" ){ 
+                                include "fakulte_yonetimi.php";
+                            }elseif( $_REQUEST['sayfa_kisa_ad'] == "fakulte-yonetim-kurulu" ){ 
+                                include "fakulte_yonetim_kurulu.php";
+                            }elseif( $_REQUEST['sayfa_kisa_ad'] == "ogretim-ve-metodoloji-komitesi" ){ 
+                                include "ogretim_ve_metodoloji_komitesi.php";
+                            }elseif( $_REQUEST['sayfa_kisa_ad'] == "kalite-komisyonu" ){ 
+                                include "kalite_komisyonu.php";
+                            }else{ 
+                                ?>
                                 <h2 class="blog-title" style="font-size: 24px;"><?php echo @$birim_sayfa_icerikleri['baslik'.$dil]; ?></h2>
                                 <p style="font-family:'Roboto', sans-serif !important; font-size: 16px !important; ">
                                     <?php echo @$birim_sayfa_icerikleri['icerik'.$dil]; ?>

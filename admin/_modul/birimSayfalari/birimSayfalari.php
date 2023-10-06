@@ -91,7 +91,7 @@ foreach($ust_idler as $ust_id)
 	$ust_id_dizi[] = $ust_id['ust_id'];
 
 foreach($alt_idler as $alt_id) 
-	$ust_id_dizi[] = $alt_id['ust_id'];
+	$alt_id_dizi[] = $alt_id['ust_id'];
 
 @$birim_sayfalari 		= $vt->select($SQL_birim_sayfalari_getir, array( $birim_id ) )[ 2 ];
 @$birim_bilgileri 		= $vt->selectSingle($SQL_birim_bilgileri, array( $birim_id ) )[ 2 ];

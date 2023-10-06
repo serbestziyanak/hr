@@ -3,7 +3,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../admin/_cekirdek/fonksiyonlar.php";
 $vt = new VeriTabani();
 $fn = new Fonksiyonlar();
-
+$mevcut_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 //var_dump($_REQUEST);
 //exit;
 
@@ -122,27 +122,7 @@ WHERE
   turu = 1 
 SQL;
 
-$SQL_tum_gorevler = <<< SQL
-SELECT 
-	g.*
-	,concat(unv.adi,' ',p.adi,' ',p.soyadi) as adi_soyadi
-	,concat(unv.adi_kz,' ',p.adi_kz,' ',p.soyadi_kz) as adi_soyadi_kz
-	,concat(unv.adi_en,' ',p.adi_en,' ',p.soyadi_en) as adi_soyadi_en
-	,concat(unv.adi_ru,' ',p.adi_ru,' ',p.soyadi_ru) as adi_soyadi_ru
-    ,p.foto
-	,gk.adi as gorev_adi
-	,gk.adi_kz as gorev_adi_kz
-	,gk.adi_en as gorev_adi_en
-	,gk.adi_ru as gorev_adi_ru
-    ,gk.oncelik_sirasi
-FROM 
-	tb_gorevler as g
-LEFT JOIN tb_gorev_kategorileri AS gk ON gk.id = g.gorev_kategori_id
-LEFT JOIN tb_personeller AS p ON p.id = g.personel_id
-LEFT JOIN tb_unvanlar AS unv ON unv.id = p.unvan_id
-WHERE 
-	g.birim_id = ?
-SQL;
+
 
 
 
@@ -163,7 +143,6 @@ $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_
 @$etkinlikler 	        = $vt->select($SQL_etkinlikler, array( $birim_id ) )[ 2 ];
 @$slaytlar 	            = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
 @$genel_ayarlar 	    = $vt->selectSingle($SQL_genel_ayarlar, array( $birim_id ) )[ 2 ];
-@$gorevler   			= $vt->select( $SQL_tum_gorevler, 	array( $birim_id ) )[ 2 ];
 
 @$ceviriler	            = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
 foreach( $ceviriler as $ceviri ){
@@ -370,6 +349,7 @@ if( $birim_id == 0 ){
                                         <?php 
                                             function buildList2(array $array, int $ust_id, int $ilk, $birim_id, $birim_kisa_ad, $dil,$vt,$SQL_bolumler): string
                                             {
+                                                $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                                 $dil2 = $dil == "tr" ? "" : "_".$dil ;
                                                 $adi = "adi".$dil2;
                                                 if( $ilk )
@@ -382,13 +362,16 @@ if( $birim_id == 0 ){
                                                             $adi = "adi";
 
                                                         if( $item['kategori'] == 0 ){
-                                                            if( $item['link'] == 1 )
+                                                            if( $item['link'] == 1 ){
                                                                 $url = $item['link_url'];
-                                                            else
+                                                                $target = "_blank";
+                                                            }else{
                                                                 $url = "{$dil}/{$birim_kisa_ad}/{$item['kisa_ad']}";
-                                                            $menu .= "<li><a href='{$url}'>{$item[$adi]}</a></li>";
+                                                                $target = "";
+                                                            }
+                                                            $menu .= "<li><a href='{$url}' target='{$target}'>{$item[$adi]}</a></li>";
                                                         }else{
-                                                             $menu .= "<li class='menu-item-has-children'><a href='#' >{$item[$adi]}</a>";
+                                                            $menu .= "<li class='menu-item-has-children'><a href='$actual_link#' >{$item[$adi]}</a>";
                                                         }
                                                         if ( $item['kategori'] == 1 ) {
                                                                 if( $item['kisa_ad'] == 'bolumler' ){
@@ -408,11 +391,11 @@ if( $birim_id == 0 ){
                                                                     foreach( $programlar as $program ){
                                                                         $program_adi = "adi".$dil2;
 
-                                                                        $menu .= "<li class='menu-item-has-children'><a href='#' >{$program[$program_adi]}</a>";
+                                                                        $menu .= "<li class='menu-item-has-children'><a href='$actual_link#' >{$program[$program_adi]}</a>";
                                                                             @$programlar2 = $vt->select($SQL_bolumler, array( $program['id'] ) )[ 2 ];
                                                                             $menu .= "<ul class='sub-menu'>";
                                                                             foreach( $programlar2 as $program2 ){                                                                                
-                                                                                $menu .= "<li><a href='{$dil}/{$program2['kisa_ad']}'>{$program2[$program_adi]}</a></li>";
+                                                                                $menu .= "<li><a href='{$dil}/{$birim_kisa_ad}/programlar/{$program2['program_kodu']}'>{$program2[$program_adi]}</a></li>";
 
                                                                             }
                                                                             $menu .= "</ul></li>";

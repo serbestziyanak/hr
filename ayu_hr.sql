@@ -11,7 +11,7 @@
  Target Server Version : 100427 (10.4.27-MariaDB)
  File Encoding         : 65001
 
- Date: 05/10/2023 18:15:47
+ Date: 06/10/2023 18:05:45
 */
 
 SET NAMES utf8mb4;
@@ -4206,7 +4206,7 @@ INSERT INTO `tb_ceviriler` VALUES (396, 2, 'Şifre', 'Шифр (код) ', 'Code
 INSERT INTO `tb_ceviriler` VALUES (397, 1, 'Duyurular', 'Хабарландырулар', 'Notifications', 'Объявления');
 INSERT INTO `tb_ceviriler` VALUES (398, 1, 'Anasayfa', 'Басты бет', 'Main page', 'Главная страница');
 INSERT INTO `tb_ceviriler` VALUES (399, 1, 'Bizi takip et', 'Бізді қадағалаңыз', 'Follow us', 'Подписывайтесь на нас');
-INSERT INTO `tb_ceviriler` VALUES (400, 1, 'AYU Portal', 'Ахмет Ясауи университеті порталы', 'AYU Portal', 'AYU Портал');
+INSERT INTO `tb_ceviriler` VALUES (400, 1, 'AYU Portal', 'AYU портал', 'AYU Portal', 'AYU Портал');
 INSERT INTO `tb_ceviriler` VALUES (401, 1, 'Öğrenci', 'Студент', 'Student', 'Студент');
 INSERT INTO `tb_ceviriler` VALUES (402, 1, 'Daha Fazla', 'Одан да көп', 'More', 'Узнать больше');
 INSERT INTO `tb_ceviriler` VALUES (403, 1, 'Son Duyurular', 'Соңғы хабарландырулар', 'Latest notifications', 'Последние объявления');
@@ -4807,7 +4807,7 @@ CREATE TABLE `tb_genel_ayarlar`  (
 -- ----------------------------
 -- Records of tb_genel_ayarlar
 -- ----------------------------
-INSERT INTO `tb_genel_ayarlar` VALUES (2, 231, NULL, 'Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi', 'footer_logo_64feb065179dcayu_logo_beyaz.png', '', 'cbdgfd', 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2893.630092937456!2d68.499073!3d43.5100517!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4200d53b0198581b%3A0xd8dfafe902ae6479!2sMktu!5e0!3m2!1str!2skz!4v1696496089494!5m2!1str!2skz', 'Turkistan Eyaleti Kentau Şehri, B.Momushulu 65', '+7(725) 363-57-45 ', 'injeneria.fakulteti@ayu.edu.kz', 'https://www.facebook.com/yassawi.university/', '', 'https://www.instagram.com/yasawi_engineering_official/', '', '', 'Hakkımızda', '<p style=\"text-align:justify;\"><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', '2', '400', '81', '46', 'Köklü Geçmişten Güçlü Geleceğe', 'Ahmet Yesevi Üniversitesi', 'AYU', 'https://ayu.edu.kz', 'Öğrenci İşleri', 'https://students.ayu.edu.kz/', 'Түркістан облысы,Кентау қаласы,ул.Б.Момышулы 65', NULL, NULL, 'Инженерия факультеті', NULL, NULL, '<p>Қожа Ахмет Яссауи атындағы Халықаралық Қазақ-Түрік университетінің Жаратылыстану және инженерлік факультеті Университет Сенатының ұсынысы негізінде, 2002 жылы сәуір айының 26 жұлдызындағы Өкілетті Кеңестің N16 шешіміне байланысты N2/1550 19.08.2002 ж. бұйрығымен жеке факультет болып бөлініп шығып, 2004 жылы қазан айында «Жаратылыстану» және «Ақпараттық технологиялар және инженерлік» факультеттері болып екіге бөліңді, 2006 жылы тамыз айында Университет Сенатының шешімімен «Жаратылыстану» және «Ақпараттық технологиялар және инженерлік» факультеттері біріктіріліп «Ақпараттық технологиялар және жаратылыстану» факультеті құрылды. 2007-2008 оқу жылынан бастап Университет Сенатының шешімімен «Жаратылыстану» және «Ақпараттық технологиялар және инженерлік» факультеттері болып екіге бөлінді. Университет Сенатының шешімімен 2014-2015 оқу жылынан бастап факультет Инженерия деп өзгертілді.</p>', NULL, NULL, 'Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi', NULL, NULL, '', NULL, NULL, '', NULL, NULL, '', NULL, NULL, '', NULL, NULL, 'Bölüm', 'Bölüm', NULL, NULL, 'Öğrenci', 'Öğrenci', NULL, NULL, 'İşe Yerleşme Oranı', 'İşe Yerleşme Oranı', NULL, NULL, 'Öğretim Üyesi', 'Öğretim Üyesi', NULL, NULL, 'logo_651ea48a4aceclogo_65166bd2ebf636_TR.png', NULL, NULL);
+INSERT INTO `tb_genel_ayarlar` VALUES (2, 231, 'logo_651ff19627a03logo_65166bd2ebf636_TR.png', 'Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi', 'footer_logo_64feb065179dcayu_logo_beyaz.png', '', 'cbdgfd', 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2893.630092937456!2d68.499073!3d43.5100517!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4200d53b0198581b%3A0xd8dfafe902ae6479!2sMktu!5e0!3m2!1str!2skz!4v1696496089494!5m2!1str!2skz', 'Turkistan Eyaleti Kentau Şehri, B.Momushulu 65', '+7(725) 363-57-45 ', 'injeneria.fakulteti@ayu.edu.kz', 'https://www.facebook.com/yassawi.university/', '', 'https://www.instagram.com/yasawi_engineering_official/', '', '', 'Hakkımızda', '<p style=\"text-align:justify;\"><span style=\"background-color:rgb(255,255,255);color:rgb(24,28,50);font-family:Poppins, Helvetica, sans-serif;font-size:14.95px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:justify;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">Mütevelli Heyetimizin kararıyla Ekim-2004 tarihinde “Bilişim Teknolojileri ve Mühendislik Fakültesi” olarak kurulan Fakültemizin ismi Üniversitemiz Senatosunun kararıyla 2014-2015 Eğitim-Öğretim döneminden başlayarak “Mühendislik Fakültesi” olarak değiştirildi. Fakültemiz, Lisans ve lisansüstü seviyede, çağdaş, kapsamlı ve güçlü mühendislik eğitimi vermek, nitelikli, özgün ve yenilikçi araştırmalar yaparak bilimsel ve teknolojik gelişmeye katkı sağlamak, sanayi ve paydaş kurum/kuruluşlar ile yakın işbirliği kurarak ulusal/uluslararası kalkınmaya katkı sağlamak misyonu ile eğitim hayatına devam etmektedir.</span></span></p>', '2', '400', '81', '46', 'Köklü Geçmişten Güçlü Geleceğe', 'Ahmet Yesevi Üniversitesi', 'AYU', 'https://ayu.edu.kz', 'Öğrenci İşleri', 'https://students.ayu.edu.kz/', 'Түркістан облысы,Кентау қаласы,ул.Б.Момышулы 65', NULL, NULL, 'Инженерия факультеті', NULL, NULL, '<p>Қожа Ахмет Яссауи атындағы Халықаралық Қазақ-Түрік университетінің Жаратылыстану және инженерлік факультеті Университет Сенатының ұсынысы негізінде, 2002 жылы сәуір айының 26 жұлдызындағы Өкілетті Кеңестің N16 шешіміне байланысты N2/1550 19.08.2002 ж. бұйрығымен жеке факультет болып бөлініп шығып, 2004 жылы қазан айында «Жаратылыстану» және «Ақпараттық технологиялар және инженерлік» факультеттері болып екіге бөліңді, 2006 жылы тамыз айында Университет Сенатының шешімімен «Жаратылыстану» және «Ақпараттық технологиялар және инженерлік» факультеттері біріктіріліп «Ақпараттық технологиялар және жаратылыстану» факультеті құрылды. 2007-2008 оқу жылынан бастап Университет Сенатының шешімімен «Жаратылыстану» және «Ақпараттық технологиялар және инженерлік» факультеттері болып екіге бөлінді. Университет Сенатының шешімімен 2014-2015 оқу жылынан бастап факультет Инженерия деп өзгертілді.</p>', NULL, NULL, 'Hoca Ahmet Yesevi Uluslararası Türk-Kazak Üniversitesi', NULL, NULL, '', NULL, NULL, '', NULL, NULL, '', NULL, NULL, '', NULL, NULL, 'Bölüm', 'Bölüm', NULL, NULL, 'Öğrenci', 'Öğrenci', NULL, NULL, 'İşe Yerleşme Oranı', 'İşe Yerleşme Oranı', NULL, NULL, 'Öğretim Üyesi', 'Öğretim Üyesi', NULL, NULL, 'logo_651ea48a4aceclogo_65166bd2ebf636_TR.png', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_gorev_kategorileri
@@ -4823,12 +4823,12 @@ CREATE TABLE `tb_gorev_kategorileri`  (
   `gorev_turu` tinyint NULL DEFAULT NULL COMMENT '1 Akademik, 2 İdari, 3 Web Sitesi Sorumlusu',
   `rol_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_gorev_kategorileri
 -- ----------------------------
-INSERT INTO `tb_gorev_kategorileri` VALUES (1, 'Dekan', NULL, NULL, NULL, 1, 1, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (1, 'Dekan', '', '', '', 1, 1, NULL);
 INSERT INTO `tb_gorev_kategorileri` VALUES (2, 'Dekan Yardımcısı', NULL, NULL, NULL, 2, 1, NULL);
 INSERT INTO `tb_gorev_kategorileri` VALUES (3, 'Bölüm Başkanı', NULL, NULL, NULL, 1, 1, NULL);
 INSERT INTO `tb_gorev_kategorileri` VALUES (4, 'Bölüm Başkanı Yardımcısı', NULL, NULL, NULL, 2, 1, NULL);
@@ -4837,8 +4837,38 @@ INSERT INTO `tb_gorev_kategorileri` VALUES (12, 'Eğitimden Sorumlu Dekan Yardı
 INSERT INTO `tb_gorev_kategorileri` VALUES (13, 'Bilim ve Terbiyeden Sorumlu Dekan Yardımcısı', NULL, NULL, NULL, 2, 1, NULL);
 INSERT INTO `tb_gorev_kategorileri` VALUES (14, 'Bilimsel Araştırmalardan Sorumlu Dekan Yardımcısı', NULL, NULL, NULL, 2, 1, NULL);
 INSERT INTO `tb_gorev_kategorileri` VALUES (15, 'Terbiye İşlerinden Sorumlu Dekan Yardımcısı', NULL, NULL, NULL, 2, 1, NULL);
-INSERT INTO `tb_gorev_kategorileri` VALUES (16, 'Web Sitesi Sorumlusu', NULL, NULL, NULL, NULL, 3, NULL);
-INSERT INTO `tb_gorev_kategorileri` VALUES (17, 'Fakülte Yönetim Kurulu Üyesi', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (17, 'Fakülte Yönetim Kurulu Başkanı', '', '', '', 1, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (32, 'Fakülte Yönetim Kurulu Üyesi', '', '', '', 2, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (33, 'Öğretim ve Metodoloji Komitesi Başkanı', '', '', '', 1, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (34, 'Öğretim ve Metodoloji Komitesi Başkan Yardımcısı', '', '', '', 2, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (35, 'Öğretim ve Metodoloji Komitesi Sekreteri', '', '', '', 2, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (36, 'Öğretim ve Metodoloji Komitesi Üyesi', '', '', '', 3, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (37, 'Kalite Komisyonu Başkanı', '', '', '', 1, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (38, 'Kalite Komisyonu Başkan Yardımcısı', '', '', '', 2, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (39, 'Kalite Komisyonu Sekreteri', '', '', '', 2, NULL, NULL);
+INSERT INTO `tb_gorev_kategorileri` VALUES (40, 'Kalite Komisyonu Üyesi', '', '', '', 3, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for tb_gorev_turleri
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_gorev_turleri`;
+CREATE TABLE `tb_gorev_turleri`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `adi` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  `adi_kz` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  `adi_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  `adi_ru` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tb_gorev_turleri
+-- ----------------------------
+INSERT INTO `tb_gorev_turleri` VALUES (1, 'Fakülte Yönetimi', '', '', '');
+INSERT INTO `tb_gorev_turleri` VALUES (2, 'Fakülte Yönetim Kurulu', NULL, NULL, NULL);
+INSERT INTO `tb_gorev_turleri` VALUES (3, 'Öğretim ve Metodoloji Komitesi', NULL, NULL, NULL);
+INSERT INTO `tb_gorev_turleri` VALUES (4, 'Kalite Komisyonu', NULL, NULL, NULL);
+INSERT INTO `tb_gorev_turleri` VALUES (11, 'Bölüm Yönetimi', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_gorevler
@@ -4847,23 +4877,39 @@ DROP TABLE IF EXISTS `tb_gorevler`;
 CREATE TABLE `tb_gorevler`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `birim_id` int NOT NULL,
+  `gorev_turu_id` int NULL DEFAULT NULL,
   `gorev_kategori_id` int NULL DEFAULT NULL,
   `personel_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_gorevler
 -- ----------------------------
-INSERT INTO `tb_gorevler` VALUES (8, 231, 1, 4);
-INSERT INTO `tb_gorevler` VALUES (11, 231, 12, 6);
-INSERT INTO `tb_gorevler` VALUES (12, 231, 15, 7);
-INSERT INTO `tb_gorevler` VALUES (13, 54, 1, 8);
-INSERT INTO `tb_gorevler` VALUES (15, 232, 3, 9);
-INSERT INTO `tb_gorevler` VALUES (16, 242, 3, 10);
-INSERT INTO `tb_gorevler` VALUES (17, 231, 17, 10);
-INSERT INTO `tb_gorevler` VALUES (18, 231, 17, 9);
-INSERT INTO `tb_gorevler` VALUES (19, 231, 17, 11);
+INSERT INTO `tb_gorevler` VALUES (8, 231, 1, 1, 4);
+INSERT INTO `tb_gorevler` VALUES (11, 231, 1, 12, 6);
+INSERT INTO `tb_gorevler` VALUES (12, 231, 1, 15, 7);
+INSERT INTO `tb_gorevler` VALUES (13, 54, 1, 1, 8);
+INSERT INTO `tb_gorevler` VALUES (15, 232, 11, 3, 9);
+INSERT INTO `tb_gorevler` VALUES (16, 242, NULL, 3, 10);
+INSERT INTO `tb_gorevler` VALUES (17, 231, 2, 32, 10);
+INSERT INTO `tb_gorevler` VALUES (18, 231, 2, 32, 9);
+INSERT INTO `tb_gorevler` VALUES (19, 231, 2, 32, 11);
+INSERT INTO `tb_gorevler` VALUES (20, 231, 2, 17, 4);
+INSERT INTO `tb_gorevler` VALUES (21, 231, 2, 32, 7);
+INSERT INTO `tb_gorevler` VALUES (22, 231, 2, 32, 12);
+INSERT INTO `tb_gorevler` VALUES (23, 231, 4, 37, 4);
+INSERT INTO `tb_gorevler` VALUES (24, 231, 4, 38, 6);
+INSERT INTO `tb_gorevler` VALUES (25, 231, 4, 40, 3);
+INSERT INTO `tb_gorevler` VALUES (26, 231, 4, 40, 7);
+INSERT INTO `tb_gorevler` VALUES (27, 231, 4, 40, 9);
+INSERT INTO `tb_gorevler` VALUES (28, 231, 4, 39, 12);
+INSERT INTO `tb_gorevler` VALUES (29, 231, 3, 33, 4);
+INSERT INTO `tb_gorevler` VALUES (30, 231, 3, 34, 7);
+INSERT INTO `tb_gorevler` VALUES (31, 231, 3, 35, 11);
+INSERT INTO `tb_gorevler` VALUES (32, 231, 3, 36, 3);
+INSERT INTO `tb_gorevler` VALUES (33, 231, 3, 36, 6);
+INSERT INTO `tb_gorevler` VALUES (34, 231, 3, 36, 12);
 
 -- ----------------------------
 -- Table structure for tb_kan_gruplari
@@ -5033,7 +5079,7 @@ CREATE TABLE `tb_modul`  (
   `adi_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   `adi_ru` varchar(255) CHARACTER SET utf8 COLLATE utf8_turkish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 163 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 164 CHARACTER SET = utf8 COLLATE = utf8_turkish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_modul
@@ -5066,6 +5112,7 @@ INSERT INTO `tb_modul` VALUES (159, 'Birim Yetkileri', 'birimYetkileri', 'birimY
 INSERT INTO `tb_modul` VALUES (160, 'Ünvanlar', 'unvanlar', 'unvanlar', 'far fa-circle text-yellow', 1, 129, 0, 1, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_modul` VALUES (161, 'Eğitim Düzeyleri', 'egitimDuzeyleri', 'egitimDuzeyleri', 'far fa-circle text-green', 1, 129, 0, 1, 0, 0, NULL, NULL, NULL);
 INSERT INTO `tb_modul` VALUES (162, 'Personel Nielikleri', 'personelNitelikleri', 'personelNitelikleri', 'far fa-circle text-red', 1, 129, 0, 1, 0, 0, NULL, NULL, NULL);
+INSERT INTO `tb_modul` VALUES (163, 'Görev Türleri', 'gorevTurleri', 'gorevTurleri', 'far fa-circle text-orange', 1, 129, 0, 1, 0, 0, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tb_modul_yetki_islemler
@@ -5839,6 +5886,9 @@ CREATE TABLE `tb_personeller`  (
   `is_adresi_kz` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `is_adresi_en` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `is_adresi_ru` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `orcid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `avesis` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `scholar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `rol_id` int NULL DEFAULT 1,
   `super` tinyint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -5847,16 +5897,16 @@ CREATE TABLE `tb_personeller`  (
 -- ----------------------------
 -- Records of tb_personeller
 -- ----------------------------
-INSERT INTO `tb_personeller` VALUES (3, '45982964018', '456982964018', '456412222', 232, 'Serbest', 'Ziyanak', 223, 2, '1989-01-20 00:00:00', 1, 1, 'yok', 1, 1, 5, 4, '2023-08-28 00:00:00', '2023-09-18 00:00:00', '2024-09-18 00:00:00', 'serbest@ayu.edu.kz', '5444961144', '5444961144', 'Mağjan 4', 'Ayu kampüs', '5444961144', 'personel_3_65080a3d6b5e2.jpg', '21HB001', 2, 'personel', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Kazakça Serbest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 14, NULL);
-INSERT INTO `tb_personeller` VALUES (4, '234234234', '', '', 242, 'Naci', 'Genç', 0, 0, NULL, 0, 0, '', 0, 0, 0, 1, NULL, NULL, NULL, 'nacigenc@ayu.edu.kz', '', '', '', '', '', 'personel_4_65080a325c394.jpg', '', 0, 'personel', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 14, NULL);
-INSERT INTO `tb_personeller` VALUES (5, '123123213', '', '', 220, 'Eray', 'Çelik', 0, NULL, NULL, 0, NULL, '', 0, 0, 0, 0, NULL, NULL, NULL, 'ecelik@ayu.edu.kz', '', '', '', '', '', 'resim_yok.png', '', NULL, 'personel', 'bc000ebca4a5687a014d9c9f94da86e8', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
-INSERT INTO `tb_personeller` VALUES (6, '870910400945', '', '', 242, 'Zhansaya', 'Kalimbetova ', 112, 1, NULL, 0, 0, '', 2, 1, 0, 6, NULL, NULL, NULL, 'zhansaya.kalimbetova@ayu.edu.kz', '', '', '', '', '', 'personel_6_65169df1d0f95.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
-INSERT INTO `tb_personeller` VALUES (7, '850116301618', '', '', 232, 'Boranbek', 'Baimurzayev', 112, 0, NULL, 0, 0, '', 2, 1, 0, 6, NULL, NULL, NULL, 'bboranbek@ayu.edu.kz', '', '', '', '', '', 'personel_7_65169f121c580.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
-INSERT INTO `tb_personeller` VALUES (8, '821225050113', '', '', 76, 'Abdulkadir', 'ÖZTÜRK', 223, 2, NULL, 0, 0, '', 2, 1, 0, 2, NULL, NULL, NULL, 'ozturk.abdulkadir@ayu.edu.kz', '', '', '', '', '', 'resim_yok.png', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
-INSERT INTO `tb_personeller` VALUES (9, '730710401630', '', '', 232, 'Gulnur', 'Kazbekova', 223, 0, NULL, 0, 0, '', 2, 1, 0, 2, NULL, NULL, NULL, 'gulnur.kazbekova@ayu.edu.kz', '', '', '', '', '', 'personel_9_651a47d216332.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
-INSERT INTO `tb_personeller` VALUES (10, '621231400450', '', '', 242, 'Zagipa', 'Abdikulova', 0, 2, NULL, 0, 0, '', 2, 1, 0, 0, NULL, NULL, NULL, 'zagipa.abdikulova@ayu.edu.kz', '', '', '', '', '', 'personel_10_651a49620f716.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
-INSERT INTO `tb_personeller` VALUES (11, '890306401389', '', '', 242, 'Aktolkın', 'Ağabekova', 0, 1, NULL, 0, 0, '', 2, 1, 0, 0, NULL, NULL, NULL, 'aktolkyn.agabekova@ayu.edu.kz', '', '', '', '', '', 'personel_11_651a4f908eb51.png', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
-INSERT INTO `tb_personeller` VALUES (12, '920612401618', '', '', 232, 'Aiman', 'Abibullayeva', 0, 1, NULL, 0, 0, '', 2, 1, 0, 0, NULL, NULL, NULL, 'aiman.abibullayeva@ayu.edu.kz', '', '', '', '', '', 'personel_12_651a4fe908ce6.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (3, '45982964018', '456982964018', '456412222', 232, 'Serbest', 'Ziyanak', 223, 2, '1989-01-20 00:00:00', 1, 1, 'yok', 1, 1, 5, 4, '2023-08-28 00:00:00', '2023-09-18 00:00:00', '2024-09-18 00:00:00', 'serbest@ayu.edu.kz', '5444961144', '5444961144', 'Mağjan 4', 'Ayu kampüs', '5444961144', 'personel_3_65080a3d6b5e2.jpg', '21HB001', 2, 'personel', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Kazakça Serbest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'https://orcid.org/0000-0002-9575-8791', 'https://avesis.yyu.edu.tr/sziyanak', 'https://scholar.google.com/citations?hl=tr&authuser=1&user=ERT8-R4AAAAJ', 14, NULL);
+INSERT INTO `tb_personeller` VALUES (4, '234234234', '', '', 242, 'Naci', 'Genç', 0, 0, NULL, 0, 0, '', 0, 0, 0, 1, NULL, NULL, NULL, 'nacigenc@ayu.edu.kz', '', '', '', '', '', 'personel_4_65080a325c394.jpg', '', 0, 'personel', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 14, NULL);
+INSERT INTO `tb_personeller` VALUES (5, '123123213', '', '', 220, 'Eray', 'Çelik', 0, NULL, NULL, 0, NULL, '', 0, 0, 0, 0, NULL, NULL, NULL, 'ecelik@ayu.edu.kz', '', '', '', '', '', 'resim_yok.png', '', NULL, 'personel', 'bc000ebca4a5687a014d9c9f94da86e8', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (6, '870910400945', '', '', 242, 'Zhansaya', 'Kalimbetova ', 112, 1, NULL, 0, 0, '', 2, 1, 0, 6, NULL, NULL, NULL, 'zhansaya.kalimbetova@ayu.edu.kz', '', '', '', '', '', 'personel_6_65169df1d0f95.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (7, '850116301618', '', '', 232, 'Boranbek', 'Baimurzayev', 112, 0, NULL, 0, 0, '', 2, 1, 0, 6, NULL, NULL, NULL, 'bboranbek@ayu.edu.kz', '', '', '', '', '', 'personel_7_65169f121c580.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (8, '821225050113', '', '', 76, 'Abdulkadir', 'ÖZTÜRK', 223, 2, NULL, 0, 0, '', 2, 1, 0, 2, NULL, NULL, NULL, 'ozturk.abdulkadir@ayu.edu.kz', '', '', '', '', '', 'resim_yok.png', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (9, '730710401630', '', '', 232, 'Gulnur', 'Kazbekova', 223, 0, NULL, 0, 0, '', 2, 1, 0, 2, NULL, NULL, NULL, 'gulnur.kazbekova@ayu.edu.kz', '', '', '', '', '', 'personel_9_651a47d216332.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (10, '621231400450', '', '', 242, 'Zagipa', 'Abdikulova', 0, 2, NULL, 0, 0, '', 2, 1, 0, 0, NULL, NULL, NULL, 'zagipa.abdikulova@ayu.edu.kz', '', '', '', '', '', 'personel_10_651a49620f716.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (11, '890306401389', '', '', 242, 'Aktolkın', 'Ağabekova', 0, 1, NULL, 0, 0, '', 2, 1, 0, 0, NULL, NULL, NULL, 'aktolkyn.agabekova@ayu.edu.kz', '', '', '', '', '', 'personel_11_651a4f908eb51.png', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `tb_personeller` VALUES (12, '920612401618', '', '', 232, 'Aiman', 'Abibullayeva', 0, 1, NULL, 0, 0, '', 2, 1, 0, 0, NULL, NULL, NULL, 'aiman.abibullayeva@ayu.edu.kz', '', '', '', '', '', 'personel_12_651a4fe908ce6.jpeg', '', 0, 'personel', 'd41d8cd98f00b204e9800998ecf8427e', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for tb_programlar

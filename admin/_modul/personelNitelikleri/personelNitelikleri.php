@@ -82,7 +82,7 @@ $personel_nitelikleri		= $vt->select( $SQL_tum_personel_nitelikleri, array( ) )[
 										</a>
 									</td>
 									<td align = "center">
-										<button modul= 'personel_nitelikleri' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/personelNitelikleri/personelNitelikleriSEG.php?islem=sil&id=<?php echo $personel_nitelik[ 'id' ]; ?>" data-toggle="modal" data-target="#sil_onay"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></button>
+										<button modul= 'personelNitelikleri' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/personelNitelikleri/personelNitelikleriSEG.php?islem=sil&id=<?php echo $personel_nitelik[ 'id' ]; ?>" data-toggle="modal" data-target="#sil_onay"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></button>
 									</td>
 								</tr>
 								<?php } ?>

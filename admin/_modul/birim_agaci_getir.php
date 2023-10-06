@@ -70,13 +70,14 @@ function kategoriListele3( $url_modul, $kategoriler, $parent = 0, $renk = 0,$vt,
 			}
 			if( $kategori['kategori'] == 1 ){
 
-				if( $kategori['ust_id'] == 0 ){
+				if( $kategori['ust_id'] <= 2   ){
 					$agac_acik = "true";
 				}else{
 					if( strlen($_SESSION['birim_idler']) > 0  )
 						$agac_acik = "true";
 					else
 						$agac_acik = "false";
+
 				}
 
 				if( $kategori['grup'] == 1 ){

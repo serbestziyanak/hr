@@ -23,6 +23,8 @@ $satir_renk				= $id > 0	? 'table-warning'						: '';
 $kaydet_buton_yazi		= $id > 0	? 'Güncelle'							: 'Kaydet';
 $kaydet_buton_cls		= $id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 
+include "_modul/birim_agaci_getir.php";
+
 $SQL_alt_id_getir = <<< SQL
 WITH RECURSIVE alt_kategoriler AS (
     SELECT id
@@ -52,8 +54,13 @@ SELECT
 	,gk.adi_kz as gorev_adi_kz
 	,gk.adi_en as gorev_adi_en
 	,gk.adi_ru as gorev_adi_ru
+	,gt.adi as gorev_turu
+	,gt.adi_kz as gorev_turu_kz
+	,gt.adi_en as gorev_turu_en
+	,gt.adi_ru as gorev_turu_ru
 FROM 
 	tb_gorevler as g
+LEFT JOIN tb_gorev_turleri AS gt ON gt.id = g.gorev_turu_id
 LEFT JOIN tb_gorev_kategorileri AS gk ON gk.id = g.gorev_kategori_id
 LEFT JOIN tb_personeller AS p ON p.id = g.personel_id
 WHERE 
@@ -85,6 +92,13 @@ FROM
 WHERE aktif = 1 $where
 SQL;
 
+$SQL_gorev_turleri = <<< SQL
+SELECT
+	*
+FROM 
+	tb_gorev_turleri
+SQL;
+
 $SQL_gorev_kategorileri = <<< SQL
 SELECT
 	*
@@ -100,6 +114,7 @@ $gorevler			= $vt->select( $SQL_tum_gorevler, 	array( $birim_id ) )[ 2 ];
 @$tek_gorev 		= $vt->selectSingle( $SQL_tek_gorev_oku, array( $id ) )[ 2 ];
 $personeller		= $vt->select( $SQL_personeller, 	array(  ) )[ 2 ];
 $gorev_kategorileri	= $vt->select( $SQL_gorev_kategorileri, 	array(  ) )[ 2 ];
+$gorev_turleri		= $vt->select( $SQL_gorev_turleri, 	array(  ) )[ 2 ];
 
 ?>
 
@@ -144,71 +159,8 @@ $gorev_kategorileri	= $vt->select( $SQL_gorev_kategorileri, 	array(  ) )[ 2 ];
 							<tbody>
 								<?php
 								//var_dump($birim_sayfalari);
-									function kategoriListele3( $kategoriler, $parent = 0, $renk = 0,$vt, $ogrenci_id, $sistem_dil){
-										$sistem_dil2 = $sistem_dil == "_tr" ? "" : $sistem_dil ;
-										$adi = "adi".$sistem_dil2;
-
-										$html = "<tr class='expandable-body'>
-														<td>
-															<div class='p-0'>
-																<table class='table table-hover'>
-																	<tbody>";
-
-										foreach ($kategoriler as $kategori){
-											if( $kategori['ust_id'] == $parent ){
-												if( $parent == 0 ) {
-													$renk = 1;
-												} 
-
-												if( $kategori['kategori'] == 0){
-													$html .= "
-															<tr>
-																<td class=' bg-renk7 p-1' >
-																	$kategori[$adi]
-																	<a modul= 'gorevler' yetki_islem='birim_sec' href='index.php?modul=gorevler&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>
-																</td>
-															</tr>";									
-
-												}
-												if( $kategori['kategori'] == 1 ){
-													if( $kategori['ust_id'] == 0 )
-														$agac_acik = "true";
-													else
-														$agac_acik = "false";
-
-													if( $kategori['grup'] == 1 )
-														$birim_sec_butonu = "";
-													else
-														$birim_sec_butonu = "<a modul= 'gorevler' yetki_islem='birim_sec' href='index.php?modul=gorevler&birim_id=$kategori[id]&birim_adi=$kategori[$adi]' onclick='event.stopPropagation();'  class='btn btn-dark float-right btn-xs ml-1' >Seç</a>";
-
-														$html .= "
-																<tr data-widget='expandable-table' aria-expanded='$agac_acik' class='border-0'>
-																	<td class='bg-renk$renk p-1'>																
-																		$kategori[$adi]
-																		$birim_sec_butonu
-																	<i class='expandable-table-caret fas fa-caret-right fa-fw'></i>
-																	</td>
-																</tr>
-															";								
-														$renk++;
-														$html .= kategoriListele3($kategoriler, $kategori['id'],$renk, $vt, $ogrenci_id, $sistem_dil);
-														
-														$renk--;
-													
-												}
-											}
-
-										}
-										$html .= '
-																</tbody>
-															</table>
-														</div>
-													</td>
-												</tr>';
-										return $html;
-									}
 									if( count( $birim_agaclari ) ) 
-										echo kategoriListele3($birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil);
+										echo kategoriListele3($url_modul, $birim_agaclari,0,0, $vt, $ogrenci_id, $sistem_dil, $birim_idler);
 									
 
 								?>
@@ -237,6 +189,7 @@ $gorev_kategorileri	= $vt->select( $SQL_gorev_kategorileri, 	array(  ) )[ 2 ];
 								<tr>
 									<th style="width: 15px">#</th>
 									<th><?php echo dil_cevir( "Personel", $dizi_dil, $sistem_dil ); ?></th>
+									<th><?php echo dil_cevir( "Görev Türü", $dizi_dil, $sistem_dil ); ?></th>
 									<th><?php echo dil_cevir( "Görev", $dizi_dil, $sistem_dil ); ?></th>
 									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Düzenle", $dizi_dil, $sistem_dil ); ?></th>
 									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></th>
@@ -251,6 +204,7 @@ $gorev_kategorileri	= $vt->select( $SQL_gorev_kategorileri, 	array(  ) )[ 2 ];
 								<tr oncontextmenu="fun();" class ="gorev-Tr <?php if( $gorev[ 'id' ] == $id ) echo $satir_renk; ?>" data-id="<?php echo $gorev[ 'id' ]; ?>">
 									<td><?php echo $sayi++; ?></td>
 									<td><?php echo $gorev[ 'adi_soyadi'.$dil ]; ?></td>
+									<td><?php echo $gorev[ 'gorev_turu'.$dil ]; ?></td>
 									<td><?php echo $gorev[ 'gorev_adi'.$dil ]; ?></td>
 									<td align = "center">
 										<a modul = 'gorevler' yetki_islem="duzenle" class = "btn btn-sm btn-warning btn-xs" href = "?modul=gorevler&islem=guncelle&id=<?php echo $gorev[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" >
@@ -310,9 +264,21 @@ $gorev_kategorileri	= $vt->select( $SQL_gorev_kategorileri, 	array(  ) )[ 2 ];
 										</select>
 									</div>
 									<div class="form-group">
+										<label  class="control-label"><?php echo dil_cevir( "Görev Türü", $dizi_dil, $sistem_dil ); ?></label>
+										<select class="form-control form-control-sm select2" name = "gorev_turu_id" required>
+											<option value=""><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
+											<?php 
+												foreach( $gorev_turleri AS $gorev_turu ){
+													echo '<option value="'.$gorev_turu[ "id" ].'" '.( $tek_gorev[ "gorev_turu_id" ] == $gorev_turu[ "id" ] ? "selected" : null) .'>'.$gorev_turu[ "adi" ].'</option>';
+												}
+
+											?>
+										</select>
+									</div>
+									<div class="form-group">
 										<label  class="control-label"><?php echo dil_cevir( "Görev", $dizi_dil, $sistem_dil ); ?></label>
 										<select class="form-control form-control-sm select2" name = "gorev_kategori_id" required>
-											<option><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
+											<option value=""><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
 											<?php 
 												foreach( $gorev_kategorileri AS $gorev_kategori ){
 													echo '<option value="'.$gorev_kategori[ "id" ].'" '.( $tek_gorev[ "gorev_kategori_id" ] == $gorev_kategori[ "id" ] ? "selected" : null) .'>'.$gorev_kategori[ "adi" ].'</option>';

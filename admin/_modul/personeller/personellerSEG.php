@@ -55,6 +55,9 @@ SET
 	,is_telefonu				= ?
 	,arac_plaka					= ?
 	,medeni_durumu				= ?
+	,orcid						= ?
+	,scholar					= ?
+	,avesis						= ?
 	,sifre						= ?
 SQL;
 
@@ -89,6 +92,9 @@ SET
 	,is_telefonu				= ?
 	,arac_plaka					= ?
 	,medeni_durumu				= ?
+	,orcid						= ?
+	,scholar					= ?
+	,avesis						= ?
 	,sifre						= ?
 WHERE
 	id = ?
@@ -168,6 +174,9 @@ switch( $islem ) {
 				,$_REQUEST[	'is_telefonu' ]
 				,$_REQUEST[	'arac_plaka' ]
 				,$_REQUEST[	'medeni_durumu' ]
+				,$_REQUEST[	'orcid' ]
+				,$_REQUEST[	'scholar' ]
+				,$_REQUEST[	'avesis' ]
 				,md5($_REQUEST[	'sifre' ])
 			) );
 			if( $sorgu_sonuc[ 0 ] ){
@@ -222,6 +231,9 @@ switch( $islem ) {
 				,$_REQUEST[	'is_telefonu' ]
 				,$_REQUEST[	'arac_plaka' ]
 				,$_REQUEST[	'medeni_durumu' ]
+				,$_REQUEST[	'orcid' ]
+				,$_REQUEST[	'scholar' ]
+				,$_REQUEST[	'avesis' ]
 				,$sifre
 				,$personel_id
 		) );
