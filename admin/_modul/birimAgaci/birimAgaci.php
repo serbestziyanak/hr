@@ -177,6 +177,17 @@ SQL;
 					<label class="control-label"><?php echo dil_cevir( "Birim Adı", $dizi_dil, $sistem_dil ); ?></label>
 					<input required type="text" class="form-control" id ="adi" name ="adi"  value="<?php if( $islem == 'guncelle' ) echo $birim_bilgileri['adi'];  ?>"  autocomplete="off">
 				</div>
+				<div class="form-group">
+					<label class="control-label"><?php echo dil_cevir( "Birim Türü", $dizi_dil, $sistem_dil ); ?></label>
+					<select class="form-control" name = "birim_turu" required>
+						<option value="" <?php if( $birim_bilgileri['birim_turu'] == "0" ) echo "selected"; ?> ><?php echo dil_cevir( "Seçiniz", $dizi_dil, $sistem_dil ); ?>...</option>
+						<option value="1" <?php if( $birim_bilgileri['birim_turu'] == "1" ) echo "selected"; ?> ><?php echo dil_cevir( "Fakülte", $dizi_dil, $sistem_dil ); ?></option>
+						<option value="2" <?php if( $birim_bilgileri['birim_turu'] == "2" ) echo "selected"; ?> ><?php echo dil_cevir( "Bölüm", $dizi_dil, $sistem_dil ); ?></option>
+						<option value="3" <?php if( $birim_bilgileri['birim_turu'] == "3" ) echo "selected"; ?> ><?php echo dil_cevir( "Program", $dizi_dil, $sistem_dil ); ?></option>
+						<option value="0" <?php if( $birim_bilgileri['birim_turu'] == "0" ) echo "selected"; ?> ><?php echo dil_cevir( "Hiçbiri", $dizi_dil, $sistem_dil ); ?></option>
+					</select>
+				</div>
+
 				<div class="form-group clearfix">
 					<div class="icheck-success d-inline">
 						<input type="checkbox" id="kategori"  name="kategori" <?php if( $islem == 'guncelle' and $birim_bilgileri['kategori'] == 1 ) echo "checked";  ?> >

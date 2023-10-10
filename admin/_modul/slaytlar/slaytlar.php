@@ -7,21 +7,20 @@ $vt = new VeriTabani();
 if( array_key_exists( 'sonuclar', $_SESSION ) ) {
 	$mesaj								= $_SESSION[ 'sonuclar' ][ 'mesaj' ];
 	$mesaj_turu							= $_SESSION[ 'sonuclar' ][ 'hata' ] ? 'kirmizi' : 'yesil';
-	$_REQUEST[ 'slayt_id' ]				= $_SESSION[ 'sonuclar' ][ 'id' ];
 	unset( $_SESSION[ 'sonuclar' ] );
 	echo "<script>mesajVer('$mesaj', '$mesaj_turu')</script>";
 }
 
-
+$dil = $sistem_dil == "_tr" ? "" : $sistem_dil ;
 $islem			= array_key_exists( 'islem'		,$_REQUEST )  ? $_REQUEST[ 'islem' ]	 : 'ekle';
-$slayt_id    	= array_key_exists( 'slayt_id'	,$_REQUEST )  ? $_REQUEST[ 'slayt_id' ]	 : 0;
+$id    	= array_key_exists( 'id'	,$_REQUEST )  ? $_REQUEST[ 'id' ]	 : 0;
 $birim_id		= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
 $birim_adi		= array_key_exists( 'birim_adi' ,$_REQUEST ) ? $_REQUEST[ 'birim_adi' ]	: "";
 
 
-$satir_renk				= $slayt_id > 0	? 'table-warning'						: '';
-$kaydet_buton_yazi		= $slayt_id > 0	? 'Güncelle'							: 'Kaydet';
-$kaydet_buton_cls		= $slayt_id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
+$satir_renk				= $id > 0	? 'table-warning'						: '';
+$kaydet_buton_yazi		= $id > 0	? 'Güncelle'							: 'Kaydet';
+$kaydet_buton_cls		= $id > 0	? 'btn btn-warning btn-sm pull-right'	: 'btn btn-success btn-sm pull-right';
 
 include "_modul/birim_agaci_getir.php";
 
@@ -47,7 +46,7 @@ SQL;
 
 
 $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
-@$tek_slayt 		= $vt->select( $SQL_tek_slayt_oku, array( $slayt_id ) )[ 2 ][ 0 ];
+@$tek_slayt 		= $vt->select( $SQL_tek_slayt_oku, array( $id ) )[ 2 ][ 0 ];
 
 ?>
 
@@ -107,7 +106,7 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 			</div>
 			<?php }else{ ?>
 
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<div class="card card-secondary" id = "card_slaytlar">
 					<div class="card-header">
 						<h3 class="card-title"><?php echo dil_cevir( "Manşetler", $dizi_dil, $sistem_dil ); ?></h3>
@@ -122,14 +121,24 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 								<tr>
 									<th style="width: 15px">#</th>
 									<th><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></th>
+									<th><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 1</th>
+									<th><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 2</th>
+									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Düzenle", $dizi_dil, $sistem_dil ); ?></th>
 									<th data-priority="1" style="width: 20px"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php $sayi = 1; foreach( $slaytlar AS $slayt ) { ?>
-								<tr oncontextmenu="fun();" class ="slayt-Tr <?php if( $slayt[ 'id' ] == $slayt_id ) echo $satir_renk; ?>" data-id="<?php echo $slayt[ 'id' ]; ?>">
+								<tr oncontextmenu="fun();" class ="slayt-Tr <?php if( $slayt[ 'id' ] == $id ) echo $satir_renk; ?>" data-id="<?php echo $slayt[ 'id' ]; ?>">
 									<td><?php echo $sayi++; ?></td>
 									<td><img src="resimler/slaytlar/<?php echo $slayt[ 'foto' ]; ?>" height="100"></td>
+									<td><?php echo $slayt[ 'baslik1'.$dil ]; ?></td>
+									<td><?php echo $slayt[ 'baslik2'.$dil ]; ?></td>
+									<td align = "center">
+										<a modul = 'slaytlar' yetki_islem="duzenle" class = "btn btn-sm btn-warning btn-xs" href = "?modul=slaytlar&islem=guncelle&id=<?php echo $slayt[ 'id' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" >
+											<?php echo dil_cevir( "Düzenle", $dizi_dil, $sistem_dil ); ?>
+										</a>
+									</td>
 									<td align = "center">
 										<button modul= 'slaytlar' yetki_islem="sil" class="btn btn-xs btn-danger" data-href="_modul/slaytlar/slaytlarSEG.php?islem=sil&id=<?php echo $slayt[ 'id' ]; ?>&foto=<?php echo $slayt[ 'foto' ]; ?>&birim_id=<?php echo $birim_id; ?>&birim_adi=<?php echo $birim_adi; ?>" data-toggle="modal" data-target="#sil_onay"><?php echo dil_cevir( "Sil", $dizi_dil, $sistem_dil ); ?></button>
 									</td>
@@ -142,8 +151,8 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 			</div>
 			<?php } ?>
             
-			<div class="col-md-6">
-				<div class="card <?php if( $slayt_id == 0 ) echo 'card-secondary' ?>">
+			<div class="col-md-4">
+				<div class="card <?php if( $id == 0 ) echo 'card-secondary' ?>">
 					<div class="card-header p-2">
 						<ul class="nav nav-pills tab-container">
 							<h6 style = 'font-size: 1rem;'><?php echo dil_cevir( "Manşet Ekle", $dizi_dil, $sistem_dil ); ?></h6>
@@ -163,14 +172,56 @@ $slaytlar			= $vt->select( $SQL_tum_slaytlar, 	array( $birim_id ) )[ 2 ];
 
 								<form class="form-horizontal" action = "_modul/slaytlar/slaytlarSEG.php" method = "POST" enctype="multipart/form-data">
 									<input type = "hidden" name = "islem" value = "<?php echo $islem; ?>" >
-									<input type = "hidden" name = "id" value = "<?php echo $slayt_id; ?>">
+									<input type = "hidden" name = "id" value = "<?php echo $id; ?>">
 									<input type = "hidden" name = "birim_id" value = "<?php echo $birim_id; ?>">
 									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
+							        <br><h5 class="float-left text-olive"><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
 									<div class="form-group">
 										<label class="control-label"><?php echo dil_cevir( "Foto", $dizi_dil, $sistem_dil ); ?></label>
 										<input type="file" name="foto" class="" ><br>
 										<small class="text-muted"><?php echo dil_cevir( "Eklediğiniz görsel 750 x 430 boyutlarında olmalıdır.", $dizi_dil, $sistem_dil ); ?> </small>
 									</div>
+									<?php if( $islem == "guncelle" ){ ?>
+									<div class="form-group">
+										<label class="control-label"><?php echo dil_cevir( "Var olan görsel", $dizi_dil, $sistem_dil ); ?></label><br>
+										<img src="resimler/slaytlar/<?php echo $tek_slayt[ 'foto' ]; ?>" width="200">
+									</div>
+									<?php } ?>
+							        <br><h5 class="float-right text-olive"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 1</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 1 (TR)</label>
+                                        <input  type="text" class="form-control" name ="baslik1" value = "<?php echo $tek_slayt[ "baslik1" ]; ?>"  autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 1 (KZ)</label>
+                                        <input  type="text" class="form-control" name ="baslik1_kz" value = "<?php echo $tek_slayt[ "baslik1_kz" ]; ?>"  autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 1 (EN)</label>
+                                        <input  type="text" class="form-control" name ="baslik1_en" value = "<?php echo $tek_slayt[ "baslik1_en" ]; ?>"  autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 1 (RU)</label>
+                                        <input  type="text" class="form-control" name ="baslik1_ru" value = "<?php echo $tek_slayt[ "baslik1_ru" ]; ?>"  autocomplete="off">
+                                    </div>
+
+							        <br><h5 class="float-left text-olive"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 2</h5><br><hr style="border: 2px solid green; border-radius: 5px; width:100%;" >
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 2 (TR)</label>
+                                        <input  type="text" class="form-control" name ="baslik2" value = "<?php echo $tek_slayt[ "baslik2" ]; ?>"  autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 2 (KZ)</label>
+                                        <input  type="text" class="form-control" name ="baslik2_kz" value = "<?php echo $tek_slayt[ "baslik2_kz" ]; ?>"  autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 2 (EN)</label>
+                                        <input  type="text" class="form-control" name ="baslik2_en" value = "<?php echo $tek_slayt[ "baslik2_en" ]; ?>"  autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo dil_cevir( "Başlık", $dizi_dil, $sistem_dil ); ?> 2 (RU)</label>
+                                        <input  type="text" class="form-control" name ="baslik2_ru" value = "<?php echo $tek_slayt[ "baslik2_ru" ]; ?>"  autocomplete="off">
+                                    </div>
 
 									<div class="card-footer">
 										<button modul= 'slaytlar' yetki_islem="kaydet" type="submit" class="<?php echo $kaydet_buton_cls; ?>"><span class="fa fa-save"></span><?php echo dil_cevir( $kaydet_buton_yazi, $dizi_dil, $sistem_dil ); ?></button>

@@ -5,7 +5,7 @@ $fn = new Fonksiyonlar();
 
 
 
-$birim_id = 1;
+$birim_id				= array_key_exists( 'birim_id' ,$_REQUEST ) ? $_REQUEST[ 'birim_id' ]	: 0;
 
 if( isset($_REQUEST['dil']) ){
 $dil = array_key_exists( 'dil' ,$_REQUEST ) ? $_REQUEST[ 'dil' ]	: 0;
@@ -126,17 +126,8 @@ SELECT
   *
 FROM 
   tb_ceviriler
-SQL;
-
-$SQL_fakulteler = <<< SQL
-SELECT
-  b.*
- ,g.birim_icon
-FROM 
-  tb_birim_agaci as b
-LEFT JOIN tb_genel_ayarlar AS g ON b.id=g.birim_id
-WHERE 
-   b. birim_turu = 1
+WHERE
+  turu = 1 
 SQL;
 
 $SQL_tum_gorevler = <<< SQL
@@ -163,6 +154,7 @@ SQL;
 
 @$birim_bilgileri 	    = $vt->selectSingle($SQL_birim_bilgileri, array( 1 ) )[ 2 ];
 
+$birim_id				= @array_key_exists( 'id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'id' ]	: 0;
 @$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'] ) )[ 2 ];
 $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_bilgileri[ 'id' ]	: 0;
 @$birim_sayfa_icerikleri = $vt->selectSingle($SQL_birim_sayfa_icerikleri, array( $sayfa_id ) )[ 2 ];
@@ -175,40 +167,26 @@ $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_
 @$slaytlar 	            = $vt->select($SQL_slaytlar, array( $birim_id ) )[ 2 ];
 @$genel_ayarlar 	    = $vt->selectSingle($SQL_genel_ayarlar, array( $birim_id ) )[ 2 ];
 @$gorevler   			= $vt->select( $SQL_tum_gorevler, 	array( $birim_id ) )[ 2 ];
-@$fakulteler   			= $vt->select( $SQL_fakulteler, array(  ) )[ 2 ];
 
 @$ceviriler	            = $vt->select($SQL_ceviriler, array(  ) )[ 2 ];
 foreach( $ceviriler as $ceviri ){
-    $dizi_dil[$ceviri['adi']]['tr'] = $ceviri['adi']; 
-    $dizi_dil[$ceviri['adi']]['kz'] = $ceviri['adi_kz']; 
-    $dizi_dil[$ceviri['adi']]['en'] = $ceviri['adi_en']; 
-    $dizi_dil[$ceviri['adi']]['ru'] = $ceviri['adi_ru']; 
+    $dizi[$ceviri['adi']]['tr'] = $ceviri['adi']; 
+    $dizi[$ceviri['adi']]['kz'] = $ceviri['adi_kz']; 
+    $dizi[$ceviri['adi']]['en'] = $ceviri['adi_en']; 
+    $dizi[$ceviri['adi']]['ru'] = $ceviri['adi_ru']; 
 }
 
-function dil_cevir( $metin, $dizi, $dil ){
-// $myfile = fopen("ceviriler.txt", "a") or die("Unable to open file!");
-// $txt = $metin."\n";
-// fwrite($myfile, $txt);
-// fclose($myfile);
 
-	if( array_key_exists( $metin, $dizi ) and $dizi[$metin][$dil] != "" )
-		return $dizi[$metin][$dil];
-	else
-		return $metin;
-
-}
-
-//var_dump($fakulteler);
 ?>
 <!DOCTYPE html>
-<html class="no-js" lang="<?php echo $_REQUEST["dil"]; ?>">
+<html class="no-js" lang="zxx">
 
 <head>
 <base href="/hr/" />
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php echo dil_cevir( "Ahmet Yesevi Üniversitesi", $dizi_dil, $_REQUEST["dil"] ); ?></title>
+    <title>Ahmet Yesevi Üniversitesi</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
@@ -249,24 +227,429 @@ function dil_cevir( $metin, $dizi, $dil ){
     </div>
 
     <div id="main-wrapper" class="main-wrapper">
-        <header class="edu-header header-style-1 header-fullwidth">
-            <div class="header-top-bar" >
+
+        <!--=====================================-->
+        <!--=        Header Area Start       	=-->
+        <!--=====================================-->
+        <!--header class="edu-header header-style-2">
+            <div class="header-top-bar">
                 <div class="container">
                     <div class="header-top">
                         <div class="header-top-left">
                             <ul class="header-info">
-                                <li><a href=""><?php echo dil_cevir( "AVESİS", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
-                                <li><a href=""><?php echo dil_cevir( "Öğrenci", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
-                                <li><a href=""><?php echo dil_cevir( "Mezun", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
-                                <li><a href=""><?php echo dil_cevir( "Kalite", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
-                                <li><a href=""><?php echo dil_cevir( "Portal", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
-                                <li><a href=""><?php echo dil_cevir( "Kütüphane", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
-                                <li><a href=""><?php echo dil_cevir( "Radyo", $dizi_dil, $_REQUEST["dil"] ); ?></a></li>
+                                <li><a href="tel:+011235641231"><i class="icon-phone"></i>Call: +7 (725) 336 36 36</a></li>
+                                <li><a href="mailto:info@edublink.com" target="_blank"><i class="icon-envelope"></i>Email: info@ayu.edu.kz</a></li>
                             </ul>
-
                         </div>
                         <div class="header-top-right">
                             <ul class="header-info">
+                                <li><a href="#">Giriş</a></li>
+                                <li><a href="#">Kayıt Ol</a></li>
+                                <li class="header-btn"><a href="#" class="edu-btn btn-medium">Ayu Portal <i class="icon-4"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="edu-sticky-placeholder"></div>
+            <div class="header-mainmenu">
+                <div class="container">
+                    <div class="header-navbar">
+                        <div class="header-brand">
+                            <div class="logo">
+                                <a href="index.html">
+                                    <img class="logo-light" src="assets/images/logo/ayu_logo.png" alt="Corporate Logo" style="height:85px;">
+                                    <img class="logo-dark" src="assets/images/logo/ayu_logo.png" alt="Corporate Logo" style="height:85px;">
+
+                                </a>
+                            </div>
+                        </div>
+                        <div class="header-mainnav">
+                            <nav class="mainmenu-nav">
+                                <ul class="mainmenu">
+                                    <li class="has-droupdown"><a href="#">Üniversitemiz</a>
+                                        <ul class="mega-menu mega-menu-two">
+                                            <li><h6 style="color:#eb0023;">&emsp;Hakkımızda</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Başkandan Mesaj</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Ahmet Yesevi Kimdir</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Vizyonumuz</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Misyonumuz</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Hakkımızda</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Temel Değerlerimiz</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tarihçe</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Logolar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Yönetim</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Mütevelli Heyeti Başkanı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rektör</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rektör Vekili</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Eski Başkanlarımız</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Mevzuat</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Tüzük</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Kişisel Verilerin Korunması</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Kurum İçi Web</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Yayınlar</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Kitap</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Dergi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rapor</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Bildiri</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Video & Müzik</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-droupdown"><a href="#">Akademik</a>
+                                        <ul class="mega-menu mega-menu-two">
+                                            <li><h6 style="color:#eb0023;">&emsp;Fakülteler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Hazırlık Okulu</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Mühendislik Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Fen Bilimleri Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Filoloji Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">İnsan ve Toplum Bilimleri Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">İlahiyat Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Spor ve Sanat Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Sosyal Bilimler Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Diş Hekimliği Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tıp Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Lisansüstü Tıp Eğitimi Fakültesi (Çimkent)</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Enstitüler/Merkezler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Türkoloji Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Ekoloji Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Avrasya Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Arkeoloji Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tıbbi Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Fen Bilimleri Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Yesevi Araştırma Enstitüsü</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Meslek Yüksekokulu</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Ahmet Yesevi Meslek Yüksekokulu</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Uzaktan Eğitim</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Türkiye Türkçesiyle Uzaktan Eğitim Programları (TÜRTEP)</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Akademik</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Akademik Takvim</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Akademik Teşkilat</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Akademik</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Bilimsel Yayınlar</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Bilig Sosyal Bilimler Dergisi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türkoloji Dergisi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türk Edebiyatı İsimler Sözlüğü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türk Edebiyatı Eserler Sözlüğü</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-droupdown"><a href="#">Akademik</a>
+                                        <ul class="mega-menu mega-menu-two">
+                                        <?php 
+                                            @$akademik_birimler 		= $vt->select($SQL_akademik_birimler, array( 2 ) )[ 2 ];
+                                            foreach( @$akademik_birimler as $birim ){
+                                        ?>
+                                            <li><h6 style="color:#eb0023;">&emsp;<?php echo $birim['adi']; ?></h6>    
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <?php 
+                                                    @$akademik_birimler2 		= $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
+                                                    foreach(@$akademik_birimler2 as $birim2){
+
+                                                    ?>
+                                                    <li style="list-style-type: square;"><a href="birimler/tr/<?php echo $birim2['kisa_ad']; ?>"><?php echo $birim2['adi']; ?></a></li>
+                                                    <?php } ?>
+                                                </ul>
+                                            </li>
+                                            <?php } ?>
+
+                                        </ul>
+                                    </li>
+                                    <li class="has-droupdown"><a href="#">Öğrenci</a>
+                                        <ul class="mega-menu mega-menu-two">
+                                            <li><h6 style="color:#eb0023;">&emsp;Aday Öğrenci</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Tanıtım</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">T.C. Vatandaşları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">K.C. Vatandaşları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Diğer Ülke Vatandaşları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Kayıt ve Kabul İşlemleri</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Diploma Denkliği</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Taban ve Tavan Puanlar</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Hazırlık Sınıfı</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Kayıt</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Ders Kaydı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenim Ücretleri</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><h6 style="color:#eb0023;">&emsp;Akademik İşler Daire Başkanlığı</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Eğitim Faaliyetleri Bölümü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenci İşleri Birimi (Kayıt Ofisi)</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Lisansüstü Eğitim Bölümü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Metodoloji Çalışmaları Organizasyon Bölümü</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Değişim Programları</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Akademik Değişim Birimi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Mevlana Değişim Programı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Orhun Değişim Programı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">İç Akademi Değişim Programı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">K.C. Eğitim ve Yükseköğretim Bakanlığı Değişim Programı</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><h6 style="color:#eb0023;">&emsp;Kampüste Yaşam</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Kültür Merkezi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tıbbi Hizmetler</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Spor ve Spor Altyapısı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Yeme-İçme</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Yurtları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenci Kurulu</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Uluslararası İlişkiler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Uluslararası İlişkiler Ofisi</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-droupdown"><a href="#">İletişim</a>
+                                        <ul class="mega-menu mega-menu-one">
+                                            <li><h6 style="color:#eb0023;">&emsp;Birimler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Mütevelli Heyeti Başkanlığı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rektörlük</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türkiye Türkçesiyle Uzaktan Eğitim Programları (TÜRTEP)</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenci İşleri (Örgün Eğitim)</a></li>
+
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Kampüsler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Merkez Kampüs - Türkistan</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Hazırlık Okulu - Kentau</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Avrasya Araştırma Enstitüsü</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><h6 style="color:#eb0023;">&emsp;Sosyal Medya</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-twitter"></i>Twitter</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-facebook"></i>Facebook</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-instagram"></i>Instagram</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-youtube"></i>Youtube</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-linkedin2"></i>Linkedin</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="header-right">
+                            <ul class="header-action">
+                                <li class="icon search-icon">
+                                    <a href="javascript:void(0)" class="search-trigger">
+                                        <i class="icon-2"></i>
+                                    </a>
+                                </li>
+   
+                                <li class="mobile-menu-bar d-block d-xl-none">
+                                    <button class="hamberger-button">
+                                        <i class="icon-54"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="popup-mobile-menu">
+                <div class="inner">
+                    <div class="header-top">
+                        <div class="logo">
+                            <a href="index.html">
+                                <img class="logo-light" src="assets/images/logo/logo-dark.png" alt="Corporate Logo">
+                                <img class="logo-dark" src="assets/images/logo/logo-white.png" alt="Corporate Logo">
+                            </a>
+                        </div>
+                        <div class="close-menu">
+                            <button class="close-button">
+                                <i class="icon-73"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <ul class="mainmenu">
+                        <li class="has-droupdown"><a href="#">Home</a>
+                            <ul class="mega-menu mega-menu-one">
+                                <li>
+                                    <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                        <li><a href="index.html">EduBlink Education <span class="badge-1">hot</span></a></li>
+                                        <li><a href="index-distant-learning.html">Distant Learning</a></li>
+                                        <li><a href="index-university.html">University</a></li>
+                                        <li><a href="index-online-academy.html">Online Academy <span class="badge-1">hot</span></a></li>
+                                        <li><a href="index-modern-schooling.html">Modern Schooling</a></li>
+                                        <li><a href="index-kitchen.html">Kitchen Coach</a></li>
+                                        <li><a href="index-yoga.html">Yoga Instructor</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                        <li><a href="index-kindergarten.html">Kindergarten</a></li>
+                                        <li><a href="index-health-coach.html">Health Coch <span class="badge">new</span></a></li>
+                                        <li><a href="index-language-academy.html">Language Academy <span class="badge">new</span></a></li>
+                                        <li><a href="index-remote-training.html">Remote Training <span class="badge">new</span></a></li>
+                                        <li><a href="index-photography.html">Photography <span class="badge">new</span></a></li>
+                                        <li><a href="https://edublink.html.dark.devsblink.com/" target="_blank">Dark Version</a></li>
+                                        <li><a href="index-landing.html">Landing Demo</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul class="submenu mega-sub-menu-01">
+                                        <li>
+                                            <a href="https://1.envato.market/5bQ022">
+                                                <img src="assets/images/others/mega-menu-image.webp" alt="advertising Image">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-droupdown"><a href="#">Pages</a>
+                            <ul class="mega-menu">
+                                <li>
+                                    <h6 class="menu-title">Inner Pages</h6>
+                                    <ul class="submenu mega-sub-menu-01">
+                                        <li><a href="about-one.html">About Us 1</a></li>
+                                        <li><a href="about-two.html">About Us 2</a></li>
+                                        <li><a href="about-three.html">About Us 3</a></li>
+                                        <li><a href="team-one.html">Instructor 1</a></li>
+                                        <li><a href="team-two.html">Instructor 2</a></li>
+                                        <li><a href="team-three.html">Instructor 3</a></li>
+                                        <li><a href="team-details.html">Instructor Profile</a></li>
+                                        <li><a href="faq.html">Faq's</a></li>
+                                        <li><a href="404.html">404 Error</a></li>
+                                        <li><a href="coming-soon.html">Coming Soon</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h6 class="menu-title">Inner Pages</h6>
+                                    <ul class="submenu mega-sub-menu-01">
+                                        <li><a href="gallery-grid.html">Gallery Grid</a></li>
+                                        <li><a href="gallery-masonry.html">Gallery Masonry</a></li>
+                                        <li><a href="event-grid.html">Event Grid</a></li>
+                                        <li><a href="event-list.html">Event List</a></li>
+                                        <li><a href="event-details.html">Event Details</a></li>
+                                        <li><a href="pricing-table.html">Pricing Table</a></li>
+                                        <li><a href="purchase-guide.html">Purchase Guide</a></li>
+                                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                        <li><a href="terms-condition.html">Terms & Condition</a></li>
+                                        <li><a href="my-account.html">Sign In</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h6 class="menu-title">Shop Pages</h6>
+                                    <ul class="submenu mega-sub-menu-01">
+                                        <li><a href="shop.html">Shop</a></li>
+                                        <li><a href="product-details.html">Product Details</a></li>
+                                        <li><a href="cart.html">Cart</a></li>
+                                        <li><a href="wishlist.html">Wishlist</a></li>
+                                        <li><a href="checkout.html">Checkout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="has-droupdown"><a href="#">Courses</a>
+                            <ul class="submenu">
+                                <li><a href="course-one.html">Course Style 1</a></li>
+                                <li><a href="course-two.html">Course Style 2</a></li>
+                                <li><a href="course-three.html">Course Style 3</a></li>
+                                <li><a href="course-four.html">Course Style 4</a></li>
+                                <li><a href="course-five.html">Course Style 5</a></li>
+                                <li><a href="course-details.html">Course Details 1</a></li>
+                                <li><a href="course-details-2.html">Course Details 2</a></li>
+                                <li><a href="course-details-3.html">Course Details 3</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has-droupdown"><a href="#">Blog</a>
+                            <ul class="submenu">
+                                <li><a href="blog-standard.html">Blog Standard</a></li>
+                                <li><a href="blog-masonry.html">Blog Masonry</a></li>
+                                <li><a href="blog-list.html">Blog List</a></li>
+                                <li><a href="blog-details.html">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-droupdown"><a href="#">Contact</a>
+                            <ul class="submenu">
+                                <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a href="contact-me.html">Contact Me</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="edu-search-popup">
+                <div class="content-wrap">
+                    <div class="site-logo">
+                        <img class="logo-light" src="assets/images/logo/logo-dark.png" alt="Corporate Logo">
+                        <img class="logo-dark" src="assets/images/logo/logo-white.png" alt="Corporate Logo">
+                    </div>
+                    <div class="close-button">
+                        <button class="close-trigger"><i class="icon-73"></i></button>
+                    </div>
+                    <div class="inner">
+                        <form class="search-form" action="#">
+                            <input type="text" class="edublink-search-popup-field" placeholder="Search Here...">
+                            <button class="submit-button"><i class="icon-2"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </header-->
+        <header class="edu-header header-style-1 header-fullwidth">
+            <div class="header-top-bar">
+                <div class="container-fluid">
+                    <div class="header-top">
+                        <div class="header-top-left">
+                            <div class="header-notify">
+                                Köklü Geçmişten, Güçlü Geleceğe...
+                            </div>
+                        </div>
+                        <div class="header-top-right">
+                            <ul class="header-info">
+                                <li><a href="tel:+7(725) 336-36-36"><i class="icon-phone"></i>Call: +7(725) 336-36-36</a></li>
+                                <li><a href="mailto:info@ayu.edu.kz" target="_blank"><i class="icon-envelope"></i>Email: info@ayu.edu.kz</a></li>
                                 <li class="social-icon">
                                     <a href="#"><i class="icon-facebook"></i></a>
                                     <a href="#"><i class="icon-instagram"></i></a>
@@ -285,60 +668,24 @@ function dil_cevir( $metin, $dizi, $dil ){
                 </div>
             </div>
             <div id="edu-sticky-placeholder"></div>
-            <div class="header-mainmenu2">
-                <div class="container">
-                    <div class="header-navbar" style="height:150px;">
+            <div class="header-mainmenu">
+                <div class="container-fluid">
+                    <div class="header-navbar">
                         <div class="header-brand">
                             <div class="logo">
                                 <a href="index.php">
-                                    <img class="logo-light" src="assets/images/logo/ayu_logo3.png" alt="Corporate Logo" style="height:80px;">
-                                    <img class="logo-dark" src="assets/images/logo/ayu_logo3.png" alt="Corporate Logo">
+                                    <img class="logo-light" src="assets/images/logo/ayu_logo2.png" alt="Corporate Logo" style="height:80px;">
+                                    <img class="logo-dark" src="assets/images/logo/ayu_logo2.png" alt="Corporate Logo">
                                 </a>
                             </div>
 
                         </div>
-                        <div class="header-mainnav text-center">
-                            <?php  
-                                //$genel_ayarlar['slogan']
-                            ?>
-                            <h6 style="color: #cd201f;margin:0px;">&#10077; Köklü Geçmişten &emsp;&emsp;&emsp;&emsp;&emsp;</h6>
-                            <h6 style="color: #cd201f;margin:0px;">&emsp;&emsp;&emsp; Güçlü Geleceğe... &#10078;</h6>
-                        </div>
-                        <div class="header-right">
-                            <ul class="header-action">
-                                <li class="search-bar">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Ara">
-                                        <button class="search-btn" type="button"><i class="icon-2"></i></button>
-                                    </div>
-                                </li>
-                                <li class="icon search-icon">
-                                    <a href="javascript:void(0)" class="search-trigger">
-                                        <i class="icon-2"></i>
-                                    </a>
-                                </li>
-                                <li class="header-btn">
-                                    <a href="https://portal.ayu.edu.kz/" class="edu-btn btn-medium" style="background-color: #a20d20;">AYU Portal <i class="icon-4"></i></a>
-                                </li>
-                                <li class="mobile-menu-bar d-block d-xl-none">
-                                    <button class="hamberger-button">
-                                        <i class="icon-54"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header-top-bar" style="background-color: #a20d20;">
-                <div class="container">
-                    <div class="header-navbar">
                         <div class="header-mainnav">
                             <nav class="mainmenu-nav">
                                 <ul class="mainmenu">
-                                        <li style="color:white;border-left: 1px solid rgba(0, 0, 0, 0.08);"><a href="#">Anasayfa</a></li>
+                                        <li><a href="#">Anasayfa</a></li>
                                         <?php 
-                                            function buildList3(array $array, int $ust_id, int $onceki_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_akademik_birimler): string
+                                            function buildList(array $array, int $ust_id, int $onceki_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_akademik_birimler): string
                                             {
                                                 $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                                 $dil2 = $dil == "tr" ? "" : "_".$dil ;
@@ -348,7 +695,7 @@ function dil_cevir( $metin, $dizi, $dil ){
                                                 }
                                                 else{
                                                     if( $onceki_ust_id == 0 )
-                                                    $menu = "<ul class='mega-menu mega-menu-one'>";
+                                                    $menu = "<ul class='mega-menu mega-menu-two'>";
                                                     else
                                                     $menu = "<ul class='submenu mega-sub-menu mega-sub-menu-01'>";
                                                 }
@@ -358,42 +705,42 @@ function dil_cevir( $metin, $dizi, $dil ){
                                                             if( $item['ust_id'] == 0 )
                                                             $menu .= "<li><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
                                                             else
-                                                            $menu .= "<li ><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                                            $menu .= "<li style='list-style-type: square;'><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
                                                         }else{
                                                             if( $ust_id == 0 )
                                                              $menu .= "<li class='has-droupdown'><a href='$actual_link#' >{$item[$adi]}</a>";
                                                              else
-                                                             $menu .= "<li><h6 style='color:#eb0023;margin-top:10px;margin-bottom:0px;'>{$item[$adi]}</h6>";
+                                                             $menu .= "<li><h6 style='color:#eb0023;'>&emsp;{$item[$adi]}</h6>";
                                                         }
                                                         if ( $item['kategori'] == 1 ) {
                                                             if( $item['kisa_ad'] == 'akademik' ){
-                                                                $menu .= "<ul class='mega-menu mega-menu-one'>";
+                                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
                                                                 @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 2 ) )[ 2 ];
                                                                 foreach( @$akademik_birimler as $birim ){
-                                                                $menu .= "<li><h6 style='color:#eb0023;margin-top:10px;margin-bottom:0px;'>$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
                                                                         
                                                                     @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
                                                                     foreach(@$akademik_birimler2 as $birim2){
-                                                                    $menu .= "<li><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
                                                                     } 
                                                                 $menu .= "</ul></li>";
                                                                 }
                                                                 $menu .= "</ul>";
                                                             }elseif( $item['kisa_ad'] == 'idari' ){
-                                                                $menu .= "<ul class='mega-menu mega-menu-one'>";
+                                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
                                                                 @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 3 ) )[ 2 ];
                                                                 foreach( @$akademik_birimler as $birim ){
-                                                                $menu .= "<li><h6 style='color:#eb0023;margin-top:10px;margin-bottom:0px;'>$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
                                                                         
                                                                     @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
                                                                     foreach(@$akademik_birimler2 as $birim2){
-                                                                    $menu .= "<li><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
                                                                     } 
                                                                 $menu .= "</ul></li>";
                                                                 }
                                                                 $menu .= "</ul>";
                                                             }else{
-                                                                $menu .= buildList3($array, $item['id'], $item['ust_id'],0, $birim_id, $dil,$vt,$SQL_akademik_birimler);
+                                                                $menu .= buildList($array, $item['id'], $item['ust_id'],0, $birim_id, $dil,$vt,$SQL_akademik_birimler);
                                                                 $menu .= "</li>";
                                                             }
                                                         }
@@ -406,12 +753,224 @@ function dil_cevir( $metin, $dizi, $dil ){
                                                 }
                                                 return $menu;
                                             }
-                                            echo buildList3($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_akademik_birimler);
+                                            echo buildList($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_akademik_birimler);
                                         ?>
 
+                                    <!--li class="has-droupdown"><a href="#">Üniversitemiz</a>
+                                        <ul class="mega-menu mega-menu-two">
+                                            <li><h6 style="color:#eb0023;">&emsp;Hakkımızda</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Başkandan Mesaj</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Ahmet Yesevi Kimdir</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Vizyonumuz</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Misyonumuz</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Hakkımızda</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Temel Değerlerimiz</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tarihçe</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Logolar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Yönetim</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Mütevelli Heyeti Başkanı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rektör</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rektör Vekili</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Eski Başkanlarımız</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Mevzuat</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Tüzük</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Kişisel Verilerin Korunması</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Kurum İçi Web</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Yayınlar</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Kitap</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Dergi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rapor</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Bildiri</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Video & Müzik</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li-->
+                                    <!--li class="has-droupdown"><a href="#">Akademik</a>
+                                        <ul class="mega-menu mega-menu-two">
+                                            <li><h6 style="color:#eb0023;">&emsp;Fakülteler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Hazırlık Okulu</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Mühendislik Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Fen Bilimleri Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Filoloji Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">İnsan ve Toplum Bilimleri Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">İlahiyat Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Spor ve Sanat Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Sosyal Bilimler Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Diş Hekimliği Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tıp Fakültesi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Lisansüstü Tıp Eğitimi Fakültesi (Çimkent)</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Enstitüler/Merkezler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Türkoloji Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Ekoloji Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Avrasya Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Arkeoloji Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tıbbi Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Fen Bilimleri Araştırma Enstitüsü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Yesevi Araştırma Enstitüsü</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Meslek Yüksekokulu</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Ahmet Yesevi Meslek Yüksekokulu</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Uzaktan Eğitim</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Türkiye Türkçesiyle Uzaktan Eğitim Programları (TÜRTEP)</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <h6 style="color:#eb0023;">&emsp;Akademik</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Akademik Takvim</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Akademik Teşkilat</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Akademik</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Bilimsel Yayınlar</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Bilig Sosyal Bilimler Dergisi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türkoloji Dergisi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türk Edebiyatı İsimler Sözlüğü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türk Edebiyatı Eserler Sözlüğü</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li-->
+                                    <!--li class="has-droupdown"><a href="#">Öğrenci</a>
+                                        <ul class="mega-menu mega-menu-two">
+                                            <li><h6 style="color:#eb0023;">&emsp;Aday Öğrenci</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Tanıtım</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">T.C. Vatandaşları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">K.C. Vatandaşları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Diğer Ülke Vatandaşları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Kayıt ve Kabul İşlemleri</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Diploma Denkliği</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Taban ve Tavan Puanlar</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Hazırlık Sınıfı</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Kayıt</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Ders Kaydı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenim Ücretleri</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><h6 style="color:#eb0023;">&emsp;Akademik İşler Daire Başkanlığı</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Eğitim Faaliyetleri Bölümü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenci İşleri Birimi (Kayıt Ofisi)</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Lisansüstü Eğitim Bölümü</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Metodoloji Çalışmaları Organizasyon Bölümü</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Değişim Programları</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Akademik Değişim Birimi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Mevlana Değişim Programı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Orhun Değişim Programı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">İç Akademi Değişim Programı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">K.C. Eğitim ve Yükseköğretim Bakanlığı Değişim Programı</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><h6 style="color:#eb0023;">&emsp;Kampüste Yaşam</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Kültür Merkezi</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Tıbbi Hizmetler</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Spor ve Spor Altyapısı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Yeme-İçme</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Yurtları</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenci Kurulu</a></li>
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Uluslararası İlişkiler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Uluslararası İlişkiler Ofisi</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-droupdown"><a href="#">İletişim</a>
+                                        <ul class="mega-menu mega-menu-one">
+                                            <li><h6 style="color:#eb0023;">&emsp;Birimler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Mütevelli Heyeti Başkanlığı</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Rektörlük</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Türkiye Türkçesiyle Uzaktan Eğitim Programları (TÜRTEP)</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Öğrenci İşleri (Örgün Eğitim)</a></li>
+
+                                                </ul>
+                                                <br>
+                                                <h6 style="color:#eb0023;">&emsp;Kampüsler</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#">Merkez Kampüs - Türkistan</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Hazırlık Okulu - Kentau</a></li>
+                                                    <li style="list-style-type: square;"><a href="#">Avrasya Araştırma Enstitüsü</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><h6 style="color:#eb0023;">&emsp;Sosyal Medya</h6>
+                                                <ul class="submenu mega-sub-menu mega-sub-menu-01">
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-twitter"></i>Twitter</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-facebook"></i>Facebook</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-instagram"></i>Instagram</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-youtube"></i>Youtube</a></li>
+                                                    <li style="list-style-type: square;"><a href="#"><i class="icon-linkedin2"></i>Linkedin</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li-->
                                 </ul>
                             </nav>
                         </div>
+                        <div class="header-right">
+                            <ul class="header-action">
+                                <li class="search-bar">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search">
+                                        <button class="search-btn" type="button"><i class="icon-2"></i></button>
+                                    </div>
+                                </li>
+                                <li class="icon search-icon">
+                                    <a href="javascript:void(0)" class="search-trigger">
+                                        <i class="icon-2"></i>
+                                    </a>
+                                </li>
+                                <li class="header-btn">
+                                    <a href="https://portal.ayu.edu.kz/" class="edu-btn btn-medium">Ayu Portal <i class="icon-4"></i></a>
+                                </li>
+                                <li class="mobile-menu-bar d-block d-xl-none">
+                                    <button class="hamberger-button">
+                                        <i class="icon-54"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-top-bar">
+                <div class="container-fluid">
+                    <div class="header-top">
+                        xffdgfdg
                     </div>
                 </div>
             </div>
@@ -433,7 +992,75 @@ function dil_cevir( $metin, $dizi, $dil ){
                     </div>
                     <ul class="mainmenu">
                         <?php 
-                            echo buildList3($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_akademik_birimler);
+                            function buildList2(array $array, int $ust_id, int $onceki_ust_id, int $ilk, $birim_id, $dil,$vt,$SQL_akademik_birimler): string
+                            {
+                                $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                                $dil2 = $dil == "tr" ? "" : "_".$dil ;
+                                $adi = "adi".$dil2;
+                                if( $ilk ){
+                                $menu = "";
+                                }
+                                else{
+                                    if( $onceki_ust_id == 0 )
+                                    $menu = "<ul class='mega-menu mega-menu-two'>";
+                                    else
+                                    $menu = "<ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                }
+                                foreach($array as $item) {
+                                    if( $item['ust_id'] == $ust_id ){
+                                        if( $item['kategori'] == 0 ){
+                                            if( $item['ust_id'] == 0 )
+                                            $menu .= "<li><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                            else
+                                            $menu .= "<li style='list-style-type: square;'><a href='{$dil}/{$item['kisa_ad']}'>{$item[$adi]}</a></li>";
+                                        }else{
+                                            if( $ust_id == 0 )
+                                                $menu .= "<li class='has-droupdown'><a href='$actual_link#' >{$item[$adi]}</a>";
+                                                else
+                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;{$item[$adi]}</h6>";
+                                        }
+                                        if ( $item['kategori'] == 1 ) {
+                                            if( $item['kisa_ad'] == 'akademik' ){
+                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
+                                                @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 2 ) )[ 2 ];
+                                                foreach( @$akademik_birimler as $birim ){
+                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                        
+                                                    @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
+                                                    foreach(@$akademik_birimler2 as $birim2){
+                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                    } 
+                                                $menu .= "</ul></li>";
+                                                }
+                                                $menu .= "</ul>";
+                                            }elseif( $item['kisa_ad'] == 'idari' ){
+                                                $menu .= "<ul class='mega-menu mega-menu-two'>";
+                                                @$akademik_birimler = $vt->select($SQL_akademik_birimler, array( 3 ) )[ 2 ];
+                                                foreach( @$akademik_birimler as $birim ){
+                                                $menu .= "<li><h6 style='color:#eb0023;'>&emsp;$birim[adi]</h6><ul class='submenu mega-sub-menu mega-sub-menu-01'>";
+                                                        
+                                                    @$akademik_birimler2 = $vt->select($SQL_akademik_birimler, array( $birim['id'] ) )[ 2 ];
+                                                    foreach(@$akademik_birimler2 as $birim2){
+                                                    $menu .= "<li style='list-style-type: square;'><a href='birimler/tr/$birim2[kisa_ad]'>$birim2[adi]</a></li>";
+                                                    } 
+                                                $menu .= "</ul></li>";
+                                                }
+                                                $menu .= "</ul>";
+                                            }else{
+                                                $menu .= buildList2($array, $item['id'], $item['ust_id'],0, $birim_id, $dil,$vt,$SQL_akademik_birimler);
+                                                $menu .= "</li>";
+                                            }
+                                        }
+                                    }
+                                }
+                                if( $ilk ){
+                                $menu .= "";
+                                }else{
+                                $menu .= "</ul>";
+                                }
+                                return $menu;
+                            }
+                            echo buildList2($birim_sayfalari, 0,0, 1, $birim_id, $_REQUEST['dil'],$vt,$SQL_akademik_birimler);
                         ?>
                     </ul>
                 </div>
@@ -465,22 +1092,16 @@ function dil_cevir( $metin, $dizi, $dil ){
         <div class="hero-banner hero-style-3 bg-image">
             <div class="swiper university-activator">
                 <div class="swiper-wrapper">
-                    <?php 
-                        $sira=0;
-                        foreach( $slaytlar as $slayt ){
-                        $sira++;
-                        $slayt_aktif = $sira == 1 ? "active" : "";
-                    ?>
                     <div class="swiper-slide">
-                        <img data-transform-origin='center center' data-src="admin/resimler/slaytlar/<?php echo $slayt['foto']; ?>" class="swiper-lazy" alt="image">
+                        <img data-transform-origin='center center' data-src="assets/images/bg/4.jpg" class="swiper-lazy" alt="image">
                         <div class="thumbnail-bg-content">
                             <div class="container edublink-animated-shape">
                                 <div class="row">
                                     <div class="col-7">
                                         <div class="banner-content">
-                                            <span class="subtitle" data-sal="slide-up" data-sal-duration="1000"><?php echo $slayt['baslik1'.$dil] ?></span>
-                                            <h1 class="title" data-sal-delay="100" data-sal="slide-up" data-sal-duration="1000"><?php echo $slayt['baslik2'.$dil] ?></h1>
-                                            <p data-sal-delay="200" data-sal="slide-up" data-sal-duration="1000"></p>
+                                            <span class="subtitle" data-sal="slide-up" data-sal-duration="1000">Ahmet Yesevi Üniversitesine Hoşgeldiniz</span>
+                                            <h1 class="title" data-sal-delay="100" data-sal="slide-up" data-sal-duration="1000">Türk Dünyasının Parlayan Yıldızı</h1>
+                                            <p data-sal-delay="200" data-sal="slide-up" data-sal-duration="1000">Bir Dünya Üniversitesi.</p>
                                             <!--div class="banner-btn" data-sal-delay="400" data-sal="slide-up" data-sal-duration="1000">
                                                 <a href="#" class="edu-btn ">Find courses <i class="icon-4"></i></a>
                                             </div-->
@@ -490,9 +1111,44 @@ function dil_cevir( $metin, $dizi, $dil ){
                             </div>
                         </div>
                     </div>
-                    <?php
-                    }
-                    ?>
+                    <div class="swiper-slide">
+                        <img data-transform-origin='center center' data-src="assets/images/bg/2.jpg" class="swiper-lazy" alt="image">
+                        <div class="thumbnail-bg-content">
+                            <div class="container edublink-animated-shape">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="banner-content">
+                                            <span class="subtitle" data-sal="slide-up" data-sal-duration="1000">Ahmet Yesevi Üniversitesine Hoşgeldiniz</span>
+                                            <h1 class="title" data-sal-delay="100" data-sal="slide-up" data-sal-duration="1000">Köklü Geçmişten Güçlü Geleceğe</h1>
+                                            <p data-sal-delay="200" data-sal="slide-up" data-sal-duration="1000"></p>
+                                            <!--div class="banner-btn" data-sal-delay="400" data-sal="slide-up" data-sal-duration="1000">
+                                                <a href="#" class="edu-btn btn-secondary">Find courses <i class="icon-4"></i></a>
+                                            </div-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img data-transform-origin='center center' data-src="assets/images/bg/7.jpg" class="swiper-lazy" alt="image">
+                        <div class="thumbnail-bg-content">
+                            <div class="container edublink-animated-shape">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="banner-content">
+                                            <span class="subtitle" data-sal="slide-up" data-sal-duration="1000">Ahmet Yesevi Üniversitesine Hoşgeldiniz</span>
+                                            <h1 class="title" data-sal-delay="100" data-sal="slide-up" data-sal-duration="1000">Bir Dünya Üniversitesi</h1>
+                                            <p data-sal-delay="200" data-sal="slide-up" data-sal-duration="1000"></p>
+                                            <!--div class="banner-btn" data-sal-delay="400" data-sal="slide-up" data-sal-duration="1000">
+                                                <a href="#" class="edu-btn btn-secondary">Find courses <i class="icon-4"></i></a>
+                                            </div-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="hero-slider-bg-controls">
                     <div class="swiper-slide-controls slide-prev">
@@ -564,28 +1220,6 @@ function dil_cevir( $metin, $dizi, $dil ){
                 </div>
 
                 <div class="row g-5">
-                    <?php 
-                        $sira=0;
-                        foreach( $fakulteler as $fakulte ){
-                        
-                    ?>
-                    <div class="col-lg-4 col-md-6" data-sal-delay="50" data-sal="slide-up" data-sal-duration="800">
-                        <div class="categorie-grid categorie-style-2 color-primary-style edublink-svg-animate">
-                            <div class="icon">
-                                <img src="admin/resimler/logolar/<?php echo $fakulte['birim_icon']; ?>" style = "height:50px;">
-                            </div>
-                            <div class="content">
-                                <a href="course-one.html">
-                                    <h5 class="title"><?php echo $fakulte['adi'.$dil]; ?></h5>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                        $sira++;
-                    }
-                    ?>
-
                     <div class="col-lg-4 col-md-6" data-sal-delay="50" data-sal="slide-up" data-sal-duration="800">
                         <div class="categorie-grid categorie-style-2 color-primary-style edublink-svg-animate">
                             <div class="icon">
@@ -987,7 +1621,7 @@ Uluslararası standartlarda eğitim ortamı, bilimsel ve teknolojik araştırma 
         <!--=       	Campus Area Start      =-->
         <!--=====================================-->
         <!-- Start Campus Area  -->
-        <!--div class="edu-campus-area gap-lg-top-equal">
+        <div class="edu-campus-area gap-lg-top-equal">
             <div class="container edublink-animated-shape">
                 <div class="row g-5">
                     <div class="col-xl-7" data-sal-delay="50" data-sal="slide-right" data-sal-duration="800">
@@ -1064,7 +1698,7 @@ Uluslararası standartlarda eğitim ortamı, bilimsel ve teknolojik araştırma 
                     </div>
                 </div>
             </div>
-        </div-->
+        </div>
         <!-- End Campus Area  -->
         <!--=====================================-->
         <!--=       Testimonial Area Start      =-->

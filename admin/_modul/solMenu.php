@@ -17,8 +17,6 @@ SELECT
   *
 FROM 
   tb_ceviriler
-WHERE
-  turu = 2 
 SQL;
 
 $moduller = $vt->select( $SQL_modul );

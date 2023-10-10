@@ -30,8 +30,7 @@ SET
 	,logo$dil				= ?
 	,slogan$dil				= ?
 	,footer_logo			= ?
-	,footer_sag_logo		= ?
-	,footer_sag_logo_link	= ?
+	,birim_icon				= ?
 	,map					= ?
 	,adres$dil				= ?
 	,tel					= ?
@@ -66,8 +65,7 @@ SET
 	 logo$dil				= ?
 	,slogan$dil				= ?
 	,footer_logo			= ?
-	,footer_sag_logo		= ?
-	,footer_sag_logo_link	= ?
+	,birim_icon				= ?
 	,map					= ?
 	,adres$dil				= ?
 	,tel					= ?
@@ -106,7 +104,7 @@ switch( $islem ) {
 		$target_dir = "../../resimler/logolar/";
 		$logo = $_REQUEST['logo_eski'];
 		$footer_logo = $_REQUEST['footer_logo_eski'];
-		$footer_sag_logo = $_REQUEST['footer_sag_logo_eski'];
+		$birim_icon = $_REQUEST['birim_icon_eski'];
 
 		if(basename($_FILES["logo"]["name"])!=""){
 			$logo = "logo_".uniqid().basename($_FILES["logo"]["name"]);
@@ -118,10 +116,10 @@ switch( $islem ) {
 			$target_file = $target_dir . $footer_logo;
 			move_uploaded_file($_FILES["footer_logo"]["tmp_name"], $target_file);
 		}
-		if(basename($_FILES["footer_sag_logo"]["name"])!=""){
-			$footer_sag_logo = "footer_sag_logo_".uniqid().basename($_FILES["footer_sag_logo"]["name"]);
-			$target_file = $target_dir . $footer_sag_logo;
-			move_uploaded_file($_FILES["footer_sag_logo"]["tmp_name"], $target_file);
+		if(basename($_FILES["birim_icon"]["name"])!=""){
+			$birim_icon = "birim_icon_".uniqid().basename($_FILES["birim_icon"]["name"]);
+			$target_file = $target_dir . $birim_icon;
+			move_uploaded_file($_FILES["birim_icon"]["tmp_name"], $target_file);
 		}
 
 		$sorgu_sonuc = $vt->insert( $SQL_ekle, array(
@@ -129,8 +127,7 @@ switch( $islem ) {
 			,$logo
 			,$_REQUEST[	'slogan' ]
 			,$footer_logo
-			,$footer_sag_logo
-			,$_REQUEST[	'footer_sag_logo_link' ]
+			,$birim_icon
 			,$_REQUEST[	'map' ]
 			,$_REQUEST[	'adres' ]
 			,$_REQUEST[	'tel' ]
@@ -168,7 +165,7 @@ switch( $islem ) {
 		$target_dir = "../../resimler/logolar/";
 		$logo = $_REQUEST['logo_eski'];
 		$footer_logo = $_REQUEST['footer_logo_eski'];
-		$footer_sag_logo = $_REQUEST['footer_sag_logo_eski'];
+		$birim_icon = $_REQUEST['birim_icon_eski'];
 
 		if(basename($_FILES["logo"]["name"])!=""){
 			$logo = "logo_".uniqid().basename($_FILES["logo"]["name"]);
@@ -180,18 +177,17 @@ switch( $islem ) {
 			$target_file = $target_dir . $footer_logo;
 			move_uploaded_file($_FILES["footer_logo"]["tmp_name"], $target_file);
 		}
-		if(basename($_FILES["footer_sag_logo"]["name"])!=""){
-			$footer_sag_logo = "footer_sag_logo_".uniqid().basename($_FILES["footer_sag_logo"]["name"]);
-			$target_file = $target_dir . $footer_sag_logo;
-			move_uploaded_file($_FILES["footer_sag_logo"]["tmp_name"], $target_file);
+		if(basename($_FILES["birim_icon"]["name"])!=""){
+			$birim_icon = "birim_icon_".uniqid().basename($_FILES["birim_icon"]["name"]);
+			$target_file = $target_dir . $birim_icon;
+			move_uploaded_file($_FILES["birim_icon"]["tmp_name"], $target_file);
 		}
 
 		$sorgu_sonuc = $vt->update( $SQL_guncelle, array(
 			 $logo
 			,$_REQUEST[	'slogan' ]
 			,$footer_logo
-			,$footer_sag_logo
-			,$_REQUEST[	'footer_sag_logo_link' ]
+			,$birim_icon
 			,$_REQUEST[	'map' ]
 			,$_REQUEST[	'adres' ]
 			,$_REQUEST[	'tel' ]

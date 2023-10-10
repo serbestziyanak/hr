@@ -28,6 +28,7 @@ SET
 	,kategori 			= ?
 	,grup	 			= ?
 	,kisa_ad 			= ?
+	,birim_turu			= ?
 SQL;
 
 $SQL_birim_agaci_duzenle = <<< SQL
@@ -38,6 +39,7 @@ SET
 	,kategori 			= ?
 	,grup	 			= ?
 	,kisa_ad 			= ?
+	,birim_turu			= ?
 WHERE 
 	id 		= ? 
 SQL;
@@ -82,6 +84,7 @@ switch( $islem ) {
 		$degerler[] = $kategori;
 		$degerler[] = $grup;
 		$degerler[] = $kisa_ad;
+		$degerler[] = $_REQUEST[ "birim_turu" ];
 
 		$sonuc = $vt->insert( $SQL_birim_agaci_ekle, $degerler );
 		if( $sonuc[ 0 ] ) $___islem_sonuc = array( 'hata' => $sonuc[ 0 ], 'mesaj' => 'Kayıt eklenirken bir hata oluştu ' . $sonuc[ 1 ] );
@@ -98,6 +101,7 @@ switch( $islem ) {
 		$degerler[] = $kategori;
 		$degerler[] = $grup;
 		$degerler[] = $kisa_ad;
+		$degerler[] = $_REQUEST[ "birim_turu" ];
 		$degerler[] = $birim_agaci_id;
 
 		$sonuc = $vt->update( $SQL_birim_agaci_duzenle, $degerler );

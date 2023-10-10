@@ -78,7 +78,7 @@ STYLESHEET INDEXING
 @import url("../../css2");
 
 :root {
-    --color-primary: #1ab69d;
+    --color-primary: #2A8DA3;
     --color-secondary: #ee4a62;
     --color-textSecondary: #ff5b5c;
     --color-tertiary: #f8b81f;
@@ -25046,15 +25046,16 @@ body .tpd-size-medium .tpd-content {
 }
 
 .mainmenu-nav .mainmenu > li > a {
-    color: var(--color-heading);
+    color: var(--dark-color-heading);
     font-size: 15px;
     font-weight: 600;
     padding: 0 26px;
     display: block;
-    height: 90px;
-    line-height: 94px;
+    height: 50px;
+    line-height: 54px;
     -webkit-transition: 0.3s;
     transition: 0.3s;
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -25071,6 +25072,7 @@ body .tpd-size-medium .tpd-content {
 
 .mainmenu-nav .mainmenu > li > a:hover, .mainmenu-nav .mainmenu > li > a.active {
     color: var(--color-primary) !important;
+    background-color: var(--dark-color-heading);
 }
 
 .mainmenu-nav .mainmenu li {
@@ -25082,7 +25084,7 @@ body .tpd-size-medium .tpd-content {
 .mainmenu-nav .mainmenu li.has-droupdown > a {
     position: relative;
 }
-
+/*
 .mainmenu-nav .mainmenu li.has-droupdown > a::after {
     position: absolute;
     content: "\e91e";
@@ -25091,7 +25093,7 @@ body .tpd-size-medium .tpd-content {
     top: 0;
     font-size: 6px;
     font-weight: 400;
-}
+}*/
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .mainmenu-nav .mainmenu li.has-droupdown > a::after {
@@ -25123,10 +25125,10 @@ body .tpd-size-medium .tpd-content {
 
 .mainmenu-nav .mainmenu li.has-droupdown .submenu li a {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 0px 0px;
     display: block;
-    color: var(--color-heading);
+    color: #3a3a3a;
 }
 
 .mainmenu-nav .mainmenu li.has-droupdown .submenu li a:hover {
@@ -25185,12 +25187,12 @@ body .tpd-size-medium .tpd-content {
 }
 
 .mainmenu-nav .mainmenu li ul.mega-menu {
-    min-width: 970px;
+    min-width: 770px;
     height: auto;
     position: absolute;
     top: 90%;
-    left: -324px;
-    padding: 70px 0;
+    left: -224px;
+    padding: 10px 10px;
     z-index: 10;
     opacity: 0;
     visibility: hidden;
@@ -25217,6 +25219,7 @@ body .tpd-size-medium .tpd-content {
 
 .mainmenu-nav .mainmenu li ul.mega-menu > li {
     border-right: 1px solid var(--color-border);
+    padding: 0 0 0 10px;
 }
 
 .mainmenu-nav .mainmenu li ul.mega-menu > li:last-child {
@@ -25232,7 +25235,7 @@ body .tpd-size-medium .tpd-content {
 }
 
 .mainmenu-nav .mainmenu li ul.mega-menu-one li .submenu {
-    padding: 0 0 0 35px;
+    padding: 0 0 0 0px;
 }
 
 .mainmenu-nav .mainmenu li ul.mega-menu-one li:nth-child(2) {

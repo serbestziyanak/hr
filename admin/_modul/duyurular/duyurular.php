@@ -68,6 +68,10 @@ WHERE f4 = ? and b4 = ? and e4 = ?
 Group by p4
 SQL;
 
+
+$duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
+@$tek_duyuru 		= $vt->select( $SQL_tek_duyuru_oku, array( $id ) )[ 2 ][ 0 ];
+
 /*
 $SQL_fakulteler = <<< SQL
 SELECT
@@ -104,8 +108,6 @@ SET
 	,adi_ru = ?
 SQL;
 
-$duyurular			= $vt->select( $SQL_tum_duyurular, 	array( $birim_id ) )[ 2 ];
-@$tek_duyuru 		= $vt->select( $SQL_tek_duyuru_oku, array( $id ) )[ 2 ][ 0 ];
 
 
 $fakulteler = $vt->select( $SQL_fakulteler, array(  ) )[ 2 ];

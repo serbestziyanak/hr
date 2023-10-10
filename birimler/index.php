@@ -118,18 +118,12 @@ SELECT
   *
 FROM 
   tb_ceviriler
-WHERE
-  turu = 1 
 SQL;
-
-
-
-
-
 
 @$birim_bilgileri 	    = $vt->selectSingle($SQL_birim_bilgileri, array( $_REQUEST['kisa_ad'] ) )[ 2 ];
 
 $birim_id				= @array_key_exists( 'id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'id' ]	: 0;
+$birim_ust_id			= @array_key_exists( 'ust_id' ,$birim_bilgileri ) ? $birim_bilgileri[ 'ust_id' ]	: 0;
 @$birim_sayfa_bilgileri = $vt->selectSingle($SQL_birim_sayfa_bilgileri, array( $_REQUEST['sayfa_kisa_ad'], $birim_id ) )[ 2 ];
 $sayfa_id				= @array_key_exists( 'id' ,$birim_sayfa_bilgileri ) ? $birim_sayfa_bilgileri[ 'id' ]	: 0;
 
@@ -664,7 +658,11 @@ Hero Area
                                         $slayt_aktif = $sira == 1 ? "active" : "";
                                     ?>
                                     <div class="carousel-item <?php echo $slayt_aktif; ?>">
-                                    <img src="../admin/resimler/slaytlar/<?php echo $slayt['foto']; ?>"  class="d-block w-100"  alt="First slide">
+                                        <img src="../admin/resimler/slaytlar/<?php echo $slayt['foto']; ?>"  class="d-block w-100"  alt="First slide">
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <h5 class="text-white"><?php echo $slayt['baslik1'.$dil]; ?></h5>
+                                                <p class="text-white"><?php echo $slayt['baslik2'.$dil]; ?></p>
+                                            </div>
                                     </div>
                                     <?php } ?>
                                 </div>

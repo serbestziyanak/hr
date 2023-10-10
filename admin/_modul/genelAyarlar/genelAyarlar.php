@@ -135,7 +135,7 @@ if( $tek_genel_ayar['id'] > 0 )
 									<input type = "hidden" name = "birim_adi" value = "<?php echo $birim_adi; ?>">
 									<input type = "hidden" name = "logo_eski" id="logo_eski" value = "<?php echo $tek_genel_ayar[ 'logo' ]; ?>">
 									<input type = "hidden" name = "footer_logo_eski" value = "<?php echo $tek_genel_ayar[ 'footer_logo' ]; ?>">
-									<input type = "hidden" name = "footer_sag_logo_eski" value = "<?php echo $tek_genel_ayar[ 'footer_sag_logo' ]; ?>">
+									<input type = "hidden" name = "birim_icon_eski" value = "<?php echo $tek_genel_ayar[ 'birim_icon' ]; ?>">
 
 									<div class="form-group card-body bg-light">
 										<label class="control-label"><?php echo dil_cevir( "Logo", $dizi_dil, $sistem_dil ); ?></label>
@@ -150,14 +150,9 @@ if( $tek_genel_ayar['id'] > 0 )
 									</div>
 
 									<div class="form-group card-body bg-light">
-										<label class="control-label"><?php echo dil_cevir( "Footer Sağ Alt Logo", $dizi_dil, $sistem_dil ); ?></label>
-										<input type="file" name="footer_sag_logo" class="" >
-										<img src="resimler/logolar/<?php echo $tek_genel_ayar[ 'footer_sag_logo' ]; ?>" height="100">
-									</div>
-
-									<div class="form-group">
-										<label class="control-label"><?php echo dil_cevir( "Footer Sağ Alt Logo Link", $dizi_dil, $sistem_dil ); ?></label>
-										<input  type="text" class="form-control" name ="footer_sag_logo_link" value = "<?php echo $tek_genel_ayar[ "footer_sag_logo_link" ]; ?>"  autocomplete="off">
+										<label class="control-label"><?php echo dil_cevir( "Birim Icon", $dizi_dil, $sistem_dil ); ?></label>
+										<input type="file" name="birim_icon" class="" >
+										<img src="resimler/logolar/<?php echo $tek_genel_ayar[ 'birim_icon' ]; ?>" height="100">
 									</div>
 									<div class="form-group">
 										<label class="control-label"><?php echo dil_cevir( "Map", $dizi_dil, $sistem_dil ); ?></label>
